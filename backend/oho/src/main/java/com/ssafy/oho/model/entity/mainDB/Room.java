@@ -16,7 +16,7 @@ public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id",length = 11,nullable = false)
+    @Column(name="id",length = 11)
     private int id;
 
     @Column(name="name",length = 20,nullable = false)

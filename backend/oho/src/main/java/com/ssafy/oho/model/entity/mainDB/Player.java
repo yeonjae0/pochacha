@@ -16,7 +16,7 @@ public class Player {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id",length = 11,nullable = false)
+    @Column(name="id",length = 11)
     private int id;
 
     //Member API 작성 후 1대다 mapping 필요
