@@ -23,6 +23,9 @@ public class RoomService {
     /* 방 만들기 전까지는 String 타입의 메시지로 전달 */
     public String setRoom(MemberRequestDto memberRequestDto) {
         Player player=new Player();
+        /*
+        DB 연결 X, 예외 처리 X
+         */
         return "ok";
     }
 }

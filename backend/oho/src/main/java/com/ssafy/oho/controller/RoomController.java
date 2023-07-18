@@ -21,7 +21,6 @@ public class RoomController {
 
     @PostMapping(value="/enter")
     private ResponseEntity<?> setRoom(@RequestBody MemberRequestDto memberRequestDto){
-
         return ResponseEntity.ok(roomService.setRoom(memberRequestDto));
     }
 
