@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 /* Entity는 유효성 검사가 필요 없으므로 Setter, Constructor 또한 Lombok으로 대체함 */
 @Entity(name="room")
@@ -12,6 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter //추후 Builder 또는 modelMapper로 변경 예정
 @Getter
+@DynamicInsert
 public class Room {
 
     @Id
@@ -20,11 +24,14 @@ public class Room {
     private int id;
 
     @Column(name="name",length = 20,nullable = false)
-    private String name;
+    @ColumnDefault("'무명의 방'")
+    private String name = "무명의 방";
 
     @Column(name="secret",nullable = false)
-    private boolean secret;
+    @ColumnDefault("0")
+    private boolean secret = false;
 
     @Column(name="progress",nullable = false)
-    private boolean progress;
+    @ColumnDefault("0")
+    private boolean progress = false;
 }
