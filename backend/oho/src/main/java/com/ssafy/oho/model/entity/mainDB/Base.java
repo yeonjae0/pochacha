@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @MappedSuperclass
-/* 생성 날짜 및 수정 날짜 저장 */
+/* 생성 날짜 및 수정 날짜 일괄 관리 */
 public class Base {
     @Column(updatable = false)
     private LocalDateTime created_at;
