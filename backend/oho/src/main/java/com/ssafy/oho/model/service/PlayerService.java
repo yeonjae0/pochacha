@@ -2,9 +2,7 @@ package com.ssafy.oho.model.service;
 
 import com.ssafy.oho.model.dto.request.PlayerRequestDto;
 import com.ssafy.oho.model.dto.response.RoomResponseDto;
-import com.ssafy.oho.model.entity.mainDB.Member;
 import com.ssafy.oho.model.entity.mainDB.Player;
-import com.ssafy.oho.model.entity.mainDB.Room;
 import com.ssafy.oho.model.repository.mainDB.PlayerRepository;
 import org.springframework.stereotype.Service;
 
