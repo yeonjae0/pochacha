@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 // @Setter
 @Getter
 public class PlayerRequestDto {
-    private int id;
+    private long id;
     private String nickname;
     private String memberId;
-    private int roomId;
+    private long roomId;
     private boolean head;
     private boolean ready;
     private int score;

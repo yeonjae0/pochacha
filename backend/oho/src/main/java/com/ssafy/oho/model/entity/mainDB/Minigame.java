@@ -10,9 +10,7 @@ import org.hibernate.annotations.DynamicInsert;
 
 /* Entity는 유효성 검사가 필요 없으므로 Setter, Constructor 또한 Lombok으로 대체함 */
 @Entity
-@Table(name="minigame",indexes = {
-        @Index(name="idx_status",columnList = "status")
-})
+@Table(name="minigame")
 @NoArgsConstructor
 @AllArgsConstructor
 

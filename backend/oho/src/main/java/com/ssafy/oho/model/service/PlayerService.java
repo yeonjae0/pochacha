@@ -3,7 +3,9 @@ package com.ssafy.oho.model.service;
 import com.ssafy.oho.model.dto.request.PlayerRequestDto;
 import com.ssafy.oho.model.dto.response.RoomResponseDto;
 import com.ssafy.oho.model.entity.mainDB.Player;
+import com.ssafy.oho.model.entity.mainDB.Room;
 import com.ssafy.oho.model.repository.mainDB.PlayerRepository;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,9 +35,21 @@ public class PlayerService {
         // 닉네임 입력 시 설정, 미입력시 default
         if(playerRequestDto.getNickname() != null && !playerRequestDto.getNickname().trim().equals("")) {
             player.setNickname(playerRequestDto.getNickname());
+        } else {
+            /*
+                TO DO :: 랜덤 닉네임 생성
+             */
+            player.setNickname(RandomStringUtils.random(8, true, true));
         }
         player.setHead(true);
-        player.setRoomId(roomResponseDto.getId());
+
+        Room room = new Room();
+        room.setId(roomResponseDto.getId());
+        room.setName(roomResponseDto.getName());
+        room.setSecret(room.isSecret());
+        room.setProgress(room.isProgress());
+
+        player.setRoom(room);
 
         playerRepository.save(player);
 

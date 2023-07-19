@@ -8,6 +8,7 @@ import com.ssafy.oho.model.repository.mainDB.RoomRepository;
 import com.ssafy.oho.util.exception.RoomEnterException;
 import com.ssafy.oho.util.exception.RoomUpdateException;
 import com.ssafy.oho.util.jwt.JwtProvider;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,6 +31,8 @@ public class RoomService {
             RoomResponseDto roomResponseDto = new RoomResponseDto();
 
             /* CONFIRM :: Builder 사용 확인 시 변경 */
+            room.setName(RandomStringUtils.random(20, true, true));
+
             Room roomResult = roomRepository.save(room);
 
             roomResponseDto.setId(roomResult.getId());
@@ -62,7 +65,7 @@ public class RoomService {
     }
 
     public RoomResponseDto updateRoom(RoomRequestDto roomRequestDto) throws RoomUpdateException {
-        int id = roomRequestDto.getId();
+        long id = roomRequestDto.getId();
         String name = roomRequestDto.getName();
         boolean secret = roomRequestDto.isSecret();
         boolean progress = roomRequestDto.isProgress();
