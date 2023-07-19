@@ -11,7 +11,7 @@ import lombok.Setter;
 // @Setter
 @Getter
 public class RoomRequestDto {
-    private int id;
+    private long id;
     private String name;
     private boolean secret;
     private boolean progress;

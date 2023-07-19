@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class RoomResponseDto {
-    private int id;
+    private long id;
     private String name;
     private boolean secret;
     private boolean progress;
