@@ -8,7 +8,10 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 /* Entity는 유효성 검사가 필요 없으므로 Setter, Constructor 또한 Lombok으로 대체함 */
-@Entity(name="cell")
+@Entity
+@Table(name="cell",indexes = {
+        @Index(name="idx_status",columnList = "status")
+})
 @NoArgsConstructor
 @AllArgsConstructor
 
