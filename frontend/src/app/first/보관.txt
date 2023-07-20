@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import './../first.css';
 
 const Room = () => {
-  const [text, setText] = useState("")
-  const handleOnChange = (e)=> {
-    setText(e.target.value)
-  };
+ 
   return (
     <div>
     <div className="first" >
@@ -25,8 +22,7 @@ const Room = () => {
               <p style={{fontSize: '20px'}}>캐릭터와 닉네임 선택</p>
               <br />
               <label htmlFor=""></label>
-              {/* <input type="text" /> */}
-              <input value = {text} onChange = {handleOnChange} />
+              <input type="text" />
             </div>
             <button>START</button>
           </div>
@@ -49,6 +45,4 @@ const Room = () => {
     </div>
   )
 };
-
 export default Room;
-Room.useClient = true;
