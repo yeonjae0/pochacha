@@ -1,0 +1,118 @@
+/*!*************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[12].use[3]!./src/app/first.css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************/
+.first {
+  background: #DF7339;
+
+}
+
+.leftBox {
+  width: 650px;
+  height: 542px;
+  margin-left: 150px;
+  top: 349px;
+
+  /* Component Gradation */
+  background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.25) 100%);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
+}
+
+.imgCircle {
+  box-sizing: border-box;
+  position: absolute;
+  width: 180px;
+  height: 172.05px;
+  left: 250px;
+  top: 490px;
+
+  background: #6F6F6F;
+  border: 9px solid #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 181.132px;
+}
+
+.inputNickname {
+  position: absolute;
+  width: 200px;
+  height: 40px;
+  left: 500px;
+  top: 470px;
+
+}
+
+input {
+  width: 200px;
+  height: 72px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 2px solid #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.rightBox {
+  position: absolute;
+  width: 488px;;
+  height: 542px;
+  left: 855px;
+  top: 320px;
+
+  background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.25) 100%);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
+}
+
+button {
+  position: absolute;
+  width: 154px;
+  height: 53px;
+  left: 420px;
+  top: 740px;
+  border-radius: 20px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 850;
+  font-size: 45px;
+  line-height: 54px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #FF0034;
+
+}
+
+#tip {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 36px;
+}
+
+/* #bottom {
+  position: absolute;
+  width: 500px;
+  height: 36px;
+  left: 479px;
+  top: 800px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 36px;
+  text-align: center;
+
+  color: green;
+} */

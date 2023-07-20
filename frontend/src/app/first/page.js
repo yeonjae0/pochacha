@@ -1,12 +1,21 @@
+"use client"
 import React, { useState } from 'react';
 import Image from 'next/image';
 import './../first.css';
 
 const Room = () => {
-  const [text, setText] = useState("")
+
+  const [text, setText] = useState('')
   const handleOnChange = (e)=> {
     setText(e.target.value)
   };
+
+  const enterDown = (e) => {
+    if (e.key === 'Enter') {
+      console.log(text)
+    }
+  };
+
   return (
     <div>
     <div className="first" >
@@ -26,7 +35,11 @@ const Room = () => {
               <br />
               <label htmlFor=""></label>
               {/* <input type="text" /> */}
-              <input value = {text} onChange = {handleOnChange} />
+              <input 
+                value = {text}
+                onChange = {handleOnChange}
+                onKeyDown = {enterDown}
+              />
             </div>
             <button>START</button>
           </div>
