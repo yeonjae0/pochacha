@@ -1,3 +1,10 @@
+
+body {
+  margin: 0; /* 기본 margin 없애기 */
+  padding: 0; /* 기본 padding 없애기 */
+  background-color: #DF7339; 
+}
+
 .first {
   background: #DF7339;
 
@@ -7,7 +14,7 @@
   width: 650px;
   height: 542px;
   margin-left: 150px;
-  top: 349px;
+  margin-top: 10px;
 
   /* Component Gradation */
   background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.25) 100%);
@@ -61,14 +68,14 @@ input {
   width: 488px;;
   height: 542px;
   left: 855px;
-  top: 320px;
+  margin-top: 10px;
 
   background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.25) 100%);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 50px;
 }
 
-button {
+#startBtn {
   position: absolute;
   width: 154px;
   height: 53px;
