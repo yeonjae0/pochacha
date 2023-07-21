@@ -1,7 +1,10 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import './../first.css';
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
+import axios from 'axios';
 
 const tipData = [
   {
@@ -61,14 +64,40 @@ const Room = () => {
     };
   const currentTip = tipData[currentTipIdx];
 
+  const start = () => {
+    /* 유영 : axios를 통한 닉네임 생성 및 방 생성 시작 */
+    axios({
+      url : "http://localhost:80/enter",
+      header : {
+        "Accept" : "application/json",
+        "Content-type" : "aplic ation/json;charset=UTF-8"
+      },
+      method : "POST",
+      data : {
+        nickname : text
+      }
+    }).then((response) => {
+      console.log(response.data);
+    });
+    /* 유영 : axios를 통한 닉네임 생성 및 방 생성 끝 */
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTipIdx((prevIdx) => (prevIdx === tipData.length - 1 ? 0 : prevIdx + 1));
     }, 2000);
 
+    /*** 유영 : 소켓 간단 연결 작업 시작 ***/
+    const socket = new SockJS("http://localhost:80/ws");
+    const stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, /*Connect Callback*/() => {
+      console.log("Socket Connected.");
+    });
+    /*** 유영 : 소켓 간단 연결 작업 끝 ***/
+
     return () => clearInterval(interval);
   }, []);
-
 
   return (
     <div className="first" >
@@ -96,7 +125,7 @@ const Room = () => {
                 onKeyDown = {enterDown}
               />
             </div>
-            <button id='startBtn'>START</button>
+            <button id='startBtn' onClick={start}>START</button>
           </div>
         </div>
 

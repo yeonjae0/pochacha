@@ -9,7 +9,7 @@ import org.hibernate.annotations.DynamicInsert;
 @Entity
 @Table(name="player",indexes = {
         @Index(name = "idx_nickname",columnList = "nickname"),
-        @Index(name = "idx_room_id",columnList = "room_id"),
+        /*@Index(name = "idx_room_id",columnList = "room_id"),*/
 })
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,13 +24,13 @@ public class Player extends Base{
     @Column(name="id")
     private long id;//Bigint
 
-    @Column(name="nickname",nullable = false,columnDefinition = "VARCHAR(20) CHARACTER SET UTF8", unique = true)
+    @Column(name="nickname",nullable = false, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8", unique = true)
     //@ColumnDefault("'익명'") 랜덤으로 생성하는 닉네임을 서비스에서 구현 예정
     private String nickname;
 
     //FK
-    @ManyToOne
-    @JoinColumn(name="room_id",insertable = false,updatable = false)//공식적으로 존재할 수 없는 매핑. 임의로 읽기만 가능하도록 작성
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="room_id", nullable = false)
     private Room room;
 
     @Column(name="head",nullable = false)
