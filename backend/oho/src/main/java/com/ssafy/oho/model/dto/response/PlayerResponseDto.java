@@ -9,8 +9,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
-public class RoomResponseDto {
-    private String id;
-    private boolean secret;
-    private boolean progress;
+public class PlayerResponseDto {
+    private long id;
+    private String nickname;
+    private String roomId;
+    private boolean head;
+    private boolean ready;
+    private int score;
 }

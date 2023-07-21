@@ -12,7 +12,6 @@ import java.util.List;
 /* Entity는 유효성 검사가 필요 없으므로 Setter, Constructor 또한 Lombok으로 대체함 */
 @Entity
 @Table(name="room",indexes = {
-        @Index(name="idx_room_name",columnList = "name"),
         @Index(name="idx_room_secret",columnList = "secret"),
         @Index(name="idx_room_progress",columnList = "progress")
 })
@@ -25,13 +24,8 @@ import java.util.List;
 public class Room extends Base{
 
     @Id//PK
-    @GeneratedValue(strategy = GenerationType.IDENTITY)//AUTO INCREMENT
-    @Column(name="id")
-    private long id;//Bigint
-
-    @Column(name="name",nullable = false, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8")
-    @ColumnDefault("'무명의 방'")
-    private String name;
+    @Column(name="id", columnDefinition = "VARCHAR(20) CHARACTER SET UTF8")
+    private String id;
 
     @Column(name="secret",nullable = false)
     @ColumnDefault("0")
@@ -42,9 +36,9 @@ public class Room extends Base{
     private boolean progress;
 
     //FK
-    @OneToMany
-    @JoinColumn(name="players")
-    private List<Player> players=new ArrayList<>();
+    @OneToMany(mappedBy = "room")
+    private List<Player> players = new ArrayList<>();
+
 }
 
 /*

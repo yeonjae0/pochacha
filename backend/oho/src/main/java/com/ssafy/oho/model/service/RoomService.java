@@ -31,12 +31,11 @@ public class RoomService {
             RoomResponseDto roomResponseDto = new RoomResponseDto();
 
             /* CONFIRM :: Builder 사용 확인 시 변경 */
-            room.setName(RandomStringUtils.random(20, true, true));
+            room.setId(RandomStringUtils.random(20, true, true));
 
             Room roomResult = roomRepository.save(room);
 
             roomResponseDto.setId(roomResult.getId());
-            roomResponseDto.setName(roomResult.getName());
             roomResponseDto.setSecret(roomResult.isSecret());
             roomResponseDto.setProgress(roomResult.isProgress());
 
@@ -57,7 +56,6 @@ public class RoomService {
 
         /* CONFIRM :: Builder 사용 확인 시 변경 */
         roomResponseDto.setId(room.getId());
-        roomResponseDto.setName(room.getName());
         roomResponseDto.setSecret(room.isSecret());
         roomResponseDto.setProgress(room.isProgress());
 
@@ -65,14 +63,12 @@ public class RoomService {
     }
 
     public RoomResponseDto updateRoom(RoomRequestDto roomRequestDto) throws RoomUpdateException {
-        long id = roomRequestDto.getId();
-        String name = roomRequestDto.getName();
+        String id = roomRequestDto.getId();
         boolean secret = roomRequestDto.isSecret();
         boolean progress = roomRequestDto.isProgress();
 
         // 유효성 검사
-        if(id <= 0 || !roomRepository.existsById(id)) throw new RoomUpdateException();
-        if(name == null || name.trim().equals("") || name.trim().length() > 50) throw new RoomUpdateException();
+        if(id == null || id.trim().equals("") || id.trim().length() > 20) throw new RoomUpdateException();
         /*
             TO DO :: request 보낸 플레이어가 현재 방의 방장인지 확인
         */
@@ -83,14 +79,12 @@ public class RoomService {
 
             /* CONFIRM :: Builder 사용 확인 시 변경 */
             room.setId(id);
-            room.setName(name);
             room.setSecret(secret);
             room.setProgress(progress);
 
             roomRepository.save(room);
 
             roomResponseDto.setId(id);
-            roomResponseDto.setName(name);
             roomResponseDto.setSecret(secret);
             roomResponseDto.setProgress(progress);
 

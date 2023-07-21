@@ -4,6 +4,6 @@ import com.ssafy.oho.model.entity.mainDB.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoomRepository extends JpaRepository<Room,Integer> {
-    Room findById(long roomId);
-    boolean existsById(long roomId);
+    Room findById(String roomId);
+    boolean existsById(String roomId);
 }

@@ -3,9 +3,11 @@ package com.ssafy.oho.controller;
 import com.ssafy.oho.model.dto.request.MemberRequestDto;
 import com.ssafy.oho.model.dto.request.PlayerRequestDto;
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
+import com.ssafy.oho.model.dto.response.PlayerResponseDto;
 import com.ssafy.oho.model.dto.response.RoomResponseDto;
 import com.ssafy.oho.model.service.PlayerService;
 import com.ssafy.oho.model.service.RoomService;
+import com.ssafy.oho.util.exception.PlayerSetException;
 import com.ssafy.oho.util.exception.RoomEnterException;
 import com.ssafy.oho.util.exception.RoomGetException;
 import com.ssafy.oho.util.exception.RoomUpdateException;
@@ -14,12 +16,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping
+@CrossOrigin
 public class RoomController {
 
     private final RoomService roomService;
@@ -33,14 +37,21 @@ public class RoomController {
     @PostMapping(value="/enter")
     private ResponseEntity<?> setRoom(@RequestBody PlayerRequestDto playerRequestDto){
         try {
-            RoomResponseDto roomResponseDto = roomService.setRoom(playerRequestDto);
-            playerService.setHead(playerRequestDto, roomResponseDto);
+            Map<String, Object> map = new HashMap<>();
 
-            return ResponseEntity.ok(roomResponseDto);
-        } catch(RoomEnterException e) {
+            RoomResponseDto roomResponseDto = roomService.setRoom(playerRequestDto);
+            map.put("room", roomResponseDto);
+
+            PlayerResponseDto playerResponseDto = playerService.setHead(playerRequestDto, roomResponseDto);
+            map.put("player", playerResponseDto);
+
+            return ResponseEntity.ok(map);
+        } catch(RoomEnterException | PlayerSetException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+
     @PostMapping(value="/room")
     private ResponseEntity<?> getRoom(@RequestBody RoomRequestDto roomRequestDto) {
         try {
