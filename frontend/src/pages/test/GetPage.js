@@ -7,7 +7,7 @@ function GetPage(){
     const [testId, setTestId] = useState(0);
     const [testInfo, setTestInfo] = useState("No Info");
 
-    const BASEURL = "http://localhost:8080"
+    const BASEURL = "http://52.78.56.80:8080"
 
     useEffect(()=>{
         axios.get(BASEURL + "/api/get")

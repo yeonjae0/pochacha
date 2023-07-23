@@ -6,7 +6,7 @@ function PostPage(){
     
     // const [testId, setTestId] = useState(0);
     const [info, setInfo] = useState("No Info");
-    const BASEURL = "http://localhost:8080"
+    const BASEURL = "http://52.78.56.80:8080"
 
     const pressButton = (param) => {
         axios.post(BASEURL + "/api/post", JSON.stringify({info: param}), {
