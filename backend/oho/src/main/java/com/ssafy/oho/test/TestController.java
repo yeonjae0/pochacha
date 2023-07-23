@@ -10,7 +10,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @Log4j2
-@CrossOrigin("http://localhost")
+@CrossOrigin(origins = {"http://localhost", "http://172.31.34.228", "http://52.78.56.80"})
+
 public class TestController {
 
     private final TestRepository testRepository;
