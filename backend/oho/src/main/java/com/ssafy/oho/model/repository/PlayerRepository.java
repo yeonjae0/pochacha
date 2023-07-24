@@ -1,8 +1,10 @@
 package com.ssafy.oho.model.repository;
 
 import com.ssafy.oho.model.entity.Player;
+import com.ssafy.oho.model.entity.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PlayerRepository extends JpaRepository<Player,Integer> {
-    Player findById(long roomId);
+    Player findById(long id);
+    Long countByRoom(Room room);
 }

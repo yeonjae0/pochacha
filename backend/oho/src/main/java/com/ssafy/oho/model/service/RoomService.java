@@ -26,7 +26,11 @@ public class RoomService {
             RoomResponseDto roomResponseDto = new RoomResponseDto();
 
             /* CONFIRM :: Builder 사용 확인 시 변경 */
-            room.setId(RandomStringUtils.random(20, true, true));
+            String id;
+            do {
+                id = RandomStringUtils.random(20, true, true);
+            } while(roomRepository.existsById(id));
+            room.setId(id);
 
             Room roomResult = roomRepository.save(room);
 
