@@ -1,7 +1,5 @@
 package com.ssafy.oho.model.dto.request;
 
-import com.ssafy.oho.model.entity.mainDB.Room;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
