@@ -29,21 +29,15 @@ public class PlayerService {
          => 굳이 방장 설정에서 닉네임 삽입을 안 해줘도 됨? (추후 front와 상의)
         */
 
-//        String memberId = playerRequestDto.getMemberId();
-//        if(memberId != null && !memberId.trim().equals("")) {
-//            Member member = memberService.getMemberById(memberId);
-//            player.setNickname(member.getNickname());
-//        } else {
-//            player.setNickname(player.getNickname());
-//        }
-
         // 닉네임 입력 시 설정, 미입력시 default
         if(playerRequestDto.getNickname() != null && !playerRequestDto.getNickname().trim().equals("")) {
+            /* CONFIRM :: Builder 사용 확인 시 변경 */
             player.setNickname(playerRequestDto.getNickname());
         } else {
             /*
                 TO DO :: 랜덤 닉네임 생성
              */
+            /* CONFIRM :: Builder 사용 확인 시 변경 */
             player.setNickname(
                     RandomStringUtils.random(4, true, true) + "-" +
                             RandomStringUtils.random(4, true, true) + "-" +
