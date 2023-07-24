@@ -20,7 +20,6 @@ export default function Home() {
         <li><Link href="/board/spell">훈민정음게임</Link></li>
       <p>미니게임 내에서도 화면 나뉠 예정</p>
 
-
     </div>
   )
 }
