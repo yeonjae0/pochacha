@@ -3,11 +3,10 @@ package com.ssafy.oho.model.service;
 import com.ssafy.oho.model.dto.request.PlayerRequestDto;
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.RoomResponseDto;
-import com.ssafy.oho.model.entity.mainDB.Room;
-import com.ssafy.oho.model.repository.mainDB.RoomRepository;
-import com.ssafy.oho.util.exception.RoomEnterException;
+import com.ssafy.oho.model.entity.Room;
+import com.ssafy.oho.model.repository.RoomRepository;
+import com.ssafy.oho.util.exception.RoomSetException;
 import com.ssafy.oho.util.exception.RoomUpdateException;
-import com.ssafy.oho.util.jwt.JwtProvider;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +15,12 @@ public class RoomService {
 
     private final RoomRepository roomRepository;
 
-    /* Member API 구현 후에 사용할 예정 */
-    private final JwtProvider jwtProvider;
-
-    private RoomService(RoomRepository roomRepository,JwtProvider jwtProvider){
+    private RoomService(RoomRepository roomRepository){
         this.roomRepository=roomRepository;
-        this.jwtProvider=jwtProvider;
     }
 
     /* 방 만들기 전까지는 String 타입의 메시지로 전달 */
-    public RoomResponseDto setRoom(PlayerRequestDto playerRequestDto) throws RoomEnterException {
+    public RoomResponseDto setRoom(PlayerRequestDto playerRequestDto) throws RoomSetException {
         try {
             Room room = new Room();
             RoomResponseDto roomResponseDto = new RoomResponseDto();
@@ -42,7 +37,7 @@ public class RoomService {
             return roomResponseDto;
         } catch(Exception e) {
             System.out.println(e.getMessage());
-            throw new RoomEnterException();
+            throw new RoomSetException();
         }
     }
 

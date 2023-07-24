@@ -1,6 +1,6 @@
-package com.ssafy.oho.model.repository.mainDB;
+package com.ssafy.oho.model.repository;
 
-import com.ssafy.oho.model.entity.mainDB.Room;
+import com.ssafy.oho.model.entity.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoomRepository extends JpaRepository<Room,Integer> {
