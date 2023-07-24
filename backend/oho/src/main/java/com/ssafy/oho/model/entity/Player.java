@@ -35,15 +35,15 @@ public class Player extends Base{
 
     @Column(name="head",nullable = false)
     @ColumnDefault("0")
-    private boolean head;
+    private boolean head = false;
 
     @Column(name="ready",nullable = false)
     @ColumnDefault("0")
-    private boolean ready;
+    private boolean ready = false;
 
     @Column(name="score", nullable = false)
     @ColumnDefault("0")
-    private int score;
+    private int score = 0;
 }
 
 /*
