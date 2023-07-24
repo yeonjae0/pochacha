@@ -1,6 +1,5 @@
 package com.ssafy.oho.controller;
 
-import com.ssafy.oho.model.dto.request.MemberRequestDto;
 import com.ssafy.oho.model.dto.request.PlayerRequestDto;
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.PlayerResponseDto;
@@ -8,11 +7,9 @@ import com.ssafy.oho.model.dto.response.RoomResponseDto;
 import com.ssafy.oho.model.service.PlayerService;
 import com.ssafy.oho.model.service.RoomService;
 import com.ssafy.oho.util.exception.PlayerSetException;
-import com.ssafy.oho.util.exception.RoomEnterException;
-import com.ssafy.oho.util.exception.RoomGetException;
+import com.ssafy.oho.util.exception.RoomSetException;
 import com.ssafy.oho.util.exception.RoomUpdateException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -46,7 +43,7 @@ public class RoomController {
             map.put("player", playerResponseDto);
 
             return ResponseEntity.ok(map);
-        } catch(RoomEnterException | PlayerSetException e) {
+        } catch(RoomSetException | PlayerSetException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }

@@ -1,4 +1,4 @@
-package com.ssafy.oho.model.entity.mainDB;
+package com.ssafy.oho.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
