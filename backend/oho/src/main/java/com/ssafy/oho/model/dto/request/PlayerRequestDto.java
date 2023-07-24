@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class PlayerRequestDto {
     private long id;
     private String nickname;
-    private String memberId;
     private String roomId;
     private boolean head;
     private boolean ready;
