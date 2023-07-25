@@ -41,9 +41,13 @@ public class Player extends Base{
     @ColumnDefault("0")
     private boolean ready = false;
 
-    @Column(name="score", nullable = false)
-    @ColumnDefault("0")
-    private int score = 0;
+    /* 혜지 : score 칼럼 삭제 및 벌칙 여부 칼럼 추가. nullable 속성 지님. */
+    @Column(name="penalty", columnDefinition = "VARCHAR(50) CHARACTER SET UTF8")
+    private String penalty;
+
+    /* 혜지 : ip 칼럼 추가 */
+    @Column(name="ip_address",nullable = false, unique = true)
+    private String ipAddress;
 }
 
 /*
