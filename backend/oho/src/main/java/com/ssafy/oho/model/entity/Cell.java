@@ -27,7 +27,7 @@ public class Cell extends Base{
 
     @Column(name="status",length = 1,nullable = false)
     @ColumnDefault("'N'")
-    private String status;
+    private char status;
 
     @Column(name="name",nullable = false, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8")
     @ColumnDefault("'무명의 칸'")
