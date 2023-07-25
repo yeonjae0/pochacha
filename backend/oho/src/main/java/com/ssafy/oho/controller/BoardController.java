@@ -50,6 +50,16 @@ public class BoardController {
     // 말 이동 Socket 함수
     @MessageMapping("/move/{roomId}")
     public void board(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
-        webSocket.convertAndSend("/topic/move/" + roomId, payload.get("dice")/* 임시 값 저장 */);
+        Map<String, Object> responsePayload = new HashMap<>();
+        /*
+            TO DO :: 주사위 값에 따른 말 이동 및 칸 정보 저장 필요
+         */
+
+        //임의 값 (추후 삭제)
+        int randNum = (int) (Math.random() * 24);
+        responsePayload.put("cell", roomMap.get(roomId).get(randNum));
+        responsePayload.put("pin", randNum);
+
+        webSocket.convertAndSend("/topic/move/" + roomId, responsePayload/* 임시 값 저장 */);
     }
 }
