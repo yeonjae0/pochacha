@@ -46,7 +46,7 @@ const Room = () => {
     }
   };
 
-  // 오른쪽 box 화면 바뀜
+  // 우측 Box 화면 전환
   const [currentTipIdx, setCurrentTipIdx] = useState(0);
 
   const toggleNext = () => {
@@ -62,10 +62,11 @@ const Room = () => {
         prevIdx === tipData.length -1 ? 0 : prevIdx +1
       );
     };
+
   const currentTip = tipData[currentTipIdx];
 
+  /* 유영 : axios를 통한 닉네임 생성 및 방 생성 시작 */
   const start = () => {
-    /* 유영 : axios를 통한 닉네임 생성 및 방 생성 시작 */
     axios({
       url : "http://localhost:80/enter",
       header : {
@@ -79,8 +80,8 @@ const Room = () => {
     }).then((response) => {
       console.log(response.data);
     });
-    /* 유영 : axios를 통한 닉네임 생성 및 방 생성 끝 */
   };
+  /* 유영 : axios를 통한 닉네임 생성 및 방 생성 끝 */
 
   useEffect(() => {
     const interval = setInterval(() => {
