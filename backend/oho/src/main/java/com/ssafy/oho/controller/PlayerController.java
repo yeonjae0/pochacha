@@ -6,6 +6,7 @@ import com.ssafy.oho.model.dto.response.RoomResponseDto;
 import com.ssafy.oho.model.service.PlayerService;
 import com.ssafy.oho.model.service.RoomService;
 import com.ssafy.oho.util.exception.PlayerSetException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,15 +31,15 @@ public class PlayerController {
     }
 
     @PostMapping(value="create")
-    private ResponseEntity<?> setPlayer(@RequestBody PlayerRequestDto playerRequestDto) {
+    private ResponseEntity<?> setPlayer(@RequestBody PlayerRequestDto playerRequestDto, HttpServletRequest request) {
         try {
             RoomResponseDto roomResponseDto = new RoomResponseDto();
             roomResponseDto.setId(playerRequestDto.getRoomId());
             PlayerResponseDto playerResponseDto;
             if(playerRequestDto.isHead()) {
-                playerResponseDto = playerService.setHead(playerRequestDto, roomResponseDto);
+                playerResponseDto = playerService.setHead(playerRequestDto, roomResponseDto,request.getRemoteAddr());
             } else {
-                playerResponseDto = playerService.setPlayer(playerRequestDto, roomResponseDto);
+                playerResponseDto = playerService.setPlayer(playerRequestDto, roomResponseDto,request.getRemoteAddr());
             }
 
             return ResponseEntity.ok(playerResponseDto);
