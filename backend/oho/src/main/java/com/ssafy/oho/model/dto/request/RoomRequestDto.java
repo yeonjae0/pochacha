@@ -14,5 +14,6 @@ public class RoomRequestDto {
     private String id;
     private boolean secret;
     private boolean progress;
+    private boolean includeMini;
     /* private List<Player> players; */
 }
