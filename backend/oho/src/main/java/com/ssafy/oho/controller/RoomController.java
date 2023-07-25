@@ -9,6 +9,7 @@ import com.ssafy.oho.model.service.RoomService;
 import com.ssafy.oho.util.exception.PlayerSetException;
 import com.ssafy.oho.util.exception.RoomSetException;
 import com.ssafy.oho.util.exception.RoomUpdateException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,14 +33,14 @@ public class RoomController {
     }
 
     @PostMapping(value="/enter")
-    private ResponseEntity<?> setRoom(@RequestBody PlayerRequestDto playerRequestDto){
+    private ResponseEntity<?> setRoom(@RequestBody PlayerRequestDto playerRequestDto, HttpServletRequest request){
         try {
             Map<String, Object> map = new HashMap<>();
 
             RoomResponseDto roomResponseDto = roomService.setRoom(playerRequestDto);
             map.put("room", roomResponseDto);
 
-            PlayerResponseDto playerResponseDto = playerService.setHead(playerRequestDto, roomResponseDto);
+            PlayerResponseDto playerResponseDto = playerService.setHead(playerRequestDto, roomResponseDto,request.getRemoteAddr());
             map.put("player", playerResponseDto);
 
             return ResponseEntity.ok(map);
