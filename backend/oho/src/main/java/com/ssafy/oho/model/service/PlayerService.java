@@ -26,17 +26,16 @@ public class PlayerService {
         this.playerRepository = playerRepository;
         this.roomRepository = roomRepository;
     }
-    public PlayerResponseDto setHead(PlayerRequestDto playerRequestDto, RoomResponseDto roomResponseDto, String ipAddress) throws PlayerSetException {
-        PlayerResponseDto playerResponseDto = setPlayer(playerRequestDto, roomResponseDto,ipAddress);
+    public PlayerResponseDto setHead(PlayerRequestDto playerRequestDto, RoomResponseDto roomResponseDto) throws PlayerSetException {
+        PlayerResponseDto playerResponseDto = setPlayer(playerRequestDto, roomResponseDto);
         Player head = playerRepository.findById(playerResponseDto.getId());
         head.setHead(true);
-        head.setIpAddress(ipAddress);
         playerRepository.save(head);
 
         playerResponseDto.setHead(true);
         return playerResponseDto;
     }
-    public PlayerResponseDto setPlayer(PlayerRequestDto playerRequestDto, RoomResponseDto roomResponseDto, String ipAddress) throws PlayerSetException {
+    public PlayerResponseDto setPlayer(PlayerRequestDto playerRequestDto, RoomResponseDto roomResponseDto) throws PlayerSetException {
         Player player = new Player();
         PlayerResponseDto playerResponseDto = new PlayerResponseDto();
 
@@ -58,7 +57,6 @@ public class PlayerService {
                             new Random().nextInt(10000));
         }
         player.setHead(false);
-        player.setIpAddress(ipAddress);
 
         playerRepository.save(player);
 
@@ -68,7 +66,6 @@ public class PlayerService {
         playerResponseDto.setRoomId(player.getRoom().getId());
         playerResponseDto.setHead(player.isHead());
         playerResponseDto.setReady(player.isReady());
-        playerResponseDto.setIpAddress(player.getIpAddress());
 
         return playerResponseDto;
     }
@@ -83,7 +80,6 @@ public class PlayerService {
         playerResponseDto.setRoomId(player.getRoom().getId());
         playerResponseDto.setHead(player.isHead());
         playerResponseDto.setReady(player.isReady());
-        playerResponseDto.setIpAddress(player.getIpAddress());
 
         return playerResponseDto;
     }
