@@ -1,5 +1,6 @@
 "use client"
 import { useEffect, useState, useRef } from 'react';
+import DiceBox from '../../routes/DiceBox';
 import './../map.css';
 
 export default function Board() {
@@ -45,6 +46,7 @@ export default function Board() {
         <h2>주사위 눈 : { dice }, 현재 { pin }번 블록에 위치</h2> <h2>{ lab }바퀴</h2>
       </div>
 
+      <DiceBox />
       <div className='map'>
           <div id='19'>
             <div id="b19-t">{ pin == 19 ? ( <img src="./character.png" /> ) : null }</div>
