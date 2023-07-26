@@ -8,8 +8,10 @@ RUN rm -rf /etc/nginx/conf.d/default.conf
 
 COPY ./nginx.conf /etc/nginx
 
-COPY certs/server.crt /etc/nginx/server.crt
-COPY certs/server.key /etc/nginx/server.key
+COPY ./cert/fullchain.pem /etc/nginx
+COPY ./cert/privkey.pem /etc/nginx
+COPY ./cert/options-ssl-nginx.conf /etc/nginx
+COPY ./cert/ssl-dhparams.pem /etc/nginx
 
 EXPOSE 80
 

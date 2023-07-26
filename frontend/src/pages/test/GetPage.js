@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
-import https from "https";
 
 function GetPage(){
     
     const [testId, setTestId] = useState(0);
     const [testInfo, setTestInfo] = useState("No Info");
 
-    const BASEURL = "https://43.201.150.143:8443"
-
-    const agent = new https.Agent({  
-        rejectUnauthorized: false
-    });
+    const BASEURL = "https://ohogame.shop:8443"
 
     useEffect(()=>{
-        axios.get(BASEURL + "/api/get", { httpsAgent: agent})
+        axios.get(BASEURL + "/api/get")
         .then((res)=>{
             console.log(res)
             setTestId(res.data[0].id)
