@@ -33,14 +33,14 @@ public class RoomController {
     }
 
     @PostMapping(value="/enter")
-    private ResponseEntity<?> setRoom(@RequestBody PlayerRequestDto playerRequestDto, HttpServletRequest request){
+    private ResponseEntity<?> setRoom(@RequestBody PlayerRequestDto playerRequestDto){
         try {
             Map<String, Object> map = new HashMap<>();
 
             RoomResponseDto roomResponseDto = roomService.setRoom(playerRequestDto);
             map.put("room", roomResponseDto);
 
-            PlayerResponseDto playerResponseDto = playerService.setHead(playerRequestDto, roomResponseDto,request.getRemoteAddr());
+            PlayerResponseDto playerResponseDto = playerService.setHead(playerRequestDto, roomResponseDto);
             map.put("player", playerResponseDto);
 
             return ResponseEntity.ok(map);
