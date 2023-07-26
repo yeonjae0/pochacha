@@ -9,18 +9,6 @@
  */
 self["webpackHotUpdate_N_E"]("webpack",{},
 /******/ function(__webpack_require__) { // webpackRuntimeModules
-/******/ /* webpack/runtime/compat get default export */
-/******/ !function() {
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function() { return module['default']; } :
-/******/ 			function() { return module; };
-/******/ 		__webpack_require__.d(getter, { a: getter });
-/******/ 		return getter;
-/******/ 	};
-/******/ }();
-/******/ 
 /******/ /* webpack/runtime/create fake namespace object */
 /******/ !function() {
 /******/ 	var getProto = Object.getPrototypeOf ? function(obj) { return Object.getPrototypeOf(obj); } : function(obj) { return obj.__proto__; };
@@ -96,7 +84,11 @@ self["webpackHotUpdate_N_E"]("webpack",{},
 /******/ 
 /******/ /* webpack/runtime/getFullHash */
 /******/ !function() {
+<<<<<<< HEAD
 /******/ 	__webpack_require__.h = function() { return "8152b0d75279dd1c"; }
+=======
+/******/ 	__webpack_require__.h = function() { return "7d224389bcf96d96"; }
+>>>>>>> 28b341a896e91fc6b43b4d36b8af4031a53b1564
 /******/ }();
 /******/ 
 /******/ /* webpack/runtime/global */

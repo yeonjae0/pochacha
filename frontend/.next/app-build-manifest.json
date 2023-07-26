@@ -1,11 +1,26 @@
 {
   "pages": {
+<<<<<<< HEAD
     "/room/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/room/page.js"
     ],
     "/layout": [
+=======
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
+    ],
+    "/board/page": [
+>>>>>>> 28b341a896e91fc6b43b4d36b8af4031a53b1564
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/layout.css",
