@@ -10,7 +10,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @Log4j2
-@CrossOrigin(origins = {"https://172.17.0.1", "https://172.26.3.152", "https://43.201.150.143"})
+@CrossOrigin(origins = {"https://172.17.0.1", "https://172.26.3.152", "https://43.201.150.143", "https://ohogame.shop"})
 
 public class TestController {
 
