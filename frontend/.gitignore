@@ -27,6 +27,6 @@ yarn-error.log*
 # vercel
 .vercel
 
-# webpack
-/.next/cache
-/.next/static/chunks
+# next.js
+/.next/
+/out/
