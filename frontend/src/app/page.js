@@ -1,10 +1,13 @@
+"use client"
 import Image from 'next/image'
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link'
 
 export default function Home() {
+
   return (
     <div>
+
       <h1>임시 메인화면</h1>
       <br />
       <br />
