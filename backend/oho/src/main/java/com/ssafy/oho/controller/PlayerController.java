@@ -31,15 +31,15 @@ public class PlayerController {
     }
 
     @PostMapping(value="create")
-    private ResponseEntity<?> setPlayer(@RequestBody PlayerRequestDto playerRequestDto, HttpServletRequest request) {
+    private ResponseEntity<?> setPlayer(@RequestBody PlayerRequestDto playerRequestDto) {
         try {
             RoomResponseDto roomResponseDto = new RoomResponseDto();
             roomResponseDto.setId(playerRequestDto.getRoomId());
             PlayerResponseDto playerResponseDto;
             if(playerRequestDto.isHead()) {
-                playerResponseDto = playerService.setHead(playerRequestDto, roomResponseDto,request.getRemoteAddr());
+                playerResponseDto = playerService.setHead(playerRequestDto, roomResponseDto);
             } else {
-                playerResponseDto = playerService.setPlayer(playerRequestDto, roomResponseDto,request.getRemoteAddr());
+                playerResponseDto = playerService.setPlayer(playerRequestDto, roomResponseDto);
             }
 
             return ResponseEntity.ok(playerResponseDto);

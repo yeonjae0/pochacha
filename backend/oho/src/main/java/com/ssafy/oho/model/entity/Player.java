@@ -41,14 +41,7 @@ public class Player extends Base{
     @ColumnDefault("0")
     private boolean ready = false;
 
-    /* 혜지 : score 칼럼 삭제 및 벌칙 여부 칼럼 추가. nullable 속성 지님. */
-    @OneToOne
-    @JoinColumn(name="penalty_id")
-    private Penalty penalty;
-
-    /* 혜지 : ip 칼럼 추가 */
-    @Column(name="ip_address",nullable = false, unique = true)
-    private String ipAddress;
+    /* 혜지 : score, 벌칙 참조, ip 주소 칼럼 삭제 */
 }
 
 /*
