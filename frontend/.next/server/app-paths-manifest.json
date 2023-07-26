@@ -1,8 +1,4 @@
 {
-<<<<<<< HEAD
-  "/room/page": "app/room/page.js"
-=======
   "/page": "app/page.js",
   "/board/page": "app/board/page.js"
->>>>>>> 28b341a896e91fc6b43b4d36b8af4031a53b1564
 }
