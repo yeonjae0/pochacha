@@ -1,0 +1,162 @@
+"use client"
+
+import { useState } from 'react';
+import './../map.css';
+
+export default function Board() {
+
+  let [dice, setDice] = useState(0); // 주사위
+  let [pin, setPin] = useState(0); // 현재 위치
+  let [lab, setLab] = useState(0); // 바퀴 수
+  let road = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+
+  return (
+    <div>
+      <h1>보드게임 화면</h1>
+
+      <button onClick={()=>{
+        let num = 6;
+        let dice = parseInt(Math.random() * num + 1); // 랜덤으로 주사위 숫자 추출
+        setDice(dice); // 말 수 변경
+
+        // 한 바퀴 돌 때마다 pin 갱신
+        {
+          pin+dice <= 24
+          ? (
+            setPin(pin+dice)
+          )
+          : setPin(pin+dice-24);
+        }
+
+        // 한 바퀴 돌 때마다 lab state 변경
+        {
+          pin+dice <= 24
+          ? (
+            null
+          )
+          : setLab(lab+1);
+        }
+
+      }}>주사위 굴리기</button>
+
+      <div>
+        주사위 눈은 { dice }가 나왔습니다.
+      </div>
+      
+      <div>
+        { dice }칸 이동하여 현재 { pin }번 블록에 있습니다.
+      </div>
+      
+      <div>
+        { lab }바퀴 돌았습니다.
+      </div>
+
+{/* 보드시작 */}
+
+  {/* <div class='container' > */}
+    <div class='map'>
+      <div id="1">
+        <div id="b1-t"></div>
+        <div id="b1-l"></div>
+        <div id="b1-r"></div>
+      </div>
+      <div id="2">
+        <div id="b2-t"></div>
+        <div id="b2-l"></div>
+      </div>
+      <div id="3">
+        <div id="b3-t"></div>
+        <div id="b3-l"></div>
+      </div>
+      <div id="4">
+        <div id="b4-t"></div>
+        <div id="b4-l"></div>
+      </div>
+      <div id="5">
+        <div id="b5-t"></div>
+        <div id="b5-l"></div>
+      </div>
+      <div id="6">
+        <div id="b6-t"></div>
+        <div id="b6-l"></div>
+      </div>
+      <div id="7">
+        <div id="b7-t"></div>
+        <div id="b7-l"></div>
+      </div>
+      <div id="8">
+        <div id="b8-t"></div>
+        <div id="b8-r"></div>
+      </div>
+      <div id="9">
+        <div id="b9-t"></div>
+        <div id="b9-r"></div>
+      </div>
+      <div id="10">
+        <div id="b10-t"></div>
+        <div id="b10-r"></div>
+      </div>
+      <div id="11">
+        <div id="b11-t"></div>
+        <div id="b11-r"></div>
+      </div>
+      <div id="12">
+        <div id="b12-t"></div>
+        <div id="b12-r"></div>
+      </div>
+      <div id="13">
+        <div id="b13-t"></div>
+      </div>
+      <div id="14">
+        <div id="b14-t"></div>
+        <div id="b14-l"></div>
+      </div>
+      <div id="15">
+        <div id="b15-t"></div>
+        <div id="b15-l"></div>
+      </div>
+      <div id="16">
+        <div id="b16-t"></div>
+        <div id="b16-l"></div>
+      </div>
+      <div id="17">
+        <div id="b17-t"></div>
+        <div id="b17-l"></div>
+      </div>
+      <div id="18">
+        <div id="b18-t"></div>
+        <div id="b18-l"></div>
+      </div>
+      <div id="19">
+        <div id="b19-t"></div>
+        <div id="b19-r"></div>
+      </div>
+      <div id="20">
+        <div id="b20-t"></div>
+        <div id="b20-r"></div>
+      </div>
+      <div id="21">
+        <div id="b21-t"></div>
+        <div id="b21-r"></div>
+      </div>
+      <div id="22">
+        <div id="b22-t"></div>
+        <div id="b22-r"></div>
+      </div>
+      <div id="23">
+        <div id="b23-t"></div>
+        <div id="b23-r"></div>
+      </div>
+      <div id="24">
+        <div id="b24-t"></div>
+        <div id="b24-r"></div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+  // </div>
+  )
+}
