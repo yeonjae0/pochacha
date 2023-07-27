@@ -1,6 +1,7 @@
 "use client"
 import styled from 'styled-components'
 import { useState, useNavigate } from "react"
+import { useLocation } from "react-router-dom";
 
 export default function RoomBtn() {
 
@@ -21,6 +22,9 @@ export default function RoomBtn() {
   `
 
   let [setting, setSetting] = useState(true);
+
+  // const location = useLocation();
+  // console.log(location)
 
   return (
     <div>

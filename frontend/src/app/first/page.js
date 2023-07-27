@@ -1,7 +1,6 @@
 "use client"
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link'
-import Image from 'next/image';
 import './../first.css';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';

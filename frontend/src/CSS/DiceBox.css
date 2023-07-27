@@ -7,6 +7,7 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); */
   padding: 40px;
   box-sizing: border-box;
+  margin: auto;
 }
 
 #diceBox > .dice_wrap {
