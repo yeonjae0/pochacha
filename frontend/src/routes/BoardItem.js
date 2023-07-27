@@ -21,7 +21,6 @@ export default function BoardItem() {
     top: 835px;
     background: #A1824F;
     `
-
   return (
     <div>
       <TableTop />

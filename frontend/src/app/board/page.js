@@ -26,10 +26,6 @@ export default function Board() {
           )
           : setPin(pin+dice-24)
         }
-        
-        // 1. 반복문으로 효율성을 높여야 함
-        // 2. DOM에 직접 접근이 아닌 방법을 찾아야 함
-        // i. curPin ~ pin 으로 이동하는 경로를 하나씩 반복문으로 보여주기
 
         // 한 바퀴 돌 때마다 lab state 변경
         {
@@ -46,7 +42,7 @@ export default function Board() {
         <h2>주사위 눈 : { dice }, 현재 { pin }번 블록에 위치</h2> <h2>{ lab }바퀴</h2>
       </div>
 
-      <DiceBox />
+      <DiceBox dice={ dice }/>
       <div className='map'>
           <div id='19'>
             <div id="b19-t">{ pin == 19 ? ( <img src="./character.png" /> ) : null }</div>

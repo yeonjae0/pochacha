@@ -1,5 +1,6 @@
 "use client"
 import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link'
 import Image from 'next/image';
 import './../first.css';
 import SockJS from 'sockjs-client';
@@ -33,7 +34,7 @@ const tipData = [
   },
 ];
 
-const Room = () => {
+export default function Room() {
 
   // 닉네임 입력
   const [text, setText] = useState('')
@@ -48,6 +49,10 @@ const Room = () => {
 
   // 우측 Box 화면 전환
   const [currentTipIdx, setCurrentTipIdx] = useState(0);
+
+  // 랜덤 닉네임 & room ID 저장할 state
+  let [name, setName] = useState('');
+  let [roomId, setRoomId] = useState(0);
 
   const toggleNext = () => {
     setCurrentTipIdx((prevIdx) => (prevIdx === tipData.length - 1 ? 0 : prevIdx + 1));
@@ -79,6 +84,10 @@ const Room = () => {
       }
     }).then((response) => {
       console.log(response.data);
+
+      // 랜덤 닉네임 & room ID 저장
+      setRoomId(response.data.room.id);
+      setName(response.data.player.nickname);
     });
   };
   /* 유영 : axios를 통한 닉네임 생성 및 방 생성 끝 */
@@ -88,14 +97,14 @@ const Room = () => {
       setCurrentTipIdx((prevIdx) => (prevIdx === tipData.length - 1 ? 0 : prevIdx + 1));
     }, 2000);
 
-    /*** 유영 : 소켓 간단 연결 작업 시작 ***/
+    /* 유영 : 소켓 간단 연결 작업 시작 */
     const socket = new SockJS("http://localhost:80/ws");
     const stompClient = Stomp.over(socket);
 
     stompClient.connect({}, /*Connect Callback*/() => {
       console.log("Socket Connected.");
     });
-    /*** 유영 : 소켓 간단 연결 작업 끝 ***/
+    /* 유영 : 소켓 간단 연결 작업 끝 */
 
     return () => clearInterval(interval);
   }, []);
@@ -126,7 +135,7 @@ const Room = () => {
                 onKeyDown = {enterDown}
               />
             </div>
-            <button id='startBtn' onClick={start}>START</button>
+            <Link href="/room"><button id='startBtn' onClick={start}>START</button></Link>
           </div>
         </div>
 
@@ -156,5 +165,4 @@ const Room = () => {
   )
 };
 
-export default Room;
 Room.useClient = true;
