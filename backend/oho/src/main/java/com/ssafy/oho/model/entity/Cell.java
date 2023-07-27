@@ -1,9 +1,7 @@
 package com.ssafy.oho.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -12,13 +10,9 @@ import org.hibernate.annotations.DynamicInsert;
 @Table(name="cell",indexes = {
         @Index(name="idx_status",columnList = "status")
 })
-@NoArgsConstructor
-@AllArgsConstructor
-
-@Data   //@Getter, @Setter, @RequiredArgsConstructor, @ToString, @EqualsAndHashCode 한번에 정의
-        //@Setter의 경우 추후 Builder 또는 modelMapper로 변경 필요
+@Getter
 @DynamicInsert
-public class Cell extends Base{
+public class Cell extends Base {
 
     @Id//PK
     @GeneratedValue(strategy = GenerationType.IDENTITY)//AUTO INCREMENT

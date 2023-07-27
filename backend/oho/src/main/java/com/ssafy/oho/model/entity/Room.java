@@ -19,7 +19,7 @@ import java.util.List;
 @Builder
 @Getter
 @DynamicInsert
-public class Room extends Base{
+public class Room extends Base {
 
     @Id//PK
     @Column(name="id", columnDefinition = "VARCHAR(20) CHARACTER SET UTF8")

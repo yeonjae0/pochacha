@@ -14,7 +14,7 @@ import org.hibernate.annotations.DynamicInsert;
 @Builder
 @Getter
 @DynamicInsert
-public class Player extends Base{
+public class Player extends Base {
 
     @Id//PK
     @GeneratedValue(strategy = GenerationType.IDENTITY)//AUTO INCREMENT
