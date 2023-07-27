@@ -2,12 +2,75 @@
 import { useEffect, useState, useRef } from 'react';
 import DiceBox from '../../routes/DiceBox';
 import './../map.css';
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
+import axios from 'axios';
 
-export default function Board() {
-  
-  let [dice, setDice] = useState(0); // 주사위
-  let [pin, setPin] = useState(1); // 현재 위치
-  let [lab, setLab] = useState(0); // 바퀴 수
+export default function Board() {  let [dice, setDice] = useState(0); // 주사위
+let [pin, setPin] = useState(1); // 현재 위치
+let [lab, setLab] = useState(0); // 바퀴 수
+let [roomId, setRoomId] = useState("2l8CG5ZaqgmBSaSff3Me");
+let [playerId, setPlayerId] = useState(1);
+
+var [socket, setSocket] = useState();
+var [stompClient, setStompClient] = useState();
+
+useEffect(() => {
+  createMap();
+}, []);
+useEffect(() => {
+  connectSocket();
+});
+
+const createMap = () => {
+  axios({
+    url : "http://localhost:80/board/cell",
+    header : {
+      "Accept" : "application/json",
+      "Content-type" : "aplic ation/json;charset=UTF-8"
+    },
+    method : "POST",
+    data : {
+      "id" : roomId,
+      "includeMini" : true
+    }
+  }).then((response) => {
+    console.log("Map 정보 :: ", response.data);
+  });
+}
+
+const leaveGame = () => {
+  stompClient.send("/leave/" + roomId, {}, JSON.stringify({"playerId" : playerId}));
+  state.stompClient.disconnect();
+}
+
+const connectSocket = () => {
+  socket = new SockJS("http://localhost:80/ws");
+
+  stompClient = Stomp.over(socket);
+  stompClient.debug = () => {};
+
+  stompClient.connect({}, /*Connect Callback*/() => {
+    stompClient.subscribe("/topic/move/" + roomId, (response) => {
+      const data = JSON.parse(response.body);
+      setDice(data.dice);
+      setPin(data.pin);
+    });
+
+    stompClient.subscribe("/topic/player/" + roomId, (response) => {
+      const data = JSON.parse(response.body);
+      console.log("한명 나가요~");
+      alert("한명 나가요~");
+    });
+  });
+  const listener = () => {
+    //console.log("reload");
+    leaveGame();
+  };
+
+  window.addEventListener('beforeunload', listener);
+
+}
   
   return (
     <div>
@@ -16,29 +79,7 @@ export default function Board() {
       <button value="innerHTML" onClick={()=>{
         let num = 6;
         let dice = parseInt(Math.random() * num + 1); // 랜덤으로 주사위 숫자 추출
-        setDice(dice); // 말 수 변경
-
-        // 한 바퀴 돌 때마다 pin 갱신
-        {
-          pin+dice <= 24
-          ? (
-            setPin(pin+dice)
-          )
-          : setPin(pin+dice-24)
-        }
-        
-        // 1. 반복문으로 효율성을 높여야 함
-        // 2. DOM에 직접 접근이 아닌 방법을 찾아야 함
-        // i. curPin ~ pin 으로 이동하는 경로를 하나씩 반복문으로 보여주기
-
-        // 한 바퀴 돌 때마다 lab state 변경
-        {
-          pin+dice <= 24
-          ? (
-            null
-          )
-          : setLab(lab+1);
-        }
+        stompClient.send("/move/" + roomId, {}, JSON.stringify({"roomId": roomId, "dice" : dice, "pin" : pin, "lab":lab}));
 
       }}>주사위 굴리기</button>
 

@@ -89,7 +89,7 @@ const Room = () => {
     }, 2000);
 
     /*** 유영 : 소켓 간단 연결 작업 시작 ***/
-    const socket = new SockJS("http://localhost:80/ws");
+    const socket = new SockJS("http://70.12.247.95:80/ws");
     const stompClient = Stomp.over(socket);
 
     stompClient.connect({}, /*Connect Callback*/() => {
