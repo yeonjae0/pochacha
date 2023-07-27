@@ -9,15 +9,12 @@ import org.hibernate.annotations.DynamicInsert;
 @Entity
 @Table(name="player",indexes = {
         @Index(name = "idx_nickname",columnList = "nickname"),
-        /*@Index(name = "idx_room_id",columnList = "room_id"),*/
+        @Index(name = "idx_room_id",columnList = "room_id"),
 })
-@NoArgsConstructor
-@AllArgsConstructor
-
-@Data   //@Getter, @Setter, @RequiredArgsConstructor, @ToString, @EqualsAndHashCode 한번에 정의
-        //@Setter의 경우 추후 Builder 또는 modelMapper로 변경 필요
+@Builder
+@Getter
 @DynamicInsert
-public class Player extends Base{
+public class Player extends Base {
 
     @Id//PK
     @GeneratedValue(strategy = GenerationType.IDENTITY)//AUTO INCREMENT
