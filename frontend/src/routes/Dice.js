@@ -1,5 +1,5 @@
 import React from 'react';
-import '../app/Dice.css';
+import '../CSS/Dice.css';
 
 export default function Dice({ face, diceWidth }) {
   
