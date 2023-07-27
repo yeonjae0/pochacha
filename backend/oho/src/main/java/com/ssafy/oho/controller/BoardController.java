@@ -1,5 +1,6 @@
 package com.ssafy.oho.controller;
 
+import com.ssafy.oho.model.dto.request.PlayerRequestDto;
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.CellResponseDto;
 import com.ssafy.oho.model.entity.Cell;
@@ -49,17 +50,27 @@ public class BoardController {
 
     // 말 이동 Socket 함수
     @MessageMapping("/move/{roomId}")
-    public void board(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
+    public void movePin(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
         Map<String, Object> responsePayload = new HashMap<>();
         /*
             TO DO :: 주사위 값에 따른 말 이동 및 칸 정보 저장 필요
          */
 
         //임의 값 (추후 삭제)
-        int randNum = (int) (Math.random() * 24);
-        responsePayload.put("cell", roomMap.get(roomId).get(randNum));
-        responsePayload.put("pin", randNum);
+        //int randNum = (int) (Math.random() * 24);
+        int pin = ((int) payload.get("pin") + (int) payload.get("dice")) % 24;
+        int lab = (int) payload.get("lab");
+        if(pin <= (int) payload.get("pin")) lab++;
+        responsePayload.put("dice", payload.get("dice"));
+        responsePayload.put("pin", pin + 1);
+        responsePayload.put("lab", lab);
+        responsePayload.put("cell", roomMap.get(roomId).get(pin));
 
         webSocket.convertAndSend("/topic/move/" + roomId, responsePayload/* 임시 값 저장 */);
+    }
+
+    @MessageMapping("/leave/{roomId}")
+    public void leavePlayer(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
+        webSocket.convertAndSend("/topic/player/" + roomId, payload/* 임시 값 저장 */);
     }
 }

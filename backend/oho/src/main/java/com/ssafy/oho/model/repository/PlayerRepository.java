@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PlayerRepository extends JpaRepository<Player,Integer> {
     Player findById(long id);
+    void deleteById(long id);
     Long countByRoom(Room room);
 }
