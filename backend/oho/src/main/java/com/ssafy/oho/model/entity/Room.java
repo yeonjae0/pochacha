@@ -16,9 +16,8 @@ import java.util.List;
 })
 @NoArgsConstructor
 @AllArgsConstructor
-
-@Data   //@Getter, @Setter, @RequiredArgsConstructor, @ToString, @EqualsAndHashCode 한번에 정의
-        //@Setter의 경우 추후 Builder 또는 modelMapper로 변경 필요
+@Builder
+@Getter
 @DynamicInsert
 public class Room extends Base{
 

@@ -7,7 +7,10 @@ import com.ssafy.oho.model.entity.Player;
 import com.ssafy.oho.model.entity.Room;
 import com.ssafy.oho.model.repository.PlayerRepository;
 import com.ssafy.oho.model.repository.RoomRepository;
+import com.ssafy.oho.util.exception.PlayerDeleteException;
+import com.ssafy.oho.util.exception.PlayerGetException;
 import com.ssafy.oho.util.exception.PlayerSetException;
+import com.ssafy.oho.util.exception.PlayerUpdateException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
@@ -27,60 +30,130 @@ public class PlayerService {
         this.roomRepository = roomRepository;
     }
     public PlayerResponseDto setHead(PlayerRequestDto playerRequestDto, RoomResponseDto roomResponseDto) throws PlayerSetException {
-        PlayerResponseDto playerResponseDto = setPlayer(playerRequestDto, roomResponseDto);
-        Player head = playerRepository.findById(playerResponseDto.getId());
-        head.setHead(true);
-        playerRepository.save(head);
+        try {
+            PlayerResponseDto playerResponseDto = setPlayer(playerRequestDto, roomResponseDto);
+            Player head = playerRepository.findById(playerResponseDto.getId());
 
-        playerResponseDto.setHead(true);
-        return playerResponseDto;
-    }
-    public PlayerResponseDto setPlayer(PlayerRequestDto playerRequestDto, RoomResponseDto roomResponseDto) throws PlayerSetException {
-        Player player = new Player();
-        PlayerResponseDto playerResponseDto = new PlayerResponseDto();
+            /*** Entity Build ***/
+            head = Player.builder()
+                    .id(head.getId())
+                    .nickname(head.getNickname())
+                    .room(head.getRoom())
+                    .head(true)
+                    .ready(head.isReady())
+                    .build();
 
-        Room room = roomRepository.findById(roomResponseDto.getId());
-        if(4 <= playerRepository.countByRoom(room)) {  // 인원이 4명을 넘을 경우
+            playerRepository.save(head);
+
+            /*** Response DTO Build ***/
+            playerResponseDto = PlayerResponseDto.builder()
+                    .id(head.getId())
+                    .nickname(head.getNickname())
+                    .roomId(head.getRoom().getId())
+                    .head(head.isHead())
+                    .ready(head.isReady())
+                    .build();
+
+            return playerResponseDto;
+        } catch (Exception e) {
             throw new PlayerSetException();
         }
-        player.setRoom(room);
+    }
+    public PlayerResponseDto setPlayer(PlayerRequestDto playerRequestDto, RoomResponseDto roomResponseDto) throws PlayerSetException {
+        try {
+            Room room = roomRepository.findById(roomResponseDto.getId());
+            // 방이 존재하지 않을 경우
+            // 플레이어가 4명 이상인 경우
+            // (확인 필요) 게임이 이미 시작된 경우
+            if (room == null || 4 <= playerRepository.countByRoom(room) /*|| room.isProgress()*/) {
+                throw new PlayerSetException();
+            }
 
-        // 닉네임 입력 시 해당 닉네임, 미입력시 랜덤 닉네임 생성
-        if(playerRequestDto.getNickname() != null && !playerRequestDto.getNickname().trim().equals("")) {  // 닉네임 있을 경우
-            /* CONFIRM :: Builder 사용 확인 시 변경 */
-            player.setNickname(playerRequestDto.getNickname());
-        } else {  // 닉네임 없을 경우
-            /* CONFIRM :: Builder 사용 확인 시 변경 */
-            player.setNickname(
-                    randAdj[new Random().nextInt(randAdj.length)] +
-                            randNoun[new Random().nextInt(randNoun.length)] +
-                            new Random().nextInt(10000));
+            // 닉네임 입력 시 해당 닉네임, 미입력시 랜덤 닉네임 생성
+            String nickname = "";
+            if (playerRequestDto.getNickname() == null && playerRequestDto.getNickname().trim().equals("")) {  // 닉네임 없을 경우
+                nickname = playerRequestDto.getNickname();
+            } else {  // 닉네임 없을 경우
+                nickname = randAdj[new Random().nextInt(randAdj.length)] +
+                        randNoun[new Random().nextInt(randNoun.length)] +
+                        new Random().nextInt(10000);  // 랜덤 닉네임 생성
+            }
+
+            /*** Entity Build ***/
+            Player player = Player.builder()
+                    .room(room)
+                    .nickname(nickname)
+                    .head(false)
+                    .build();
+
+            playerRepository.save(player);
+
+            /*** Response DTO Build ***/
+            PlayerResponseDto playerResponseDto = PlayerResponseDto.builder()
+                    .id(player.getId())
+                    .nickname(player.getNickname())
+                    .roomId(player.getRoom().getId())
+                    .head(player.isHead())
+                    .ready(player.isReady())
+                    .build();
+
+            return playerResponseDto;
+        } catch (Exception e) {
+            throw new PlayerSetException();
         }
-        player.setHead(false);
-
-        playerRepository.save(player);
-
-        /* CONFIRM :: Builder 사용 확인 시 변경 */
-        playerResponseDto.setId(player.getId());
-        playerResponseDto.setNickname(player.getNickname());
-        playerResponseDto.setRoomId(player.getRoom().getId());
-        playerResponseDto.setHead(player.isHead());
-        playerResponseDto.setReady(player.isReady());
-
-        return playerResponseDto;
     }
 
-    public PlayerResponseDto getPlayer(PlayerRequestDto playerRequestDto) {
-        Player player = playerRepository.findById(playerRequestDto.getId());
-        PlayerResponseDto playerResponseDto = new PlayerResponseDto();
+    public PlayerResponseDto getPlayer(PlayerRequestDto playerRequestDto) throws PlayerGetException {
+        try {
+            Player player = playerRepository.findById(playerRequestDto.getId());
 
-        /* CONFIRM :: Builder 사용 확인 시 변경 */
-        playerResponseDto.setId(player.getId());
-        playerResponseDto.setNickname(player.getNickname());
-        playerResponseDto.setRoomId(player.getRoom().getId());
-        playerResponseDto.setHead(player.isHead());
-        playerResponseDto.setReady(player.isReady());
+            /*** Response DTO Build ***/
+            PlayerResponseDto playerResponseDto = PlayerResponseDto.builder()
+                    .id(player.getId())
+                    .nickname(player.getNickname())
+                    .roomId(player.getRoom().getId())
+                    .head(player.isHead())
+                    .ready(player.isReady())
+                    .build();
 
-        return playerResponseDto;
+            return playerResponseDto;
+        } catch(Exception e) {
+            throw new PlayerGetException();
+        }
+    }
+
+    public PlayerResponseDto updatePlayer(PlayerRequestDto playerRequestDto) throws PlayerUpdateException {
+        try {
+            /*
+                TO DO :: 본인인지 확인하는 로직 필요
+             */
+            Player player = playerRepository.findById(playerRequestDto.getId());
+
+            /*** Response DTO Build ***/
+            PlayerResponseDto playerResponseDto = PlayerResponseDto.builder()
+                    .id(player.getId())
+                    .nickname(player.getNickname())
+                    .roomId(player.getRoom().getId())
+                    .head(player.isHead())
+                    .ready(player.isReady())
+                    .build();
+
+            return playerResponseDto;
+        } catch(Exception e) {
+            throw new PlayerUpdateException();
+        }
+    }
+
+    public void deletePlayer(PlayerRequestDto playerRequestDto) throws PlayerDeleteException {
+        try {
+            /*
+                TO DO :: 본인인지 확인하는 로직 필요
+             */
+            playerRepository.deleteById(playerRequestDto.getId());
+
+            return;
+        } catch(Exception e) {
+            throw new PlayerDeleteException();
+        }
     }
 }
