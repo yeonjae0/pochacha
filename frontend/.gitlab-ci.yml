@@ -1,0 +1,47 @@
+stages:
+  - build
+  # - test
+  - docker-build
+
+build:
+  stage: build
+  tags:
+    - test
+  image: node # 버전 확인해서 업데이트 하자
+  script: 
+    - echo "Start building App"
+    - npm install
+    - npm run build
+    - echo "Build successfully!"
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - build
+      - node_modules/
+  only:
+    - deploy
+
+# test:
+#   stage: test
+#   image: node
+#   script:
+#     - echo "Testing App"
+#     - CI=true npm test
+#     - echo "Test successfully!"
+
+docker-build:
+  stage: docker-build
+  tags:
+  - test
+  image: docker:latest
+  services: 
+    - docker:19.03.8-dind
+  before_script:
+    - docker login -u $DOCKER_HUB_USER --password-stdin < $DOCKER_HUB_PW
+  script:
+    - docker build -t zaqxsw1397/nginx-react .
+    - docker push zaqxsw1397/nginx-react
+  after_script:
+    - docker logout
+  only:
+    - deploy
