@@ -44,7 +44,15 @@ public class BoardService {
             Minigame minigame;
             for (int i = 0; i < MINIGAME_CNT; i++) {
                 minigame = miniCellList.get((int) Math.floor(i % miniCellList.size()));
-                cellList.add(new MinigameResponseDto(minigame.getName(), 'M', minigame.getWinnerCnt(), minigame.getTime(), minigame.isTagger(), 0));
+                cellList.add(MinigameResponseDto.builder()
+                        .name(minigame.getName())
+                        .status('M')
+                        .winnerCnt(minigame.getWinnerCnt())
+                        .time(minigame.getTime())
+                        .tagger(minigame.isTagger())
+                        .order(0)
+                        .build()
+                );
             }
         }  // 미니게임 ON 끝
 
@@ -52,7 +60,12 @@ public class BoardService {
         int cellIdx = 0;
         while(cellList.size() < CELL_CNT) {
             cell = normalCellList.get((int) Math.floor(cellIdx++ % normalCellList.size()));
-            cellList.add(new CellResponseDto(cell.getName(), cell.getStatus(), 0));
+            cellList.add(CellResponseDto.builder()
+                    .name(cell.getName())
+                    .status(cell.getStatus())
+                    .order(0)
+                    .build()
+            );
         }
 
         Collections.shuffle(cellList);
