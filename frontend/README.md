@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # test
+=======
+# test _ develop
+>>>>>>> 078a3adc938b09ca27270f7e1cbfd40bd9258d7d
 
 # Getting Started with Create React App
 
