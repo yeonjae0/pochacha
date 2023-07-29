@@ -72,7 +72,7 @@ export default function Room() {
   /* 유영 : axios를 통한 닉네임 생성 및 방 생성 시작 */
   const start = () => {
     axios({
-      url : {REACT_APP_HOST},//"http://localhost:80/enter",
+	    url : process.env.NEXT_PUBLIC_HOST + "/enter",//"http://localhost:80/enter",
       header : {
         "Accept" : "application/json",
         "Content-type" : "aplic ation/json;charset=UTF-8"
@@ -97,7 +97,7 @@ export default function Room() {
     }, 2000);
 
     /* 유영 : 소켓 간단 연결 작업 시작 */
-    const socket = new SockJS({REACT_APP_HOST} + "/ws");
+    const socket = new SockJS(process.env.NEXT_PUBLIC_HOST + "/wss");
     // const socket = new SockJS("http://localhost:80/ws");
     const stompClient = Stomp.over(socket);
 

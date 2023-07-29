@@ -1,6 +1,6 @@
 FROM nginx
 
-COPY ./build /usr/share/nginx/html
+COPY ./out /usr/share/nginx/html
 
 RUN rm -rf /etc/nginx/nginx.conf
 
@@ -13,6 +13,6 @@ COPY ./cert/privkey.pem /etc/nginx
 COPY ./cert/options-ssl-nginx.conf /etc/nginx
 COPY ./cert/ssl-dhparams.pem /etc/nginx
 
-EXPOSE 80
+EXPOSE 443
 
 CMD ["nginx", "-g", "daemon off;"]
