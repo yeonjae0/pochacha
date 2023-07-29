@@ -6,10 +6,10 @@ function GetPage(){
     const [testId, setTestId] = useState(0);
     const [testInfo, setTestInfo] = useState("No Info");
 
-    const BASEURL = "https://ohogame.shop:8443"
+    // const BASEURL = "https://ohogame.shop:8443"
 
     useEffect(()=>{
-        axios.get(BASEURL + "/api/get")
+        axios.get({REACT_APP_HOST} + "/api/get")
         .then((res)=>{
             console.log(res)
             setTestId(res.data[0].id)

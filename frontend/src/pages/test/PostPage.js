@@ -5,10 +5,10 @@ function PostPage(){
     
     // const [testId, setTestId] = useState(0);
     const [info, setInfo] = useState("No Info");
-    const BASEURL = "https://ohogame.shop:8443"
+    // const BASEURL = "https://ohogame.shop:8443"
 
     const pressButton = (param) => {
-        axios.post(BASEURL + "/api/post", JSON.stringify({info: param}), {
+        axios.post({REACT_APP_HOST} + "/api/post", JSON.stringify({info: param}), {
 		headers: { "Content-Type": `application/json`}
             }).then((res)=>console.log(res))
     }
