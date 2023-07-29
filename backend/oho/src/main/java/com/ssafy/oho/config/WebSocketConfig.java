@@ -19,7 +19,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     }
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws") // 클라이언트가 접속할 웹 소켓의 주소
+        registry
+		.addEndpoint("/wss") // https 설정이 on 상태일 때 클라이언트가 접속할 웹 소켓의 주소
+		//.addEndpoint("/ws") // 클라이언트가 접속할 웹 소켓의 주소
                 .setAllowedOriginPatterns("*/*")
                 .withSockJS();
     }
