@@ -1,30 +1,37 @@
 stages:
-  - build
+  - build-react
+  - build-spring
   - docker-nr-build
   - docker-sa-build
   - deploy
 
 react-build:
-  stage: build
+  stage: build-react
   tags:
     - test
   image: node:18.16.1-alpine
   script: 
     - echo "Start building App"
-    - npm install
+    - cd frontend
+    - npm install .
+    - npm install next
+    - npm install @stomp/stompjs
+    - npm install sockjs-client
+    - npm install styled-components
+    - npm install react-bootstrap bootstrap
     - npm run build
+    - cd ..
     - echo "Build successfully!"
   artifacts:
     expire_in: 1 hour
     paths:
-      - build
-      - node_modules/
+      - target/out
   only:
     - deploy
 
 spring-build:
   image: openjdk:17-jdk-alpine # Dockerfile의 JDK 이미지
-  stage: build
+  stage: build-spring
   tags:
     - test
   script:
@@ -34,7 +41,7 @@ spring-build:
     - cd ../..
   artifacts:
     paths:
-      - build/libs/*.jar
+      - target/build/*.jar
     expire_in: 10 min
   only:
     - deploy
