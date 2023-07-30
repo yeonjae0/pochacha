@@ -1,0 +1,115 @@
+stages:
+  - build
+  - docker-nr-build
+  - docker-sa-build
+  - deploy
+
+react-build:
+  stage: build
+  tags:
+    - test
+  image: node:18.16.1-alpine
+  script: 
+    - echo "Start building App"
+    - npm install
+    - npm run build
+    - echo "Build successfully!"
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - build
+      - node_modules/
+  only:
+    - deploy
+
+spring-build:
+  image: openjdk:17-jdk-alpine # Dockerfile의 JDK 이미지
+  stage: build
+  tags:
+    - test
+  script:
+    - cd backend/oho
+    - ./gradlew clean
+    - ./gradlew build
+    - cd ../..
+  artifacts:
+    paths:
+      - build/libs/*.jar
+    expire_in: 10 min
+  only:
+    - deploy
+
+docker-nginx-react-build:
+  stage: docker-nr-build
+  tags:
+  - test
+  image: docker:latest
+  services: 
+    - docker:19.03.8-dind
+  before_script:
+    - docker login -u $DOCKER_HUB_USER --password-stdin < $DOCKER_HUB_PW
+  script:
+    - cd frontend
+    - docker build -t zaqxsw1397/nginx-react .
+    - docker push zaqxsw1397/nginx-react
+    - cd ..
+  after_script:
+    - docker logout
+  only:
+    - deploy
+
+docker-spring-api-build:
+  image: docker:latest
+  stage: docker-sa-build
+  tags:
+    - test
+  variables:
+    IMAGE_NAME: zaqxsw1397/spring-api
+  services:
+    - docker:19.03.8-dind
+  before_script:
+    - docker login -u $DOCKER_HUB_USER --password-stdin < $DOCKER_HUB_PW
+  script:
+    - cd backend/oho
+    - docker build -t $IMAGE_NAME .
+    - docker push $IMAGE_NAME
+    - cd ../..
+  after_script:
+    - docker logout
+  only:
+    - deploy
+
+deploy-nginx:
+  stage: deploy
+  tags:
+  - test
+  before_script:
+    - docker login -u $DOCKER_HUB_USER --password-stdin < $DOCKER_HUB_PW
+  script:
+    - docker stop NGINXREACT || true
+    - docker rm NGINXREACT || true
+    - docker rmi zaqxsw1397/spring-api || true
+    - docker pull zaqxsw1397/nginx-react
+    - docker run -d --restart always -p 8443:8443 --name SPRINGAPI zaqxsw1397/spring-api
+  after_script:
+    - docker logout
+  when: on_success
+  only:
+    - deploy
+
+deploy-was1:
+  stage: deploy
+  tags:
+    - test
+  before_script:
+    - docker login -u $DOCKER_HUB_USER --password-stdin < $DOCKER_HUB_PW
+  script:
+    - docker stop SPRINGAPI || true
+    - docker rm SPRINGAPI || true
+    - docker rmi zaqxsw1397/spring-api || true
+    - docker run -d --restart always -p 8443:8443 --name SPRINGAPI zaqxsw1397/spring-api
+  after_script:
+    - docker logout
+  when: on_success
+  only:
+    - deploy
