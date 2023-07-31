@@ -33,6 +33,9 @@ spring-build:
   stage: build-spring
   tags:
     - test
+  variables:
+    JAVA_HOME: "/usr/local/openjdk-17"
+    PATH: "$PATH:$JAVA_HOME/bin"
   script:
     - java -version
     - cd backend/oho
