@@ -36,7 +36,8 @@ spring-build:
   script:
     - java -version
     - cd backend/oho
-    - ./gradlew build
+    - .\gradlew --version
+    - .\gradlew build
   artifacts:
     paths:
       - /build/libs/*.jar
