@@ -11,6 +11,7 @@ import axios from 'axios';
 export default function Board() {
   
   let [roomId, setRoomId] = useState("Temp"); // 현재 방 ID (임의 삽입)
+  let [includeMini, setIncludeMini] = useState(true); // 미니게임 진행 여부
   let [dice, setDice] = useState(0); // 주사위
   let [pin, setPin] = useState(1); // 현재 위치
   let [lab, setLab] = useState(0); // 바퀴 수
@@ -26,9 +27,13 @@ export default function Board() {
       method : "POST",
       data : {
         "id" : roomId, // RoomRequestDto에 id 삽입
+        "includeMini" : includeMini // 미니게임 여부
       }
     }).then((response) => {
       console.log(response.data);
+      /*
+        TO DO :: Cell 색에 맞춰 배합
+      */
     });
   };
 
