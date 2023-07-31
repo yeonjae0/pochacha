@@ -40,7 +40,7 @@ spring-build:
     - .\gradlew build
   artifacts:
     paths:
-      - /build/libs/*.jar
+      - build/libs/*.jar
     expire_in: 10 min
 
 docker-nginx-react-build:
