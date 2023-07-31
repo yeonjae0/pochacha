@@ -24,16 +24,17 @@ react-build:
   artifacts:
     expire_in: 1 hour
     paths:
-      - /out
+      - out
+  only:
+      - deploy
 
 spring-build:
-  image: openjdk:17-jdk-alpine
+  image: gradle:jdk17
   stage: build-spring
   tags:
     - test
   script:
     - cd backend/oho
-    - ./gradlew clean
     - ./gradlew build
   artifacts:
     paths:
