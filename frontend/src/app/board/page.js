@@ -15,6 +15,7 @@ export default function Board() {
   let [dice, setDice] = useState(0); // 주사위
   let [pin, setPin] = useState(1); // 현재 위치
   let [lab, setLab] = useState(0); // 바퀴 수
+  let [client, setClicent] = useState({});
 
   // 현재 방의 맵 불러오는 함수
   const createMap = () => {
@@ -37,9 +38,33 @@ export default function Board() {
     });
   };
 
+  const connectSocket = () => {
+    client.current = Stomp.over(() => {
+      const sock = new SockJS("http://localhost:80/ws")
+      return sock;
+    });
+  }
+
+  const subscribeSocket = () => {
+    client.current.connect({}, () => {
+      // callback 함수 설정, 대부분 여기에 sub 함수 씀
+      client.current.subscribe(`/topic/move/${roomId}`, (response) => {
+        var data = JSON.parse(response.body);
+
+        setDice(data.dice);
+        setPin(data.pin);
+        setLab(data.lab);
+
+        console.log(data.cell);
+      });
+    });
+  }
+
   useEffect(() => {
     // 최초 한 번 CellList 불러오기
     createMap();
+    connectSocket();
+    subscribeSocket();
   }, []);
   
   return (
@@ -47,29 +72,14 @@ export default function Board() {
       <h1>보드게임 화면</h1>
 
       <button value="innerHTML" onClick={()=>{
-        let num = 6;
-        let dice = parseInt(Math.random() * num + 1); // 랜덤으로 주사위 숫자 추출
-        setDice(dice); // 말 수 변경
+        var sendData = {
+          "dice" : dice,
+          "pin" : pin,
+          "lab" : lab,
+        };
 
-        // 한 바퀴 돌 때마다 pin 갱신
-        {
-          pin+dice <= 24
-          ? (
-            setTimeout(()=>{ setPin(pin+dice) }, 1000)
-            // setPin(pin+dice)
-            )
-            : setTimeout(()=>{ setPin(pin+dice-24) }, 1000)
-          // : setPin(pin+dice-24)
-        }
-
-        // 한 바퀴 돌 때마다 lab state 변경
-        {
-          pin+dice <= 24
-          ? (
-            null
-          )
-          : setLab(lab+1);
-        }
+        // stompClient.send("/move/" + roomId, {}, JSON.stringify(sendData));
+        client.current.send("/move/" + roomId, {}, JSON.stringify(sendData));
 
       }}>주사위 굴리기</button>
 
