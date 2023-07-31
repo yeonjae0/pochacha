@@ -36,6 +36,8 @@ spring-build:
   script:
     - java -version
     - cd backend/oho
+    - export JAVA_HOME=/usr/local/openjdk-17
+    - echo $JAVA_HOME
     - .\gradlew --version
     - .\gradlew build
   artifacts:
