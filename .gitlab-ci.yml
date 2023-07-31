@@ -34,10 +34,9 @@ spring-build:
   tags:
     - test
   script:
-    - cd ../backend/oho
+    - cd backend/oho
     - ./gradlew clean
     - ./gradlew build
-    - cd ../..
   artifacts:
     paths:
       - /build/libs/*.jar
@@ -58,7 +57,6 @@ docker-nginx-react-build:
     - cd frontend
     - docker build -t zaqxsw1397/nginx-react .
     - docker push zaqxsw1397/nginx-react
-    - cd ..
   after_script:
     - docker logout
   only:
@@ -79,7 +77,6 @@ docker-spring-api-build:
     - cd backend/oho
     - docker build -t $IMAGE_NAME .
     - docker push $IMAGE_NAME
-    - cd ../..
   after_script:
     - docker logout
   only:
