@@ -5,7 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
-/* Entity는 유효성 검사가 필요 없으므로 Setter, Constructor 또한 Lombok으로 대체함 */
+/* Entity는 유효성 검사가 필요 없으므로 Lombok으로 대체함 */
 @Entity
 @Table(name="player",indexes = {
         @Index(name = "idx_nickname",columnList = "nickname"),
@@ -43,7 +43,9 @@ public class Player extends Base {
 
 /*
 C : 닉네임 입력 시 생성
-R : (1) 플레이어 자신의 정보 조회? (2) 관리자 모드에서 플레이어 목록 조회
+R : (1) 플레이어 자신의 정보 조회?
+    (2) 관리자 모드에서 플레이어 목록 조회
 U : X
-D : 접속 끊길 때 삭제 ( -> 접속 해제하는 플레이어가 방장일 경우에 해당 방의 방장 업데이트 필요 , PLAYERS.SIZE()==0일 경우 방 삭제 )
+D : 접속 끊길 때 삭제
+    ( -> 접속 해제하는 플레이어가 방장일 경우에 해당 방의 방장 업데이트 필요 , PLAYERS.SIZE()==0일 경우 방 삭제 )
  */

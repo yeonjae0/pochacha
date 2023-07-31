@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
-/* Entity는 유효성 검사가 필요 없으므로 Setter, Constructor 또한 Lombok으로 대체함 */
+/* Entity는 유효성 검사가 필요 없으므로 Lombok으로 대체함 */
 @Entity
 @Table(name="minigame")
 @Getter
@@ -36,12 +36,13 @@ public class Minigame extends Base{
     @Column(name="tagger",nullable = false)
     @ColumnDefault("0")
     private boolean tagger;
-    
+
 }
 
 /*
-C : 관리자 모드에서 게임 추가
-R : 관리자 모드에서 게임 목록 조회
-U : 관리자 모드에서 게임 수정
-D : 관리자 모드에서 게임 삭제
+C : 관리자 모드에서 Minigame 추가
+R : (1) Cell, Penalty와 함께 Cell List 구성하여 Random Board 생성
+    (2) 관리자 모드에서 Minigame 목록 조회
+U : 관리자 모드에서 Minigame 수정
+D : 관리자 모드에서 Minigame 삭제
  */
