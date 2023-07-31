@@ -10,12 +10,15 @@ import axios from 'axios';
 
 export default function Board() {
   
+  /*
+    TO DO :: 방 정보, 플레이어 정보 가져오기
+  */
   let [roomId, setRoomId] = useState("Temp"); // 현재 방 ID (임의 삽입)
   let [includeMini, setIncludeMini] = useState(true); // 미니게임 진행 여부
   let [dice, setDice] = useState(0); // 주사위
   let [pin, setPin] = useState(1); // 현재 위치
   let [lab, setLab] = useState(0); // 바퀴 수
-  let [client, setClicent] = useState({});
+  let [client, setClient] = useState({});
 
   // 현재 방의 맵 불러오는 함수
   const createMap = () => {
@@ -78,7 +81,6 @@ export default function Board() {
           "lab" : lab,
         };
 
-        // stompClient.send("/move/" + roomId, {}, JSON.stringify(sendData));
         client.current.send("/move/" + roomId, {}, JSON.stringify(sendData));
 
       }}>주사위 굴리기</button>
