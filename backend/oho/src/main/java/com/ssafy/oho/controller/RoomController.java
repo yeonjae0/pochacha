@@ -32,6 +32,9 @@ public class RoomController {
         this.playerService = playerService;
     }
 
+    /*
+    TO DO :: roomId를 OpenVidu SessionId로 대체
+    */
     @PostMapping(value="/enter")
     private ResponseEntity<?> setRoom(@RequestBody PlayerRequestDto playerRequestDto){
         try {
