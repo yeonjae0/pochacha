@@ -25,11 +25,9 @@ react-build:
     expire_in: 1 hour
     paths:
       - /out
-  only:
-    - deploy
 
 spring-build:
-  image: gradle:8.1.1
+  image: gradle:8.1.1-jdk17
   stage: build-spring
   tags:
     - test
@@ -41,8 +39,6 @@ spring-build:
     paths:
       - /build/libs/*.jar
     expire_in: 10 min
-  only:
-    - deploy
 
 docker-nginx-react-build:
   stage: docker-nr-build
@@ -59,8 +55,6 @@ docker-nginx-react-build:
     - docker push zaqxsw1397/nginx-react
   after_script:
     - docker logout
-  only:
-    - deploy
 
 docker-spring-api-build:
   image: docker:latest
@@ -79,8 +73,6 @@ docker-spring-api-build:
     - docker push $IMAGE_NAME
   after_script:
     - docker logout
-  only:
-    - deploy
 
 deploy-nginx:
   stage: deploy
