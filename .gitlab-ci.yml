@@ -34,6 +34,7 @@ spring-build:
   tags:
     - test
   script:
+    - java -version
     - cd backend/oho
     - ./gradlew build
   artifacts:
