@@ -8,7 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 import java.util.ArrayList;
 import java.util.List;
 
-/* Entity는 유효성 검사가 필요 없으므로 Setter, Constructor 또한 Lombok으로 대체함 */
+/* Entity는 유효성 검사가 필요 없으므로 Lombok으로 대체함 */
 @Entity
 @Table(name="room",indexes = {
         @Index(name="idx_room_secret",columnList = "secret"),
@@ -41,7 +41,9 @@ public class Room extends Base {
 
 /*
 C : 방장이 방 생성 ( -> 공유 URL 생성 )
-R : (1) 맵 띄울 때 해당 맵에 대한 정보와 플레이어들 정보 조회 (2) 관리자 모드에서 방 목록 조회
+R : (1) 맵 띄울 때 해당 맵에 대한 정보와 플레이어들 정보 조회
+    (2) 관리자 모드에서 방 목록 조회
 U : 방이름 업데이트
-D : PROGRESS==TRUE 상태에서 PLAYERS.SIZE()==0일 경우 방 삭제 ( -> 채팅 기록 삭제? )
+D : PROGRESS==TRUE 상태에서 PLAYERS.SIZE()==0일 경우 방 삭제
+    ( -> 채팅 기록 삭제? )
  */
