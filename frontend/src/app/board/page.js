@@ -4,12 +4,38 @@ import BoardMap from '../../routes/BoardMap';
 import DiceBox from '../../routes/DiceBox';
 import './../map.css';
 import { styled } from 'styled-components';
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
+import axios from 'axios';
 
 export default function Board() {
   
+  let [roomId, setRoomId] = useState("Temp"); // 현재 방 ID (임의 삽입)
   let [dice, setDice] = useState(0); // 주사위
   let [pin, setPin] = useState(1); // 현재 위치
   let [lab, setLab] = useState(0); // 바퀴 수
+
+  // 현재 방의 맵 불러오는 함수
+  const createMap = () => {
+    axios({
+      url : "http://localhost:80/board/cell",
+      header : {
+        "Accept" : "application/json",
+        "Content-type" : "application/json;charset=UTF-8"
+      },
+      method : "POST",
+      data : {
+        "id" : roomId, // RoomRequestDto에 id 삽입
+      }
+    }).then((response) => {
+      console.log(response.data);
+    });
+  };
+
+  useEffect(() => {
+    // 최초 한 번 CellList 불러오기
+    createMap();
+  }, []);
   
   return (
     <div>
