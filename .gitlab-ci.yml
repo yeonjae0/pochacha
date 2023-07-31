@@ -27,7 +27,7 @@ react-build:
       - /out
 
 spring-build:
-  image: gradle:8.1.1-jdk17
+  image: openjdk:17-jdk-alpine
   stage: build-spring
   tags:
     - test
