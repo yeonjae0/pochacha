@@ -13,9 +13,9 @@ const UserVideoComponent=({
     //turn,//차례
     //setTurn,//모두의 차례를 false로 초기화
 }) => {
-
-    const nickNameTag=JSON.parse(streamManager.stream.connection.data).nickName;
-    const id = JSON.parse(streamManager.stream.connection.data).id;
+    console.log(streamManager);
+    const nickNameTag=streamManager.stream.connection.data.nickName;
+    const id = streamManager.stream.connection.data.id;
    
    /* 
     CONFIRM :: useState() 활용해 FACE FILTER API 적용 여부 저장
