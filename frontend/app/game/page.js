@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
-import BoardMap from '../../routes/BoardMap'
-import DiceBox from '../../routes/DiceBox'
-import './../map.css'
+import { useState } from 'react'
+import BoardMap from './BoardMap.js'
+import DiceBox from './DiceBox.js'
+import './../css/Map.css'
 
 export default function Board() {
   

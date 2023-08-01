@@ -10,13 +10,13 @@
   margin: auto;
 }
 
-#diceBox > .dice_wrap {
+#diceBox>.dice_wrap {
   width: 100%;
   height: auto;
   margin-bottom: 20px;
 }
 
-#diceBox > .dice_wrap > [class^="dice"] .dice > div {
+#diceBox>.dice_wrap>[class^="dice"] .dice>div {
   position: absolute;
   top: 0;
   left: 0;
