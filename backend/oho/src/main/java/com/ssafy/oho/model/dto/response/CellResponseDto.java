@@ -8,5 +8,4 @@ import lombok.*;
 public class CellResponseDto {
     String name;
     char status;
-    int order;
 }

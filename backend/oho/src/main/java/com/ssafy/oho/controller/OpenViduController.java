@@ -30,6 +30,10 @@ public class OpenViduController {
      * @param params The Session properties
      * @return The Session ID
      */
+    /* Session ID 발급 API */
+    /*
+        TO DO :: Room UUID를 Session ID로 대체해 URL 생성
+     */
     @PostMapping("/api/sessions")
     public ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params)
             throws OpenViduJavaClientException, OpenViduHttpException {
@@ -43,6 +47,7 @@ public class OpenViduController {
      * @param params    The Connection properties
      * @return The Token associated to the Connection
      */
+    /* 연결 Token 발급 API */
     @PostMapping("/api/sessions/{sessionId}/connections")
     public ResponseEntity<String> createConnection(@PathVariable("sessionId") String sessionId,
                                                    @RequestBody(required = false) Map<String, Object> params)
