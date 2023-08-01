@@ -11,9 +11,7 @@ import com.ssafy.oho.util.exception.BoardGetException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class BoardService {
@@ -50,7 +48,6 @@ public class BoardService {
                         .winnerCnt(minigame.getWinnerCnt())
                         .time(minigame.getTime())
                         .tagger(minigame.isTagger())
-                        .order(0)
                         .build()
                 );
             }
@@ -63,7 +60,6 @@ public class BoardService {
             cellList.add(CellResponseDto.builder()
                     .name(cell.getName())
                     .status(cell.getStatus())
-                    .order(0)
                     .build()
             );
         }
@@ -71,5 +67,19 @@ public class BoardService {
         Collections.shuffle(cellList);
 
         return cellList;
+    }
+
+    public Map<String, Object> movePin(Map<String, Object> payload, String roomId) {
+        Map<String, Object> responsePayload = new HashMap<>();
+
+        int dice = (int) (Math.random() * 6) +1;
+        int pin = ((int) payload.get("pin") + dice) % 24;
+        int lab = (int) payload.get("lab");
+        if(pin < (int) payload.get("pin")) lab++;
+        responsePayload.put("dice", dice);
+        responsePayload.put("pin", pin);
+        responsePayload.put("lab", lab);
+
+        return responsePayload;
     }
 }
