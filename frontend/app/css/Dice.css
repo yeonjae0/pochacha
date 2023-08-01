@@ -1,0 +1,50 @@
+.dice0 {
+  width: 49%;
+  padding-top: 49%;
+  position: relative;
+}
+
+.dice_inner {
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  /* perspective: 0000px; */
+  padding: 20%;
+  box-sizing: border-box;
+
+}
+
+[class^="dice face"] {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: 1s;
+  position: relative;
+}
+
+/* 주사위 눈 */
+.dice.face1 {
+  transform: rotateX(0deg) rotateY(0deg);
+}
+
+.dice.face2 {
+  transform: rotateX(0deg) rotateY(-90deg);
+}
+
+.dice.face3 {
+  transform: rotateX(-90deg) rotateY(0deg);
+}
+
+.dice.face4 {
+  transform: rotateX(-270deg) rotateY(0deg);
+}
+
+.dice.face5 {
+  transform: rotateX(0deg) rotateY(-270deg);
+}
+
+.dice.face6 {
+  transform: rotateX(0deg) rotateY(-180deg);
+}
