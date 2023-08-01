@@ -1,7 +1,6 @@
 'use client'
 
 import styled from 'styled-components'
-// import { useState, useNavigate } from "react"
 
 export default function BoardItem() {
 
