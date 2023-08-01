@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react'
-import './../css/first.css'
+import './../css/First.css'
 import tip from '../../data/tip.js'
 
 export default function RightBox() {
