@@ -17,15 +17,17 @@ import java.util.regex.Pattern;
 @Service
 public class BoardService {
 
+    // StringRedisTemplate redisTemplate;
     CellRepository cellRepository;
     MinigameRepository minigameRepository;
     private final int MINIGAME_CNT = 4;
     private final int CELL_CNT = 24;
 
     @Autowired
-    private BoardService(CellRepository cellRepository, MinigameRepository minigameRepository) {
+    private BoardService(CellRepository cellRepository, MinigameRepository minigameRepository/*, StringRedisTemplate redisTemplate*/) {
         this.cellRepository = cellRepository;
         this.minigameRepository = minigameRepository;
+        // this.redisTemplate = redisTemplate;
     }
 
     public List<Object> getCell(RoomRequestDto roomRequestDto) throws BoardGetException {
@@ -34,6 +36,7 @@ public class BoardService {
             throw new BoardGetException();
         }
 
+        // HashOperations<String, String, Object> hashOperations = redisTemplate.opsForHash();
         List<Object> cellList = new ArrayList<>();
         List<Cell> normalCellList = cellRepository.findTop19Random();
         if(roomRequestDto.isIncludeMini()) { // 미니게임 ON 시작
