@@ -5,7 +5,7 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import UserVideoComponent from '../app/room/UserVideoComponent';
 
-const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
+const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? 'https://ohogame.shop:8443/' : 'https://demos.openvidu.io/';
 
 class RoomCam extends Component {
     constructor(props) {
