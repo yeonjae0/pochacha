@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
 import React, { useState, useEffect } from 'react'
-import './../css/first.css'
-import RightBox from './../first/RightBox.js'
-import RoomLink from './../first/RoomLink.js'
+import './../css/First.css'
+import RightBox from './RightBox.js'
+import RoomLink from './RoomLink.js'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import axios from 'axios'

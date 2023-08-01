@@ -1,4 +1,4 @@
-"use client"
+'use client'
 // 서버와 클라이언트의 랜덤초성 값이 매칭되지 않았음. 수정 필요!!
 
 import React, { useState, useEffect } from 'react';
