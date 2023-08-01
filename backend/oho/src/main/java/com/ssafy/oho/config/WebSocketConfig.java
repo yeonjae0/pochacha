@@ -5,10 +5,15 @@ import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.beans.factory.annotation.Value;
 
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+    @Value("${SOCKET_URL}")
+    private String SOCKET_URL;
+
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         /*
@@ -20,10 +25,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry
-		.addEndpoint("/wss") // https 설정이 on 상태일 때 클라이언트가 접속할 웹 소켓의 주소
-		//.addEndpoint("/ws") // 클라이언트가 접속할 웹 소켓의 주소
+		.addEndpoint(SOCKET_URL)
                 .setAllowedOriginPatterns("*/*")
                 .withSockJS();
     }
-
 }
