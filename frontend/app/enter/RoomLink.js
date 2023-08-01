@@ -5,7 +5,7 @@ import Router, { useRouter } from 'next/navigation'
 import './../css/First.css'
 import Link from 'next/link'
 
-export default function RoomLnpink(props) {
+export default function RoomLink(props) {
 
   let obj = props.obj
 

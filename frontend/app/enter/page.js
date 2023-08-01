@@ -31,27 +31,54 @@ export default function Room() {
   let [ready, setReady] = useState(false)
   const [text, setText] = useState('')
 
-  useEffect(() => {
+  
+  const gameStart = () => {
+    /* 유영 : axios를 통한 닉네임 생성 및 방 생성 시작 */
     axios({
-      url: "http://localhost:80/enter",
-      header: {
-        "Accept": "application/json",
-        "Content-type": "aplic ation/json;charset=UTF-8"
+      url : "http://localhost:80/enter",
+      header : {
+        "Accept" : "application/json",
+        "Content-type" : "aplic ation/json;charset=UTF-8"
       },
-      method: "POST",
-      data: {
-        nickname: text
+      method : "POST",
+      data : {
+        nickname : text
       }
     }).then((response) => {
-      console.log(response.data) // BE Object 출력 (확인용)
+      console.log(response.data);
       setRoomId(response.data.room.id)
       setProgress(response.data.room.progress)
       setSecret(response.data.room.secret)
       setNick(response.data.player.nickname)
       setPlayerId(response.data.player.id)
       setReady(response.data.player.ready)
-    })
-  }, [])
+    });
+    /* 유영 : axios를 통한 닉네임 생성 및 방 생성 끝 */
+  };
+
+
+  // useEffect(() => {
+  //   axios({
+  //     url: "http://localhost:80/enter",
+  //     header: {
+  //       "Accept": "application/json",
+  //       "Content-type": "aplic ation/json;charset=UTF-8"
+  //     },
+  //     method: "POST",
+  //     data: {
+  //       nickname: text
+  //     }
+  //   }).then((response) => {
+  //     console.log(response.data) // BE Object 출력 (확인용)
+  //     setRoomId(response.data.room.id)
+  //     setProgress(response.data.room.progress)
+  //     setSecret(response.data.room.secret)
+  //     setNick(response.data.player.nickname)
+  //     setPlayerId(response.data.player.id)
+  //     setReady(response.data.player.ready)
+  //   })
+  // }, [])
+
 
   /* 유영 : axios를 통한 닉네임 생성 및 방 생성 끝 */
   /* 희진 : axios 렌더링 타이밍 변경 끝 */
