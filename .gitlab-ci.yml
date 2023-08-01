@@ -14,35 +14,26 @@ react-build:
     - echo "Start building App"
     - cd frontend
     - npm install .
-    - npm install next
-    - npm install @stomp/stompjs
-    - npm install sockjs-client
-    - npm install styled-components
-    - npm install react-bootstrap bootstrap
     - npm run build
     - echo "Build successfully!"
   artifacts:
     expire_in: 1 hour
     paths:
-      - /out
-  only:
-    - deploy
+      - ./out
 
 spring-build:
-  image: gradle:8.1.1
+  image: gradle:jdk17
   stage: build-spring
   tags:
     - test
   script:
+    - java -version
     - cd backend/oho
-    - ./gradlew clean
-    - ./gradlew build
+    - .\gradlew build
   artifacts:
     paths:
-      - /build/libs/*.jar
+      - ./build/libs/*.jar
     expire_in: 10 min
-  only:
-    - deploy
 
 docker-nginx-react-build:
   stage: docker-nr-build
@@ -52,15 +43,13 @@ docker-nginx-react-build:
   services: 
     - docker:19.03.8-dind
   before_script:
-    - docker login -u $DOCKER_HUB_USER --password-stdin < $DOCKER_HUB_PW
+    - echo "$DOCKER_HUB_PW" | docker login -u "$DOCKER_HUB_USER" --password-stdin
   script:
     - cd frontend
     - docker build -t zaqxsw1397/nginx-react .
     - docker push zaqxsw1397/nginx-react
   after_script:
     - docker logout
-  only:
-    - deploy
 
 docker-spring-api-build:
   image: docker:latest
@@ -79,8 +68,6 @@ docker-spring-api-build:
     - docker push $IMAGE_NAME
   after_script:
     - docker logout
-  only:
-    - deploy
 
 deploy-nginx:
   stage: deploy
