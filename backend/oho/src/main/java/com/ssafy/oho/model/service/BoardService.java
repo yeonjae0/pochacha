@@ -64,7 +64,7 @@ public class BoardService {
             // 이벤트인 경우
             if(cell.getStatus() == 'E') {
                 // 턴제 확인
-                if (cell.getName().contains("한 칸") || cell.getName().contains("한칸")) turn = true;
+                if (cell.getName().contains("한 턴") || cell.getName().contains("한턴")) turn = true;
 
                 // 이동 확인
                 else if (cell.getName().contains("한 칸 앞")) move = 1;
