@@ -53,7 +53,9 @@ public class BoardController {
     public void movePin(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
 
         Map<String, Object> responsePayload = boardService.movePin(payload, roomId);
-        responsePayload.put("cell", roomMap.get(roomId).get((int) responsePayload.get("pin")));
+        responsePayload.put("cell", roomMap.get(roomId).get(((int) responsePayload.get("pin")) - 1));
+
+        // 임시 cell 구분
 
         webSocket.convertAndSend("/topic/move/" + roomId, responsePayload/* 임시 값 저장 */);
     }

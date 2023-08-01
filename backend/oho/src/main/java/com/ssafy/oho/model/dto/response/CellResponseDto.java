@@ -6,6 +6,9 @@ import lombok.*;
 @Builder
 @Getter
 public class CellResponseDto {
-    String name;
-    char status;
+    private String name;
+    private char status;
+    private int time;
+    private int move;
+    private boolean turn;
 }

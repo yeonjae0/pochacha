@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 @Service
 public class BoardService {
@@ -57,9 +58,27 @@ public class BoardService {
         int cellIdx = 0;
         while(cellList.size() < CELL_CNT) {
             cell = normalCellList.get((int) Math.floor(cellIdx++ % normalCellList.size()));
+
+            boolean turn = false;
+            int move = 0;
+            // 이벤트인 경우
+            if(cell.getStatus() == 'E') {
+                // 턴제 확인
+                if (cell.getName().contains("한 칸") || cell.getName().contains("한칸")) turn = true;
+
+                // 이동 확인
+                else if (cell.getName().contains("한 칸 앞")) move = 1;
+                else if (cell.getName().contains("한 칸 뒤")) move = 2;
+                else if (cell.getName().contains("두 칸 앞")) move = -1;
+                else if (cell.getName().contains("두 칸 뒤")) move = -2;
+            }
+
             cellList.add(CellResponseDto.builder()
                     .name(cell.getName())
                     .status(cell.getStatus())
+                    .turn(turn)
+                    .move(move)
+                    .time(cell.getTime())
                     .build()
             );
         }
@@ -73,9 +92,13 @@ public class BoardService {
         Map<String, Object> responsePayload = new HashMap<>();
 
         int dice = (int) (Math.random() * 6) +1;
+
         int pin = ((int) payload.get("pin") + dice) % 24;
+        if(pin < 0) pin += 24;
+
         int lab = (int) payload.get("lab");
         if(pin < (int) payload.get("pin")) lab++;
+
         responsePayload.put("dice", dice);
         responsePayload.put("pin", pin);
         responsePayload.put("lab", lab);
