@@ -1,4 +1,6 @@
 "use client";
+/* 속도가 느리나, JS 문법 사용 가능*/
+
 import { OpenVidu } from 'openvidu-browser';
 
 import axios from 'axios';
