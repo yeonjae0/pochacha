@@ -94,7 +94,7 @@ public class PlayerService {
             }
             ConnectionProperties properties = new ConnectionProperties
                     .Builder()
-                    .role(OpenViduRole.SUBSCRIBER)
+                    .role(OpenViduRole.PUBLISHER)
                     .data("Player")
                     .build();
             Connection connection = session.createConnection(properties);
