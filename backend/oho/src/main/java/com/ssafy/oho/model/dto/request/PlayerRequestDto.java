@@ -20,4 +20,7 @@ public class PlayerRequestDto {
 //    private int score;
 //    private Penalty penalty;
 //    private String ipAddress;
+
+    /* 혜지 : OpenVidu Token 추가 */
+    private String token;
 }
