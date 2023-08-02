@@ -35,32 +35,27 @@ export default function RoomChat({ info }) {
   const subscribeChat = () => {
     client.current.connect({}, () => {
       client.current.subscribe(`/topic/chat/${info.roomId}`, (response) => {  // 채팅 구독 url
-        var data = JSON.parse(response.body)
-        setChat(chat + data.playerId + " : " + data.message)
-        console.log("chat : ", chat)
+        var data = JSON.parse(response.body);
+        console.log(data.playerId + ": " + data.message);
       })
     })
   }
   /* 유영 : Socket을 이용한 채팅 함수 끝 */
   
   return (
-    <div>
-      <textarea readOnly value={chat} />
-      <div>
-        <input type="text "
-          value={message}
-          onChange={handleOnChange}
-          onKeyDown={enterDown}
-          />
-        <button onClick={() => {
-          var sendData = {
-            "playerId": 1,
-            "message": message,
-          };
-          
-          client.current.send("/chat/" + info.roomId, {}, JSON.stringify(sendData));
-        }}>전송</button>
-      </div>
+    <div id="send">
+      <input type="text" className="chatInput"
+        value={message}
+        onChange={handleOnChange}
+        onKeyDown={enterDown}
+        />
+      <button className="sendBtn" onClick={() => {
+        var sendData = {
+          "playerId": info.nick,
+          "message": message,
+        };
+        client.current.send("/chat/" + info.roomId, {}, JSON.stringify(sendData));
+      }}>전송</button>
     </div>
   )
 }
