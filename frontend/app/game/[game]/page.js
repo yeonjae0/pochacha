@@ -39,28 +39,29 @@ export default function Board( props ) {
   /*
   TO DO :: 방 정보, 플레이어 정보 가져오기
   */
- let [roomId, setRoomId] = useState("Temp"); // 현재 방 ID (임의 삽입)
+//  let [roomId, setRoomId] = useState("Temp"); // 현재 방 ID (임의 삽입)
  let [includeMini, setIncludeMini] = useState(true); // 미니게임 진행 여부
  let [dice, setDice] = useState(0); // 주사위
  let [pin, setPin] = useState(1); // 현재 위치
  let [lab, setLab] = useState(0); // 바퀴 수
- let [client, setClient] = useState({});
- let [currentCell, setCurrentCell] = useState('')
- let [showModal, setShowModal] = useState(false);
- 
+ let [client, setClient] = useState({});  
+ let [currentCell, setCurrentCell] = useState('')  //현재 셀 이름 
+ let [showModal, setShowModal] = useState(false); 
+ let roomId = ''
  /* 제정 : 룸에서 시작버튼 눌렀을 시 데이터 수신 시작 */
- useEffect(() => {
-   console.log('Game page')
-   const info = JSON.parse(props.searchParams.roomInfo)
-   console.log(info)
-   roomId = info.roomId
-  },[]);
-  /* 제정 : 룸에서 시작버튼 눌렀을 시 데이터 수신 끝 */
+//  useEffect(() => {
+//   console.log('Game page')
+//   const info = JSON.parse(props.searchParams.roomInfo)
+//   console.log(info)
+//   roomId = info.roomId
+//   },[]);
+  /* 제정 : 룸에서 시작버튼 눌렀을 시 데이터 수신 끝   -> 코드 아래로 이동*/ 
   
   // 현재 방의 맵 불러오는 함수
   const createMap = () => {
     console.log(`before axios`)
     console.log(roomId)
+    console.log('룸')
     axios({
       url : "http://localhost:80/board/cell",
       header : {
@@ -73,6 +74,7 @@ export default function Board( props ) {
           "includeMini" : includeMini // 미니게임 여부
         }
     }).then((response) => {
+      console.log('여기 룸아이디 들어와따' + response.data.id);
       console.log(response.data);
       /*
         TO DO :: Cell 색에 맞춰 배합
@@ -110,9 +112,14 @@ export default function Board( props ) {
 
   useEffect(() => {
     // 최초 한 번 CellList 불러오기
+    console.log('useEffect1')
+    console.log('Game page')
+    const info = JSON.parse(props.searchParams.roomInfo)
+    console.log(info)
+    let roomId = info.roomId
     createMap();
     connectSocket();
-    subscribeSocket();    
+    subscribeSocket();
   }, []);
   
   /////////////////////    모달 연습 (미완)
@@ -130,6 +137,7 @@ export default function Board( props ) {
   const ModalPage = ({ currentCell, pin }) => {
 
   useEffect(() => {
+    console.log('useEffect2')
     if (showModal) {
       document.body.style.overflow = 'hidden';
     } else {
