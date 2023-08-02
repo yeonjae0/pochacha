@@ -7,10 +7,10 @@ import { styled } from 'styled-components'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import axios from 'axios'
-
+import { Transition } from 'react-transition-group'
 
 ///// 임시 작업중 
-/// 해야할 것: 모듈 창 꾸미기
+/// 해야할 것: 모듈 창 꾸미기, 모듈 자동으로 차차 사라지게 하기
 const ModalContainer = styled.div`
   position: fixed;
   top: 0;
@@ -23,44 +23,35 @@ const ModalContainer = styled.div`
   justify-content: center;
   /* transition: visibility 0.5s ease-out; */
   `;
-
-const ModalContent = styled.div`
-  background: linear-gradient(180deg, #F5A063 0%, #F9C7A2 49.48%, #F2AE7D 100%); 
+  
+  const ModalContent = styled.div`
+  background-color: white;
   padding: 70px;
   /* transition: visibility 0.5s ease-out; */
-  border-radius: 30px;
-  width: 300px;
-  height: 100px;
-`;
-
-
-export default function Board( props ) {
-  console.log(props)
-  /*
-  TO DO :: 방 정보, 플레이어 정보 가져오기
-  */
- let [roomId, setRoomId] = useState("Temp"); // 현재 방 ID (임의 삽입)
- let [includeMini, setIncludeMini] = useState(true); // 미니게임 진행 여부
- let [dice, setDice] = useState(0); // 주사위
- let [pin, setPin] = useState(1); // 현재 위치
- let [lab, setLab] = useState(0); // 바퀴 수
- let [client, setClient] = useState({});
- let [currentCell, setCurrentCell] = useState('')
- let [showModal, setShowModal] = useState(false);
- 
- /* 제정 : 룸에서 시작버튼 눌렀을 시 데이터 수신 시작 */
- useEffect(() => {
-   console.log('Game page')
-   const info = JSON.parse(props.searchParams.roomInfo)
-   console.log(info)
-   roomId = info.roomId
-  },[]);
-  /* 제정 : 룸에서 시작버튼 눌렀을 시 데이터 수신 끝 */
+  border-radius: 20px;
+  `;
   
+  
+  /////
+  
+  
+  
+export default function Board( props ) {
+  /* 제정 : 룸에서 시작버튼 눌렀을 시 roomId 전달 */
+  const info = JSON.parse(props.searchParams.roomInfo)
+  
+  let [roomId, setRoomId] = useState(info.roomId); // 현재 방 ID (임의 삽입)
+  let [includeMini, setIncludeMini] = useState(true); // 미니게임 진행 여부
+  let [dice, setDice] = useState(0); // 주사위
+  let [pin, setPin] = useState(1); // 현재 위치
+  let [lab, setLab] = useState(0); // 바퀴 수
+  let [client, setClient] = useState({});
+  let [currentCell, setCurrentCell] = useState('')
+  let [showModal, setShowModal] = useState(false);
+ 
   // 현재 방의 맵 불러오는 함수
-  const createMap = () => {
-    console.log(`before axios`)
-    console.log(roomId)
+  const createMap = async() => {
+    console.log("before axios roomId", roomId)
     axios({
       url : "http://localhost:80/board/cell",
       header : {
