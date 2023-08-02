@@ -9,26 +9,72 @@ import com.ssafy.oho.util.exception.RoomDeleteException;
 import com.ssafy.oho.util.exception.RoomGetException;
 import com.ssafy.oho.util.exception.RoomSetException;
 import com.ssafy.oho.util.exception.RoomUpdateException;
+import io.openvidu.java.client.*;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.Map;
 
 @Service
 public class RoomService {
 
     private final RoomRepository roomRepository;
 
+    @Autowired
     private RoomService(RoomRepository roomRepository){
         this.roomRepository=roomRepository;
     }
 
-    /* 방 만들기 전까지는 String 타입의 메시지로 전달 */
-    public RoomResponseDto setRoom(PlayerRequestDto playerRequestDto) throws RoomSetException {
+    public RoomResponseDto setRoom(PlayerRequestDto playerRequestDto, OpenVidu openVidu) throws RoomSetException {
         try {
-            // 랜덤 방 UID 생성
+
+            /* 혜지 : 방 Session ID 발급으로 변경 */
             String id;
-            do {
-                id = RandomStringUtils.random(12, true, true);
-            } while(roomRepository.existsById(id));
+
+            /**
+             *
+             * 여기부터 주석 해제하면 됩니다
+             *
+             */
+//            do {
+//                id = RandomStringUtils.random(12, true, true);
+//            } while(roomRepository.existsById(id));
+
+            /**
+             *
+             * 여기까지 주석 해제하면 됩니다
+             *
+             */
+
+            //---------------------------------------------------------------
+
+            /**
+             *
+             *
+             * 여기부터 주석 처리하면 됩니다
+             *
+             */
+
+            SessionProperties properties = new SessionProperties
+                    .Builder()
+                    .build();
+            Session session = openVidu.createSession(properties);
+
+            id=session.getSessionId(); //VALUE EXAMPLE : "ses_JM9v0nfD1l"
+
+            /**
+             *
+             * 여기까지 주석 처리하면 됩니다
+             *
+             *
+             */
 
             /*** Entity Build ***/
             Room room = Room.builder()
@@ -46,7 +92,7 @@ public class RoomService {
 
             return roomResponseDto;
 
-        } catch(Exception e) {
+        } catch(Exception e) { //OpenViduJavaClientException, OpenViduHttpException, ...
             System.out.println(e.getMessage());
             throw new RoomSetException();
         }

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import './../css/First.css'
+import './../css/Enter.css'
 import RightBox from './RightBox.js'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
@@ -84,14 +84,15 @@ export default function Room() {
   /* 유영 : axios를 통한 닉네임 생성 및 방 생성 끝 */
   /* 희진 : axios 렌더링 타이밍 변경 끝 */
 
-  return (
+  const tmp = (
     <div className="first" >
 
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <img src="/tent.png" />
-        <br />
-        <img src="/logo.png" />
-        <br />
+      {/* <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}> */}
+      <div className="title">
+        {/* <img src="/tent.png" />
+        <br /> */}
+        <img src="/main/title.png" />
+        {/* <br /> */}
       </div>
 
       <div style={{ display: 'flex' }}>
@@ -117,6 +118,37 @@ export default function Room() {
       </div>
     </div>
   )
+
+  return (
+    <div className="first" >
+      {/* 타이틀 화면 */}
+      <div className="title">
+        <img src="/main/title.png" />
+      </div>
+
+      <div className="boxContainer">
+        {/* 닉네임 입력 상자 */}
+        <div className="box leftBox">
+          <div className="cam"> {/* 임시 화상화면 상자 */}
+          </div>
+          <div className="inputContainer">
+            <input className="nickname" spellCheck="false"
+                placeholder="닉네임을 입력해주세요."
+                value={text}
+                onChange={handleOnChange}
+                onKeyDown={enterDown}
+              />
+          </div>
+          <button className="startContainer" onClick={gameStart}>
+            <img id="startBtn" src="/main/startBtn.png" />
+          </button>
+        </div>
+        <div className="box rightBox">
+          <RightBox />  
+        </div>
+      </div>
+    </div>
+  );
 };
 
 Room.useClient = true;

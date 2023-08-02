@@ -11,7 +11,10 @@ import com.ssafy.oho.util.exception.PlayerDeleteException;
 import com.ssafy.oho.util.exception.PlayerGetException;
 import com.ssafy.oho.util.exception.PlayerSetException;
 import com.ssafy.oho.util.exception.PlayerUpdateException;
+import io.openvidu.java.client.*;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -29,9 +32,10 @@ public class PlayerService {
         this.playerRepository = playerRepository;
         this.roomRepository = roomRepository;
     }
-    public PlayerResponseDto setHead(PlayerRequestDto playerRequestDto, RoomResponseDto roomResponseDto) throws PlayerSetException {
+    public PlayerResponseDto setHead(PlayerRequestDto playerRequestDto, RoomResponseDto roomResponseDto, OpenVidu openVidu) throws PlayerSetException {
+        System.out.println("PLAYER SERVECE: SET HEAD");
         try {
-            PlayerResponseDto playerResponseDto = setPlayer(playerRequestDto, roomResponseDto);
+            PlayerResponseDto playerResponseDto = setPlayer(playerRequestDto, roomResponseDto, openVidu);
             Player head = playerRepository.findById(playerResponseDto.getId());
 
             /*** Entity Build ***/
@@ -41,6 +45,7 @@ public class PlayerService {
                     .room(head.getRoom())
                     .head(true)
                     .ready(head.isReady())
+                    .token(head.getToken())
                     .build();
 
             playerRepository.save(head);
@@ -52,6 +57,7 @@ public class PlayerService {
                     .roomId(head.getRoom().getId())
                     .head(head.isHead())
                     .ready(head.isReady())
+                    .token(head.getToken())
                     .build();
 
             return playerResponseDto;
@@ -59,9 +65,11 @@ public class PlayerService {
             throw new PlayerSetException();
         }
     }
-    public PlayerResponseDto setPlayer(PlayerRequestDto playerRequestDto, RoomResponseDto roomResponseDto) throws PlayerSetException {
+    public PlayerResponseDto setPlayer(PlayerRequestDto playerRequestDto, RoomResponseDto roomResponseDto, OpenVidu openVidu) throws PlayerSetException {
+        System.out.println("PLAYER SERVICE: SET PLAYER");
         try {
-            Room room = roomRepository.findById(roomResponseDto.getId());
+            String roomId=roomResponseDto.getId();
+            Room room = roomRepository.findById(roomId);
             // 방이 존재하지 않을 경우
             // 플레이어가 4명 이상인 경우
             // (확인 필요) 게임이 이미 시작된 경우
@@ -79,11 +87,40 @@ public class PlayerService {
                         new Random().nextInt(10000);  // 랜덤 닉네임 생성
             }
 
+            /* 혜지 : OpenVidu Token 발급 */
+
+            /**
+             *
+             * 여기부터 주석 처리하면 됩니다
+             *
+             */
+
+            Session session = openVidu.getActiveSession(roomId);
+            if (session == null) {
+                throw new PlayerSetException();
+            }
+            ConnectionProperties properties = new ConnectionProperties
+                    .Builder()
+                    .role(OpenViduRole.PUBLISHER)
+                    .data("Player")
+                    .build();
+            Connection connection = session.createConnection(properties);
+            String token=connection.getToken();//VALUE EXAMPLE : "wss://localhost:4443?sessionId=ses_JM9v0nfD1l&token=tok_MIYGGzuDQb8Xf1Qd"
+
+            /**
+             *
+             * 여기까지 주석 처리하면 됩니다
+             * 아래 한 줄 주석 해제하기!
+             *
+             */
+            //String token="임시토큰";
+
             /*** Entity Build ***/
             Player player = Player.builder()
                     .room(room)
                     .nickname(nickname)
                     .head(false)
+                    .token(token)
                     .build();
 
             playerRepository.save(player);
@@ -95,10 +132,11 @@ public class PlayerService {
                     .roomId(player.getRoom().getId())
                     .head(player.isHead())
                     .ready(player.isReady())
+                    .token(player.getToken())
                     .build();
 
             return playerResponseDto;
-        } catch (Exception e) {
+        } catch (Exception e) {//OpenViduJavaClientException, OpenViduHttpException, ...
             throw new PlayerSetException();
         }
     }
@@ -114,10 +152,12 @@ public class PlayerService {
                     .roomId(player.getRoom().getId())
                     .head(player.isHead())
                     .ready(player.isReady())
+                    .token(player.getToken())
                     .build();
 
             return playerResponseDto;
         } catch(Exception e) {
+            System.out.println(e.getMessage());
             throw new PlayerGetException();
         }
     }
@@ -126,6 +166,9 @@ public class PlayerService {
         try {
             /*
                 TO DO :: 본인인지 확인하는 로직 필요
+             */
+            /*
+                CONFIRM :: 재입장 하는 경우 토큰 재발급 필요
              */
             Player player = playerRepository.findById(playerRequestDto.getId());
 
@@ -136,6 +179,7 @@ public class PlayerService {
                     .roomId(player.getRoom().getId())
                     .head(player.isHead())
                     .ready(player.isReady())
+                    .token(player.getToken())
                     .build();
 
             return playerResponseDto;
