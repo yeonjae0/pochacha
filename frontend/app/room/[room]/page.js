@@ -9,7 +9,6 @@ import RoomBtn from '../RoomBtn.js'
 
 export default function Room(props) {
 
-  console.log(props)
   let info = JSON.parse(props.searchParams.currentName)
 
   return (
@@ -23,7 +22,8 @@ export default function Room(props) {
       <h3>준비 : {info.ready.toString()}</h3>
       
       <RoomCam />
-      <RoomBtn />
+      {/* 버튼에 룸 정보 전달 */}
+      <RoomBtn info={info}/>
       <RoomChat info={info}/>
     </div>
   )
