@@ -7,10 +7,10 @@ import { styled } from 'styled-components'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import axios from 'axios'
-import { Transition } from 'react-transition-group'
+
 
 ///// 임시 작업중 
-/// 해야할 것: 모듈 창 꾸미기, 모듈 자동으로 차차 사라지게 하기
+/// 해야할 것: 모듈 창 꾸미기
 const ModalContainer = styled.div`
   position: fixed;
   top: 0;
@@ -25,10 +25,12 @@ const ModalContainer = styled.div`
   `;
 
 const ModalContent = styled.div`
-  background-color: white;
+  background: linear-gradient(180deg, #F5A063 0%, #F9C7A2 49.48%, #F2AE7D 100%); 
   padding: 70px;
   /* transition: visibility 0.5s ease-out; */
-  border-radius: 20px;
+  border-radius: 30px;
+  width: 300px;
+  height: 100px;
 `;
 
 
