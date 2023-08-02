@@ -4,8 +4,10 @@ import styled from 'styled-components'
 import { usePathname } from 'next/navigation'
 import { useState, useNavigate } from "react"
 
-export default function RoomBtn() {
-
+export default function RoomBtn( props ) {
+  const roomInfo = props.info
+  console.log(`Room Button Info: ${roomInfo.roomId}`)
+  
   let CopyBtn = styled.button`
   width: 219px;
   height: 158px;
@@ -34,6 +36,14 @@ export default function RoomBtn() {
   }
   /* 희진 : JS 클립보드 API 끝 */
 
+  /* 제정 : 시작 버튼 클릭 시 메인 게임 이동 시작 */
+  const startGame = () => {
+    const pathname = `/game/${roomInfo.roomId}`
+    const query = { roomInfo: JSON.stringify(roomInfo) }
+    window.location.href = `${pathname}?${new URLSearchParams(query).toString()}`
+  }
+  /* 제정 : 시작 버튼 클릭 시 메인 게임 이동 끝 */
+
   return (
     <div>
       <button className="setting-btn" onClick={() => { setSetting(!setting); }}>
@@ -44,11 +54,7 @@ export default function RoomBtn() {
         친구 초대
       </CopyBtn>
 
-      {/* 희진 : 시작 버튼 클릭 -> 메인 게임 이동 (수정) */}
-      <StartBtn className="startBtn" onClick={() => {
-        let navigate = useNavigate();
-        navigate("/game");
-      }}>
+      <StartBtn className="startBtn" onClick={startGame}>
         시작
       </StartBtn>
     </div>
