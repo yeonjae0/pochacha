@@ -1,7 +1,9 @@
 body {
-  margin: 0; /* 기본 margin 없애기 */
-  padding: 0; /* 기본 padding 없애기 */
-  background-color: #DF7339; 
+  margin: 0;
+  /* 기본 margin 없애기 */
+  padding: 0;
+  /* 기본 padding 없애기 */
+  background-color: #DF7339;
 }
 
 .first {
@@ -64,7 +66,8 @@ input {
 
 .rightBox {
   position: absolute;
-  width: 488px;;
+  width: 488px;
+  ;
   height: 542px;
   left: 855px;
   margin-top: 10px;
