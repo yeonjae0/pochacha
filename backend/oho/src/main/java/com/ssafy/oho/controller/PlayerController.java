@@ -29,6 +29,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PlayerController {
 
     /* 혜지 : OpenViduController RoomController 통합 작업 */
+    /* 
+        CONFIRM :: OpenVidu 객체가 RoomController를 포함하여 총 두 개 생성되므로 고민 필요
+     */
     @Value("${OPENVIDU_URL}")
     private String OPENVIDU_URL;
 
