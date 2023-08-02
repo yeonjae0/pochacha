@@ -39,6 +39,10 @@ public class Player extends Base {
     private boolean ready = false;
 
     /* 혜지 : score, 벌칙 참조, ip 주소 칼럼 삭제 */
+
+    /* 혜지 : OpenVidu Token 저장 */
+    @Column(name="token",nullable = false)
+    private String token;
 }
 
 /*
