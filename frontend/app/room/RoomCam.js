@@ -318,10 +318,14 @@ class RoomCam extends Component {
     );
   }
 
-  /*
-      CONFIRM :: 백엔드 서버를 통하도록 설정
-  */
+
   /* 혜지 : 기존 API 통해서 생성하도록 구현 */
+
+  /**
+   * 
+   * 여기서부터 주석 해제하면 됩니다
+   * 
+   */
   
 //   async getToken() {
 //     const sessionId = await this.createSession(this.state.mySessionId);
