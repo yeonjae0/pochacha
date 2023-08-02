@@ -132,7 +132,7 @@ class RoomCam extends Component {
         this.getToken().then((token) => {
           // First param is the token got from the OpenVidu deployment. Second param can be retrieved by every user on event
           // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
-          mySession.connect(token, { clientData: this.state.myUserName })
+          mySession.connect(token, { clientData: this.state.myUserName, publisher:true })/* 혜지 : 모든 사용자 PUBLISHER 지정 */
             .then(async () => {
 
               // 자신의 카메라 스트리밍하기
