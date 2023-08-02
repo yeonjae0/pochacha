@@ -1,8 +1,8 @@
 "use client"
 import { useEffect, useState, useRef } from 'react'
-import BoardMap from './BoardMap.js'
-import DiceBox from './DiceBox.js'
-import './../css/Map.css'
+import BoardMap from './../BoardMap.js'
+import DiceBox from './../DiceBox.js'
+import './../../css/Map.css'
 import { styled } from 'styled-components'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
@@ -34,37 +34,44 @@ const ModalContent = styled.div`
 `;
 
 
-/////
-
-
-
-export default function Board() {
-  
+export default function Board( props ) {
+  console.log(props)
   /*
-    TO DO :: 방 정보, 플레이어 정보 가져오기
+  TO DO :: 방 정보, 플레이어 정보 가져오기
   */
-  let [roomId, setRoomId] = useState("Temp"); // 현재 방 ID (임의 삽입)
-  let [includeMini, setIncludeMini] = useState(true); // 미니게임 진행 여부
-  let [dice, setDice] = useState(0); // 주사위
-  let [pin, setPin] = useState(1); // 현재 위치
-  let [lab, setLab] = useState(0); // 바퀴 수
-  let [client, setClient] = useState({});
-  let [currentCell, setCurrentCell] = useState('')
-  let [showModal, setShowModal] = useState(false);
-
+ let [roomId, setRoomId] = useState("Temp"); // 현재 방 ID (임의 삽입)
+ let [includeMini, setIncludeMini] = useState(true); // 미니게임 진행 여부
+ let [dice, setDice] = useState(0); // 주사위
+ let [pin, setPin] = useState(1); // 현재 위치
+ let [lab, setLab] = useState(0); // 바퀴 수
+ let [client, setClient] = useState({});
+ let [currentCell, setCurrentCell] = useState('')
+ let [showModal, setShowModal] = useState(false);
+ 
+ /* 제정 : 룸에서 시작버튼 눌렀을 시 데이터 수신 시작 */
+ useEffect(() => {
+   console.log('Game page')
+   const info = JSON.parse(props.searchParams.roomInfo)
+   console.log(info)
+   roomId = info.roomId
+  },[]);
+  /* 제정 : 룸에서 시작버튼 눌렀을 시 데이터 수신 끝 */
+  
   // 현재 방의 맵 불러오는 함수
   const createMap = () => {
+    console.log(`before axios`)
+    console.log(roomId)
     axios({
       url : "http://localhost:80/board/cell",
       header : {
         "Accept" : "application/json",
         "Content-type" : "application/json;charset=UTF-8"
-      },
-      method : "POST",
-      data : {
-        "id" : roomId, // RoomRequestDto에 id 삽입
-        "includeMini" : includeMini // 미니게임 여부
-      }
+        },
+        method : "POST",
+        data : {
+          "id" : roomId, // RoomRequestDto에 id 삽입
+          "includeMini" : includeMini // 미니게임 여부
+        }
     }).then((response) => {
       console.log(response.data);
       /*
@@ -72,26 +79,26 @@ export default function Board() {
       */
     });
   };
-
+    
   const connectSocket = () => {
     client.current = Stomp.over(() => {
       const sock = new SockJS("http://localhost:80/ws")
       return sock;
     });
   }
-
+  
   const subscribeSocket = () => {
     client.current.connect({}, () => {
       // callback 함수 설정, 대부분 여기에 sub 함수 씀
       client.current.subscribe(`/topic/move/${roomId}`, (response) => {
         let data = JSON.parse(response.body);
         let currentCell = data.cell.name
-
+        
         setDice(data.dice);
         setPin(data.pin);
         setLab(data.lab);
         setCurrentCell(data.cell.name)
-
+        
         console.log(data.cell);
         console.log(data.cell.name)
         console.log('*********');
@@ -100,13 +107,13 @@ export default function Board() {
     });
   }
 
+
   useEffect(() => {
     // 최초 한 번 CellList 불러오기
     createMap();
     connectSocket();
-    subscribeSocket();
+    subscribeSocket();    
   }, []);
-
   
   /////////////////////    모달 연습 (미완)
   
@@ -122,13 +129,13 @@ export default function Board() {
   
   const ModalPage = ({ currentCell, pin }) => {
 
-useEffect(() => {
-  if (showModal) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = 'initial';
-  }
-}, [showModal]);
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'initial';
+    }
+  }, [showModal]);
 
 
   return (
@@ -144,8 +151,7 @@ useEffect(() => {
       )}
       
     </>
-  );
-};
+  )};
 
 //////////////////////
   return (
