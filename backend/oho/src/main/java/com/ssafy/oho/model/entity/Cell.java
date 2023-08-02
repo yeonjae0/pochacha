@@ -30,7 +30,7 @@ public class Cell extends Base {
     /* 혜지 : Cell별 제한시간 추가 */
     @Column(name="time")
     @ColumnDefault("0")
-    private String time;
+    private int time;
 
 }
 

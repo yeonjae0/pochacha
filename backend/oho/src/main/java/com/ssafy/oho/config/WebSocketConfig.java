@@ -10,10 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
-
     @Value("${SOCKET_URL}")
     private String SOCKET_URL;
-
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         /*
@@ -25,8 +23,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry
-		.addEndpoint(SOCKET_URL)
+		.addEndpoint("/wss", "/ws")
                 .setAllowedOriginPatterns("*/*")
                 .withSockJS();
     }
 }
+

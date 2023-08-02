@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-
-@CrossOrigin(origins = "*")
 @RestController
+@CrossOrigin(origins = "*")
 public class OpenViduController {
     @Value("${OPENVIDU_URL}")
     private String OPENVIDU_URL;
@@ -23,6 +22,7 @@ public class OpenViduController {
 
     @PostConstruct
     public void init() {
+        System.out.println("CREATE OPENVIDU OBJECT");
         this.openvidu = new OpenVidu(OPENVIDU_URL, OPENVIDU_SECRET);
     }
 
@@ -37,11 +37,18 @@ public class OpenViduController {
     @PostMapping("/api/sessions")
     public ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params)
             throws OpenViduJavaClientException, OpenViduHttpException {
-	System.out.println("Session ID 발급 시작");
-        SessionProperties properties = SessionProperties.fromJson(params).build();
+        System.out.println("OPENVIDU CONTROLLER : initializeSession");
+	System.out.println("OPENVIDU URL: " + OPENVIDU_URL);
+	System.out.println("OPENVIDU SECRET: " + OPENVIDU_SECRET);
+        SessionProperties properties = new SessionProperties
+                .Builder()
+                .build();
         Session session = openvidu.createSession(properties);
         return new ResponseEntity<>(session.getSessionId(), HttpStatus.OK);
     }
+    /*
+      RETURN VALUE EXAMPLE : "ses_JM9v0nfD1l"
+     */
 
     /**
      * @param sessionId The Session in which to create the Connection
@@ -53,13 +60,21 @@ public class OpenViduController {
     public ResponseEntity<String> createConnection(@PathVariable("sessionId") String sessionId,
                                                    @RequestBody(required = false) Map<String, Object> params)
             throws OpenViduJavaClientException, OpenViduHttpException {
-	System.out.println("연결 Token 발급 시작");
+        System.out.println("OPENVIDU CONTROLLER : createConnection");
         Session session = openvidu.getActiveSession(sessionId);
         if (session == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        ConnectionProperties properties = ConnectionProperties.fromJson(params).build();
+        ConnectionProperties properties = new ConnectionProperties
+                .Builder()
+                .role(OpenViduRole.PUBLISHER)
+                .data("Player")
+                .build();
         Connection connection = session.createConnection(properties);
+
         return new ResponseEntity<>(connection.getToken(), HttpStatus.OK);
     }
+    /*
+    RETURN VALUE EXAMPLE : "wss://localhost:4443?sessionId=ses_JM9v0nfD1l&token=tok_MIYGGzuDQb8Xf1Qd"
+     */
 }
