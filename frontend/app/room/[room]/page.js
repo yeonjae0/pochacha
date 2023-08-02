@@ -21,11 +21,11 @@ export default function Room(props) {
       <h3>닉네임 : {info.nick}</h3>
       <h3>아이디 : {info.playerId.toString()}</h3>
       <h3>준비 : {info.ready.toString()}</h3>
-      
+
       <RoomCam />
       {/* 버튼에 룸 정보 전달 */}
-      <RoomBtn info={info}/>
-      <RoomChat info={info}/>
+      <RoomBtn info={info} />
+      <RoomChat info={info} />
     </div>
   )
 
@@ -51,9 +51,9 @@ export default function Room(props) {
             </div>
           </div>
         </div>
-        <RoomChat info={info}/>
+        <RoomChat info={info} />
         <RoomCam />
-      <RoomBtn info={info}/>
+        <RoomBtn info={info} />
       </div>
     </div>
   )
