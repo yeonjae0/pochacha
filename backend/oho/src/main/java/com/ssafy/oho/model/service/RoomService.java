@@ -25,38 +25,28 @@ import java.util.Map;
 @Service
 public class RoomService {
 
-//    @Value("${OPENVIDU_URL}")
-//    private String OPENVIDU_URL;
-//
-//    @Value("${OPENVIDU_SECRET}")
-//    private String OPENVIDU_SECRET;
-
     private final RoomRepository roomRepository;
- //   private final OpenVidu openVidu;
-
-
-    /*
-    기존 OpenVidu Controller에서는 생성자 선언 시에 @PostConstruct를 사용했음.
-    @PostConstruct란
-    종속성 주입이 완료된 후 실행되어야 하는 메소드에 사용하는 것으로,
-    의존성 주입이 끝나고 실행됨과 빈이 하나만 생성됨을 보장함.
-    그러나 서비스 단에서 구현하는 것을 고려할 때, @Autowired를 사용하는 것으로 결정함.
-     */
 
     @Autowired
     private RoomService(RoomRepository roomRepository){
         this.roomRepository=roomRepository;
-        //this.openVidu=new OpenVidu(OPENVIDU_URL,OPENVIDU_SECRET);
     }
 
-    /* 혜지 : OpenVidu Controller의 initializeSession과 createConnection을 RoomService에서 선언 */
-    public RoomResponseDto setRoom(PlayerRequestDto playerRequestDto) throws RoomSetException {
+    public RoomResponseDto setRoom(PlayerRequestDto playerRequestDto, OpenVidu openVidu) throws RoomSetException {
         try {
-            // 랜덤 방 UID 생성
+
+            /* 혜지 : 방 Session ID 발급으로 변경 */
             String id;
-            do {
-                id = RandomStringUtils.random(12, true, true);
-            } while(roomRepository.existsById(id));
+//            do {
+//                id = RandomStringUtils.random(12, true, true);
+//            } while(roomRepository.existsById(id));
+
+            SessionProperties properties = new SessionProperties
+                    .Builder()
+                    .build();
+            Session session = openVidu.createSession(properties);
+
+            id=session.getSessionId(); //VALUE EXAMPLE : "ses_JM9v0nfD1l"
 
             /*** Entity Build ***/
             Room room = Room.builder()
@@ -74,7 +64,7 @@ public class RoomService {
 
             return roomResponseDto;
 
-        } catch(Exception e) {
+        } catch(Exception e) { //OpenViduJavaClientException, OpenViduHttpException, ...
             System.out.println(e.getMessage());
             throw new RoomSetException();
         }
@@ -163,53 +153,4 @@ public class RoomService {
         }
 
     }
-
-    /* 혜지 : OpenVidu 관련 API 메소드 추가 */
-
-//    /**
-//     * @param params The Session properties
-//     * @return The Session ID
-//     */
-//    /* Session ID 발급 API -> RoomId로 활용 */
-//    @PostMapping("/api/sessions")
-//    public ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params)
-//            throws OpenViduJavaClientException, OpenViduHttpException {
-//        System.out.println("OPENVIDU API CALL : initializeSession");
-//        SessionProperties properties = new SessionProperties
-//                .Builder()
-//                .build();
-//        Session session = openVidu.createSession(properties);
-//        return new ResponseEntity<>(session.getSessionId(), HttpStatus.OK);
-//    }
-//    /*
-//      RETURN VALUE EXAMPLE : "ses_JM9v0nfD1l"
-//     */
-//
-//    /**
-//     * @param sessionId The Session in which to create the Connection
-//     * @param params    The Connection properties
-//     * @return The Token associated to the Connection
-//     */
-//    /* 연결 Token 발급 API */
-//    @PostMapping("/api/sessions/{sessionId}/connections")
-//    public ResponseEntity<String> createConnection(@PathVariable("sessionId") String sessionId,
-//                                                   @RequestBody(required = false) Map<String, Object> params)
-//            throws OpenViduJavaClientException, OpenViduHttpException {
-//        System.out.println("OPENVIDU API CALL : createConnection");
-//        Session session = openVidu.getActiveSession(sessionId);
-//        if (session == null) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        ConnectionProperties properties = new ConnectionProperties
-//                .Builder()
-//                .role(OpenViduRole.PUBLISHER)
-//                .data("Player")
-//                .build();
-//        Connection connection = session.createConnection(properties);
-//
-//        return new ResponseEntity<>(connection.getToken(), HttpStatus.OK);
-//    }
-//    /*
-//    RETURN VALUE EXAMPLE : "wss://localhost:4443?sessionId=ses_JM9v0nfD1l&token=tok_MIYGGzuDQb8Xf1Qd"
-//     */
 }
