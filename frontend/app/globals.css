@@ -1,3 +1,40 @@
+@font-face {
+  font-family: 'NanumSquareRound';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   /* background-color: #DF7339; */
+}
+
+* {
+  font-family: 'NanumSquareRound';
+  -webkit-touch-callout: none;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+
+  margin: 0;
+  padding: 0;
+}
+
+input {
+  padding: 0 30px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 3px solid white;
+  border-radius: 80px;  
+}
+input:focus {
+  outline: none;
+}
+button > img:active {
+  filter: brightness(0.8);
+}
+
+button {
+  background: none;
+  border: none;
 }

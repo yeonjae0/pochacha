@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react'
-import './../css/First.css'
+import './../css/Enter.css'
 import tip from '../../data/tip.js'
 
 export default function RightBox() {
@@ -32,25 +32,32 @@ export default function RightBox() {
   /* 우측 Box 화면 전환 끝 */
   
   return (
-  <div className='rightBox'>
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      <br />
-      <br />
-      <p id="tip">{currentTip.title}</p>
-      <img src={currentTip.pic} />
-      <p>{currentTip.txt1}</p>
-      <p>{currentTip.txt2}</p>
-      
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <button className="arrowButton" onClick={togglePrev}>
-            <span>&#8592;</span>
-        </button>
-        <button className="arrowButton" onClick={toggleNext}>
-          <span>&#8594;</span>
-        </button>
+    <div className="innerBox">
+      <div id="tipTitle">{currentTip.title}</div>
+      <div id="tipContainer">
+        <button className="arrow leftArrow" onClick={togglePrev}><img src="/main/leftArrow.png "/></button>
+        <div id="tipContent">
+          <img src={currentTip.pic} />
+          <p>{currentTip.txt1}</p>
+          <p>{currentTip.txt2}</p>
+        </div>
+        <button className="arrow rightArrow" onClick={toggleNext}><img src="/main/rightArrow.png "/></button>
       </div>
   
+    {/* <div className='rightBox'>
+    <p id="tipTitle">{currentTip.title}</p>
+    <img src={currentTip.pic} />
+    <p>{currentTip.txt1}</p>
+    <p>{currentTip.txt2}</p>
+      
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      <button className="arrowButton" onClick={togglePrev}>
+          <span>&#8592;</span>
+      </button>
+      <button className="arrowButton" onClick={toggleNext}>
+        <span>&#8594;</span>
+      </button>
+    </div> */}
     </div>
-  </div>
   )
 }
