@@ -37,9 +37,30 @@ public class RoomService {
 
             /* 혜지 : 방 Session ID 발급으로 변경 */
             String id;
+
+            /**
+             *
+             * 여기부터 주석 해제하면 됩니다
+             *
+             */
 //            do {
 //                id = RandomStringUtils.random(12, true, true);
 //            } while(roomRepository.existsById(id));
+
+            /**
+             *
+             * 여기까지 주석 해제하면 됩니다
+             *
+             */
+
+            //---------------------------------------------------------------
+
+            /**
+             *
+             *
+             * 여기부터 주석 처리하면 됩니다
+             *
+             */
 
             SessionProperties properties = new SessionProperties
                     .Builder()
@@ -47,6 +68,13 @@ public class RoomService {
             Session session = openVidu.createSession(properties);
 
             id=session.getSessionId(); //VALUE EXAMPLE : "ses_JM9v0nfD1l"
+
+            /**
+             *
+             * 여기까지 주석 처리하면 됩니다
+             *
+             *
+             */
 
             /*** Entity Build ***/
             Room room = Room.builder()

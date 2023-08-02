@@ -88,17 +88,32 @@ public class PlayerService {
             }
 
             /* 혜지 : OpenVidu Token 발급 */
+
+            /**
+             *
+             * 여기부터 주석 처리하면 됩니다
+             *
+             */
+
             Session session = openVidu.getActiveSession(roomId);
             if (session == null) {
                 throw new PlayerSetException();
             }
             ConnectionProperties properties = new ConnectionProperties
                     .Builder()
-                    .role(OpenViduRole.SUBSCRIBER)
+                    .role(OpenViduRole.PUBLISHER)
                     .data("Player")
                     .build();
             Connection connection = session.createConnection(properties);
             String token=connection.getToken();//VALUE EXAMPLE : "wss://localhost:4443?sessionId=ses_JM9v0nfD1l&token=tok_MIYGGzuDQb8Xf1Qd"
+
+            /**
+             *
+             * 여기까지 주석 처리하면 됩니다
+             * 아래 한 줄 주석 해제하기!
+             *
+             */
+            //String token="임시토큰";
 
             /*** Entity Build ***/
             Player player = Player.builder()
