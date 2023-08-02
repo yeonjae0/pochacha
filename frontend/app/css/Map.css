@@ -32,7 +32,6 @@
   z-index: 1;
   /* bottom: 10%;
   left: 50%; */
-
 }
 
 #b1-l {
@@ -44,7 +43,6 @@
   bottom: 0;
   background: #262626;
   transform: matrix(0.87, 0.5, 0, 1, 560, -47);
-
 }
 
 #b1-r {
@@ -56,7 +54,7 @@
   bottom: 0;
   z-index: 1;
   background: #000000;
-  transform: matrix(0.87, -0.5, 0, 1, 640, -47);
+  transform: matrix(0.87, -0.5, 0, 1, 640, -47 );
 }
 
 #b2-t {
