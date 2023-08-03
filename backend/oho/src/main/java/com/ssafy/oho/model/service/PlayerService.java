@@ -17,6 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Service
@@ -32,10 +35,10 @@ public class PlayerService {
         this.playerRepository = playerRepository;
         this.roomRepository = roomRepository;
     }
-    public PlayerResponseDto setHead(PlayerRequestDto playerRequestDto, RoomResponseDto roomResponseDto, OpenVidu openVidu) throws PlayerSetException {
+    public PlayerResponseDto setHead(PlayerRequestDto playerRequestDto, String roomId, OpenVidu openVidu) throws PlayerSetException {
         System.out.println("PLAYER SERVECE: SET HEAD");
         try {
-            PlayerResponseDto playerResponseDto = setPlayer(playerRequestDto, roomResponseDto, openVidu);
+            PlayerResponseDto playerResponseDto = setPlayer(playerRequestDto, roomId, openVidu);
             Player head = playerRepository.findById(playerResponseDto.getId());
 
             /*** Entity Build ***/
@@ -54,7 +57,6 @@ public class PlayerService {
             playerResponseDto = PlayerResponseDto.builder()
                     .id(head.getId())
                     .nickname(head.getNickname())
-                    .roomId(head.getRoom().getId())
                     .head(head.isHead())
                     .ready(head.isReady())
                     .token(head.getToken())
@@ -65,10 +67,9 @@ public class PlayerService {
             throw new PlayerSetException();
         }
     }
-    public PlayerResponseDto setPlayer(PlayerRequestDto playerRequestDto, RoomResponseDto roomResponseDto, OpenVidu openVidu) throws PlayerSetException {
+    public PlayerResponseDto setPlayer(PlayerRequestDto playerRequestDto, String roomId, OpenVidu openVidu) throws PlayerSetException {
         System.out.println("PLAYER SERVICE: SET PLAYER");
         try {
-            String roomId=roomResponseDto.getId();
             Room room = roomRepository.findById(roomId);
             // 방이 존재하지 않을 경우
             // 플레이어가 4명 이상인 경우
@@ -115,7 +116,6 @@ public class PlayerService {
             PlayerResponseDto playerResponseDto = PlayerResponseDto.builder()
                     .id(player.getId())
                     .nickname(player.getNickname())
-                    .roomId(player.getRoom().getId())
                     .head(player.isHead())
                     .ready(player.isReady())
                     .token(player.getToken())
@@ -135,7 +135,6 @@ public class PlayerService {
             PlayerResponseDto playerResponseDto = PlayerResponseDto.builder()
                     .id(player.getId())
                     .nickname(player.getNickname())
-                    .roomId(player.getRoom().getId())
                     .head(player.isHead())
                     .ready(player.isReady())
                     .token(player.getToken())
@@ -148,21 +147,74 @@ public class PlayerService {
         }
     }
 
-    public PlayerResponseDto updatePlayer(PlayerRequestDto playerRequestDto) throws PlayerUpdateException {
+    public List<PlayerResponseDto> getPlayersByRoomId(PlayerRequestDto playerRequestDto, String roomId) throws PlayerGetException {
+
         try {
-            /*
-                TO DO :: 본인인지 확인하는 로직 필요
-             */
-            /*
-                CONFIRM :: 재입장 하는 경우 토큰 재발급 필요
-             */
+            /*** 유효성 검사 ***/
+            // 현재 방의 플레이어 존재 확인
             Player player = playerRepository.findById(playerRequestDto.getId());
+            if(player == null || player.getId() <= 0 || !player.getRoom().getId().equals(roomId)){
+                throw new PlayerGetException();
+            }
+
+            // 방 유효성 확인
+            Room room = roomRepository.findById(roomId);
+            if(room == null || room.getId().trim().equals("")){
+                throw new PlayerGetException();
+            }
+
+            List<Player> playerList = roomRepository.findById(roomId).getPlayers();
+            List<PlayerResponseDto> playerResponseDtoList = new ArrayList<>();
+
+            for(Player p : playerList) {
+                /*** Response DTO Builder ***/
+                playerResponseDtoList.add(PlayerResponseDto.builder()
+                        .id(p.getId())
+                        .nickname(p.getNickname())
+                        .head(p.isHead())
+                        .ready(p.isReady())
+                        .token(p.getToken())
+                        .build()
+                );
+            }
+
+            return playerResponseDtoList;
+
+        } catch(Exception e) {
+            e.printStackTrace();
+            throw new PlayerGetException();
+        }
+    }
+
+    public PlayerResponseDto updatePlayer(Map<String, Object> payload, String roomId) throws PlayerUpdateException {
+
+        try {
+            /*** 유효성 검사 ***/
+            // 플레이어 존재 확인
+            Player player = playerRepository.findById((Long) payload.get("id"));
+            if (player == null || player.getId() <= 0 || !player.getRoom().getId().equals(roomId)) {
+                throw new PlayerUpdateException();
+            }
+            String nickname = (payload.containsKey("nickname")) ? (String) payload.get("nickname") : player.getNickname();
+            boolean ready = (payload.containsKey("ready")) ? (boolean) payload.get("ready") : player.isReady();
+
+            /*
+                TO DO :: 추후 Redis 임시 데이터로 수정 예정
+             */
+            /*** Entity Build ***/
+            player = Player.builder()
+                    .id(player.getId())
+                    .nickname(nickname)
+                    .head(player.isHead())
+                    .ready(ready)
+                    .token(player.getToken())
+                    .build();
+            playerRepository.save(player);
 
             /*** Response DTO Build ***/
             PlayerResponseDto playerResponseDto = PlayerResponseDto.builder()
                     .id(player.getId())
                     .nickname(player.getNickname())
-                    .roomId(player.getRoom().getId())
                     .head(player.isHead())
                     .ready(player.isReady())
                     .token(player.getToken())

@@ -7,7 +7,7 @@ import com.ssafy.oho.model.entity.Cell;
 import com.ssafy.oho.model.entity.Minigame;
 import com.ssafy.oho.model.repository.CellRepository;
 import com.ssafy.oho.model.repository.MinigameRepository;
-import com.ssafy.oho.util.exception.BoardGetException;
+import com.ssafy.oho.util.exception.GameGetException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 @Service
-public class BoardService {
+public class GameService {
 
     // StringRedisTemplate redisTemplate;
     CellRepository cellRepository;
@@ -24,16 +24,16 @@ public class BoardService {
     private final int CELL_CNT = 24;
 
     @Autowired
-    private BoardService(CellRepository cellRepository, MinigameRepository minigameRepository/*, StringRedisTemplate redisTemplate*/) {
+    private GameService(CellRepository cellRepository, MinigameRepository minigameRepository/*, StringRedisTemplate redisTemplate*/) {
         this.cellRepository = cellRepository;
         this.minigameRepository = minigameRepository;
         // this.redisTemplate = redisTemplate;
     }
 
-    public List<Object> getCell(RoomRequestDto roomRequestDto) throws BoardGetException {
+    public List<Object> getCell(RoomRequestDto roomRequestDto) throws GameGetException {
         /* 유효성 검사 */
         if(roomRequestDto.isProgress()) {  // 게임이 이미 시작 중일 경우
-            throw new BoardGetException();
+            throw new GameGetException();
         }
 
         // HashOperations<String, String, Object> hashOperations = redisTemplate.opsForHash();
