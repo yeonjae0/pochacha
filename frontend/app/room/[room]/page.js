@@ -52,7 +52,7 @@ export default function Room(props) {
           </div>
         </div>
         <RoomChat info={info} />
-        <RoomCam />
+        <RoomCam info={info}/>
         <RoomBtn info={info} />
       </div>
     </div>

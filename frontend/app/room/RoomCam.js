@@ -14,6 +14,7 @@ import UserVideoComponent from './UserVieoComponent'
 const APPLICATION_SERVER_URL = 'http://localhost:80/'
 
 class RoomCam extends Component {
+  
   constructor(props) {
     super(props);
 
@@ -230,6 +231,7 @@ class RoomCam extends Component {
   }
 
   render() {
+    {console.log(this.props);}
     const mySessionId = this.state.mySessionId;
     const myUserName = this.state.myUserName;
 
@@ -327,30 +329,30 @@ class RoomCam extends Component {
    * 
    */
   
-  // async getToken() {
-  //   const sessionId = await this.createSession(this.state.mySessionId);
-  //   return await this.createToken(sessionId);
-  // }
+  async getToken() {
+    const sessionId = await this.createSession(this.state.mySessionId);
+    return await this.createToken(sessionId);
+  }
 
-  // async createSession(sessionId) {
-  //   console.log("CREATESESSION API CALL");
-  //   console.log("REQUEST : "+sessionId);
-  //   const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', { customSessionId: sessionId }, {
-  //     headers: { 'Content-Type': 'application/json', },
-  //   });
-  //   console.log("RESPONSE : " + response.data);
-  //   return response.data; // The sessionId
-  // }
+  async createSession(sessionId) {
+    console.log("CREATESESSION API CALL");
+    console.log("REQUEST : "+sessionId);
+    const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', { customSessionId: sessionId }, {
+      headers: { 'Content-Type': 'application/json', },
+    });
+    console.log("RESPONSE : " + response.data);
+    return response.data; // The sessionId
+  }
 
-  // async createToken(sessionId) {
-  //   console.log("CREATETOKEN API CALL");
-  //   console.log("REQUEST : "+sessionId);
-  //   const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
-  //     headers: { 'Content-Type': 'application/json', },
-  //   });
-  //   console.log("RESPONSE : ", response.data);
-  //   return response.data; // The token
-  // }
+  async createToken(sessionId) {
+    console.log("CREATETOKEN API CALL");
+    console.log("REQUEST : "+sessionId);
+    const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
+      headers: { 'Content-Type': 'application/json', },
+    });
+    console.log("RESPONSE : ", response.data);
+    return response.data; // The token
+  }
 }
 
 export default RoomCam

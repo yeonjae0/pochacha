@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './../css/Enter.css'
 import RightBox from './RightBox.js'
 import SockJS from 'sockjs-client'
@@ -35,6 +35,30 @@ export default function Room() {
   // let [nick, setNick] = useState('')
   // let [playerId, setPlayerId] = useState(0)
   // let [ready, setReady] = useState(false)
+
+  /* 혜지 : 웹캠 화면 띄우기 위한 구현 시작 */
+  let videoRef=useRef(null);
+
+  const getUserCamera=()=>{
+    navigator.mediaDevices.getUserMedia({
+      video:true
+    })
+    .then((stream)=>{
+      let video=videoRef.current;
+      video.srcObject=stream;
+      video.play();
+    })
+    .catch((error)=>{
+      console.log("WEBCAM ERROR");
+    })
+  }
+
+  useEffect(()=>{
+    getUserCamera();
+  },[videoRef])
+
+  /* 혜지 : 웹캠 화면 띄우기 위한 구현 끝 */
+
   const [text, setText] = useState('')
   
   const handleOnChange = (e) => {
@@ -129,8 +153,7 @@ export default function Room() {
       <div className="boxContainer">
         {/* 닉네임 입력 상자 */}
         <div className="box leftBox">
-          <div className="cam"> {/* 임시 화상화면 상자 */}
-          </div>
+          <video className='cam' ref={videoRef}/> {/* WEBCAM 화면 */}
           <div className="inputContainer">
             <input className="nickname" spellCheck="false"
                 placeholder="닉네임을 입력해주세요."
