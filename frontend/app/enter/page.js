@@ -120,9 +120,9 @@ export default function Room() {
   )
 
   return (
-    <div className="first" >
+    <div className="enter" >
       {/* 타이틀 화면 */}
-      <div className="title">
+      <div className="roof">
         <img src="/main/title.png" />
       </div>
 

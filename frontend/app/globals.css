@@ -6,7 +6,16 @@
 }
 
 body {
-  /* background-color: #DF7339; */
+  margin: 0;
+  padding: 0;
+  
+  width: 100vw;
+  height: 100vh;
+
+  background-image: url("../public/game/background.png");
+  background-size: cover;
+  background-position: center;
+	background-repeat: no-repeat;
 }
 
 * {
@@ -37,4 +46,14 @@ button > img:active {
 button {
   background: none;
   border: none;
+}
+
+.roof {
+  position: absolute;
+  padding-bottom: 10px;
+  width: 100%;
+  height: 80px;
+
+  background-image: url("../public/roof.png");
+  background-size: cover;
 }
