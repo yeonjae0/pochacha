@@ -154,7 +154,7 @@ export default function Room() {
       <div className="boxContainer">
         {/* 닉네임 입력 상자 */}
         <div className="box leftBox">
-          <video className='cam' ref={videoRef}/> WEBCAM 화면
+          <video className='cam' ref={videoRef} /> {/*WEBCAM 화면*/}
           {/* <div id="ar-screen" style="display: none">
             <canvas class="deepar" id="deepar-canvas"></canvas>
           </div> */}
