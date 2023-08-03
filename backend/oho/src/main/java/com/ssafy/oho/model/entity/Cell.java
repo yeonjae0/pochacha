@@ -23,7 +23,8 @@ public class Cell extends Base {
     @ColumnDefault("'N'")
     private char status;
 
-    @Column(name="name",nullable = false, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8")
+    /* 혜지 : 길이 50으로 fix */
+    @Column(name="name",nullable = false, columnDefinition = "VARCHAR(50) CHARACTER SET UTF8")
     @ColumnDefault("'무명의 칸'")
     private String name;
 
