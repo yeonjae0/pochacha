@@ -4,8 +4,8 @@ import com.ssafy.oho.model.dto.request.PlayerRequestDto;
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.CellResponseDto;
 import com.ssafy.oho.model.entity.Cell;
-import com.ssafy.oho.model.service.BoardService;
-import com.ssafy.oho.util.exception.BoardGetException;
+import com.ssafy.oho.model.service.GameService;
+import com.ssafy.oho.util.exception.GameGetException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,29 +21,29 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("board")
+@RequestMapping("game")
 @CrossOrigin
-public class BoardController {
-    private BoardService boardService;
+public class GameController {
+    private GameService gameService;
     private SimpMessagingTemplate webSocket;
     private Map<String, List<Object>> roomMap = new HashMap<>();  // <게임 ID, 각 칸의 정보>
 
     @Autowired
-    private BoardController(SimpMessagingTemplate webSocket, BoardService boardService) {
+    private GameController(SimpMessagingTemplate webSocket, GameService gameService) {
         this.webSocket = webSocket;
-        this.boardService = boardService;
+        this.gameService = gameService;
     }
 
     @PostMapping("cell")
     private ResponseEntity<?> getCell(@RequestBody RoomRequestDto roomRequestDto) {
         try {
             if(!roomMap.containsKey(roomRequestDto.getId())) {
-                List<Object> cellList = boardService.getCell(roomRequestDto);
+                List<Object> cellList = gameService.getCell(roomRequestDto);
                 roomMap.put(roomRequestDto.getId(), cellList);
             }
 
             return ResponseEntity.ok(roomMap.get(roomRequestDto.getId()));
-        } catch(BoardGetException e) {
+        } catch(GameGetException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -52,7 +52,7 @@ public class BoardController {
     @MessageMapping("/move/{roomId}")
     public void movePin(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
 
-        Map<String, Object> responsePayload = boardService.movePin(payload, roomId);
+        Map<String, Object> responsePayload = gameService.movePin(payload, roomId);
         responsePayload.put("cell", roomMap.get(roomId).get(((int) responsePayload.get("pin")) - 1));
 
         // 임시 cell 구분
