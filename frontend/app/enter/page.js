@@ -97,7 +97,8 @@ export default function Room() {
         'secret': response.data.room.secret,
         'nick': text || response.data.player.nickname,
         'playerId': response.data.player.id,
-        'ready': response.data.player.ready }
+        'ready': response.data.player.ready,
+        'token' : response.data.player.token }
 
       /* response 값 저장 후 room으로 이동 */
         const pathname = `/room/${response.data.room.id}`

@@ -22,7 +22,7 @@ export default function Room(props) {
       <h3>아이디 : {info.playerId}</h3>
       <h3>준비 : {info.ready}</h3>
       
-      <RoomCam />
+      <RoomCam info={info} />
       {/* 버튼에 룸 정보 전달 */}
       <RoomBtn info={info} />
       <RoomChat info={info} />

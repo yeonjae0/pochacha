@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import OpenViduVideoComponent from './OvVideo.js'
 import './../css/UserVideo.css'
+
 /*
     비디오 화면과 각각의 사용자 세팅을 결합하는 컴포넌트
     기존의 클래스 형식을 변경함!
@@ -9,6 +10,7 @@ const UserVideoComponent = ({
   streamManager,//방장
   sub,//방장을 제외한 참여자
   ownerId,//접속한 id
+  nickname,
   //turn,//차례
   //setTurn,//모두의 차례를 false로 초기화
 }) => {
@@ -33,9 +35,9 @@ const UserVideoComponent = ({
       {streamManager !== undefined ? (
         <div className="streamcomponent">
           {ownerId === id ? (
-            <div>본인?방장?</div>
+            <div>{nickname}</div>
           ) : (
-            <div>본인X?방장X?</div>
+            <div>PARTICIPANT</div>
           )}
           <OpenViduVideoComponent streamManager={streamManager} id={id} />
           {
