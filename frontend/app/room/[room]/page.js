@@ -24,8 +24,8 @@ export default function Room(props) {
       
       <RoomCam />
       {/* 버튼에 룸 정보 전달 */}
-      <RoomBtn info={info}/>
-      <RoomChat info={info}/>
+      <RoomBtn info={info} />
+      <RoomChat info={info} />
     </div>
   )
 
@@ -51,9 +51,9 @@ export default function Room(props) {
             </div>
           </div>
         </div>
-        <RoomChat info={info}/>
+        <RoomChat info={info} />
         <RoomCam />
-      <RoomBtn info={info}/>
+        <RoomBtn info={info} />
       </div>
     </div>
   )
