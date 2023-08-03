@@ -8,14 +8,12 @@ import './../css/UserVideo.css'
 */
 const UserVideoComponent = ({
   streamManager,//방장
-  sub,//방장을 제외한 참여자
   ownerId,//접속한 id
   nickname,
   //turn,//차례
   //setTurn,//모두의 차례를 false로 초기화
 }) => {
-  console.log(streamManager);
-  const nickNameTag = streamManager.stream.connection.data.nickName;
+  console.log("STREAMMANAGER: ",streamManager);
   const id = streamManager.stream.connection.data.id;
 
   /* 
