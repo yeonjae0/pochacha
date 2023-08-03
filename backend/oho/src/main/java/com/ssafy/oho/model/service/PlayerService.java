@@ -1,6 +1,7 @@
 package com.ssafy.oho.model.service;
 
 import com.ssafy.oho.model.dto.request.PlayerRequestDto;
+import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.PlayerResponseDto;
 import com.ssafy.oho.model.dto.response.RoomResponseDto;
 import com.ssafy.oho.model.entity.Player;
@@ -17,6 +18,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -32,10 +35,10 @@ public class PlayerService {
         this.playerRepository = playerRepository;
         this.roomRepository = roomRepository;
     }
-    public PlayerResponseDto setHead(PlayerRequestDto playerRequestDto, RoomResponseDto roomResponseDto, OpenVidu openVidu) throws PlayerSetException {
+    public PlayerResponseDto setHead(PlayerRequestDto playerRequestDto, String roomId, OpenVidu openVidu) throws PlayerSetException {
         System.out.println("PLAYER SERVECE: SET HEAD");
         try {
-            PlayerResponseDto playerResponseDto = setPlayer(playerRequestDto, roomResponseDto, openVidu);
+            PlayerResponseDto playerResponseDto = setPlayer(playerRequestDto, roomId, openVidu);
             Player head = playerRepository.findById(playerResponseDto.getId());
 
             /*** Entity Build ***/
@@ -54,7 +57,6 @@ public class PlayerService {
             playerResponseDto = PlayerResponseDto.builder()
                     .id(head.getId())
                     .nickname(head.getNickname())
-                    .roomId(head.getRoom().getId())
                     .head(head.isHead())
                     .ready(head.isReady())
                     .token(head.getToken())
@@ -65,10 +67,9 @@ public class PlayerService {
             throw new PlayerSetException();
         }
     }
-    public PlayerResponseDto setPlayer(PlayerRequestDto playerRequestDto, RoomResponseDto roomResponseDto, OpenVidu openVidu) throws PlayerSetException {
+    public PlayerResponseDto setPlayer(PlayerRequestDto playerRequestDto, String roomId, OpenVidu openVidu) throws PlayerSetException {
         System.out.println("PLAYER SERVICE: SET PLAYER");
         try {
-            String roomId=roomResponseDto.getId();
             Room room = roomRepository.findById(roomId);
             // 방이 존재하지 않을 경우
             // 플레이어가 4명 이상인 경우
@@ -113,7 +114,7 @@ public class PlayerService {
              * 아래 한 줄 주석 해제하기!
              *
              */
-            //String token="임시토큰";
+//            String token="임시토큰";
 
             /*** Entity Build ***/
             Player player = Player.builder()
@@ -129,7 +130,6 @@ public class PlayerService {
             PlayerResponseDto playerResponseDto = PlayerResponseDto.builder()
                     .id(player.getId())
                     .nickname(player.getNickname())
-                    .roomId(player.getRoom().getId())
                     .head(player.isHead())
                     .ready(player.isReady())
                     .token(player.getToken())
@@ -149,7 +149,6 @@ public class PlayerService {
             PlayerResponseDto playerResponseDto = PlayerResponseDto.builder()
                     .id(player.getId())
                     .nickname(player.getNickname())
-                    .roomId(player.getRoom().getId())
                     .head(player.isHead())
                     .ready(player.isReady())
                     .token(player.getToken())
@@ -158,6 +157,44 @@ public class PlayerService {
             return playerResponseDto;
         } catch(Exception e) {
             System.out.println(e.getMessage());
+            throw new PlayerGetException();
+        }
+    }
+
+    public List<PlayerResponseDto> getPlayersByRoomId(PlayerRequestDto playerRequestDto, String roomId) throws PlayerGetException {
+
+        try {
+            /*** 유효성 검사 ***/
+            // 현재 방의 플레이어 존재 확인
+            Player player = playerRepository.findById(playerRequestDto.getId());
+            if(player == null || player.getId() <= 0 || !player.getRoom().getId().equals(roomId)){
+                throw new PlayerGetException();
+            }
+
+            // 방 유효성 확인
+            Room room = roomRepository.findById(roomId);
+            if(room == null || room.getId().trim().equals("")){
+                throw new PlayerGetException();
+            }
+
+            List<Player> playerList = roomRepository.findById(roomId).getPlayers();
+            List<PlayerResponseDto> playerResponseDtoList = new ArrayList<>();
+
+            for(Player p : playerList) {
+                playerResponseDtoList.add(PlayerResponseDto.builder()
+                                .id(p.getId())
+                                .nickname(p.getNickname())
+                                .head(p.isHead())
+                                .ready(p.isReady())
+                                .token(p.getToken())
+                        .build()
+                );
+            }
+
+            return playerResponseDtoList;
+
+        } catch(Exception e) {
+            e.printStackTrace();
             throw new PlayerGetException();
         }
     }
@@ -176,7 +213,6 @@ public class PlayerService {
             PlayerResponseDto playerResponseDto = PlayerResponseDto.builder()
                     .id(player.getId())
                     .nickname(player.getNickname())
-                    .roomId(player.getRoom().getId())
                     .head(player.isHead())
                     .ready(player.isReady())
                     .token(player.getToken())

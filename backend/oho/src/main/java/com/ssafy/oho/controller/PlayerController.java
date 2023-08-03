@@ -1,6 +1,7 @@
 package com.ssafy.oho.controller;
 
 import com.ssafy.oho.model.dto.request.PlayerRequestDto;
+import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.PlayerResponseDto;
 import com.ssafy.oho.model.dto.response.RoomResponseDto;
 import com.ssafy.oho.model.service.PlayerService;
@@ -18,10 +19,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/player")
@@ -68,15 +68,11 @@ public class PlayerController {
     private ResponseEntity<?> setPlayer(@RequestBody PlayerRequestDto playerRequestDto) {
         System.out.println("SET PLAYER API CALL");
         try {
-            RoomResponseDto roomResponseDto = RoomResponseDto.builder()
-                    .id(playerRequestDto.getRoomId())
-                    .build();
-
             PlayerResponseDto playerResponseDto;
             if(playerRequestDto.isHead()) {  // 방장일 경우
-                playerResponseDto = playerService.setHead(playerRequestDto, roomResponseDto, openVidu);
+                playerResponseDto = playerService.setHead(playerRequestDto, playerRequestDto.getRoomId(), openVidu);
             } else {  // 플레이어일 경우
-                playerResponseDto = playerService.setPlayer(playerRequestDto, roomResponseDto, openVidu);
+                playerResponseDto = playerService.setPlayer(playerRequestDto, playerRequestDto.getRoomId(), openVidu);
             }
 
             return ResponseEntity.ok(playerResponseDto);
@@ -95,6 +91,18 @@ public class PlayerController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("/{roomId}")
+    private ResponseEntity<?> getPlayersByRoomId(@RequestBody PlayerRequestDto playerRequestDto, @PathVariable String roomId) {
+        try {
+            List<PlayerResponseDto> playerResponseDto = playerService.getPlayersByRoomId(playerRequestDto, roomId);
+
+            return ResponseEntity.ok(playerResponseDto);
+        } catch(PlayerGetException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping("update")
     private ResponseEntity<?> updatePlayer(@RequestBody PlayerRequestDto playerRequestDto) {
         try {

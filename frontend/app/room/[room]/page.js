@@ -1,16 +1,39 @@
 'use client'
 
-// import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import RoomCam from '../RoomCam.js'
 import RoomChat from '../RoomChat.js'
 import RoomBtn from '../RoomBtn.js'
 import './../../css/Room.css'
+import axios from 'axios'
 // import SockJS from 'sockjs-client';
 // import { Stomp } from '@stomp/stompjs';
 
 export default function Room(props) {
 
-  let info = props.searchParams.currentName;
+  var info = JSON.parse(props.searchParams.currentName);
+
+  const getPlayerList = (roomId, playerId) => {
+    axios({
+      url: `http://localhost:80/player/${roomId}`,
+      header: {
+        "Accept": "application/json",
+        "Content-type": "application/json;charset=UTF-8"
+      },
+      method: "POST",
+      data: {
+        "id" : playerId
+      }
+    }).then((response) => {
+      console.log(response.data);
+    }).catch(
+      error => console.log(error)
+    );
+  };
+
+  useEffect(() => {
+    getPlayerList(info.roomId, info.playerId);
+  }, []);
 
   const tmp = (
     <div>
