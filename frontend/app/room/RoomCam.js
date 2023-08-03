@@ -43,11 +43,10 @@ class RoomCam extends Component {
     TO DO :: 새로 고침 시 OPENVIDU 종료 문제 해결
   */
 
-  componentDidUpdate() {
-    // window.addEventListener('beforeunload', this.onbeforeunload);
-    // this.joinSession;
-    this.forceUpdate();
-  }
+  // componentDidUpdate() {
+  //   // window.addEventListener('beforeunload', this.onbeforeunload);
+  //   // this.joinSession;
+  // }
 
   componentWillUnmount() {
     window.removeEventListener('beforeunload', this.onbeforeunload);
