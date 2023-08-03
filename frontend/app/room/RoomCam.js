@@ -3,7 +3,8 @@
 import { OpenVidu } from 'openvidu-browser'
 import React, { Component } from 'react'
 import UserVideoComponent from './UserVieoComponent'
-// import {BsCameraVideoFill,BsCameraVideoOffFill} from 'react-icons/fa'
+import {BsFillCameraVideoFill,BsFillCameraVideoOffFill} from 'react-icons/bs'
+
 
 class RoomCam extends Component {
   
@@ -42,10 +43,11 @@ class RoomCam extends Component {
     TO DO :: 새로 고침 시 OPENVIDU 종료 문제 해결
   */
 
-  // componentDidUpdate() {
-  //   window.addEventListener('beforeunload', this.onbeforeunload);
-  //   this.joinSession;
-  // }
+  componentDidUpdate() {
+    // window.addEventListener('beforeunload', this.onbeforeunload);
+    // this.joinSession;
+    this.forceUpdate();
+  }
 
   componentWillUnmount() {
     window.removeEventListener('beforeunload', this.onbeforeunload);
@@ -163,17 +165,17 @@ class RoomCam extends Component {
     return (
       <div className="container">
         {this.state.session !== undefined ? (
+          
           <div id="session">
             <div id="session-header">
-              <input
+              {/* <input
                 className="btn btn-large btn-danger"
                 type="button"
                 id="buttonLeaveSession"
                 onClick={this.leaveSession}
                 value="Leave session"
-              />
-              {/* <BsCameraVideoFill/>
-              <BsCameraVideoOffFill/> */}
+              /> */}
+
             </div>
 
             {/* {this.state.mainStreamManager !== undefined ? (
@@ -189,7 +191,7 @@ class RoomCam extends Component {
                   {console.log(this.state.publisher)}
                   <UserVideoComponent
                     streamManager={this.state.publisher} nickname={this.state.nickname} />
-                </div>
+                </div>     
               ) : null}
               {this.state.participants.map((sub, i) => (
                 <div key={sub.id} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
