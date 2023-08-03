@@ -1,11 +1,28 @@
-import '@/styles/globals.css'
-// import React, {useState} from 'react'
-// import { configureStore } from '@reduxjs/toolkit';
-// import {Provider, useSelector,  useDispatch, connect} from 'react-redux'
-import { wrapper } from "../store/store";
+import React from "react";
+import App, { Container } from "next/app";
+import { Provider } from "react-redux";
+import withRedux from "next-redux-wrapper";
 
- function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+import initStore from "../store/index";
+
+class EnhancedApp extends App {
+  static async getInitialProps({ Component }) {
+    return {
+      pageProps: Component.getInitialProps
+
+    };
+  }
+
+  render() {
+    const { Component, pageProps, store } = this.props;
+    return (
+      <Container>
+        <Provider store={store}>
+          <Component {...pageProps} />
+        </Provider>
+      </Container>
+    );
+  }
 }
 
-export default wrapper.withRedux(MyApp);
+export default withRedux(initStore)(EnhancedApp);
