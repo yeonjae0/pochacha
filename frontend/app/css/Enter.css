@@ -1,6 +1,6 @@
 
 body {
-  background-image: url("../../public/main/background.png");
+  background-image: url("../../public/main/background2.png");
   background-size: cover;
   background-position: center;
 	background-repeat: no-repeat;
@@ -62,8 +62,12 @@ body {
 
 .cam {
   background-color: black;
-  min-width: 60%;
-  max-height: 60%;
+  width: 80%;
+  height: 260px;  
+  object-fit: cover;
+  transform: rotateY(180deg);
+  -webkit-transform:rotateY(180deg); /* Safari and Chrome */
+  -moz-transform:rotateY(180deg); /* Firefox */
 }
 
 .inputContainer {
