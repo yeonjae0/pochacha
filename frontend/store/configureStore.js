@@ -10,6 +10,6 @@ const initialState = {
 
 
 // rootReducer와 초기 상태, 미들웨어 등을 사용하여 Redux store를 생성
-const makeStore = () => createStore(rootReducer);
+const makeStore = () => configureStore(rootReducer);
 
 export const wrapper = createWrapper(makeStore);

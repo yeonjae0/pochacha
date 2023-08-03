@@ -5,6 +5,7 @@ import { combineReducers } from 'redux';
 
 const rootReducer = combineReducers({
     //필요한 리듀서들을 추가
+    fruit
   });
   
   export default rootReducer;

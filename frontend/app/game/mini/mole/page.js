@@ -1,3 +1,5 @@
+'useClient'
+
 import { useSelector } from 'react-redux';
 
 export default function Mole() {
@@ -10,7 +12,7 @@ export default function Mole() {
       </div>
     );
   }
-
+  
   return (
     <div>
       <h1>두더지게임</h1>
