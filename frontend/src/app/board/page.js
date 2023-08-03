@@ -23,7 +23,7 @@ export default function Board() {
   // 현재 방의 맵 불러오는 함수
   const createMap = () => {
     axios({
-      url : "http://localhost:80/board/cell",
+      url : "https://ohogame.shop/api/board/cell",
       header : {
         "Accept" : "application/json",
         "Content-type" : "application/json;charset=UTF-8"
@@ -43,7 +43,7 @@ export default function Board() {
 
   const connectSocket = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS("http://localhost:80/ws")
+      const sock = new SockJS("https://ohogame.shop/ws")
       return sock;
     });
   }
