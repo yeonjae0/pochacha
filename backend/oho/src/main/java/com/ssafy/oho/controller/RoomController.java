@@ -71,7 +71,7 @@ public class RoomController {
             map.put("room", roomResponseDto);
 
             /* 혜지 : 각 플레이어(현재 방장)에게 토큰 발급 */
-            PlayerResponseDto playerResponseDto = playerService.setHead(playerRequestDto, roomResponseDto, openVidu);
+            PlayerResponseDto playerResponseDto = playerService.setHead(playerRequestDto, roomResponseDto.getId(), openVidu);
             map.put("player", playerResponseDto);
 
             return ResponseEntity.ok(map);
