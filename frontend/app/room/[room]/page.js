@@ -10,18 +10,18 @@ import './../../css/Room.css'
 
 export default function Room(props) {
 
-  let info = JSON.parse(props.searchParams.currentName)
+  let info = props.searchParams.currentName;
 
   const tmp = (
     <div>
       <h1>대기실입니다.</h1>
       <h3>방 번호 : {info.roomId}</h3>
-      <h3>게임시작 : {info.progress.toString()}</h3>
-      <h3>비밀방 : {info.secret.toString()}</h3>
+      <h3>게임시작 : {info.progress}</h3>
+      <h3>비밀방 : {info.secret}</h3>
       <h3>닉네임 : {info.nick}</h3>
-      <h3>아이디 : {info.playerId.toString()}</h3>
-      <h3>준비 : {info.ready.toString()}</h3>
-
+      <h3>아이디 : {info.playerId}</h3>
+      <h3>준비 : {info.ready}</h3>
+      
       <RoomCam />
       {/* 버튼에 룸 정보 전달 */}
       <RoomBtn info={info} />
