@@ -62,8 +62,8 @@ body {
 
 .cam {
   background-color: black;
-  min-width: 80%;
-  min-height: 260px;
+  min-width: 60%;
+  max-height: 60%;
 }
 
 .inputContainer {
