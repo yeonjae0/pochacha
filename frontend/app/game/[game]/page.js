@@ -53,7 +53,7 @@ export default function Board( props ) {
   const createMap = async() => {
     console.log("before axios roomId", roomId)
     axios({
-      url : "http://localhost:80/board/cell",
+      url : process.env.NEXT_PUBLIC_HOST + "/board/cell",
       header : {
         "Accept" : "application/json",
         "Content-type" : "application/json;charset=UTF-8"
@@ -73,7 +73,7 @@ export default function Board( props ) {
     
   const connectSocket = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS("http://localhost:80/ws")
+      const sock = new SockJS(process.env.NEXT_PUBLIC_HOST + "/ws")
       return sock;
     });
   }

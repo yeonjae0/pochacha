@@ -29,7 +29,7 @@ export default function RoomChat({ info }) {
 
   const connectSocket = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS("http://localhost:80/ws")
+      const sock = new SockJS(process.env.NEXT_PUBLIC_HOST + "/ws")
       return sock;
     });
   }
