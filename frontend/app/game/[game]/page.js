@@ -48,6 +48,26 @@ export default function Board( props ) {
   let [client, setClient] = useState({});
   let [currentCell, setCurrentCell] = useState('')
   let [showModal, setShowModal] = useState(false);
+
+  let videoRef=useRef(null);
+
+  const getUserCamera=()=>{
+    navigator.mediaDevices.getUserMedia({
+      video:true
+    })
+    .then((stream)=>{
+      let video=videoRef.current;
+      video.srcObject=stream;
+      video.play();
+    })
+    .catch((error)=>{
+      console.log("WEBCAM ERROR");
+    })
+  }
+
+  useEffect(()=>{
+    getUserCamera();
+  },[videoRef])
  
   // 현재 방의 맵 불러오는 함수
   const createMap = async() => {
@@ -147,8 +167,8 @@ export default function Board( props ) {
 //////////////////////
   return (
     <div>
-      <h1>보드게임 화면</h1>
-
+      <nav className='infobar'>
+        <h2>주사위 눈 : { dice }, 현재 { pin }번 블록에 위치</h2><h2>{ lab }바퀴</h2>
       <button value="innerHTML" onClick={()=>{
         var sendData = {
           "dice" : dice,
@@ -159,15 +179,26 @@ export default function Board( props ) {
         client.current.send("/move/" + roomId, {}, JSON.stringify(sendData));
         handleRollDiceClick();
       }}>주사위 굴리기</button>
-
-      <div>
-
-        <h2>주사위 눈 : { dice }, 현재 { pin }번 블록에 위치</h2> <h2>{ lab }바퀴</h2>
+      </nav>
+      <div style={{display: "flex",flexDirection:"column", justifyContent:"center"}}>
+      <div className='upper_container'>
+      <video className='cam' style={{paddingLeft:"20px"}} ref={videoRef}/> {/* WEBCAM 화면 */}
+      <video className='cam' style={{paddingRight:"20px"}} ref={videoRef}/> {/* WEBCAM 화면 */}    
       </div>
 
-      <DiceBox dice={ dice } />
-      <BoardMap pin={ pin } />
-
+      <div style={{position:"relative"}}>
+          <div style={{display:"flex", justifyContent:"center"}}>
+            <DiceBox dice={ dice } />
+          </div>
+        <div className='lower_container' >
+          <video className='cam' style={{paddingLeft:"20px"}} ref={videoRef}/> {/* WEBCAM 화면 */}
+          <video className='cam' style={{paddingRight:"20px"}} ref={videoRef}/> {/* WEBCAM 화면 */}    
+        </div>
+        <div style={{position:"absolute"}}>
+        <BoardMap pin={ pin } style={{bottom: "0"}}/>
+        </div>
+      </div>
+      </div>
       <>
       <ModalPage currentCell={currentCell} pin={pin} />
       </>
