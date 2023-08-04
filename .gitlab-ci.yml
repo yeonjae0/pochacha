@@ -2,7 +2,6 @@ stages:
   - build
   - docker-nr-deploy
   - docker-sa-deploy
-  #- deploy
 
 react-build:
   stage: build
@@ -71,39 +70,3 @@ docker-spring-api-deploy:
     - docker run -d --restart always -p 8080:8080 --name SPRINGAPI $IMAGE_NAME
   after_script:
     - docker logout
-
-deploy-nginx:
-  stage: deploy
-  tags:
-  - test
-  before_script:
-    - echo "$DOCKER_HUB_PW" | docker login -u "$DOCKER_HUB_USER" --password-stdin
-  script:
-    - docker stop NGINXREACT || true
-    - docker rm NGINXREACT || true
-    - docker rmi zaqxsw1397/nginx-react || true
-    - docker pull zaqxsw1397/nginx-react
-    - docker run -d --restart always -p 443:443 -p 80:80 --name NGINXREACT zaqxsw1397/nginx-react
-  after_script:
-    - docker logout
-  when: on_success
-  only:
-    - deploy
-
-deploy-was1:
-  stage: deploy
-  tags:
-    - test
-  before_script:
-    - echo "$DOCKER_HUB_PW" | docker login -u "$DOCKER_HUB_USER" --password-stdin
-  script:
-    - docker stop SPRINGAPI || true
-    - docker rm SPRINGAPI || true
-    - docker rmi zaqxsw1397/spring-api || true
-    - docker pull zaqxsw1397/spring-api
-    - docker run -d --restart always -p 8080:8080 --name SPRINGAPI zaqxsw1397/spring-api
-  after_script:
-    - docker logout
-  when: on_success
-  only:
-    - deploy
