@@ -1,26 +1,16 @@
 package com.ssafy.oho.model.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /* 유효성 검사는 Service 단에서 하기로 결정 */
 @NoArgsConstructor
 @AllArgsConstructor
-// @Setter
 @Getter
+@ToString
 public class PlayerRequestDto {
-    private long id;
+    private String id;
     private String nickname;
     private String roomId;
     private boolean head;
     private boolean ready;
-    /* 혜지 : score 삭제 */
-//    private int score;
-//    private Penalty penalty;
-//    private String ipAddress;
-
-    /* 혜지 : OpenVidu Token 추가 */
-    private String token;
 }

@@ -6,43 +6,38 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 /* Entity는 유효성 검사가 필요 없으므로 Lombok으로 대체함 */
-@Entity
-@Table(name="player",indexes = {
+@Entity(name="player")
+@Table(indexes = {
         @Index(name = "idx_nickname",columnList = "nickname"),
         @Index(name = "idx_room_id",columnList = "room_id"),
 })
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Getter
 @DynamicInsert
+@ToString //배포 시 삭제
+/* 혜지 : Player Id를 OpenVidu Token으로 정정 */
 public class Player extends Base {
 
     @Id//PK
-    @GeneratedValue(strategy = GenerationType.IDENTITY)//AUTO INCREMENT
     @Column(name="id")
-    private long id;//Bigint
-
-    @Column(name="nickname",nullable = false, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8", unique = true)
-    //@ColumnDefault("'익명'") 랜덤으로 생성하는 닉네임을 서비스에서 구현 예정
-    private String nickname;
+    private String id;
 
     //FK
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="room_id", nullable = false)
     private Room room;
 
+    @Column(name="nickname",nullable = false, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8", unique = true)
+    private String nickname;
+
     @Column(name="head",nullable = false)
     @ColumnDefault("0")
     private boolean head = false;
 
-    @Column(name="ready",nullable = false)
-    @ColumnDefault("0")
-    private boolean ready = false;
-
+    /* 혜지 : Redis 사용으로 ready 삭제 */
     /* 혜지 : score, 벌칙 참조, ip 주소 칼럼 삭제 */
-
-    /* 혜지 : OpenVidu Token 저장 */
-    @Column(name="token",nullable = false)
-    private String token;
 }
 
 /*
