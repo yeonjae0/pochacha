@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /* Entity는 유효성 검사가 필요 없으므로 Lombok으로 대체함 */
-@Entity
-@Table(name="room",indexes = {
+@Entity(name="room") /* 혜지 : Table 어노테이션의 name을 Entity 어노테이션의 name으로 선언 (테이블 재생성을 위함) */
+@Table(indexes = {
         @Index(name="idx_room_secret",columnList = "secret"),
         @Index(name="idx_room_progress",columnList = "progress")
 })

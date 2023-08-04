@@ -1,4 +1,4 @@
-package com.ssafy.oho.config;
+package com.ssafy.oho.util.socket;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

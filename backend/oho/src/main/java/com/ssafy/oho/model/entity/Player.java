@@ -6,8 +6,8 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 /* Entity는 유효성 검사가 필요 없으므로 Lombok으로 대체함 */
-@Entity
-@Table(name="player",indexes = {
+@Entity(name="player")
+@Table(indexes = {
         @Index(name = "idx_nickname",columnList = "nickname"),
         @Index(name = "idx_room_id",columnList = "room_id"),
 })
