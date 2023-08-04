@@ -13,6 +13,7 @@ import com.ssafy.oho.util.exception.PlayerSetException;
 import com.ssafy.oho.util.exception.PlayerUpdateException;
 import io.openvidu.java.client.*;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
@@ -71,13 +72,13 @@ public class PlayerService {
                     .token(head.getToken())
                     .build();
 
-            redisTemplate.multi();  // Transaction Start
+            // redisTemplate.multi();  // Transaction Start
 
             /*** Redis Input : 모든 데이터를 String으로 변경 ***/
             hashOperations.put(roomId + ".player." + headResponseDto.getId(), "head", Boolean.toString(headResponseDto.isHead()));
             hashOperations.put(roomId + ".player." + headResponseDto.getId(), "ready", Boolean.toString(headResponseDto.isReady()));
 
-            redisTemplate.exec();  // Transaction Execute
+            // redisTemplate.exec();  // Transaction Execute
 
             return headResponseDto;
         } catch (Exception e) {
@@ -138,7 +139,7 @@ public class PlayerService {
                     .token(player.getToken())
                     .build();
 
-            redisTemplate.multi();  // Transaction Start
+            // redisTemplate.multi();  // Transaction Start
 
             /*** Redis Input : 모든 데이터를 String으로 변경 ***/
             /* TO DO :: player id를 토큰으로 변경하며, data type 변경 필요 */
@@ -147,7 +148,7 @@ public class PlayerService {
             hashOperations.put(roomId + ".player." + playerResponseDto.getId(), "head", Boolean.toString(playerResponseDto.isHead()));
             hashOperations.put(roomId + ".player." + playerResponseDto.getId(), "ready", Boolean.toString(playerRequestDto.isReady()));
 
-            redisTemplate.exec();  // Transaction Execute
+            // redisTemplate.exec();  // Transaction Execute
 
             return playerResponseDto;
         } catch (Exception e) {//OpenViduJavaClientException, OpenViduHttpException, ...
