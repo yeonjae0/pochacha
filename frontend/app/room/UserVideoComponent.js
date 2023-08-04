@@ -32,17 +32,17 @@ const UserVideoComponent = ({
     <div>
       {streamManager !== undefined ? (
         <div className="streamcomponent">
-          {ownerId === id ? (
-            <div>{nickname}</div>
-          ) : (
-            <div>PARTICIPANT</div>
-          )}
           <OpenViduVideoComponent streamManager={streamManager} id={id} />
           {
             /*
                 CONFIRM :: ADD GAME SETTING
             */
           }
+          {ownerId === id ? (
+            <div id="nickname">{nickname}</div>
+          ) : (
+            <div>PARTICIPANT</div>
+          )}
         </div>
       ) : null}
     </div>
