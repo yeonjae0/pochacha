@@ -17,9 +17,9 @@ react-build:
     - npm run build
     - echo "Build successfully!"
   artifacts:
-    expire_in: 1 hour
+    #expire_in: 1 hour
     paths:
-      - ./out
+      - frontend/out
 
 spring-build:
   image: gradle:jdk17
@@ -32,8 +32,8 @@ spring-build:
     - .\gradlew build
   artifacts:
     paths:
-      - ./build/libs/*.jar
-    expire_in: 10 min
+      - backend/oho/build/libs/*.jar
+    #expire_in: 10 min
 
 docker-nginx-react-build:
   stage: docker-nr-build
@@ -61,7 +61,7 @@ docker-spring-api-build:
   services:
     - docker:19.03.8-dind
   before_script:
-    - docker login -u $DOCKER_HUB_USER --password-stdin < $DOCKER_HUB_PW
+    - echo "$DOCKER_HUB_PW" | docker login -u "$DOCKER_HUB_USER" --password-stdin
   script:
     - cd backend/oho
     - docker build -t $IMAGE_NAME .
@@ -74,13 +74,13 @@ deploy-nginx:
   tags:
   - test
   before_script:
-    - docker login -u $DOCKER_HUB_USER --password-stdin < $DOCKER_HUB_PW
+    - echo "$DOCKER_HUB_PW" | docker login -u "$DOCKER_HUB_USER" --password-stdin
   script:
     - docker stop NGINXREACT || true
     - docker rm NGINXREACT || true
-    - docker rmi zaqxsw1397/spring-api || true
+    - docker rmi zaqxsw1397/nginx-react || true
     - docker pull zaqxsw1397/nginx-react
-    - docker run -d --restart always -p 8443:8443 --name SPRINGAPI zaqxsw1397/spring-api
+    - docker run -d --restart always -p 443:443 -p 80:80 --name NGINXREACT zaqxsw1397/nginx-react
   after_script:
     - docker logout
   when: on_success
@@ -92,12 +92,13 @@ deploy-was1:
   tags:
     - test
   before_script:
-    - docker login -u $DOCKER_HUB_USER --password-stdin < $DOCKER_HUB_PW
+    - echo "$DOCKER_HUB_PW" | docker login -u "$DOCKER_HUB_USER" --password-stdin
   script:
     - docker stop SPRINGAPI || true
     - docker rm SPRINGAPI || true
     - docker rmi zaqxsw1397/spring-api || true
-    - docker run -d --restart always -p 8443:8443 --name SPRINGAPI zaqxsw1397/spring-api
+    - docker pull zaqxsw1397/spring-api
+    - docker run -d --restart always -p 8080:8080 --name SPRINGAPI zaqxsw1397/spring-api
   after_script:
     - docker logout
   when: on_success
