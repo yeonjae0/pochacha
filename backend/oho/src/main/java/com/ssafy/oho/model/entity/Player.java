@@ -14,6 +14,7 @@ import org.hibernate.annotations.DynamicInsert;
 @Builder
 @Getter
 @DynamicInsert
+@NoArgsConstructor
 public class Player extends Base {
 
     @Id//PK
