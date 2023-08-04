@@ -12,4 +12,5 @@ public class PlayerRequestDto {
     private String nickname;
     private String roomId;
     private boolean head;
+    private boolean ready;
 }

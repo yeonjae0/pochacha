@@ -13,6 +13,8 @@ import com.ssafy.oho.util.exception.PlayerSetException;
 import com.ssafy.oho.util.exception.PlayerUpdateException;
 import io.openvidu.java.client.*;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,8 @@ import java.util.Random;
 
 @Service
 public class PlayerService {
+    private final StringRedisTemplate redisTemplate;  // REDIS
+    private HashOperations<String, Object, Object> hashOperations = null;  // Redis 데이터 담을 변수
     private final PlayerRepository playerRepository;
     private final RoomRepository roomRepository;
     private final String[] randAdj = {"풍부한", "어지러운", "미세한", "혁신적인", "진실의", "통통한", "믿을만한", "혼란스러운",
@@ -31,17 +35,21 @@ public class PlayerService {
             "자신있는", "정확한", "미끄러운", "흠뻑젖은", "감염된", "공감하는", "다가오는", "생각없는", "불합리한"}; // 형용사 모음
     private final String[] randNoun = {"연제정", "김태훈", "배희진", "김연재", "유영", "임혜지", "이현석", "성유지", "최웅렬"}; // 명사 모음
 
-    private PlayerService(PlayerRepository playerRepository, RoomRepository roomRepository) {
+    private PlayerService(StringRedisTemplate redisTemplate, PlayerRepository playerRepository, RoomRepository roomRepository) {
+        this.redisTemplate = redisTemplate;
         this.playerRepository = playerRepository;
         this.roomRepository = roomRepository;
+
+        // Redis 데이터와 연결
+        this.hashOperations = this.redisTemplate.opsForHash();
     }
     public PlayerResponseDto setHead(PlayerRequestDto playerRequestDto, String roomId, OpenVidu openVidu) throws PlayerSetException {
         System.out.println("PLAYER SERVECE: SET HEAD");
         System.out.println("ROOMID: "+roomId);
         System.out.println("----------------------------");
         try {
-            PlayerResponseDto playerResponseDto = setPlayer(playerRequestDto, roomId, openVidu);
-            Player head = playerRepository.findById(playerResponseDto.getId()).orElseThrow(()-> new PlayerSetException());
+            PlayerResponseDto headResponseDto = setPlayer(playerRequestDto, roomId, openVidu);
+            Player head = playerRepository.findById(headResponseDto.getId()).orElseThrow(()-> new PlayerSetException());
 
             /*** Entity Build ***/
             head = Player.builder()
@@ -56,13 +64,22 @@ public class PlayerService {
             System.out.println("AFTER SAVING HEAD");
 
             /*** Response DTO Build ***/
-            playerResponseDto = PlayerResponseDto.builder()
+            /* TO DO :: player id를 토큰으로 변경하며, data type 변경 필요 */
+            headResponseDto = PlayerResponseDto.builder()
                     .id(head.getId())
                     .nickname(head.getNickname())
                     .head(head.isHead())
                     .build();
 
-            return playerResponseDto;
+            redisTemplate.multi();  // Transaction Start
+
+            /*** Redis Input : 모든 데이터를 String으로 변경 ***/
+            hashOperations.put(roomId + ".player." + headResponseDto.getId(), "head", Boolean.toString(headResponseDto.isHead()));
+            hashOperations.put(roomId + ".player." + headResponseDto.getId(), "ready", Boolean.toString(headResponseDto.isReady()));
+
+            redisTemplate.exec();  // Transaction Execute
+
+            return headResponseDto;
         } catch (Exception e) {
             throw new PlayerSetException();
         }
@@ -122,9 +139,20 @@ public class PlayerService {
                     .head(player.isHead())
                     .build();
 
+            redisTemplate.multi();  // Transaction Start
+
+            /*** Redis Input : 모든 데이터를 String으로 변경 ***/
+            /* TO DO :: player id를 토큰으로 변경하며, data type 변경 필요 */
+            hashOperations.put(roomId + ".player." + playerResponseDto.getId(), "id", playerResponseDto.getId());
+            hashOperations.put(roomId + ".player." + playerResponseDto.getId(), "nickname", playerResponseDto.getNickname());
+            hashOperations.put(roomId + ".player." + playerResponseDto.getId(), "head", Boolean.toString(playerResponseDto.isHead()));
+            hashOperations.put(roomId + ".player." + playerResponseDto.getId(), "ready", Boolean.toString(playerRequestDto.isReady()));
+
+            redisTemplate.exec();  // Transaction Execute
+
             return playerResponseDto;
         } catch (Exception e) {//OpenViduJavaClientException, OpenViduHttpException, ...
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             throw new PlayerSetException();
         }
     }
