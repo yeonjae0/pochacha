@@ -60,9 +60,9 @@ public class PlayerService {
                     .build();
 
             playerRepository.save(head);
-            /* TO DO :: player id를 토큰으로 변경하며, data type 변경 필요 */
 
             /*** Response DTO Build ***/
+            /* TO DO :: player id를 토큰으로 변경하며, data type 변경 필요 */
             headResponseDto = PlayerResponseDto.builder()
                     .id(head.getId())
                     .nickname(head.getNickname())
