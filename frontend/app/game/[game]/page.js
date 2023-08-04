@@ -182,8 +182,8 @@ export default function Board( props ) {
       </nav>
       <div style={{display: "flex",flexDirection:"column", justifyContent:"center"}}>
       <div className='upper_container'>
-      <video className='cam' style={{paddingLeft:"20px"}} ref={videoRef}/> {/* WEBCAM 화면 */}
-      <video className='cam' style={{paddingRight:"20px"}} ref={videoRef}/> {/* WEBCAM 화면 */}    
+      <video className='cam' ref={videoRef}/> {/* WEBCAM 화면 */}
+      <video className='cam' ref={videoRef}/> {/* WEBCAM 화면 */}    
       </div>
 
       <div style={{position:"relative"}}>
@@ -191,8 +191,8 @@ export default function Board( props ) {
             <DiceBox dice={ dice } />
           </div>
         <div className='lower_container' >
-          <video className='cam' style={{paddingLeft:"20px"}} ref={videoRef}/> {/* WEBCAM 화면 */}
-          <video className='cam' style={{paddingRight:"20px"}} ref={videoRef}/> {/* WEBCAM 화면 */}    
+          <video className='cam' ref={videoRef}/> {/* WEBCAM 화면 */}
+          <video className='cam' ref={videoRef}/> {/* WEBCAM 화면 */}    
         </div>
         <div style={{position:"absolute"}}>
         <BoardMap pin={ pin } style={{bottom: "0"}}/>
