@@ -14,15 +14,15 @@ import org.hibernate.annotations.DynamicInsert;
 @Builder
 @Getter
 @DynamicInsert
+@ToString //배포 시 삭제
+/* 혜지 : Player Id를 OpenVidu Token으로 정정 */
 public class Player extends Base {
 
     @Id//PK
-    @GeneratedValue(strategy = GenerationType.IDENTITY)//AUTO INCREMENT
     @Column(name="id")
-    private long id;//Bigint
+    private String id;
 
     @Column(name="nickname",nullable = false, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8", unique = true)
-    //@ColumnDefault("'익명'") 랜덤으로 생성하는 닉네임을 서비스에서 구현 예정
     private String nickname;
 
     //FK
@@ -39,10 +39,6 @@ public class Player extends Base {
     private boolean ready = false;
 
     /* 혜지 : score, 벌칙 참조, ip 주소 칼럼 삭제 */
-
-    /* 혜지 : OpenVidu Token 저장 */
-    @Column(name="token",nullable = false)
-    private String token;
 }
 
 /*
