@@ -14,6 +14,8 @@ import java.util.List;
 /* Entity는 유효성 검사가 필요 없으므로 Lombok으로 대체함 */
 @Entity
 @Table(name="penalty")
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @DynamicInsert
 public class Penalty extends Base{

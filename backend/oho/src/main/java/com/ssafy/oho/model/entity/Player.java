@@ -11,6 +11,8 @@ import org.hibernate.annotations.DynamicInsert;
         @Index(name = "idx_nickname",columnList = "nickname"),
         @Index(name = "idx_room_id",columnList = "room_id"),
 })
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Getter
 @DynamicInsert
@@ -22,22 +24,19 @@ public class Player extends Base {
     @Column(name="id")
     private String id;
 
-    @Column(name="nickname",nullable = false, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8", unique = true)
-    private String nickname;
-
     //FK
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="room_id", nullable = false)
     private Room room;
 
+    @Column(name="nickname",nullable = false, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8", unique = true)
+    private String nickname;
+
     @Column(name="head",nullable = false)
     @ColumnDefault("0")
     private boolean head = false;
 
-    @Column(name="ready",nullable = false)
-    @ColumnDefault("0")
-    private boolean ready = false;
-
+    /* 혜지 : Redis 사용으로 ready 삭제 */
     /* 혜지 : score, 벌칙 참조, ip 주소 칼럼 삭제 */
 }
 

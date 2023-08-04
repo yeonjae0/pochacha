@@ -43,7 +43,7 @@ public class RoomController {
     */
     @PostConstruct
     public void init() {
-        System.out.println("CREATE OPENVIDU OBJECT");
+        //System.out.println("CREATE OPENVIDU OBJECT");
         this.openVidu = new OpenVidu(OPENVIDU_URL, OPENVIDU_SECRET);
     }
 
@@ -63,6 +63,8 @@ public class RoomController {
     @PostMapping(value="/enter")
     private ResponseEntity<?> setRoom(@RequestBody PlayerRequestDto playerRequestDto) {
         System.out.println("SET ROOM API CALL");
+        System.out.println(playerRequestDto.toString());
+        System.out.println("----------------------------");
         try {
             Map<String, Object> map = new HashMap<>();
 
@@ -80,7 +82,6 @@ public class RoomController {
         }
     }
 
-
     @PostMapping(value="/room")
     private ResponseEntity<?> getRoom(@RequestBody RoomRequestDto roomRequestDto) {
         try {
@@ -89,6 +90,7 @@ public class RoomController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
     @PostMapping(value="/room/update")
     private ResponseEntity<?> updateRoom(@RequestBody RoomRequestDto roomRequestDto) {
         try {

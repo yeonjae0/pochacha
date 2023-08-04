@@ -36,7 +36,9 @@ public class PlayerService {
         this.roomRepository = roomRepository;
     }
     public PlayerResponseDto setHead(PlayerRequestDto playerRequestDto, String roomId, OpenVidu openVidu) throws PlayerSetException {
-        //System.out.println("PLAYER SERVECE: SET HEAD");
+        System.out.println("PLAYER SERVECE: SET HEAD");
+        System.out.println("ROOMID: "+roomId);
+        System.out.println("----------------------------");
         try {
             PlayerResponseDto playerResponseDto = setPlayer(playerRequestDto, roomId, openVidu);
             Player head = playerRepository.findById(playerResponseDto.getId()).orElseThrow(()-> new PlayerSetException());
@@ -47,7 +49,6 @@ public class PlayerService {
                     .nickname(head.getNickname())
                     .room(head.getRoom())
                     .head(true)
-                    .ready(head.isReady())
                     .build();
 
             System.out.println(head.toString());
@@ -59,7 +60,6 @@ public class PlayerService {
                     .id(head.getId())
                     .nickname(head.getNickname())
                     .head(head.isHead())
-                    .ready(head.isReady())
                     .build();
 
             return playerResponseDto;
@@ -114,18 +114,17 @@ public class PlayerService {
 
             System.out.println(player.toString());
             playerRepository.save(player);
-            System.out.println("AFTER SAVING PLAYER");
 
             /*** Response DTO Build ***/
             PlayerResponseDto playerResponseDto = PlayerResponseDto.builder()
                     .id(player.getId())
                     .nickname(player.getNickname())
                     .head(player.isHead())
-                    .ready(player.isReady())
                     .build();
 
             return playerResponseDto;
         } catch (Exception e) {//OpenViduJavaClientException, OpenViduHttpException, ...
+            System.out.println(e.getMessage());
             throw new PlayerSetException();
         }
     }
@@ -139,7 +138,6 @@ public class PlayerService {
                     .id(player.getId())
                     .nickname(player.getNickname())
                     .head(player.isHead())
-                    .ready(player.isReady())
                     .build();
 
             return playerResponseDto;
@@ -174,7 +172,6 @@ public class PlayerService {
                         .id(p.getId())
                         .nickname(p.getNickname())
                         .head(p.isHead())
-                        .ready(p.isReady())
                         .build()
                 );
             }
@@ -197,7 +194,7 @@ public class PlayerService {
                 throw new PlayerUpdateException();
             }
             String nickname = (payload.containsKey("nickname")) ? (String) payload.get("nickname") : player.getNickname();
-            boolean ready = (payload.containsKey("ready")) ? (boolean) payload.get("ready") : player.isReady();
+            /* boolean ready = (payload.containsKey("ready")) ? (boolean) payload.get("ready") : player.isReady(); */
 
             /*
                 TO DO :: 추후 Redis 임시 데이터로 수정 예정
@@ -207,7 +204,6 @@ public class PlayerService {
                     .id(player.getId())
                     .nickname(nickname)
                     .head(player.isHead())
-                    .ready(ready)
                     .build();
             playerRepository.save(player);
 
@@ -216,7 +212,6 @@ public class PlayerService {
                     .id(player.getId())
                     .nickname(player.getNickname())
                     .head(player.isHead())
-                    .ready(player.isReady())
                     .build();
 
             return playerResponseDto;
