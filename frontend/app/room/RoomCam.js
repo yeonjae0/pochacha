@@ -2,7 +2,7 @@
 
 import { OpenVidu } from 'openvidu-browser'
 import React, { Component, useState, useEffect } from 'react'
-import UserVideoComponent from './UserVieoComponent'
+import UserVideoComponent from './UserVideoComponent'
 //import {BsFillCameraVideoFill,BsFillCameraVideoOffFill} from 'react-icons/bs'
 
 export default function RoomCam(props) {
@@ -81,10 +81,14 @@ export default function RoomCam(props) {
     console.log("MYSESSION",session);
     if (mySession.event == 'streamCreated') {
       // OpenVidu는 자체적으로 VIDEO 생성 못함
-      var participant = mySession.subscribe(event.stream, undefined);
+      var participant = mySession.subscribe(mySession.event.stream, undefined);
       var participants = participants;
       participants.push(participant);
       setParticipants(participants);
+    }else if(mySession.event=='streamDestroyed'){
+      deleteParticipant(mySession.event.stream.streamManager);
+    }else if(mySession.event=='exception'){
+      console.warn(mySession.exception);
     }
     // mySession.on('streamCreated', (event) => {
     //   // OpenVidu는 자체적으로 VIDEO 생성 못함
@@ -94,13 +98,13 @@ export default function RoomCam(props) {
     //   setParticipants(participants);
     // });
 
-    mySession.on('streamDestroyed', (event) => {
-      deleteParticipant(event.stream.streamManager);
-    });
+    // mySession.on('streamDestroyed', (event) => {
+    //   deleteParticipant(event.stream.streamManager);
+    // });
 
-    mySession.on('exception', (exception) => {
-      console.warn(exception);
-    });
+    // mySession.on('exception', (exception) => {
+    //   console.warn(exception);
+    // });
 
     /* 혜지 : 모든 사용자 PUBLISHER 지정 필수 */
     mySession.connect(token, { clientData: nickname, publisher: true })
