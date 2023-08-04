@@ -13,27 +13,28 @@ export default function Room(props) {
 
   var info = JSON.parse(props.searchParams.currentName);
 
-  const getPlayerList = (roomId, playerId) => {
-    axios({
-      url: `http://localhost:80/player/${roomId}`,
-      header: {
-        "Accept": "application/json",
-        "Content-type": "application/json;charset=UTF-8"
-      },
-      method: "POST",
-      data: {
-        "id" : playerId
-      }
-    }).then((response) => {
-      console.log(response.data);
-    }).catch(
-      error => console.log(error)
-    );
-  };
+  /* 혜지 : ERROR 발생으로 주석 처리 */
+  // const getPlayerList = (roomId, playerId) => {
+  //   axios({
+  //     url: `http://localhost:80/player/${roomId}`,
+  //     header: {
+  //       "Accept": "application/json",
+  //       "Content-type": "application/json;charset=UTF-8"
+  //     },
+  //     method: "POST",
+  //     data: {
+  //       "id" : playerId
+  //     }
+  //   }).then((response) => {
+  //     console.log(response.data);
+  //   }).catch(
+  //     error => console.log(error)
+  //   );
+  // };
 
-  useEffect(() => {
-    getPlayerList(info.roomId, info.playerId);
-  }, []);
+  // useEffect(() => {
+  //   getPlayerList(info.roomId, info.playerId);
+  // }, []);
 
   const tmp = (
     <div>
