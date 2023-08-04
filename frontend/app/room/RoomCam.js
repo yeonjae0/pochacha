@@ -9,9 +9,12 @@ export default function RoomCam(props) {
   const roomInfo = props.info;
   console.log("ROOMINFO: ", roomInfo);
 
+  const OV=new OpenVidu();
+  let session=OV.initSession();
+
   const [nickname, setNickname] = useState(roomInfo.nick); //참여자 닉네임
-  const [OV, setOV] = useState({});//OpenVidu 객체
-  const [session, setSession] = useState({});//방
+  // const [OV, setOV] = useState(new OpenVidu());//OpenVidu 객체
+  // const [session, setSession] = useState({});//방
   const [roomId, setRoomId] = useState(roomInfo.roomId);//방 세션
   const [token, setToken] = useState(roomInfo.token);//참여자 토큰
   const [mainStreamManager, setMainStreamManager] = useState(undefined);// 메인비디오
@@ -24,21 +27,8 @@ export default function RoomCam(props) {
   
   /* 혜지 : 첫 렌더링 시에 OV, session 세팅 */
   useEffect(() => {
-    console.log("USEEFFECT");
     window.addEventListener('beforeunload', onbeforeunload);
-
-    let OV = new OpenVidu();
-    console.log("NEW OPENVIDU: ", OV);
-    setOV(OV);
-    console.log("OV: ", OV);
-
-    let session = OV.initSession();
-    console.log("INITSESSION", session);
-    setSession(session);
-    console.log("SESSION: ", session);
-
-    ()=>joinSession();
-
+    joinSession();
     return () => {
       window.removeEventListener('beforeunload', onbeforeunload);
     }
@@ -47,12 +37,13 @@ export default function RoomCam(props) {
   /*
     TO DO :: 현재 렌더링 시마다 호출하나, 상태 변경 시마다 호출로 바꾸기
   */
-  useEffect(() => {
-    joinSession();
-    return () => {
-      window.removeEventListener('beforeunload', onbeforeunload);
-    }
-  });
+  // useEffect((session) => {
+  //   window.addEventListener('beforeunload', onbeforeunload);
+  //   joinSession(session);
+  //   return () => {
+  //     window.removeEventListener('beforeunload', onbeforeunload);
+  //   }
+  // });
 
   const onbeforeunload = (e) => {
     leaveSession();
@@ -73,41 +64,43 @@ export default function RoomCam(props) {
     }
   }
 
-  const joinSession = () => {
+  const joinSession = async() => {
     console.log("JOINSESSION");
     
     let mySession = session;
 
     console.log("MYSESSION",session);
-    if (mySession.event == 'streamCreated') {
-      // OpenVidu는 자체적으로 VIDEO 생성 못함
-      var participant = mySession.subscribe(mySession.event.stream, undefined);
-      var participants = participants;
-      participants.push(participant);
-      setParticipants(participants);
-    }else if(mySession.event=='streamDestroyed'){
-      deleteParticipant(mySession.event.stream.streamManager);
-    }else if(mySession.event=='exception'){
-      console.warn(mySession.exception);
-    }
-    // mySession.on('streamCreated', (event) => {
+    // if (mySession.event == 'streamCreated') {
     //   // OpenVidu는 자체적으로 VIDEO 생성 못함
-    //   var participant = mySession.subscribe(event.stream, undefined);
+    //   console.log("STREAMCREATED");
+    //   var participant = mySession.subscribe(mySession.event.stream, undefined);
     //   var participants = participants;
     //   participants.push(participant);
     //   setParticipants(participants);
-    // });
+    // }else if(mySession.event=='streamDestroyed'){
+    //   console.log("STREAMDESTROYED");
+    //   deleteParticipant(mySession.event.stream.streamManager);
+    // }else if(mySession.event=='exception'){
+    //   console.warn(mySession.exception);
+    // }
+    await mySession.on('streamCreated', (event) => {
+      // OpenVidu는 자체적으로 VIDEO 생성 못함
+      var participant = mySession.subscribe(event.stream, undefined);
+      var participants = participants;
+      participants.push(participant);
+      setParticipants(participants);
+    });
 
-    // mySession.on('streamDestroyed', (event) => {
-    //   deleteParticipant(event.stream.streamManager);
-    // });
+    await mySession.on('streamDestroyed', (event) => {
+      deleteParticipant(event.stream.streamManager);
+    });
 
-    // mySession.on('exception', (exception) => {
-    //   console.warn(exception);
-    // });
+    await mySession.on('exception', (exception) => {
+      console.warn(exception);
+    });
 
     /* 혜지 : 모든 사용자 PUBLISHER 지정 필수 */
-    mySession.connect(token, { clientData: nickname, publisher: true })
+    await mySession.connect(token, { clientData: nickname, publisher: true })
       .then(async () => {
         console.log("CONNECT OPENVIDU");
 
@@ -136,22 +129,22 @@ export default function RoomCam(props) {
       })
       .catch((error) => {
         console.log('OPENVIDU CONNECT ERROR: ', error.code, error.message);
-      });
+      });  
+  }
+
+  const leaveSession = () => {
+    const mySession = session;
       
-    const leaveSession = () => {
-      const mySession = session;
-        
-      if (mySession) {
-        mySession.disconnect();
-      }
-        
-      setOV(null);
-      setSession({});
-      setParticipants([]);
-      setMainStreamManager(undefined);
-      setPublisher(undefined);
-      setCurrentVideoDevice(undefined);
+    if (mySession) {
+      mySession.disconnect();
     }
+      
+    // setOV(null);
+    // setSession({});
+    setParticipants([]);
+    setMainStreamManager(undefined);
+    setPublisher(undefined);
+    setCurrentVideoDevice(undefined);
   }
 
   return (
