@@ -11,19 +11,18 @@ export default function RoomCam(props) {
 
   const OV=new OpenVidu();
   let session=OV.initSession();
+  const token=roomInfo.playerId;
 
   const [nickname, setNickname] = useState(roomInfo.nick); //참여자 닉네임
   // const [OV, setOV] = useState(new OpenVidu());//OpenVidu 객체
   // const [session, setSession] = useState({});//방
   const [roomId, setRoomId] = useState(roomInfo.roomId);//방 세션
-  const [token, setToken] = useState(roomInfo.token);//참여자 토큰
+  //const [token, setToken] = useState(roomInfo.playerId);//참여자 토큰
   const [mainStreamManager, setMainStreamManager] = useState(undefined);// 메인비디오
   const [publisher, setPublisher] = useState(undefined); //비디오, 오디오 송신자
   const [participants, setParticipants] = useState([]);//참여자들
+  const [devices,setDevices]=useState([]);
   const [currentVideoDevice, setCurrentVideoDevice] = useState(undefined);//현재 비디오장치
-
-  console.log("TOKEN: ", token);
-  console.log("SESSION: ", session);
   
   /* 혜지 : 첫 렌더링 시에 OV, session 세팅 */
   useEffect(() => {
@@ -34,30 +33,19 @@ export default function RoomCam(props) {
     }
   },[]);
 
-  /*
-    TO DO :: 현재 렌더링 시마다 호출하나, 상태 변경 시마다 호출로 바꾸기
-  */
-  // useEffect((session) => {
-  //   window.addEventListener('beforeunload', onbeforeunload);
-  //   joinSession(session);
-  //   return () => {
-  //     window.removeEventListener('beforeunload', onbeforeunload);
-  //   }
-  // });
-
   const onbeforeunload = (e) => {
     leaveSession();
   }
 
   const handleMainVideoStream = (stream) => {
+    console.log("HANDLE MAIN VIDEO STREAM");
     if (mainStreamManager !== stream) {
       setMainStreamManager(stream);
     }
   }
 
-
-
   const deleteParticipant = (streamManager) => {
+    console.log("DELETE PARTICIPANT");
     let index = participants.indexOf(streamManager, 0);
     if (index > -1) {
       setParticipants(participants.splice(index, 1));
@@ -66,46 +54,33 @@ export default function RoomCam(props) {
 
   const joinSession = async() => {
     console.log("JOINSESSION");
-    
-    let mySession = session;
 
-    console.log("MYSESSION",session);
-    // if (mySession.event == 'streamCreated') {
-    //   // OpenVidu는 자체적으로 VIDEO 생성 못함
-    //   console.log("STREAMCREATED");
-    //   var participant = mySession.subscribe(mySession.event.stream, undefined);
-    //   var participants = participants;
-    //   participants.push(participant);
-    //   setParticipants(participants);
-    // }else if(mySession.event=='streamDestroyed'){
-    //   console.log("STREAMDESTROYED");
-    //   deleteParticipant(mySession.event.stream.streamManager);
-    // }else if(mySession.event=='exception'){
-    //   console.warn(mySession.exception);
-    // }
-    await mySession.on('streamCreated', (event) => {
+    // 기존에 정의한 session 변수를 사용하도록 수정
+    session.on('streamCreated', (event) => {
+      console.log("STREAM CREATED");
       // OpenVidu는 자체적으로 VIDEO 생성 못함
-      var participant = mySession.subscribe(event.stream, undefined);
-      var participants = participants;
-      participants.push(participant);
-      setParticipants(participants);
+      var participant = session.subscribe(event.stream, undefined);
+      var updatedParticipants = [...participants]; // 새로운 배열을 만들어서 업데이트
+      updatedParticipants.push(participant);
+      setParticipants(updatedParticipants);
     });
 
-    await mySession.on('streamDestroyed', (event) => {
+    session.on('streamDestroyed', (event) => {
+      console.log("STREAM DESTROYED");
       deleteParticipant(event.stream.streamManager);
     });
 
-    await mySession.on('exception', (exception) => {
+    session.on('exception', (exception) => {
       console.warn(exception);
     });
 
     /* 혜지 : 모든 사용자 PUBLISHER 지정 필수 */
-    await mySession.connect(token, { clientData: nickname, publisher: true })
-      .then(async () => {
+    await session.connect(token, { clientData: nickname, publisher: true })
+      .then(() => {
         console.log("CONNECT OPENVIDU");
 
         /* 카메라 세팅 */
-        let publisher = await OV.initPublisherAsync(undefined, {
+        OV.initPublisherAsync(undefined, {
           audioSource: undefined, // 오디오
           videoSource: undefined, // 비디오
           publishAudio: true, // 오디오 송출
@@ -114,29 +89,36 @@ export default function RoomCam(props) {
           frameRate: 30, // The frame rate of your video
           insertMode: 'APPEND', // 비디오 컨테이너 적재 방식
           mirror: false, // Whether to mirror your local video or not
+        }).then((publisher) => {
+          session.publish(publisher);
+
+          console.log("GET DEVICES");
+          console.log(OV.getDevices());
+          let deviceList = OV.getDevices();
+          setDevices(deviceList);
+          console.log(devices);
+          var videoDevices = devices.filter(device => device.kind === 'videoinput');
+          var currentVideoDeviceId = publisher.stream.getMediaStream().getVideoTracks()[0].getSettings().deviceId;
+          var currentVideoDevice = videoDevices.find(device => device.deviceId === currentVideoDeviceId);
+
+          setCurrentVideoDevice(currentVideoDevice);
+          setMainStreamManager(publisher);
+          setPublisher(publisher);
+        }).catch((error) => {
+          console.log('OPENVIDU PUBLISHER ERROR: ', error.code, error.message);
+          console.log(error);
         });
-
-        mySession.publish(publisher);
-
-        var devices = await OV.getDevices();
-        var videoDevices = devices.filter(device => device.kind === 'videoinput');
-        var currentVideoDeviceId = publisher.stream.getMediaStream().getVideoTracks()[0].getSettings().deviceId;
-        var currentVideoDevice = videoDevices.find(device => device.deviceId === currentVideoDeviceId);
-
-        setCurrentVideoDevice(currentVideoDevice);
-        setMainStreamManager(publisher);
-        setPublisher(publisher);
       })
       .catch((error) => {
         console.log('OPENVIDU CONNECT ERROR: ', error.code, error.message);
-      });  
-  }
+        console.log(error);
+      });
+    }
 
   const leaveSession = () => {
-    const mySession = session;
-      
-    if (mySession) {
-      mySession.disconnect();
+      console.log("LEAVE SESSION");
+    if (session) {
+      session.disconnect();
     }
       
     // setOV(null);
