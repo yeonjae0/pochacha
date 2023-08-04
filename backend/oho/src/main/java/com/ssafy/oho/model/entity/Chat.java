@@ -8,6 +8,8 @@ import org.hibernate.annotations.DynamicInsert;
 /* Entity는 유효성 검사가 필요 없으므로 Lombok으로 대체함 */
 @Entity(name="chat")
 // @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @DynamicInsert
 public class Chat extends Base{
