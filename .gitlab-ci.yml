@@ -1,12 +1,11 @@
 stages:
-  - build-react
-  - build-spring
-  - docker-nr-build
-  - docker-sa-build
-  - deploy
+  - build
+  - docker-nr-deploy
+  - docker-sa-deploy
+  #- deploy
 
 react-build:
-  stage: build-react
+  stage: build
   tags:
     - test
   image: node:18.16.1-alpine
@@ -23,7 +22,7 @@ react-build:
 
 spring-build:
   image: gradle:jdk17
-  stage: build-spring
+  stage: build
   tags:
     - test
   script:
@@ -35,10 +34,12 @@ spring-build:
       - backend/oho/build/libs/*.jar
     #expire_in: 10 min
 
-docker-nginx-react-build:
-  stage: docker-nr-build
+docker-nginx-react-deploy:
+  stage: docker-nr-deploy
   tags:
   - test
+  variables:
+    IMAGE_NAME: zaqxsw1397/nginx-react
   image: docker:latest
   services: 
     - docker:19.03.8-dind
@@ -46,14 +47,15 @@ docker-nginx-react-build:
     - echo "$DOCKER_HUB_PW" | docker login -u "$DOCKER_HUB_USER" --password-stdin
   script:
     - cd frontend
-    - docker build -t zaqxsw1397/nginx-react .
-    - docker push zaqxsw1397/nginx-react
+    - docker build -t $IMAGE_NAME .
+    - docker push $IMAGE_NAME
+    - docker run -d --restart always -p 443:443 -p 80:80 --name NGINXREACT $IMAGE_NAME
   after_script:
     - docker logout
 
-docker-spring-api-build:
+docker-spring-api-deploy:
   image: docker:latest
-  stage: docker-sa-build
+  stage: docker-sa-deploy
   tags:
     - test
   variables:
@@ -66,6 +68,7 @@ docker-spring-api-build:
     - cd backend/oho
     - docker build -t $IMAGE_NAME .
     - docker push $IMAGE_NAME
+    - docker run -d --restart always -p 8080:8080 --name SPRINGAPI $IMAGE_NAME
   after_script:
     - docker logout
 
