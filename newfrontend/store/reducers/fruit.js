@@ -10,10 +10,14 @@ const fruitSlice = createSlice({
   initialState,
   reducers: {
     makeFruitList: (state, action) => {
-      // return { ...state, fruit: action.payload };
-      return { fruits: state.fruit + action.payload };
+      return { ...state, fruit: action.payload };
+
     },
-  },
+    showFruitList: (state, action) => {
+      return { ...state, package: action.payload };
+      // return { fruits: state.fruit + action.payload };
+    },
+  }
 });
 
 // const applySetFruits = (state, action) => ({
@@ -34,4 +38,5 @@ const fruitSlice = createSlice({
 export default fruitSlice;
 export const {
   makeFruitList,
+  showFruitList,
 } = fruitSlice.actions

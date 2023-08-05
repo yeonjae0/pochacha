@@ -24,7 +24,7 @@ const addFruitList = () => {
     
     const updateFruitList = () => {
       let tmpList = [fruitList];
-      tmpList.push("text")
+      tmpList.push(text)
       console.log(tmpList)
       
       dispatch(makeFruitList(tmpList));
