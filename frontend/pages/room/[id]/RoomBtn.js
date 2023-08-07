@@ -85,15 +85,15 @@ export default function RoomBtn(props) {
   const readyGame = () => {
     setReady(!ready);
     let sendData = {
-      "playerId" : roomInfo.playerId,
+      "playerId" : info.playerId,
       "ready" : ready
     };
-    client.current.send(`/player/ready/${roomInfo.roomId}`, {}, JSON.stringify(sendData));
+    client.current.send(`/ready/${info.roomId}`, {}, JSON.stringify(sendData));
   } /* 유영 : 플레이어 ready 정보 socket 전송 끝 */
 
   const subscribePlayer = () => {
     client.current.connect({}, () => {
-      client.current.subscribe(`/topic/player/${roomInfo.roomId}`, (response) => {
+      client.current.subscribe(`/topic/player/${info.roomId}`, (response) => {
         var data = JSON.parse(response.body);
         console.log(data);
       })  // 플레이어 정보 구독

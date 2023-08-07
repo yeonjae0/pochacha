@@ -100,8 +100,6 @@ public class PlayerController {
             //webSocket.convertAndSend("/queue/" + payload.get("id"), errorMsg);
             webSocket.convertAndSend("/topic/player/" + roomId, errorMsg/* 임시 값 저장 */);
         } catch(Exception e) {
-            e.printStackTrace();
-
             HashMap<String, String> errorMsg = new HashMap<>();
             errorMsg.put("error", e.getMessage());
             webSocket.convertAndSend("/topic/player/" + roomId, payload/* 임시 값 저장 */);
