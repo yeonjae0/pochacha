@@ -73,7 +73,7 @@ export default function Room() {
 
   const gameStart = () => {
     axios({
-      url: process.env.NEXT_PUBLIC_HOST + "/enter",
+      url: process.env.NEXT_PUBLIC_HOST + "/api/enter",
       header: {
         "Accept": "application/json",
         "Content-type": "aplic ation/json;charset=UTF-8"
