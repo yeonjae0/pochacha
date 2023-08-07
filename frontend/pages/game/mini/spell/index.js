@@ -1,3 +1,4 @@
+
 'use Client'
 // 이 창에 들어오면 초기화 구현, roomID 확인
 
@@ -18,3 +19,4 @@ function checkID() {
 }
 
 export default checkID;
+

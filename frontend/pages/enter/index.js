@@ -103,8 +103,8 @@ export default function EnterPage() {
          );
         router.push(
           {
-            pathname: '/enter',
-            // pathname: `/room/${response.data.room.id}`,
+            // pathname: '/enter',
+            pathname: `/room/${response.data.room.id}`,
             query: { currentName: JSON.stringify(obj) },
           },
           /* 희진 : store에 데이터 저장 작업 완료 후 삭제 예정 코드 */
