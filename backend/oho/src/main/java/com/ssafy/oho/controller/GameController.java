@@ -4,6 +4,7 @@ import com.ssafy.oho.model.dto.request.PlayerRequestDto;
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.CellResponseDto;
 import com.ssafy.oho.model.entity.Cell;
+import com.ssafy.oho.model.entity.Room;
 import com.ssafy.oho.model.service.GameService;
 import com.ssafy.oho.util.exception.GameGetException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,6 @@ import java.util.Map;
 public class GameController {
     private GameService gameService;
     private SimpMessagingTemplate webSocket;
-    private Map<String, List<Object>> roomMap = new HashMap<>();  // <게임 ID, 각 칸의 정보>
 
     @Autowired
     private GameController(SimpMessagingTemplate webSocket, GameService gameService) {
@@ -34,22 +34,19 @@ public class GameController {
         this.gameService = gameService;
     }
 
-    @PostMapping("cell")
-    private ResponseEntity<?> getCell(@RequestBody RoomRequestDto roomRequestDto) {
+    @PostMapping("start")
+    private ResponseEntity<?> startGame(@RequestBody PlayerRequestDto playerRequestDto) {
         try {
-            if(!roomMap.containsKey(roomRequestDto.getId())) {
-                List<Object> cellList = gameService.getCell(roomRequestDto);
-                roomMap.put(roomRequestDto.getId(), cellList);
-            }
+            gameService.startGame(playerRequestDto);
 
-            return ResponseEntity.ok(roomMap.get(roomRequestDto.getId()));
+            return null;
         } catch(GameGetException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     // 말 이동 Socket 함수
-    @MessageMapping("/move/{roomId}")
+    @MessageMapping("move/{roomId}")
     public void movePin(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
 
         Map<String, Object> responsePayload = gameService.movePin(payload, roomId);
@@ -58,10 +55,5 @@ public class GameController {
         // 임시 cell 구분
 
         webSocket.convertAndSend("/topic/move/" + roomId, responsePayload/* 임시 값 저장 */);
-    }
-
-    @MessageMapping("/leave/{roomId}")
-    public void leavePlayer(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
-        webSocket.convertAndSend("/topic/player/" + roomId, payload/* 임시 값 저장 */);
     }
 }

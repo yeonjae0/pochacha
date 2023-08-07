@@ -89,7 +89,7 @@ public class PlayerController {
     }
 
 
-    @MessageMapping("/ready/{roomId}")
+    @MessageMapping("ready/{roomId}")
     public void updatePlayer(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
         try {
             PlayerResponseDto playerResponseDto = playerService.updatePlayer(payload, roomId);
@@ -97,7 +97,8 @@ public class PlayerController {
         } catch(PlayerUpdateException e) {
             HashMap<String, String> errorMsg = new HashMap<>();
             errorMsg.put("error", e.getMessage());
-            webSocket.convertAndSend("/queue/" + payload.get("id"), errorMsg);
+            //webSocket.convertAndSend("/queue/" + payload.get("id"), errorMsg);
+            webSocket.convertAndSend("/topic/player/" + roomId, errorMsg/* 임시 값 저장 */);
         } catch(Exception e) {
             e.printStackTrace();
 
@@ -107,11 +108,11 @@ public class PlayerController {
         }
     }
 
-    @MessageMapping("/leave/{roomId}")
+    @MessageMapping("leave/{roomId}")
     public void deletePlayer(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
         try {
             PlayerResponseDto playerResponseDto = playerService.deletePlayer(payload, roomId);
-            
+
             // id만 가지고 있는 값 전송
             webSocket.convertAndSend("/topic/player/" + roomId, playerResponseDto);
         } catch(PlayerDeleteException e) {

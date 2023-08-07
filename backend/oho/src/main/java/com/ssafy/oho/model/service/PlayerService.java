@@ -130,7 +130,6 @@ public class PlayerService {
                     .build();
             Connection connection = session.createConnection(properties);
             String token=connection.getToken();  // VALUE EXAMPLE : "wss://localhost:4443?sessionId=ses_JM9v0nfD1l&token=tok_MIYGGzuDQb8Xf1Qd"
-
             System.out.println("TOKEN: "+token);
 
             /*** Entity Build ***/
@@ -218,11 +217,11 @@ public class PlayerService {
         try {
             /*** 유효성 검사 ***/
             // 플레이어 존재 확인
-            if(!payload.containsKey("id")) {
+            if(!payload.containsKey("playerId")) {
                 throw new PlayerUpdateException();
             }
 
-            String playerId = (String) payload.get("id");
+            String playerId = (String) payload.get("playerId");
             // Redis 저장 확인
             if (!hashOperations.hasKey(getPlayerListKey(roomId, playerId), "ready")) {
                 // Redis에도 DB에도 없을 시 Exception
@@ -242,9 +241,9 @@ public class PlayerService {
             /*** Response DTO Build ***/
             PlayerResponseDto playerResponseDto = PlayerResponseDto.builder()
                     .id(playerId)
-                    .nickname((String) hashOperations.get(getPlayerListKey(roomId, playerId), "nickname"))
-                    .head((boolean) hashOperations.get(getPlayerListKey(roomId, playerId), "head"))
-                    .ready((boolean) hashOperations.get(getPlayerListKey(roomId, playerId), "ready"))
+                    .nickname((String) hashOperations.get(roomId + ".player." + playerId, "nickname"))
+                    .head(Boolean.parseBoolean((String) hashOperations.get(roomId + ".player." + playerId, "head")))
+                    .ready(Boolean.parseBoolean((String) hashOperations.get(roomId + ".player." + playerId, "ready")))
                     .build();
 
 

@@ -5,10 +5,14 @@ import com.ssafy.oho.model.dto.response.CellResponseDto;
 import com.ssafy.oho.model.dto.response.MinigameResponseDto;
 import com.ssafy.oho.model.entity.Cell;
 import com.ssafy.oho.model.entity.Minigame;
+import com.ssafy.oho.model.entity.Player;
+import com.ssafy.oho.model.entity.Room;
 import com.ssafy.oho.model.repository.CellRepository;
 import com.ssafy.oho.model.repository.MinigameRepository;
+import com.ssafy.oho.model.repository.RoomRepository;
 import com.ssafy.oho.util.exception.GameGetException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -17,21 +21,31 @@ import java.util.regex.Pattern;
 @Service
 public class GameService {
 
-    // StringRedisTemplate redisTemplate;
-    CellRepository cellRepository;
-    MinigameRepository minigameRepository;
+    private final StringRedisTemplate redisTemplate;
+    private final CellRepository cellRepository;
+    private final MinigameRepository minigameRepository;
+    private final RoomRepository roomRepository;
     private final int MINIGAME_CNT = 4;
     private final int CELL_CNT = 24;
 
     @Autowired
-    private GameService(CellRepository cellRepository, MinigameRepository minigameRepository/*, StringRedisTemplate redisTemplate*/) {
+    private GameService(StringRedisTemplate redisTemplate, CellRepository cellRepository, MinigameRepository minigameRepository, RoomRepository roomRepository) {
+        this.redisTemplate = redisTemplate;
         this.cellRepository = cellRepository;
         this.minigameRepository = minigameRepository;
-        // this.redisTemplate = redisTemplate;
+        this.roomRepository = roomRepository;
+    }
+
+    public void startGame(RoomRequestDto roomRequestDto) throws GameGetException {
+        /*** 유효성 검사 ***/
+        if(roomRequestDto.getId() == null || !roomRepository.existsById(roomRequestDto.getId().trim())) {  // 해당 방이 존재하지 않을 경우
+            throw new GameGetException();
+        }
+
     }
 
     public List<Object> getCell(RoomRequestDto roomRequestDto) throws GameGetException {
-        /* 유효성 검사 */
+        /*** 유효성 검사 ***/
         if(roomRequestDto.isProgress()) {  // 게임이 이미 시작 중일 경우
             throw new GameGetException();
         }
