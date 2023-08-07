@@ -10,9 +10,11 @@ import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import axios from 'axios'
 import { Transition } from 'react-transition-group'
+import { useDispatch, useSelector } from "react-redux";
+import { enterRoom } from "@/store/reducers/room.js";
 
-/* 연재 : 모달 시작 (미완) */
-// 해야할 것: 모달 창 꾸미기, 자동으로 사라지게 하기
+/* 연재 : 모달 시작 */
+// 해야할 것: 모달 창 꾸미기
 const ModalContainer = styled.div`
   position: fixed;
   top: 0;
@@ -36,9 +38,10 @@ const ModalContent = styled.div`
 export default function GamePage() {
 
   const router = useRouter()
+  const dispatch = useDispatch();
   let info = JSON.parse(router.query.currentName)
 
-  let [roomId, setRoomId] = useState(info.roomId); // 현재 방 ID (임의 삽입)
+  // let [roomId, setRoomId] = useState(info.roomId); // 현재 방 ID (임의 삽입)
   let [includeMini, setIncludeMini] = useState(true); // 미니게임 진행 여부
   let [dice, setDice] = useState(0); // 주사위
   let [pin, setPin] = useState(1); // 현재 위치
@@ -158,7 +161,7 @@ export default function GamePage() {
       </>
     )
   }
-  /* 연재 : 모달 끝 (미완) */
+  /* 연재 : 모달 끝 */
   
   return (
     <div className={styles.container}>
