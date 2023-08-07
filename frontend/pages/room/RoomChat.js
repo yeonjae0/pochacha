@@ -17,24 +17,42 @@ export default function RoomChat({ info }) {
   /* 유영 : Socket을 이용한 채팅 함수 시작 */
   const [message, setMessage] = useState('')
   const [chatHistory, setChatHistory] = useState(`${info.nick}님이 입장하셨습니다.`+ '\n')
+  const [spam, setSpam] = useState('') // 도배 메시지
+  const [count, setCount] = useState(0) // 도배 횟수 카운트
 
   const handleOnChange = (e) => {
     setMessage(e.target.value)
   }
+
+  /* 희진 : 도배 유저 일시 차단 진행 중 */
   const enterDown = (e) => {
     if (e.key === 'Enter') {
-      console.log(message)
-      setChatHistory((prevHistory) => prevHistory + info.nick + ': ' + message + '\n')
-      setMessage('')
+
+      let spamMsg = spam;
+      setSpam(message) // 도배 메시지 저장
+      if (spamMsg === spam) {
+        setCount(count+1)
+        if (count === 5) {
+          alert("5회 이상 같은 채팅을 입력하셨습니다.")
+        }
+      }
+
+      if (message === '') {
+        alert("입력된 메시지가 없습니다.")
+      } else {
+        setChatHistory((prevHistory) => prevHistory + info.nick + ': ' + message + '\n')
+        setMessage('')
+      }
     }
   }
+
   let [client, setClicent] = useState({})
 
   const connectSocket = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS(process.env.NEXT_PUBLIC_HOST + "/ws")
-      return sock;
-    });
+      const sock = new SockJS("http://localhost:80/ws")
+      return sock
+    })
   }
 
   const subscribeChat = () => {
@@ -55,6 +73,11 @@ export default function RoomChat({ info }) {
         onChange={handleOnChange}
         onKeyDown={enterDown}
         />
+      <input type="text" style={{ width: '500px' }} className={styles.chatInput}
+        value={message}
+        onChange={handleOnChange}
+        onKeyDown={enterDown}
+        disabled />
       <button className={styles.sendBtn} onClick={() => {
         var sendData = {
           "playerId": info.nick,
@@ -65,4 +88,3 @@ export default function RoomChat({ info }) {
     </div>
   )
 }
-/* 희진 : 채팅 누적 출력 시작 */

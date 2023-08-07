@@ -1,52 +1,64 @@
 import { useState, useEffect } from 'react';
 
-export default function MoleGame () {
+export default function Home() {
   const [score, setScore] = useState(0);
-  const [moleUp, setmoleUp] = useState(false);
+  const [moles, setMoles] = useState([]);
 
-  // 두더지가 나타나는 빈도와 게임 진행 간격을 설정합니다.
-  const moleInterval = 2000; // 깜빡이 빈도, 2초
-  const gameTime = 20000; // 게임 진행 시간, 20초
+  // Function to generate random moles
+  const generateMoles = () => {
+    const randomX = Math.floor(Math.random() * window.innerWidth);
+    const randomY = Math.floor(Math.random() * window.innerHeight);
+    return { x: randomX, y: randomY };
+  };
 
-  // 게임 시작 후 일정 시간마다 두더지를 보이게 하거나 숨기는 함수
-  useEffect(() => {
-    const moleTimer = setInterval(() => {
-      setmoleUp(true);
-      setTimeout(() => {
-        setmoleUp(false);
-      }, moleInterval * 0.5) // 두더지가 보이는 시간 (1초)
-    }, moleInterval)
+  // Function to handle mole click
+  const handleMoleClick = (index) => {
+    setMoles((prevMoles) => {
+      prevMoles.splice(index, 1);
+      return [...prevMoles];
+    });
+    setScore((prevScore) => prevScore + 1);
+  };
 
+  // Function to remove a mole after 5 seconds
+  const removeMoleAfterDelay = (index) => {
     setTimeout(() => {
-      clearInterval(moleTimer)
-      alert('Game Over! Your score: ' + score);
-    }, gameTime)
+      setMoles((prevMoles) => {
+        prevMoles.splice(index, 1);
+        return [...prevMoles];
+      });
+    }, 5000);
+  };
 
-    return () => {
-      clearInterval(moleTimer)
-    }
-  }, [score])
+  // useEffect to generate moles and remove them after a delay
+  useEffect(() => {
+    const moleInterval = setInterval(() => {
+      const newMoles = [...moles, generateMoles()];
+      setMoles(newMoles);
+    }, 1000);
 
-  // 두더지를 클릭했을 때 점수를 올리는 함수
-  const handleMoleClick = () => {
-    if (moleUp) {
-      setScore((prevScore) => prevScore + 1)
-    }
-  }
+    moles.forEach((mole, index) => {
+      removeMoleAfterDelay(index);
+    });
+
+    return () => clearInterval(moleInterval);
+  }, [moles]);
 
   return (
     <div>
-      <h1>두더지 게임</h1>
-      <p>Score: {score}</p>
-      <div
-        style={{
-          width: '100px',
-          height: '100px',
-          backgroundColor: moleUp ? 'brown' : 'transparent',
-          cursor: moleUp ? 'pointer' : 'default',
-        }}
-        onClick={handleMoleClick}
-      />
+      <h1>Mole Game</h1>
+      <div>Score: {score}</div>
+      <div>
+        {moles.map((mole, index) => (
+          <img
+            key={index}
+            src="/mole1.png"
+            alt="mole"
+            style={{ position: 'absolute', left: mole.x, top: mole.y, cursor: 'pointer' }}
+            onClick={() => handleMoleClick(index)}
+          />
+        ))}
+      </div>
     </div>
-  )
+  );
 }
