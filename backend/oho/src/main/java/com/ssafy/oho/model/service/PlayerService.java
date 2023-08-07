@@ -17,6 +17,7 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -43,6 +44,22 @@ public class PlayerService {
         // Redis 데이터와 연결
         this.hashOperations = this.redisTemplate.opsForHash();
     }
+
+    private String getPlayerListKey(String roomId, String playerId) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(roomId).append(".player.").append(playerId);
+
+        return sb.toString();
+    }
+
+    private void defaultPlayerRedis(String roomId, Player player) {
+        /*** Redis Input : 모든 데이터를 String으로 변경 ***/
+        hashOperations.put(getPlayerListKey(roomId, player.getId()), "id", player.getId());
+        hashOperations.put(getPlayerListKey(roomId, player.getId()), "nickname", player.getNickname());
+        hashOperations.put(getPlayerListKey(roomId, player.getId()), "head", Boolean.toString(player.isHead()));
+        hashOperations.put(getPlayerListKey(roomId, player.getId()), "ready", "false");
+    }
+
     public PlayerResponseDto setHead(PlayerRequestDto playerRequestDto, String roomId, OpenVidu openVidu) throws PlayerSetException {
         System.out.println("PLAYER SERVECE: SET HEAD");
         System.out.println("ROOMID: "+roomId);
@@ -63,20 +80,16 @@ public class PlayerService {
             playerRepository.save(head);
             System.out.println("AFTER SAVING HEAD");
 
+            /*** Redis Input ***/
+            hashOperations.put(getPlayerListKey(roomId, head.getId()), "head", Boolean.toString(head.isHead()));
+            hashOperations.put(getPlayerListKey(roomId, head.getId()), "ready", "true");
+
             /*** Response DTO Build ***/
             headResponseDto = PlayerResponseDto.builder()
                     .id(head.getId())
                     .nickname(head.getNickname())
                     .head(head.isHead())
                     .build();
-
-           // redisTemplate.multi();  // Transaction Start
-
-            /*** Redis Input : 모든 데이터를 String으로 변경 ***/
-            hashOperations.put(roomId + ".player." + headResponseDto.getId(), "head", Boolean.toString(headResponseDto.isHead()));
-            hashOperations.put(roomId + ".player." + headResponseDto.getId(), "ready", Boolean.toString(headResponseDto.isReady()));
-
-           // redisTemplate.exec();  // Transaction Execute
 
             return headResponseDto;
         } catch (Exception e) {
@@ -88,11 +101,10 @@ public class PlayerService {
         try {
             Room room = roomRepository.findById(roomId).orElseThrow(()-> new PlayerSetException());
             // 방이 존재하지 않을 경우
-            // 플레이어가 4명 초과인 경우
-            // (확인 필요) 게임이 이미 시작된 경우
-            if (room == null || 4 < playerRepository.countByRoom(room) /*|| room.isProgress()*/) {
-                System.out.println("ERROR: 방이 없거나 PLAYER가 4명 초과");
-                throw new PlayerSetException();
+            // 플레이어가 4명 이상인 경우
+            // 게임이 이미 시작된 경우
+            if (room == null || 4 <= playerRepository.countByRoom(room) || room.isProgress()) {
+                throw new PlayerSetException("해당 방에 접속할 수 없습니다.");
             }
 
             // 닉네임 입력 시 해당 닉네임, 미입력시 랜덤 닉네임 생성
@@ -108,7 +120,7 @@ public class PlayerService {
             /* 혜지 : OpenVidu Token 발급 */
             Session session = openVidu.getActiveSession(roomId);
             if (session == null) {
-                System.out.println("ERROR: CREATING OPENVIDE SESSION");
+                System.out.println("ERROR: CREATING OPENVIDU SESSION");
                 throw new PlayerSetException();
             }
             ConnectionProperties properties = new ConnectionProperties
@@ -117,7 +129,8 @@ public class PlayerService {
                     .data(nickname) /* 혜지: data로 nickname 실어 보내기 */
                     .build();
             Connection connection = session.createConnection(properties);
-            String token=connection.getToken();//VALUE EXAMPLE : "wss://localhost:4443?sessionId=ses_JM9v0nfD1l&token=tok_MIYGGzuDQb8Xf1Qd"
+            String token=connection.getToken();  // VALUE EXAMPLE : "wss://localhost:4443?sessionId=ses_JM9v0nfD1l&token=tok_MIYGGzuDQb8Xf1Qd"
+
             System.out.println("TOKEN: "+token);
 
             /*** Entity Build ***/
@@ -130,6 +143,7 @@ public class PlayerService {
 
             System.out.println(player.toString());
             playerRepository.save(player);
+            defaultPlayerRedis(roomId, player); // Redis에 저장
 
             /*** Response DTO Build ***/
             PlayerResponseDto playerResponseDto = PlayerResponseDto.builder()
@@ -137,17 +151,6 @@ public class PlayerService {
                     .nickname(player.getNickname())
                     .head(player.isHead())
                     .build();
-
-           // redisTemplate.multi();  // Transaction Start
-
-            /*** Redis Input : 모든 데이터를 String으로 변경 ***/
-            /* TO DO :: player id를 토큰으로 변경하며, data type 변경 필요 */
-            hashOperations.put(roomId + ".player." + playerResponseDto.getId(), "id", playerResponseDto.getId());
-            hashOperations.put(roomId + ".player." + playerResponseDto.getId(), "nickname", playerResponseDto.getNickname());
-            hashOperations.put(roomId + ".player." + playerResponseDto.getId(), "head", Boolean.toString(playerResponseDto.isHead()));
-            hashOperations.put(roomId + ".player." + playerResponseDto.getId(), "ready", Boolean.toString(playerRequestDto.isReady()));
-
-          //  redisTemplate.exec();  // Transaction Execute
 
             return playerResponseDto;
         } catch (Exception e) {//OpenViduJavaClientException, OpenViduHttpException, ...
@@ -158,7 +161,7 @@ public class PlayerService {
 
     public PlayerResponseDto getPlayer(PlayerRequestDto playerRequestDto) throws PlayerGetException {
         try {
-            Player player = playerRepository.findById(playerRequestDto.getId()).orElseThrow(()-> new PlayerGetException());;
+            Player player = playerRepository.findById(playerRequestDto.getId()).orElseThrow(()-> new PlayerGetException());
 
             /*** Response DTO Build ***/
             PlayerResponseDto playerResponseDto = PlayerResponseDto.builder()
@@ -180,7 +183,7 @@ public class PlayerService {
             /*** 유효성 검사 ***/
             // 현재 방의 플레이어 존재 확인
             Player player = playerRepository.findById(playerRequestDto.getId()).orElseThrow(()-> new PlayerGetException());
-            if(player == null || /*player.getId() <= 0 ||*/ !player.getRoom().getId().equals(roomId)){
+            if(player == null || !player.getRoom().getId().equals(roomId)){
                 throw new PlayerGetException();
             }
 
@@ -212,34 +215,38 @@ public class PlayerService {
     }
 
     public PlayerResponseDto updatePlayer(Map<String, Object> payload, String roomId) throws PlayerUpdateException {
-
         try {
             /*** 유효성 검사 ***/
             // 플레이어 존재 확인
-            Player player = playerRepository.findById(String.valueOf(payload.get("id"))).orElseThrow(()-> new PlayerUpdateException());
-            if (player == null || /*player.getId() <= 0 ||*/ !player.getRoom().getId().equals(roomId)) {
+            if(!payload.containsKey("id")) {
                 throw new PlayerUpdateException();
             }
-            String nickname = (payload.containsKey("nickname")) ? (String) payload.get("nickname") : player.getNickname();
-            /* boolean ready = (payload.containsKey("ready")) ? (boolean) payload.get("ready") : player.isReady(); */
 
-            /*
-                TO DO :: 추후 Redis 임시 데이터로 수정 예정
-             */
-            /*** Entity Build ***/
-            player = Player.builder()
-                    .id(player.getId())
-                    .nickname(nickname)
-                    .head(player.isHead())
-                    .build();
-            playerRepository.save(player);
+            String playerId = (String) payload.get("id");
+            // Redis 저장 확인
+            if (!hashOperations.hasKey(getPlayerListKey(roomId, playerId), "ready")) {
+                // Redis에도 DB에도 없을 시 Exception
+                if(!playerRepository.existsById(playerId)) {
+                    throw new PlayerUpdateException();
+                }
+                
+                // DB엔 있으나 Redis에 없을 시 Redis에 저장
+                defaultPlayerRedis(roomId, playerRepository.findById(playerId).orElseThrow(()-> new PlayerUpdateException()));
+            }
+
+            /*** Redis Input ***/
+            if(payload.containsKey("ready")) {  // Ready 상태 변경
+                hashOperations.put(getPlayerListKey(roomId, playerId), "ready", Boolean.valueOf((boolean) payload.get("ready")));
+            }
 
             /*** Response DTO Build ***/
             PlayerResponseDto playerResponseDto = PlayerResponseDto.builder()
-                    .id(player.getId())
-                    .nickname(player.getNickname())
-                    .head(player.isHead())
+                    .id(playerId)
+                    .nickname((String) hashOperations.get(getPlayerListKey(roomId, playerId), "nickname"))
+                    .head((boolean) hashOperations.get(getPlayerListKey(roomId, playerId), "head"))
+                    .ready((boolean) hashOperations.get(getPlayerListKey(roomId, playerId), "ready"))
                     .build();
+
 
             return playerResponseDto;
         } catch(Exception e) {
@@ -247,14 +254,16 @@ public class PlayerService {
         }
     }
 
-    public void deletePlayer(PlayerRequestDto playerRequestDto) throws PlayerDeleteException {
+    public PlayerResponseDto deletePlayer(Map<String, Object> payload, String roomId) throws PlayerDeleteException {
         try {
-            /*
-                TO DO :: 본인인지 확인하는 로직 필요
-             */
-            playerRepository.deleteById(playerRequestDto.getId());
+            String playerId = (String) payload.get("id");
+            hashOperations.delete(getPlayerListKey(roomId, playerId), "nickname", "head", "ready");
+            playerRepository.deleteById(playerId);
 
-            return;
+            PlayerResponseDto playerResponseDto = PlayerResponseDto.builder()
+                    .id(playerId)
+                    .build();
+            return playerResponseDto;
         } catch(Exception e) {
             throw new PlayerDeleteException();
         }
