@@ -35,7 +35,7 @@ export default function RoomPage() {
     );
   }; /* 유영 : 최초 한 번 사용자 목록 불러오기 끝 */
 
-  let [client, setClicent] = useState({})
+  let client = {};
 
   /* 유영 : Socket 함수 시작 */
   const connectSocket = async() => {

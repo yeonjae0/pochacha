@@ -49,7 +49,7 @@ export default function RoomBtn(props) {
 
   console.log(`Room Button Info: ${info.roomId}`)
 
-  let [ready, setReady] = useState(roomInfo.ready);
+  let [ready, setReady] = useState(info.ready);
   let [setting, setSetting] = useState(true)
   
   /* 희진 : JS 클립보드 API 시작 */
