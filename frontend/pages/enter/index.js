@@ -15,7 +15,7 @@ export default function EnterPage() {
 
   /* 유영 : 소켓 간단 연결 작업 시작 */
   useEffect(() => {
-    const socket = new SockJS("http://localhost:80/ws")
+    const socket = new SockJS(process.env.NEXT_PUBLIC_HOST + "/ws")
     const stompClient = Stomp.over(socket)
 
     stompClient.connect({}, /*Connect Callback*/() => {
@@ -70,7 +70,7 @@ export default function EnterPage() {
 
   const gameStart = () => {
     axios({
-      url: "http://localhost:80/enter",
+      url: process.env.NEXT_PUBLIC_HOST + "/api/enter",
       header: {
         "Accept": "application/json",
         "Content-type": "application/json;charset=UTF-8"

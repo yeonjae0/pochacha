@@ -71,7 +71,7 @@ export default function GamePage() {
   const createMap = async () => {
     console.log("before axios roomId", roomId)
     axios({
-      url: "http://localhost:80/game/cell",
+      url: process.env.NEXT_PUBLIC_HOST + "/api/game/cell",
       header: {
         "Accept": "application/json",
         "Content-type": "application/json;charset=UTF-8"
@@ -92,7 +92,7 @@ export default function GamePage() {
 
   const connectSocket = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS("http://localhost:80/ws")
+      const sock = new SockJS(process.env.NEXT_PUBLIC_HOST + "/ws")
       return sock;
     });
   }
