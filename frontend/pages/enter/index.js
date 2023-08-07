@@ -29,7 +29,7 @@ export default function EnterPage() {
 
   /* 유영 : axios를 통한 닉네임 생성 및 방 생성 시작 */
   /* 희진 : axios 렌더링 타이밍 변경 시작 (페이지 로딩 시 최초 1회) */
-  let roomId = ''
+  // let roomId = ''
   let progress = false
   let secret = false
   let nick = ''
@@ -88,22 +88,33 @@ export default function EnterPage() {
       obj = 
       { 'roomId': response.data.room.id,
         'progress': response.data.room.progress,
-        'secret': response.data.room.secret,
+        'secret': response.data.room.secret, // 비밀 방인지, 아닌지
         'nick': text || response.data.player.nickname,
         'playerId': response.data.player.id,
         'ready': response.data.player.ready,
         'token' : response.data.player.token }
 
       const sendData = () => {
-         /* 연재 : roomID 저장 test */
+         /* 연재 : obj 정보 저장 */
          dispatch(
           enterRoom({
-            address: response.data.room.id,
+            roomId: response.data.room.id,
+            progress: response.data.room.progress,
+            secret: response.data.room.secret,
+          }),
+          playerInRoom({
+            nick: text || response.data.player.nickname,
+            playerId: response.data.player.id,
+            ready: response.data.player.ready,
+            token: response.data.player.token
           })
          );
+
+        //  const roomID = useSelector(state => state.room.currentRoomAddress);
         router.push(
           {
             // pathname: '/enter',
+            // pathname: `/room/${roomID}`,
             pathname: `/room/${response.data.room.id}`,
             query: { currentName: JSON.stringify(obj) },
           },

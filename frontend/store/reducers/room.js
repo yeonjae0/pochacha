@@ -1,9 +1,10 @@
-
-// 연습용
+// 룸 정보를 저장해보자
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState= {
-  currentRoomAddress: "",
+  currentRoomID: "",
+  currentProgress: False,
+  currentSecret: False
 };
 
 const roomSlice = createSlice({
@@ -11,26 +12,13 @@ const roomSlice = createSlice({
   initialState,
   reducers: {
     enterRoom: (state, action) => {
-      state.currentRoomAddress = action.payload.address;
-
+      state.currentRoomID = action.payload.roomId;
+      state.currentProgress = action.payload.progress
+      state.currentSecret = action.payload.secret
     },
   }
 });
 
-// const applySetFruits = (state, action) => ({
-//   ...state,
-//   fruits: action.fruits
-// });
-
-// function fruitReducer(state = INITIAL_STATE, action) {
-//   switch(action.type) {
-//     case 'FRUITS_SET' : {
-//       return applySetFruits(state, action);
-//     }
-//     default : return state;
-//   }
-// }
-// export default fruitReducer;
 
 export default roomSlice;
 export const {
