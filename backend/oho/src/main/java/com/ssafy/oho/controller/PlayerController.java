@@ -8,7 +8,6 @@ import com.ssafy.oho.util.exception.PlayerDeleteException;
 import com.ssafy.oho.util.exception.PlayerGetException;
 import com.ssafy.oho.util.exception.PlayerSetException;
 import com.ssafy.oho.util.exception.PlayerUpdateException;
-import com.ssafy.oho.util.openvidu.OpenViduConfig;
 import io.openvidu.java.client.OpenVidu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -51,7 +50,6 @@ public class PlayerController {
      */
     @PostMapping(value="create")
     private ResponseEntity<?> setPlayer(@RequestBody PlayerRequestDto playerRequestDto) {
-        System.out.println("SET PLAYER API CALL");
         try {
             PlayerResponseDto playerResponseDto;
             if(playerRequestDto.isHead()) {  // 방장일 경우

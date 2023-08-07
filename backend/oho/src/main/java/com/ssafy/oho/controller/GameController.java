@@ -1,10 +1,7 @@
 package com.ssafy.oho.controller;
 
-import com.ssafy.oho.model.dto.request.PlayerRequestDto;
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
-import com.ssafy.oho.model.dto.response.CellResponseDto;
-import com.ssafy.oho.model.entity.Cell;
-import com.ssafy.oho.model.entity.Room;
+import com.ssafy.oho.model.dto.response.LiarGameResponseDto;
 import com.ssafy.oho.model.service.GameService;
 import com.ssafy.oho.util.exception.GameGetException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +13,6 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -53,5 +47,12 @@ public class GameController {
         responsePayload.put("cell", gameService.getCell(roomId, (int) responsePayload.get("pin") - 1));
 
         webSocket.convertAndSend("/topic/move/" + roomId, responsePayload);
+    }
+
+    /* 혜지 : 라이어 게임 API */
+    @MessageMapping("/mini/liar/{roomId}")
+    public void setLiarGame(@Payload Map<String,Object> payload, @DestinationVariable String roomId){
+        LiarGameResponseDto liarGameResponseDto=gameService.setLiarGame(payload,roomId);
+        webSocket.convertAndSend("/topic/game/"+roomId,liarGameResponseDto);
     }
 }

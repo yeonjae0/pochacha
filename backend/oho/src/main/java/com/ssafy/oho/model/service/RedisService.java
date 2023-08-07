@@ -50,9 +50,9 @@ public class RedisService {
     protected void defaultGameRedis(String roomId) {
         /*** Redis Input : 모든 데이터를 String으로 변경 ***/
         hashOperations.put(getGameInfoKey(roomId), "id", roomId);
-        hashOperations.put(getGameInfoKey(roomId), "progress", false);
-        hashOperations.put(getGameInfoKey(roomId), "pin", 0);
-        hashOperations.put(getGameInfoKey(roomId), "lab", 0);
+        hashOperations.put(getGameInfoKey(roomId), "progress", Boolean.toString(false));
+        hashOperations.put(getGameInfoKey(roomId), "pin", "0");
+        hashOperations.put(getGameInfoKey(roomId), "lab", "0");
     }
     protected void defaultCellRedis(Cell cell, String roomId, int index) {
         boolean turn = false;
@@ -71,15 +71,15 @@ public class RedisService {
 
         /*** Redis Input : 모든 데이터를 String으로 변경 ***/
         hashOperations.put(getCellListKey(roomId, index), "name", cell.getName());
-        hashOperations.put(getCellListKey(roomId, index), "status", cell.getStatus());
-        hashOperations.put(getCellListKey(roomId, index), "turn", turn);
-        hashOperations.put(getCellListKey(roomId, index), "move", move);
-        hashOperations.put(getCellListKey(roomId, index), "time", cell.getTime());
+        hashOperations.put(getCellListKey(roomId, index), "status", Character.toString(cell.getStatus()));
+        hashOperations.put(getCellListKey(roomId, index), "turn", Boolean.toString(turn));
+        hashOperations.put(getCellListKey(roomId, index), "move", Integer.toString(move));
+        hashOperations.put(getCellListKey(roomId, index), "time", Integer.toString(cell.getTime()));
     }
     protected void defaultMinigameRedis(Minigame minigame, String roomId, int index) {
         /*** Redis Input : 모든 데이터를 String으로 변경 ***/
         hashOperations.put(getCellListKey(roomId, index), "name", minigame.getName());
         hashOperations.put(getCellListKey(roomId, index), "status", "M");
-        hashOperations.put(getCellListKey(roomId, index), "time", minigame.getTime());
+        hashOperations.put(getCellListKey(roomId, index), "time", Integer.toString(minigame.getTime()));
     }
 }

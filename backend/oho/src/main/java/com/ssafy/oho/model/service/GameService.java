@@ -1,10 +1,7 @@
 package com.ssafy.oho.model.service;
 
-import com.ssafy.oho.model.dto.request.PlayerRequestDto;
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
-import com.ssafy.oho.model.dto.response.CellResponseDto;
-import com.ssafy.oho.model.dto.response.MinigameResponseDto;
-import com.ssafy.oho.model.dto.response.RoomResponseDto;
+import com.ssafy.oho.model.dto.response.LiarGameResponseDto;
 import com.ssafy.oho.model.entity.Cell;
 import com.ssafy.oho.model.entity.Minigame;
 import com.ssafy.oho.model.entity.Player;
@@ -46,14 +43,14 @@ public class GameService extends RedisService {
             /*
                 TO DO :: 플레이어 존재 여부 확인
              */
-            if (roomId == null || !super.hashOperations.hasKey(super.getGameInfoKey(roomId), "id")) {  // 해당 방이 존재하지 않을 경우
+            if (roomId == null || !roomRepository.existsById(roomId)) {  // 해당 방이 존재하지 않을 경우
                 throw new GameGetException();
             }
             Room room = roomRepository.findById(roomId).orElseThrow(() -> new GameGetException("방 조회에 실패하였습니다. (방이 존재하지 않음)"));
 
-            if(room.getPlayers().size() != 4) {  // 정원 4인이 모두 접속하지 않았을 경우
-                throw new GameGetException("4명이 되어야 게임을 시작할 수 있습니다.");
-            }
+//            if(room.getPlayers().size() != 4) {  // 정원 4인이 모두 접속하지 않았을 경우
+//                throw new GameGetException("4명이 되어야 게임을 시작할 수 있습니다.");
+//            }
 
             for(Player p : room.getPlayers()) {
                 if(!super.hashOperations.hasKey(super.getPlayerListKey(roomId, p.getId()), "id")) {
@@ -140,4 +137,20 @@ public class GameService extends RedisService {
 
         return responsePayload;
     }
+
+    /*
+        TO DO :: 라이어 게임 세팅 API
+     */
+    public LiarGameResponseDto setLiarGame(Map<String, Object> payload, String roomId) {
+        /*
+        <구현 로직>
+        1. word와 liar, player 순서 리스트 내보내기
+        2. Redis에 roomId와 함께 저장하기
+         */
+        return new LiarGameResponseDto();
+    }
+
+    /*
+        TO DO :: 투표 득표수 집계 메소드 추가
+     */
 }
