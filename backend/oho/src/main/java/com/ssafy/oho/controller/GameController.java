@@ -35,11 +35,11 @@ public class GameController {
     }
 
     @PostMapping("start")
-    private ResponseEntity<?> startGame(@RequestBody PlayerRequestDto playerRequestDto) {
+    private ResponseEntity<?> startGame(@RequestBody RoomRequestDto roomRequestDto) {
         try {
-            gameService.startGame(playerRequestDto);
+            Object[] cellStatusList = gameService.startGame(roomRequestDto);
 
-            return null;
+            return ResponseEntity.ok(cellStatusList);
         } catch(GameGetException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -50,10 +50,8 @@ public class GameController {
     public void movePin(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
 
         Map<String, Object> responsePayload = gameService.movePin(payload, roomId);
-        responsePayload.put("cell", roomMap.get(roomId).get(((int) responsePayload.get("pin")) - 1));
+        responsePayload.put("cell", gameService.getCell(roomId, (int) responsePayload.get("pin") - 1));
 
-        // 임시 cell 구분
-
-        webSocket.convertAndSend("/topic/move/" + roomId, responsePayload/* 임시 값 저장 */);
+        webSocket.convertAndSend("/topic/move/" + roomId, responsePayload);
     }
 }
