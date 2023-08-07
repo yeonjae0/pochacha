@@ -5,7 +5,9 @@ import styles from '@/styles/RoomPage.module.css'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 
-export default function RoomChat({ info }) {
+export default function RoomChat(props) {
+  const info = props.info;
+  const client = props.client;
 
   /* 유영 : Socket 함수 최초 호출 시작 */
   useEffect(() => {
@@ -60,8 +62,6 @@ export default function RoomChat({ info }) {
   }
   /* 희진 : 도배 유저 일시 차단 끝 */
 
-  let [client, setClicent] = useState({})
-
   const connectSocket = () => {
     client.current = Stomp.over(() => {
       const sock = new SockJS("http://localhost:80/ws")
@@ -71,13 +71,16 @@ export default function RoomChat({ info }) {
 
   const subscribeChat = () => {
     client.current.connect({}, () => {
-      client.current.subscribe(`/topic/chat/${info.roomId}`, (response) => {  // 채팅 구독 url
-        var data = JSON.parse(response.body)
+      client.current.subscribe(`/topic/chat/${info.roomId}`, (response) => {
+        var data = JSON.parse(response.body);
         setChatHistory((prevHistory) => prevHistory + data.playerId + ': ' + data.message + '\n')
-      })
+      })  // 채팅 구독
     })
   }
-  /* 유영 : Socket을 이용한 채팅 함수 끝 */
+
+  useEffect(() => {
+    subscribeChat();
+  }, []);
 
   return (
     <div className={styles.send}>

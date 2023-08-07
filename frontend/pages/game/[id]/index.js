@@ -72,9 +72,8 @@ export default function GamePage() {
 
   // 현재 방의 맵 불러오는 함수
   const createMap = async () => {
-    console.log("before axios roomId", roomId)
     axios({
-      url: "http://localhost:80/game/cell",
+      url: "http://localhost:80/game/start",
       header: {
         "Accept": "application/json",
         "Content-type": "application/json;charset=UTF-8"
@@ -98,6 +97,7 @@ export default function GamePage() {
       const sock = new SockJS("http://localhost:80/ws")
       return sock;
     });
+    client.current.debug = () => {};
   }
 
   const subscribeSocket = () => {
