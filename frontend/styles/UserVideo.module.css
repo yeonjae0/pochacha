@@ -1,0 +1,27 @@
+.streamcomponent>video {
+  width: 300px;
+}
+
+.nickname {
+  font-family: 'LeeSeoyun';
+  position: relative;
+  z-index: 1;
+  top: -30px;
+  margin: 0 auto;
+  width: 80%;
+  height: 50px;
+
+  background-image: url("../public/nametag.png");
+  background-size: cover;
+  background-position: bottom;
+  background-repeat: no-repeat;
+
+  text-align: center;
+  color: white;
+  font-size: 28px;
+  line-height: 50px;
+}
+
+/* p {
+  margin: 0;
+} */
