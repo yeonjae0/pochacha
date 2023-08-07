@@ -8,5 +8,4 @@ public class RoomResponseDto {
     private String id;
     private boolean secret;
     private boolean progress;
-    /* private List<Player> players; */
 }

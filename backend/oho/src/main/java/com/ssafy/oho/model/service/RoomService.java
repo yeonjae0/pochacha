@@ -77,7 +77,7 @@ public class RoomService {
         /* 
             TO DO :: 사용자가 현재 방에 존재하는 사람인지 검사
          */
-        Room room = roomRepository.findById(roomRequestDto.getId());
+        Room room = roomRepository.findById(roomRequestDto.getId()).orElseThrow(()->new RoomGetException());
         if (room == null) throw new RoomGetException();
 
         try {
@@ -137,7 +137,7 @@ public class RoomService {
     }
 
     public void deleteRoom(RoomRequestDto roomRequestDto) throws RoomDeleteException {
-        Room room = roomRepository.findById(roomRequestDto.getId());
+        Room room = roomRepository.findById(roomRequestDto.getId()).orElseThrow(()->new RoomDeleteException());
 
         /*** 유효성 검사 ***/
         if (room == null) throw new RoomDeleteException();
