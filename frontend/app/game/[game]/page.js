@@ -53,7 +53,7 @@ export default function Board( props ) {
   const createMap = async() => {
     console.log("before axios roomId", roomId)
     axios({
-      url : process.env.NEXT_PUBLIC_HOST + "/board/cell",
+      url : process.env.NEXT_PUBLIC_HOST + "/api/board/cell",
       header : {
         "Accept" : "application/json",
         "Content-type" : "application/json;charset=UTF-8"

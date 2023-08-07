@@ -16,7 +16,7 @@ export default function Room(props) {
   /* 혜지 : ERROR 발생으로 주석 처리 */
   // const getPlayerList = (roomId, playerId) => {
   //   axios({
-  //     url: process.env.NEXT_PUBLIC_HOST + `/player/${roomId}`,
+  //     url: process.env.NEXT_PUBLIC_HOST + `/api/player/${roomId}`,
   //     header: {
   //       "Accept": "application/json",
   //       "Content-type": "application/json;charset=UTF-8"
