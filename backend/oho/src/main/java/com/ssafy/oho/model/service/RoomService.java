@@ -38,29 +38,9 @@ public class RoomService {
             /* 혜지 : 방 Session ID 발급으로 변경 */
             String id;
 
-            /**
-             *
-             * 여기부터 주석 해제하면 됩니다
-             *
-             */
 //            do {
 //                id = RandomStringUtils.random(12, true, true);
 //            } while(roomRepository.existsById(id));
-
-            /**
-             *
-             * 여기까지 주석 해제하면 됩니다
-             *
-             */
-
-            //---------------------------------------------------------------
-
-            /**
-             *
-             *
-             * 여기부터 주석 처리하면 됩니다
-             *
-             */
 
             SessionProperties properties = new SessionProperties
                     .Builder()
@@ -68,13 +48,6 @@ public class RoomService {
             Session session = openVidu.createSession(properties);
 
             id=session.getSessionId(); //VALUE EXAMPLE : "ses_JM9v0nfD1l"
-
-            /**
-             *
-             * 여기까지 주석 처리하면 됩니다
-             *
-             *
-             */
 
             /*** Entity Build ***/
             Room room = Room.builder()
@@ -104,7 +77,7 @@ public class RoomService {
         /* 
             TO DO :: 사용자가 현재 방에 존재하는 사람인지 검사
          */
-        Room room = roomRepository.findById(roomRequestDto.getId());
+        Room room = roomRepository.findById(roomRequestDto.getId()).orElseThrow(()->new RoomGetException());
         if (room == null) throw new RoomGetException();
 
         try {
@@ -164,7 +137,7 @@ public class RoomService {
     }
 
     public void deleteRoom(RoomRequestDto roomRequestDto) throws RoomDeleteException {
-        Room room = roomRepository.findById(roomRequestDto.getId());
+        Room room = roomRepository.findById(roomRequestDto.getId()).orElseThrow(()->new RoomDeleteException());
 
         /*** 유효성 검사 ***/
         if (room == null) throw new RoomDeleteException();

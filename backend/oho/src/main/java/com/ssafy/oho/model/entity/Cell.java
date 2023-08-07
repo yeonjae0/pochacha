@@ -6,8 +6,8 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 /* Entity는 유효성 검사가 필요 없으므로 Lombok으로 대체함 */
-@Entity
-@Table(name="cell",indexes = {
+@Entity(name="cell")
+@Table(indexes = {
         @Index(name="idx_status",columnList = "status")
 })
 @Getter
@@ -23,7 +23,8 @@ public class Cell extends Base {
     @ColumnDefault("'N'")
     private char status;
 
-    @Column(name="name",nullable = false, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8")
+    /* 혜지 : 길이 50으로 fix */
+    @Column(name="name",nullable = false, columnDefinition = "VARCHAR(50) CHARACTER SET UTF8")
     @ColumnDefault("'무명의 칸'")
     private String name;
 
