@@ -41,13 +41,10 @@ public class RoomController {
 
     /**
      * @param playerRequestDto Nickname
-     * @return room(Session Id), player
+     * @return room(Session Id), player(Token)
      */
     @PostMapping(value="/enter")
     private ResponseEntity<?> setRoom(@RequestBody PlayerRequestDto playerRequestDto) {
-        System.out.println("SET ROOM API CALL");
-        System.out.println(playerRequestDto.toString());
-        System.out.println("----------------------------");
         try {
             Map<String, Object> map = new HashMap<>();
 

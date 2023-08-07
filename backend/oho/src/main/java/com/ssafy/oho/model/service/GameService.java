@@ -2,6 +2,7 @@ package com.ssafy.oho.model.service;
 
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.CellResponseDto;
+import com.ssafy.oho.model.dto.response.LiarGameResponseDto;
 import com.ssafy.oho.model.dto.response.MinigameResponseDto;
 import com.ssafy.oho.model.entity.Cell;
 import com.ssafy.oho.model.entity.Minigame;
@@ -107,5 +108,12 @@ public class GameService {
         responsePayload.put("lab", lab);
 
         return responsePayload;
+    }
+
+    /*
+        TO DO :: 라이어 게임 세팅 API
+     */
+    public LiarGameResponseDto setLiarGame(Map<String, Object> payload, String roomId) {
+        return new LiarGameResponseDto();
     }
 }

@@ -66,7 +66,7 @@ public class RoomService {
             return roomResponseDto;
 
         } catch(Exception e) { //OpenViduJavaClientException, OpenViduHttpException, ...
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
             throw new RoomSetException();
         }
     }

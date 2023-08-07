@@ -61,9 +61,6 @@ public class PlayerService {
     }
 
     public PlayerResponseDto setHead(PlayerRequestDto playerRequestDto, String roomId, OpenVidu openVidu) throws PlayerSetException {
-        System.out.println("PLAYER SERVECE: SET HEAD");
-        System.out.println("ROOMID: "+roomId);
-        System.out.println("----------------------------");
         try {
             PlayerResponseDto headResponseDto = setPlayer(playerRequestDto, roomId, openVidu);
             Player head = playerRepository.findById(headResponseDto.getId()).orElseThrow(()-> new PlayerSetException());
@@ -76,9 +73,7 @@ public class PlayerService {
                     .head(true)
                     .build();
 
-            System.out.println(head.toString());
             playerRepository.save(head);
-            System.out.println("AFTER SAVING HEAD");
 
             /*** Redis Input ***/
             hashOperations.put(getPlayerListKey(roomId, head.getId()), "head", Boolean.toString(head.isHead()));
@@ -97,7 +92,6 @@ public class PlayerService {
         }
     }
     public PlayerResponseDto setPlayer(PlayerRequestDto playerRequestDto, String roomId, OpenVidu openVidu) throws PlayerSetException {
-        //System.out.println("PLAYER SERVICE: SET PLAYER");
         try {
             Room room = roomRepository.findById(roomId).orElseThrow(()-> new PlayerSetException());
             // 방이 존재하지 않을 경우
@@ -120,7 +114,6 @@ public class PlayerService {
             /* 혜지 : OpenVidu Token 발급 */
             Session session = openVidu.getActiveSession(roomId);
             if (session == null) {
-                System.out.println("ERROR: CREATING OPENVIDU SESSION");
                 throw new PlayerSetException();
             }
             ConnectionProperties properties = new ConnectionProperties
@@ -131,8 +124,6 @@ public class PlayerService {
             Connection connection = session.createConnection(properties);
             String token=connection.getToken();  // VALUE EXAMPLE : "wss://localhost:4443?sessionId=ses_JM9v0nfD1l&token=tok_MIYGGzuDQb8Xf1Qd"
 
-            System.out.println("TOKEN: "+token);
-
             /*** Entity Build ***/
             Player player = Player.builder()
                     .id(token)
@@ -141,7 +132,6 @@ public class PlayerService {
                     .head(false)
                     .build();
 
-            System.out.println(player.toString());
             playerRepository.save(player);
             defaultPlayerRedis(roomId, player); // Redis에 저장
 
@@ -172,7 +162,7 @@ public class PlayerService {
 
             return playerResponseDto;
         } catch(Exception e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
             throw new PlayerGetException();
         }
     }
