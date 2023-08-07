@@ -1,9 +1,7 @@
 package com.ssafy.oho.controller;
 
-import com.ssafy.oho.model.dto.request.PlayerRequestDto;
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
-import com.ssafy.oho.model.dto.response.CellResponseDto;
-import com.ssafy.oho.model.entity.Cell;
+import com.ssafy.oho.model.dto.response.LiarGameResponseDto;
 import com.ssafy.oho.model.service.GameService;
 import com.ssafy.oho.util.exception.GameGetException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +61,12 @@ public class GameController {
     @MessageMapping("/leave/{roomId}")
     public void leavePlayer(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
         webSocket.convertAndSend("/topic/player/" + roomId, payload/* 임시 값 저장 */);
+    }
+
+    /* 혜지 : 라이어 게임 API */
+    @MessageMapping("/mini/liar/{roomId}")
+    public void setLiarGame(@Payload Map<String,Object> payload, @DestinationVariable String roomId){
+        LiarGameResponseDto liarGameResponseDto=gameService.setLiarGame(payload,roomId);
+        webSocket.convertAndSend("/topic/game/"+roomId,liarGameResponseDto);
     }
 }

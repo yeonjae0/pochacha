@@ -10,15 +10,8 @@ import com.ssafy.oho.util.exception.RoomGetException;
 import com.ssafy.oho.util.exception.RoomSetException;
 import com.ssafy.oho.util.exception.RoomUpdateException;
 import io.openvidu.java.client.*;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
 
@@ -66,7 +59,7 @@ public class RoomService {
             return roomResponseDto;
 
         } catch(Exception e) { //OpenViduJavaClientException, OpenViduHttpException, ...
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
             throw new RoomSetException();
         }
     }

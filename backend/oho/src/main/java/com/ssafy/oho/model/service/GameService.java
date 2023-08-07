@@ -2,6 +2,7 @@ package com.ssafy.oho.model.service;
 
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.CellResponseDto;
+import com.ssafy.oho.model.dto.response.LiarGameResponseDto;
 import com.ssafy.oho.model.dto.response.MinigameResponseDto;
 import com.ssafy.oho.model.entity.Cell;
 import com.ssafy.oho.model.entity.Minigame;
@@ -108,4 +109,20 @@ public class GameService {
 
         return responsePayload;
     }
+
+    /*
+        TO DO :: 라이어 게임 세팅 API
+     */
+    public LiarGameResponseDto setLiarGame(Map<String, Object> payload, String roomId) {
+        /*
+        <구현 로직>
+        1. word와 liar, player 순서 리스트 내보내기
+        2. Redis에 roomId와 함께 저장하기
+         */
+        return new LiarGameResponseDto();
+    }
+
+    /*
+        TO DO :: 투표 득표수 집계 메소드 추가
+     */
 }
