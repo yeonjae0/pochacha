@@ -43,6 +43,7 @@ export default function RoomPage() {
       const sock = new SockJS("http://localhost:80/ws")
       return sock;
     });
+    client.current.debug = () => {};
   }
 
   const subscribeSelf = () => {
