@@ -1,10 +1,7 @@
 package com.ssafy.oho.controller;
 
-import com.ssafy.oho.model.dto.request.PlayerRequestDto;
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
-import com.ssafy.oho.model.dto.response.CellResponseDto;
 import com.ssafy.oho.model.dto.response.LiarGameResponseDto;
-import com.ssafy.oho.model.entity.Cell;
 import com.ssafy.oho.model.service.GameService;
 import com.ssafy.oho.util.exception.GameGetException;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,7 +2,6 @@ package com.ssafy.oho.model.service;
 
 import com.ssafy.oho.model.dto.request.PlayerRequestDto;
 import com.ssafy.oho.model.dto.response.PlayerResponseDto;
-import com.ssafy.oho.model.dto.response.RoomResponseDto;
 import com.ssafy.oho.model.entity.Player;
 import com.ssafy.oho.model.entity.Room;
 import com.ssafy.oho.model.repository.PlayerRepository;
@@ -12,12 +11,8 @@ import com.ssafy.oho.util.exception.PlayerGetException;
 import com.ssafy.oho.util.exception.PlayerSetException;
 import com.ssafy.oho.util.exception.PlayerUpdateException;
 import io.openvidu.java.client.*;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -144,7 +139,7 @@ public class PlayerService {
 
             return playerResponseDto;
         } catch (Exception e) {//OpenViduJavaClientException, OpenViduHttpException, ...
-            e.printStackTrace();
+            //e.printStackTrace();
             throw new PlayerSetException();
         }
     }
