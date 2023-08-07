@@ -11,9 +11,7 @@ export default function Liar() {
         {
           topics.map((topic, i) => {
             return (
-	      <div key={i}>
-                <button>{topic}</button>
-	      </div>
+              <button>{topic}</button>
             )
           })
         }
