@@ -8,10 +8,13 @@ import classNames from 'classnames'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import axios from 'axios'
+import { useDispatch, useSelector } from "react-redux";
+import { enterRoom } from "@/store/reducers/room.js";
 
 export default function EnterPage() {
 
   const router = useRouter()
+  const dispatch = useDispatch();
 
   /* 유영 : 소켓 간단 연결 작업 시작 */
   useEffect(() => {
@@ -80,7 +83,7 @@ export default function EnterPage() {
         nickname: text
       }
     }).then((response) => {
-      console.log(response.data)
+      console.log('response.data' , response.data)
 
       obj = 
       { 'roomId': response.data.room.id,
@@ -92,8 +95,15 @@ export default function EnterPage() {
         'token' : response.data.player.token }
 
       const sendData = () => {
+         /* 연재 : roomID 저장 test */
+         dispatch(
+          enterRoom({
+            address: response.data.room.id,
+          })
+         );
         router.push(
           {
+            // pathname: '/enter',
             pathname: `/room/${response.data.room.id}`,
             query: { currentName: JSON.stringify(obj) },
           },
@@ -101,7 +111,6 @@ export default function EnterPage() {
           // `/room/${response.data.room.id}`
         )
       }
-
       sendData()
     }).catch(error => console.log(error))
   }
