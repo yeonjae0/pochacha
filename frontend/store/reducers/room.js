@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState= {
   currentRoomID: "",
-  currentProgress: False,
-  currentSecret: False
+  currentProgress: false,
+  currentSecret: false
 };
 
 const roomSlice = createSlice({

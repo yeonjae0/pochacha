@@ -6,7 +6,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState= {
   currentNick: "",
   currentPlayerId: "",
-  currentReady: False,
+  currentReady: false,
   currentToken: "",
 };
 
