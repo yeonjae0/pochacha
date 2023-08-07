@@ -1,0 +1,32 @@
+.diceBox {
+  max-width: 600px;
+  width: 50vw;
+  height: 35.3vh;
+  background-color: rgb(0, 0, 0);
+  /* border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); */
+  padding: 40px;
+  box-sizing: border-box;
+  margin: auto;
+}
+
+/* DiceBox.js에 inline style로 반영 */
+/* .diceBox>.dice_wrap {
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+} */
+
+/* .diceBox>.dice_wrap>[class^="dice"] .dice>div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.8;
+  color: #fff;
+  font-size: 60px;
+} */
