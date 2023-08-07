@@ -107,23 +107,23 @@ public class PlayerController {
         }
     }
 
-    @MessageMapping("/leave/{roomId}")
-    public void deletePlayer(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
-        try {
-            PlayerResponseDto playerResponseDto = playerService.deletePlayer(payload, roomId);
-            
-            // id만 가지고 있는 값 전송
-            webSocket.convertAndSend("/topic/player/" + roomId, playerResponseDto);
-        } catch(PlayerDeleteException e) {
-            HashMap<String, String> errorMsg = new HashMap<>();
-            errorMsg.put("error", e.getMessage());
-            webSocket.convertAndSend("/queue/" + payload.get("id"), errorMsg);
-        } catch(Exception e) {
-            e.printStackTrace();
-
-            HashMap<String, String> errorMsg = new HashMap<>();
-            errorMsg.put("error", e.getMessage());
-            webSocket.convertAndSend("/topic/player/" + roomId, payload/* 임시 값 저장 */);
-        }
-    }
+//    @MessageMapping("/leave/{roomId}")
+//    public void deletePlayer(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
+//        try {
+//            PlayerResponseDto playerResponseDto = playerService.deletePlayer(payload, roomId);
+//
+//            // id만 가지고 있는 값 전송
+//            webSocket.convertAndSend("/topic/player/" + roomId, playerResponseDto);
+//        } catch(PlayerDeleteException e) {
+//            HashMap<String, String> errorMsg = new HashMap<>();
+//            errorMsg.put("error", e.getMessage());
+//            webSocket.convertAndSend("/queue/" + payload.get("id"), errorMsg);
+//        } catch(Exception e) {
+//            e.printStackTrace();
+//
+//            HashMap<String, String> errorMsg = new HashMap<>();
+//            errorMsg.put("error", e.getMessage());
+//            webSocket.convertAndSend("/topic/player/" + roomId, payload/* 임시 값 저장 */);
+//        }
+//    }
 }
