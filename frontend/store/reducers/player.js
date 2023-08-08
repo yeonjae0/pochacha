@@ -7,7 +7,6 @@ const initialState= {
   currentNick: "",
   currentPlayerId: "",
   currentReady: false,
-  currentToken: "",
 };
 
 const playerSlice = createSlice({
@@ -16,9 +15,8 @@ const playerSlice = createSlice({
   reducers: {
     playerInRoom: (state, action) => {
       state.currentNick = action.payload.nick;
-      state.currentPlayerId = action.payload.playerId
+       state.currentPlayerId = action.payload.playerId //오픈비두 토큰
       state.currentReady = action.payload.ready
-      state.currentToken = action.payload.token
     },
   }
 });
