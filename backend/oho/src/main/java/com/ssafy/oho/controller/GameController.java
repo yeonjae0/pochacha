@@ -65,7 +65,6 @@ public class GameController {
     @MessageMapping("mini/krword/confirm/{roomId}")
     public void confirmKrWord(@Payload Map<String,Object> payload, @DestinationVariable String roomId) {
         // 초성 분리 및 정답 확인
-        gameService.confirmKrWord(payload, roomId);
-        webSocket.convertAndSend("/topic/game/" + roomId, new Object());
+        webSocket.convertAndSend("/topic/game/" + roomId, gameService.confirmKrWord(payload, roomId));
     }
 }

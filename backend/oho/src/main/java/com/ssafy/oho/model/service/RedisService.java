@@ -98,10 +98,10 @@ public class RedisService {
 
         return sb.toString();
     }
-    protected void defaultKrWordRedis(String roomId, char firstWord, char secondWord, List<String> playerIdList) {
+    protected void defaultKrWordRedis(String roomId, String firstWord, String secondWord, List<String> playerIdList) {
         /*** Redis Input : 모든 데이터를 String으로 변경 ***/
-        hashOperations.put(getKrWordKey(roomId), "firstWord", Character.toString(firstWord));
-        hashOperations.put(getKrWordKey(roomId), "secondWord", Character.toString(secondWord));
+        hashOperations.put(getKrWordKey(roomId), "firstWord", firstWord);
+        hashOperations.put(getKrWordKey(roomId), "secondWord", secondWord);
         hashOperations.put(getKrWordKey(roomId), "player1", playerIdList.get(0));
         hashOperations.put(getKrWordKey(roomId), "player2", playerIdList.get(1));
         hashOperations.put(getKrWordKey(roomId), "player3", playerIdList.get(2));

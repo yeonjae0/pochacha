@@ -154,11 +154,15 @@ public class GameService extends RedisService {
     /*
         TO DO :: 투표 득표수 집계 메소드 추가
      */
-
-    char[] wordUnit = {'ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'};
+    String[] wordUnit = {
+            "ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ",
+            "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ",
+            "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ",
+            "ㅋ", "ㅌ", "ㅍ", "ㅎ"
+    };
     public KrWordResponseDto setKrWord(Map<String, Object> payload, String roomId) {
-        char firstWord = wordUnit[(int) Math.floor(Math.random() * wordUnit.length)];
-        char secondWord = wordUnit[(int) Math.floor(Math.random() * wordUnit.length)];
+        String firstWord = wordUnit[(int) Math.floor(Math.random() * wordUnit.length)];
+        String secondWord = wordUnit[(int) Math.floor(Math.random() * wordUnit.length)];
         List<String> playerIdList = new ArrayList<>();
         // 플레이어 ID 리스트에 추가
         playerIdList.add((String) super.hashOperations.get(super.getGameKey(roomId), "player1"));
@@ -180,7 +184,42 @@ public class GameService extends RedisService {
 
         return krWordResponseDto;
     }
-    public void confirmKrWord(Map<String, Object> payload, String roomId) {
+    public Map<String, Object> confirmKrWord(Map<String, Object> payload, String roomId) {
+        // 데이터 Key : correct(Boolean), msg(String)
+        Map<String, Object> confirmMap = new HashMap<>();
+        confirmMap.put("correct", false);  // Default correct
+        confirmMap.put("msg", "틀렸습니다.");  // Default msg
 
+        String firstWord = (String) super.hashOperations.get(super.getKrWordKey(roomId), "firstWord");
+        String secondWord = (String) super.hashOperations.get(super.getKrWordKey(roomId), "secondWord");
+
+        String word = ((String) payload.getOrDefault("word", "")).trim();
+        if(word.equals("") || word.length() != 2) {  // 단어를 받지 못했을 경우, 단어 길이가 다를 경우
+            confirmMap.put("msg", "단어의 길이를 확인해 주세요.");
+            return confirmMap;
+        }
+
+        char inputFirstWord = word.charAt(0);
+        char inputSecondWord = word.charAt(1);
+        if(inputFirstWord < 0xAC00 && inputSecondWord < 0xAC00) {  // 한글을 입력하지 않았을 경우
+            confirmMap.put("msg", "한영 전환을 확인해 주세요.");
+            return confirmMap;
+        }
+
+        // 첫번재 단어 비교
+        int inputFistUnitVal = inputFirstWord - 0xAC00;
+        int inputFirstUnit = ((inputFistUnitVal - (inputFistUnitVal % 28))/28)/21;
+
+        int inputSecondUnitVal = inputSecondWord - 0xAC00;
+        int inputSecondUnit = ((inputSecondUnitVal - (inputSecondUnitVal % 28))/28)/21;
+
+        if(!firstWord.equals(wordUnit[inputFirstUnit]) || !secondWord.equals(wordUnit[inputSecondUnit])) {
+            return confirmMap;
+        }
+
+        confirmMap.put("correct", true);  // Default correct
+        confirmMap.put("msg", "정답입니다!");  // Default msg
+
+        return confirmMap;
     }
 }
