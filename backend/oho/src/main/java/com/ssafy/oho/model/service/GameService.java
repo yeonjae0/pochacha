@@ -51,7 +51,7 @@ public class GameService extends RedisService {
                 if(super.getPlayer(roomId, p.getId()) == null) {
                     throw new GameGetException("해당 방에 존재하지 않는 플레이어입니다.");
                 }
-                if((boolean) super.getPlayerInfo(roomId, p.getId(), "ready")) {
+                if(Boolean.valueOf(super.getPlayerInfo(roomId, p.getId(), "ready"))) {
                     throw new GameGetException("모든 플레이어가 준비되지 않았습니다.");
                 }
             }
@@ -117,8 +117,8 @@ public class GameService extends RedisService {
 
         int dice = (int) (Math.random() * 6) +1;
 
-        int pin = (int) super.getGameInfo(roomId, "pin");
-        int lab = (int) super.getGameInfo(roomId, "lab");
+        int pin = Integer.valueOf(super.getGameInfo(roomId, "pin"));
+        int lab = Integer.valueOf(super.getGameInfo(roomId, "lab"));
 
         Map<String, String> hash = new HashMap<>();
 
