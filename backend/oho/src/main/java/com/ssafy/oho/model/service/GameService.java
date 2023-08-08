@@ -185,6 +185,9 @@ public class GameService extends RedisService {
         return krWordResponseDto;
     }
     public Map<String, Object> confirmKrWord(Map<String, Object> payload, String roomId) {
+        /*
+            TO DO :: 플레이어 올바른 순서 확인 로직 필요
+         */
         // 데이터 Key : correct(Boolean), msg(String)
         Map<String, Object> confirmMap = new HashMap<>();
         confirmMap.put("correct", false);  // Default correct
