@@ -55,6 +55,8 @@ export default function RoomCam(props) {
   const joinSession = async () => {
     console.log("JOINSESSION");
 
+    console.log("session: " + session)
+
     // 기존에 정의한 session 변수를 사용하도록 수정
     session.on('streamCreated', (event) => {
       console.log("STREAM CREATED");
