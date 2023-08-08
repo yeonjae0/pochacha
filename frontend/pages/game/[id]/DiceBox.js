@@ -28,7 +28,7 @@ export default function DiceBox(props) {
   }, [diceWidth])
   
   const rolling = (props) => {
-    // let ranNum = Math.floor(Math.random() * 6) + 1
+    let ranNum = Math.floor(Math.random() * 6) + 1
     setDice(props.dice)
   }
 
@@ -38,9 +38,9 @@ export default function DiceBox(props) {
       <div style={{ width: '100%', height: 'auto', marginBottom: '20px' }}>
         <Dice face={props.dice} diceWidth={diceWidth} />
       </div>
-      {/* <button id="btnRolling" onClick={rolling}>
+      <button id="btnRolling" onClick={rolling}>
         주사위 굴리기
-      </button> */}
+      </button>
     </section>
     )
 }

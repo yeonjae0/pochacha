@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
-import styles from '@/styles/MoleGame.module.css'
+import Ready from './MoleReady.js'
+import Go from './MoleGo.js'
+import styles from '@/styles/MoleGame.module.css';
 
 const getRandomGridPosition = () => ({
   row: Math.floor(Math.random() * 3), // 0, 1, 2
@@ -21,6 +23,8 @@ function MoleGame({ sec }) {
   const [molePositions, setMolePositions] = useState([]);
   const [showHitMole, setShowHitMole] = useState(false);
   const [hitMolePosition, setHitMolePosition] = useState({ row: 0, col: 0 });
+  const [hoveredMoleIndex, setHoveredMoleIndex] = useState(-1);
+  const [ready, setReady] = useState('ready')
 
   const handleMoleClick = (index) => {
     if (molePositions[index]) {
@@ -36,69 +40,111 @@ function MoleGame({ sec }) {
     }
   };
 
+  const handleMoleMouseEnter = (index) => {
+    setHoveredMoleIndex(index);
+  };
+
+  const handleMoleMouseLeave = () => {
+    setHoveredMoleIndex(-1);
+  };
+
   useEffect(() => {
     const generateMole = () => {
       const freshMolePositions = Array(3).fill(null).map(() => getRandomGridPosition());
       setMolePositions(freshMolePositions);
     };
 
-    const moleTimer = setInterval(generateMole, 1000);
+    const moleTimer = setInterval(generateMole, 2000);
     return () => clearInterval(moleTimer);
   }, []);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setReady('go')
+    }, 3000)
+
+    setTimeout(() => {
+      setReady('game')
+    }, 5000)
+
+  }, [])
+
   return (
-    <div style={{ marginTop: '50px' }}>
-      {
-        sec > 0 ?
-          /////////////////////////////////////////////////
-          <div style={{ textAlign: 'center' }}>
-            <h1>{sec}초 동안 30마리의 두더지를 잡아보세요</h1>
-            <h2>지금까지 {score}마리의 두더지를 잡았습니다</h2>
-            <div
-              className={styles.container}
-              style={{
-                position: 'relative',
-                width: '600px',
-                height: '600px',
-                border: '2px solid #000',
-                margin: '0 auto',
-                overflow: 'hidden',
-              }}
-            >
-              {molePositions.map((molePosition, index) => (
-                molePosition && (
-                  <img
-                    key={index}
-                    src="/두더지_업.png"
-                    onClick={() => handleMoleClick(index)}
-                    style={{
-                      position: 'absolute',
-                      top: `${molePosition.row * 33.33}%`,
-                      left: `${molePosition.col * 33.33}%`,
-                      width: '200px',
-                      height: '200px',
-                      cursor: 'pointer',
-                    }}
-                  />
-                )
-              ))}
-              {showHitMole && (
+    <div style={{ marginTop: '20px' }}>
+      {ready === 'ready' && (
+        <Ready />
+      )}
+      {ready === 'go' && (
+        <Go />
+      )}
+      {ready === 'game' && sec > 0 && (
+        <div style={{ textAlign: 'center' }}>
+          <h1>{sec}초 동안 30마리의 두더지를 잡아라!</h1>
+          <h2>OH MY GOD~ {score}마리의 두더지를 잡았군요</h2>
+          <div
+            className={styles.container}
+            style={{
+              position: 'relative',
+              width: '600px',
+              height: '600px',
+              border: '2px solid #000',
+              margin: '0 auto',
+              overflow: 'hidden',
+            }}
+          >
+            {molePositions.map((molePosition, index) => (
+              molePosition && (
                 <img
-                  src="/두더지_힛.png"
+                  key={index}
+                  src="/두더지_업.png"
+                  onClick={() => handleMoleClick(index)}
                   style={{
                     position: 'absolute',
-                    top: `${hitMolePosition.row * 33.33}%`,
-                    left: `${hitMolePosition.col * 33.33}%`,
+                    top: `${molePosition.row * 33.33}%`,
+                    left: `${molePosition.col * 33.33}%`,
                     width: '200px',
                     height: '200px',
+                    cursor: 'pointer',
+
+            // {molePositions.map((molePosition, index) => (
+            //   molePosition && (
+            //     <img
+            //       key={index}
+            //       src={hoveredMoleIndex === index ? "/두더지_망치전.png" : "/두더지_업.png"}
+            //       onClick={() => handleMoleClick(index)}
+            //       onMouseEnter={() => handleMoleMouseEnter(index)}
+            //       onMouseLeave={handleMoleMouseLeave}
+            //       style={{
+            //         position: 'absolute',
+            //         top: `${molePosition.row * 33.33}%`,
+            //         left: `${molePosition.col * 33.33}%`,
+            //         width: '200px',
+            //         height: '200px',
+            //         cursor: 'pointer',
+
+
                   }}
                 />
-              )}
-            </div>
+              )
+            ))}
+            {showHitMole && (
+              <img
+                src="/두더지_망치후.png"
+                style={{
+                  position: 'absolute',
+                  top: `${hitMolePosition.row * 33.33}%`,
+                  left: `${hitMolePosition.col * 33.33}%`,
+                  width: '200px',
+                  height: '200px',
+                }}
+              />
+            )}
           </div>
-          /////////////////////////////////////////////////
-          : <WinorLose score={score}/>
-      }
+        </div>
+      )}
+      {ready === 'game' && sec <= 0 && (
+        <WinorLose score={score} />
+      )}
     </div>
   )
 }
@@ -111,7 +157,7 @@ function WinorLose({ score }) {
       {
         score >= 30 ?
           <MissionCompleted score={score} />
-        : <Gameover score={score} />
+          : <Gameover score={score} />
       }
     </div>
   )
@@ -138,7 +184,7 @@ function Gameover({ score }) {
           overflow: 'hidden',
         }}
       >
-        <img className={styles.slideInEllipticBottomFwd} src="/두더지_X.png"/>
+        <img className={styles.slideInEllipticBottomFwd} src="/두더지_X.png" />
       </div>
     </div>
   )
