@@ -60,7 +60,6 @@ public class PlayerService extends RedisService {
 
             return headResponseDto;
         } catch (Exception e) {
-            e.printStackTrace();
             throw new PlayerSetException();
         }
     }
@@ -74,7 +73,7 @@ public class PlayerService extends RedisService {
 
             // 닉네임 입력 시 해당 닉네임, 미입력시 랜덤 닉네임 생성
             String nickname = "";
-            if (playerRequestDto.getNickname() == null || playerRequestDto.getNickname().trim().equals("")) {  // 닉네임 없을 경우
+            if (playerRequestDto.getNickname() != null && !playerRequestDto.getNickname().trim().equals("")) {  // 닉네임 없을 경우
                 nickname = playerRequestDto.getNickname();
             } else {  // 닉네임 없을 경우
                 nickname = randAdj[new Random().nextInt(randAdj.length)] +
@@ -99,11 +98,13 @@ public class PlayerService extends RedisService {
 
             /*** Entity Build ***/
             Player player = Player.builder()
-                    .id(tokenParam)
+                    .id(token)
                     .room(room)
                     .nickname(nickname)
                     .head(false)
                     .build();
+
+            System.out.println(player);
 
             playerRepository.save(player);
             super.setPlayer(roomId, player);
@@ -113,10 +114,9 @@ public class PlayerService extends RedisService {
                     .id(player.getId())
                     .nickname(player.getNickname())
                     .head(player.isHead())
-                    .ready(Boolean.parseBoolean((String) super.getPlayerInfo(roomId, player.getId(), "ready")))
+                    .ready(Boolean.parseBoolean(super.getPlayerInfo(roomId, player.getId(), "ready")))
                     .build();
         } catch (Exception e) {  // OpenViduJavaClientException, OpenViduHttpException, ...
-            e.printStackTrace();
             throw new PlayerSetException();
         }
     }
@@ -130,7 +130,7 @@ public class PlayerService extends RedisService {
                     .id(player.getId())
                     .nickname(player.getNickname())
                     .head(player.isHead())
-                    .ready((boolean) super.getPlayerInfo(playerRequestDto.getRoomId(), player.getId(), "ready"))
+                    .ready(Boolean.parseBoolean(super.getPlayerInfo(playerRequestDto.getRoomId(), player.getId(), "ready")))
                     .build();
         } catch(Exception e) {
             //System.out.println(e.getMessage());
@@ -170,7 +170,6 @@ public class PlayerService extends RedisService {
             return playerResponseDtoList;
 
         } catch(Exception e) {
-            e.printStackTrace();
             throw new PlayerGetException();
         }
     }
@@ -198,17 +197,17 @@ public class PlayerService extends RedisService {
             /*** Redis Input ***/
             Map<String, String> hash = new HashMap<>();
             if(payload.containsKey("head")) {  // Head 상태 변경
-                hash.put("head", (String) payload.get("head"));
+                hash.put("head", Boolean.toString((boolean) payload.get("head")));
             }
             if(payload.containsKey("ready")) {  // Ready 상태 변경
-                hash.put("ready", (String) payload.get("ready"));
+                hash.put("ready", Boolean.toString((boolean) payload.get("ready")));
             }
             super.setPlayerInfo(roomId, playerId, hash);
 
             /*** Response DTO Build ***/
             return PlayerResponseDto.builder()
                     .id(playerId)
-                    .ready((boolean) super.getPlayerInfo(roomId, playerId, "ready"))
+                    .ready(Boolean.parseBoolean(super.getPlayerInfo(roomId, playerId, "ready")))
                     .build();
         } catch(Exception e) {
             throw new PlayerUpdateException();
