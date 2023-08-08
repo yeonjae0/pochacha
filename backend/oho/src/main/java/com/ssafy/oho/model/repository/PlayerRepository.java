@@ -8,5 +8,4 @@ public interface PlayerRepository extends JpaRepository<Player,String> { /* 혜�
     /* 혜지 : 커스텀 메소드가 아닐 때 선언할 필요 없음 => 내장 메소드를 사용함으로써 예외 처리 의무화 */
 //    Player findById(String id);
 //    void deleteById(String id);
-    Long countByRoom(Room room);
 }
