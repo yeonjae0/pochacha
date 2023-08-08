@@ -11,12 +11,12 @@ export default function RoomCam(props) {
 
   const OV = new OpenVidu();
   let session = OV.initSession();
-  const token = info.playerId;
+  const token = info?.playerId;
 
-  const [nickname, setNickname] = useState(info.nick); //참여자 닉네임
+  const [nickname, setNickname] = useState(info?.nick); //참여자 닉네임
   // const [OV, setOV] = useState(new OpenVidu());//OpenVidu 객체
   // const [session, setSession] = useState({});//방
-  const [roomId, setRoomId] = useState(info.roomId);//방 세션
+  const [roomId, setRoomId] = useState(info?.roomId);//방 세션
   //const [token, setToken] = useState(info.playerId);//참여자 토큰
   const [mainStreamManager, setMainStreamManager] = useState(undefined);// 메인비디오
   const [publisher, setPublisher] = useState(undefined); //비디오, 오디오 송신자

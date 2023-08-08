@@ -12,7 +12,7 @@ import axios from 'axios'
 export default function RoomPage() {
 
   const router = useRouter()
-  let info = JSON.parse(router.query.currentName)
+  let info = router.query.currentName ? JSON.parse(router.query.currentName) : ''
   // 상단 코드에서 Undefined 에러 발생하면 서버 재실행
 
   /* 혜지 : ERROR 발생으로 주석 처리 */

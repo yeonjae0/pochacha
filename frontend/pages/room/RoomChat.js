@@ -16,7 +16,7 @@ export default function RoomChat({ info }) {
 
   /* 유영 : Socket을 이용한 채팅 함수 시작 */
   const [message, setMessage] = useState('')
-  const [chatHistory, setChatHistory] = useState(`${info.nick}님이 입장하셨습니다.`+ '\n')
+  const [chatHistory, setChatHistory] = useState(`${info?.nick}님이 입장하셨습니다.`+ '\n')
 
   const handleOnChange = (e) => {
     setMessage(e.target.value)

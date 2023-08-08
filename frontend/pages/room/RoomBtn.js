@@ -38,7 +38,7 @@ export default function RoomBtn(props) {
   `
 
   const info = props.info
-  console.log(`Room Button Info: ${info.roomId}`)
+  console.log(`Room Button Info: ${info?.roomId}`)
 
   let [setting, setSetting] = useState(true)
   
@@ -55,7 +55,7 @@ export default function RoomBtn(props) {
   const sendData = () => {
     router.push(
       {
-        pathname: `/game/${info.roomId}`,
+        pathname: `/game/${info?.roomId}`,
         query: { currentName: JSON.stringify(info) },
       },
       /* 희진 : store에 데이터 저장 작업 완료 후 삭제 예정 코드 */

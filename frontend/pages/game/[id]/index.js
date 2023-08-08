@@ -36,7 +36,7 @@ const ModalContent = styled.div`
 export default function GamePage() {
 
   const router = useRouter()
-  let info = JSON.parse(router.query.currentName)
+  let info = router.query.currentName ? JSON.parse(router.query.currentName) : ''
 
   let [roomId, setRoomId] = useState(info.roomId); // 현재 방 ID (임의 삽입)
   let [includeMini, setIncludeMini] = useState(true); // 미니게임 진행 여부

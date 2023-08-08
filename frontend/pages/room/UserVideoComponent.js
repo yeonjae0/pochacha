@@ -14,7 +14,7 @@ const UserVideoComponent = ({
   //setTurn,//모두의 차례를 false로 초기화
 }) => {
   console.log("STREAMMANAGER: ", streamManager);
-  const id = streamManager.stream.connection.data.id;
+  const id = streamManager?.stream.connection.data.id;
 
   /* 
    CONFIRM :: useState() 활용해 FACE FILTER API 적용 여부 저장

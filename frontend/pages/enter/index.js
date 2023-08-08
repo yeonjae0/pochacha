@@ -94,8 +94,9 @@ export default function EnterPage() {
       const sendData = () => {
         router.push(
           {
-            pathname: `/room/${response.data.room.id}`,
-            query: { currentName: JSON.stringify(obj) },
+            // pathname: `/room/${response.data.room.id}`,
+	    pathname: `/room`,
+            query: { roomId: response.data.room.id, currentName: JSON.stringify(obj) },
           },
           /* 희진 : store에 데이터 저장 작업 완료 후 삭제 예정 코드 */
           // `/room/${response.data.room.id}`
