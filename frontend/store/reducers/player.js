@@ -4,27 +4,38 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState= {
-  currentNick: "",
-  currentPlayerId: "",
-  currentReady: false,
-  currentToken: "",
+  players: [],
+  // currentNick: "",
+  // currentPlayerId: "",
+  // currentReady: false,
 };
 
 const playerSlice = createSlice({
   name: "player",
   initialState,
   reducers: {
-    playerInRoom: (state, action) => {
-      state.currentNick = action.payload.nick;
-      state.currentPlayerId = action.payload.playerId
-      state.currentReady = action.payload.ready
-      state.currentToken = action.payload.token
+    addPlayer: (state, action) => {
+      state.players.push(action.payload);
     },
+    updatePlayer: (state, action) => {
+      let {playerId, updates} = action.payload
+      let playerIdx = state.players.findIndex(player => player.currentPlayerId=== playerId)
+      if (playerIdx !== -1) {
+        state.players[playerIndex] = { ...state.players[playerIdx], ...updates };
+      }
+    }
+    // playerInRoom: (state, action) => {
+    //   state.currentNick = action.payload.nick;
+    //    state.currentPlayerId = action.payload.playerId //오픈비두 토큰
+    //   state.currentReady = action.payload.ready
+    // },
   }
 });
 
 
 export default playerSlice;
 export const {
-  playerInRoom
+  // playerInRoom
+  addPlayer,
+  updatePlayer
 } = playerSlice.actions

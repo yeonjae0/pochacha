@@ -78,7 +78,7 @@ export default function RoomPage() {
           <RoomChat info={info} client={client} />
           </div>
         </div>
-        <RoomCam info={info} />
+        <RoomCam />
         <RoomBtn info={info} client={client} />
       </div>
     </div>
