@@ -20,25 +20,13 @@ public class RedisService {
         this.hashOperations = this.redisTemplate.opsForHash();
     }
 
+    /*** 플레이어 정보 삽입 ***/
     protected String getPlayerListKey(String roomId, String playerId) {
         StringBuilder sb = new StringBuilder();
         sb.append(roomId).append(".player.").append(playerId);
 
         return sb.toString();
     }
-    protected String getGameInfoKey(String roomId) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(roomId).append(".game");
-
-        return sb.toString();
-    }
-    protected String getCellListKey(String roomId, int index) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(roomId).append(".cell.").append(index);
-
-        return sb.toString();
-    }
-
     protected void defaultPlayerRedis(String roomId, Player player) {
         /*** Redis Input : 모든 데이터를 String으로 변경 ***/
         hashOperations.put(getPlayerListKey(roomId, player.getId()), "id", player.getId());
@@ -47,12 +35,33 @@ public class RedisService {
         hashOperations.put(getPlayerListKey(roomId, player.getId()), "ready", "false");
     }
 
-    protected void defaultGameRedis(String roomId) {
+    /*** 게임 정보 삽입 ***/
+    protected String getGameKey(String roomId) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(roomId).append(".game");
+
+        return sb.toString();
+    }
+    protected void defaultGameRedis(String roomId, List<Player> playerList) {
         /*** Redis Input : 모든 데이터를 String으로 변경 ***/
-        hashOperations.put(getGameInfoKey(roomId), "id", roomId);
-        hashOperations.put(getGameInfoKey(roomId), "progress", Boolean.toString(false));
-        hashOperations.put(getGameInfoKey(roomId), "pin", "0");
-        hashOperations.put(getGameInfoKey(roomId), "lab", "0");
+        hashOperations.put(getGameKey(roomId), "id", roomId);
+        hashOperations.put(getGameKey(roomId), "progress", Boolean.toString(false));
+        hashOperations.put(getGameKey(roomId), "pin", "0");
+        hashOperations.put(getGameKey(roomId), "lab", "0");
+
+        // 플레이어 ID만 삽입 (순서를 위해)
+        hashOperations.put(getGameKey(roomId), "player1", playerList.get(0).getId());
+        hashOperations.put(getGameKey(roomId), "player2", playerList.get(1).getId());
+        hashOperations.put(getGameKey(roomId), "player3", playerList.get(2).getId());
+        hashOperations.put(getGameKey(roomId), "player4", playerList.get(3).getId());
+    }
+
+    /*** 칸 정보 삽입 ***/
+    protected String getCellListKey(String roomId, int index) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(roomId).append(".cell.").append(index);
+
+        return sb.toString();
     }
     protected void defaultCellRedis(Cell cell, String roomId, int index) {
         boolean turn = false;
@@ -81,5 +90,22 @@ public class RedisService {
         hashOperations.put(getCellListKey(roomId, index), "name", minigame.getName());
         hashOperations.put(getCellListKey(roomId, index), "status", "M");
         hashOperations.put(getCellListKey(roomId, index), "time", Integer.toString(minigame.getTime()));
+    }
+
+    protected String getKrWordKey(String roomId) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(roomId).append(".game.krword");
+
+        return sb.toString();
+    }
+    protected void defaultKrWordRedis(String roomId, String firstWord, String secondWord, List<String> playerIdList) {
+        /*** Redis Input : 모든 데이터를 String으로 변경 ***/
+        hashOperations.put(getKrWordKey(roomId), "firstWord", firstWord);
+        hashOperations.put(getKrWordKey(roomId), "secondWord", secondWord);
+        hashOperations.put(getKrWordKey(roomId), "player1", playerIdList.get(0));
+        hashOperations.put(getKrWordKey(roomId), "player2", playerIdList.get(1));
+        hashOperations.put(getKrWordKey(roomId), "player3", playerIdList.get(2));
+        hashOperations.put(getKrWordKey(roomId), "player4", playerIdList.get(3));
+
     }
 }

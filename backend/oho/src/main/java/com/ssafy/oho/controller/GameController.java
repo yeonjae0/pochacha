@@ -55,4 +55,16 @@ public class GameController {
         LiarGameResponseDto liarGameResponseDto=gameService.setLiarGame(payload,roomId);
         webSocket.convertAndSend("/topic/game/"+roomId,liarGameResponseDto);
     }
+
+    @MessageMapping("mini/krword/set/{roomId}")
+    public void setKrWord(@Payload Map<String,Object> payload, @DestinationVariable String roomId) {
+        // 초성과 플레이 순서 전달
+        webSocket.convertAndSend("/topic/game/" + roomId, gameService.setKrWord(payload, roomId));
+    }
+
+    @MessageMapping("mini/krword/confirm/{roomId}")
+    public void confirmKrWord(@Payload Map<String,Object> payload, @DestinationVariable String roomId) {
+        // 초성 분리 및 정답 확인
+        webSocket.convertAndSend("/topic/game/" + roomId, gameService.confirmKrWord(payload, roomId));
+    }
 }
