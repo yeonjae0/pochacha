@@ -64,7 +64,7 @@ public class GameService extends RedisService {
             /*** 유효성 검사 끝 ***/
 
             // 게임 정보 존재하지 않을 경우
-            if(!super.hashOperations.hasKey(super.getGameInfoKey(roomId), "id")) {
+            if(!super.hashOperations.hasKey(super.getGameKey(roomId), "id")) {
                 /*** 유효성 검사 ***/
                 if(room.isProgress()) {  // 게임이 이미 시작 중일 경우
                     throw new GameGetException();
@@ -157,18 +157,24 @@ public class GameService extends RedisService {
 
     char[] wordUnit = {'ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'};
     public KrWordResponseDto setKrWord(Map<String, Object> payload, String roomId) {
+        char firstWord = wordUnit[(int) Math.floor(Math.random() * wordUnit.length)];
+        char secondWord = wordUnit[(int) Math.floor(Math.random() * wordUnit.length)];
         List<String> playerIdList = new ArrayList<>();
         // 플레이어 ID 리스트에 추가
-        playerIdList.add((String) super.hashOperations.get(super.getGameInfoKey(roomId), "player1"));
-        playerIdList.add((String) super.hashOperations.get(super.getGameInfoKey(roomId), "player2"));
-        playerIdList.add((String) super.hashOperations.get(super.getGameInfoKey(roomId), "player3"));
-        playerIdList.add((String) super.hashOperations.get(super.getGameInfoKey(roomId), "player4"));
+        playerIdList.add((String) super.hashOperations.get(super.getGameKey(roomId), "player1"));
+        playerIdList.add((String) super.hashOperations.get(super.getGameKey(roomId), "player2"));
+        playerIdList.add((String) super.hashOperations.get(super.getGameKey(roomId), "player3"));
+        playerIdList.add((String) super.hashOperations.get(super.getGameKey(roomId), "player4"));
 
         Collections.shuffle(playerIdList);  // 무작위 섞기
 
+        /*** Redis Input ***/
+        defaultKrWordRedis(roomId, firstWord, secondWord, playerIdList);
+
+        /*** Response DTO Build ***/
         KrWordResponseDto krWordResponseDto = KrWordResponseDto.builder()
-                .firstWord(wordUnit[(int) Math.floor(Math.random() * wordUnit.length)])
-                .secondWord(wordUnit[(int) Math.floor(Math.random() * wordUnit.length)])
+                .firstWord(firstWord)
+                .secondWord(secondWord)
                 .turn(playerIdList)
                 .build();
 
