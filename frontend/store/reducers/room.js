@@ -13,8 +13,8 @@ const roomSlice = createSlice({
   reducers: {
     enterRoom: (state, action) => {
       state.currentRoomID = action.payload.roomId;
-      state.currentProgress = action.payload.progress
-      state.currentSecret = action.payload.secret
+      state.currentProgress = action.payload.progress;
+      state.currentSecret = action.payload.secret;
     },
   }
 });
