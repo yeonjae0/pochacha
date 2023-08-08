@@ -36,14 +36,14 @@ public class MinigameController {
 
 
     /* 라이어 게임 API */
+        /*
+        TO DO :: 소켓 예외 처리 고려 (임의로 throws)
+     */
     @MessageMapping("/mini/liar/set/{roomId}")
     public void setLiarGame(@Payload Map<String,Object> payload, @DestinationVariable String roomId) throws GameSetException {
         LiarGameResponseDto liarGameResponseDto = minigameService.setLiarGame(payload, roomId);
         webSocket.convertAndSend("/topic/game/" + roomId, liarGameResponseDto);
     }
-    /*
-        TO DO :: 소켓 예외 처리 고려 (임의로 throws)
-     */
 
     @MessageMapping("/mini/liar/vote/{roomId}")
     public void voteLiar(@Payload Map<String,Object> payload, @DestinationVariable String roomId){

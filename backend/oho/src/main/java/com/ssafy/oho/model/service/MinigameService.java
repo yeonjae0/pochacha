@@ -4,7 +4,6 @@ import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.LiarGameResponseDto;
 import com.ssafy.oho.model.entity.Player;
 import com.ssafy.oho.model.entity.Room;
-import com.ssafy.oho.model.repository.CellRepository;
 import com.ssafy.oho.model.repository.MinigameRepository;
 import com.ssafy.oho.model.repository.RoomRepository;
 import com.ssafy.oho.util.data.liargame.words.*;
@@ -21,38 +20,35 @@ import java.util.*;
 @Service
 public class MinigameService extends RedisService {
 
-    private final CellRepository cellRepository;
     private final MinigameRepository minigameRepository;
     private final RoomRepository roomRepository;
     private final int MINIGAME_CNT = 4;
-    private final int CELL_CNT = 24;
 
     @Autowired
-    private MinigameService(StringRedisTemplate redisTemplate, CellRepository cellRepository, MinigameRepository minigameRepository, RoomRepository roomRepository) {
+    private MinigameService(StringRedisTemplate redisTemplate, MinigameRepository minigameRepository, RoomRepository roomRepository) {
         super(redisTemplate);
-        this.cellRepository = cellRepository;
         this.minigameRepository = minigameRepository;
         this.roomRepository = roomRepository;
     }
 
-
-    /*
-        TO DO :: 라이어 게임 세팅 API
-     */
     public LiarGameResponseDto setLiarGame(Map<String, Object> payload, String roomId) throws GameSetException {
         Map<String, Object> responsePayload = new HashMap<>();
 
         try {
             Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomGetException());
-            List<Player> playerList=room.getPlayers();
+            List<String> playerIdList=new ArrayList<>();
+
+            for(Player player:room.getPlayers()){
+                playerIdList.add(player.getId());
+            }
 
             //멀티 게임이므로 2명 미만의 상태에서는 진행 불가
-            if(playerList.size()<2){
+            if(playerIdList.size()<2){
                 throw new GameSetException();
             }
 
             //게임 진행 턴(순서) 임의로 배정
-            Collections.shuffle(playerList);
+            Collections.shuffle(playerIdList);
 
             String subject = ((String) payload.getOrDefault("subject", "")).trim();
 
@@ -62,36 +58,20 @@ public class MinigameService extends RedisService {
              */
 
             String word="";
-            if(subject.equals("animal")){
-                word= Animal.getRandomValue();
-            }
-            else if(subject.equals("country")){
-                word= Country.getRandomValue();
-            }
-            else if(subject.equals("food")){
-                word= Food.getRandomValue();
-            }
-            else if(subject.equals("objects")){
-                word= Objects.getRandomValue();
-            }
-            else if(subject.equals("singer")){
-                word= Singer.getRandomValue();
-            }
-            else if(subject.equals("sports")) {
-                word = Sports.getRandomValue();
-            }
-            else{
-                throw new GameSetException();
-            }
+            if(subject.equals("animal")){ word= Animal.getRandomValue(); }
+            else if(subject.equals("country")){ word= Country.getRandomValue(); }
+            else if(subject.equals("food")){ word= Food.getRandomValue(); }
+            else if(subject.equals("objects")){ word= Objects.getRandomValue(); }
+            else if(subject.equals("singer")){ word= Singer.getRandomValue(); }
+            else if(subject.equals("sports")) { word = Sports.getRandomValue(); }
+            else{ throw new GameSetException(); }
 
             /*** Response DTO Build ***/
             LiarGameResponseDto.builder()
-                    .liar(playerList.get(0).getId())
+                    .liar(playerIdList.get(0))
                     .word(word)
-                    .turns(playerList)
+                    .turns(playerIdList)
                     .build();
-
-
         /*
             TO DO :: Redis에 roomId, liar, room, turns 저장
          */
