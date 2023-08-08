@@ -10,7 +10,7 @@ const persistConfig = {
   key: "root",
   // storageSession,
   storage,
-  whiteList: ["fruit"],
+  // whiteList: ["fruit"],
 }
 
 
