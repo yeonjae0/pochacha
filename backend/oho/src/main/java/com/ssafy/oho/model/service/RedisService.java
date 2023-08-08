@@ -47,12 +47,18 @@ public class RedisService {
         hashOperations.put(getPlayerListKey(roomId, player.getId()), "ready", "false");
     }
 
-    protected void defaultGameRedis(String roomId) {
+    protected void defaultGameRedis(String roomId, List<Player> playerList) {
         /*** Redis Input : 모든 데이터를 String으로 변경 ***/
         hashOperations.put(getGameInfoKey(roomId), "id", roomId);
         hashOperations.put(getGameInfoKey(roomId), "progress", Boolean.toString(false));
         hashOperations.put(getGameInfoKey(roomId), "pin", "0");
         hashOperations.put(getGameInfoKey(roomId), "lab", "0");
+        
+        // 플레이어 ID만 삽입 (순서를 위해)
+        hashOperations.put(getGameInfoKey(roomId), "player1", playerList.get(0).getId());
+        hashOperations.put(getGameInfoKey(roomId), "player2", playerList.get(1).getId());
+        hashOperations.put(getGameInfoKey(roomId), "player3", playerList.get(2).getId());
+        hashOperations.put(getGameInfoKey(roomId), "player4", playerList.get(3).getId());
     }
     protected void defaultCellRedis(Cell cell, String roomId, int index) {
         boolean turn = false;

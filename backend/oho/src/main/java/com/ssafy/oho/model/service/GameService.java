@@ -1,6 +1,7 @@
 package com.ssafy.oho.model.service;
 
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
+import com.ssafy.oho.model.dto.response.KrWordResponseDto;
 import com.ssafy.oho.model.dto.response.LiarGameResponseDto;
 import com.ssafy.oho.model.entity.Cell;
 import com.ssafy.oho.model.entity.Minigame;
@@ -69,7 +70,7 @@ public class GameService extends RedisService {
                     throw new GameGetException();
                 }
 
-                super.defaultGameRedis(room.getId());  // 게임 정보 Redis에 삽입
+                super.defaultGameRedis(room.getId(), room.getPlayers());  // 게임 정보 Redis에 삽입
                 setCell(roomId, roomRequestDto);
             }
 
@@ -153,4 +154,27 @@ public class GameService extends RedisService {
     /*
         TO DO :: 투표 득표수 집계 메소드 추가
      */
+
+    char[] wordUnit = {'ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'};
+    public KrWordResponseDto setKrWord(Map<String, Object> payload, String roomId) {
+        List<String> playerIdList = new ArrayList<>();
+        // 플레이어 ID 리스트에 추가
+        playerIdList.add((String) super.hashOperations.get(super.getGameInfoKey(roomId), "player1"));
+        playerIdList.add((String) super.hashOperations.get(super.getGameInfoKey(roomId), "player2"));
+        playerIdList.add((String) super.hashOperations.get(super.getGameInfoKey(roomId), "player3"));
+        playerIdList.add((String) super.hashOperations.get(super.getGameInfoKey(roomId), "player4"));
+
+        Collections.shuffle(playerIdList);  // 무작위 섞기
+
+        KrWordResponseDto krWordResponseDto = KrWordResponseDto.builder()
+                .firstWord(wordUnit[(int) Math.floor(Math.random() * wordUnit.length)])
+                .secondWord(wordUnit[(int) Math.floor(Math.random() * wordUnit.length)])
+                .turn(playerIdList)
+                .build();
+
+        return krWordResponseDto;
+    }
+    public void confirmKrWord(Map<String, Object> payload, String roomId) {
+
+    }
 }
