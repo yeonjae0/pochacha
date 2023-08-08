@@ -9,11 +9,13 @@ import { useSelector } from "react-redux";
 
 function checkID() {
   const currentRoomID = useSelector(state => state.room.currentRoomID);
+  let playerInfo = useSelector(state => state.player.players)
 
   return (
     <div>
       <h2>roomID:</h2>
       <h1>{currentRoomID}</h1>
+      <h2>플레이어 정보: {playerInfo}</h2>
     </div>
   );
 }
