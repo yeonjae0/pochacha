@@ -27,9 +27,9 @@ export default function Liar() {
     /*
     TO DO :: 턴 종료 시 투표 진행 및 집계 API 호출
     */
-  let vote = false; //임의의 값으로 투표 여부 설정 (api 연결x)
+  let vote = true; //임의의 값으로 투표 여부 설정 (api 연결x)
 
-  const nickname = "엉뚱한 유영"; //임의의 닉네임
+  const nicknames = ["인프라맨","엉뚱한 유영팀장","쉬었으면 하는 배희진","자고있는 김연재"]; //임의의 닉네임
 
 /* 혜지 : 임시로 웹캠 화면 띄우기 위한 구현 시작 */
   let videoRef = useRef(null)
@@ -50,8 +50,17 @@ export default function Liar() {
 
   useEffect(() => {
     getUserCamera();
-  }, [videoRef])
+  }, [videoRef]);
   /* 혜지 : 임시로 웹캠 화면 띄우기 위한 구현 끝 */
+
+  /* 
+    TO DO :: 시간 종료 시 자동 투표 화면 전환 구현
+    */
+  // const startVoting=()=>{
+  //   vote=true;
+  // }
+
+  // setTimeout(()=>{startVoting()},5000);
 
   return (
     <div className={styles.container}>
@@ -62,19 +71,19 @@ export default function Liar() {
       }
       <div className={styles.camComponent1} >
       <video className={styles.cam} ref={videoRef} /> {/* 임시 화상화면 상자 */}
-        <div className={styles.nickname}>{nickname}</div>
+        <div className={styles.nickname}>{nicknames[0]}</div>
       </div>
       <div className={styles.camComponent2} >
         <video className={styles.cam} ref={videoRef} /> {/* 임시 화상화면 상자 */}
-        <div className={styles.nickname}>{nickname}</div>
+        <div className={styles.nickname}>{nicknames[1]}</div>
       </div>
       <div className={styles.camComponent3} >
       <video className={styles.cam} ref={videoRef} /> {/* 임시 화상화면 상자 */}
-        <div className={styles.nickname}>{nickname}</div>
+        <div className={styles.nickname}>{nicknames[2]}</div>
       </div>
       <div className={styles.camComponent4} >
       <video className={styles.cam} ref={videoRef} /> {/* 임시 화상화면 상자 */}
-      <div className={styles.nickname}>{nickname}</div>
+      <div className={styles.nickname}>{nicknames[3]}</div>
       </div>
         
         <div className={styles.roof}>
@@ -85,15 +94,16 @@ export default function Liar() {
         </div>
           <div className={styles.boxContainer}>
         <div className={styles.box}>
-          {
-            liar === true ?
-            <LiarComponent />
-              : <WordComponent />
-          }
+          
           {
             vote === true ?
-              <VoteLiarComponent />
-              : null
+              <VoteLiarComponent nicknames={nicknames}/>
+              : 
+                (
+                liar === true ?
+                <LiarComponent />
+                  : <WordComponent />
+                 )
           }
             </div>
           </div>            
