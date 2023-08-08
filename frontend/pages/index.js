@@ -15,6 +15,12 @@ export default function Home() {
       <Link href={'/game/mini/liar'}><h3>😋라이어 게임</h3></Link>
       <Link href={'/game/mini/mole'}><h3>🦔두더지 게임</h3></Link>
       <Link href={'/game/mini/spell'}><h3>🦄훈민정음 게임</h3></Link>
+      <br />
+      <hr />
+      <br />
+      <Link href={'/test2'}><h3>데이터 확인</h3></Link>
+      <Link href={'/test3'}><h3>데이터 초기화</h3></Link>
+      
     </div>
   )
 }
