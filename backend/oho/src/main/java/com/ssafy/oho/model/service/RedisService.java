@@ -73,8 +73,8 @@ public class RedisService {
         });
         redisTemplate.expire(getPlayerKey(roomId, playerId), TTL, TimeUnit.SECONDS);
     }
-    protected Object getPlayerInfo(String roomId, String playerId, String hashKey) {
-        return hashOperations.get(getPlayerKey(roomId, playerId), hashKey);
+    protected String getPlayerInfo(String roomId, String playerId, String hashKey) {
+        return (String) hashOperations.get(getPlayerKey(roomId, playerId), hashKey);
     }
 
     /*** 게임 정보 ***/
@@ -113,8 +113,8 @@ public class RedisService {
         });
         redisTemplate.expire(getGameKey(roomId), TTL, TimeUnit.SECONDS);
     }
-    protected Object getGameInfo(String roomId, String hashKey) {
-        return hashOperations.get(getGameKey(roomId), hashKey);
+    protected String getGameInfo(String roomId, String hashKey) {
+        return (String) hashOperations.get(getGameKey(roomId), hashKey);
     }
 
     /*** 칸 정보 삽입 ***/
@@ -215,7 +215,7 @@ public class RedisService {
         });
         redisTemplate.expire(getSpellKey(roomId), TTL, TimeUnit.SECONDS);
     }
-    protected Object getSpellInfo(String roomId, String hashKey) {
-        return hashOperations.get(getSpellKey(roomId), hashKey);
+    protected String getSpellInfo(String roomId, String hashKey) {
+        return (String) hashOperations.get(getSpellKey(roomId), hashKey);
     }
 }
