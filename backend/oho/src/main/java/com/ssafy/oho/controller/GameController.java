@@ -2,6 +2,7 @@ package com.ssafy.oho.controller;
 
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.LiarGameResponseDto;
+import com.ssafy.oho.model.dto.response.TimeStatusResponseDto;
 import com.ssafy.oho.model.service.GameService;
 import com.ssafy.oho.util.exception.GameGetException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +51,21 @@ public class GameController {
         webSocket.convertAndSend("/topic/move/" + roomId, responsePayload);
     }
 
-    /* 혜지 : 라이어 게임 API */
+    /* 타이머 테스트 관련 코드 (재사용성) */
+    /*
+        TO DO :: 타이머 관련 ON/OFF API 작성
+     */
+    @MessageMapping("/start-timer")
+    @SendTo("/topic/timer")
+    public TimeStatusResponseDto startTimer() {
+        // 타이머 시작 로직
+        TimeStatusResponseDto timeStatusResponseDto = new TimeStatusResponseDto(); // TimerStatus는 타이머 상태 클래스로 가정
+        // 타이머 상태 설정 로직
+        return timeStatusResponseDto;
+    }
+
+
+    /* 라이어 게임 API */
     @MessageMapping("/mini/liar/{roomId}")
     public void setLiarGame(@Payload Map<String,Object> payload, @DestinationVariable String roomId){
         LiarGameResponseDto liarGameResponseDto=gameService.setLiarGame(payload,roomId);

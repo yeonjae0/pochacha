@@ -147,6 +147,12 @@ public class GameService extends RedisService {
         1. word와 liar, player 순서 리스트 내보내기
         2. Redis에 roomId와 함께 저장하기
          */
+
+        /*
+            TO DO :: 입력 받은 주제에 대해 해당하는 단어 랜덤으로 출력 ( 현재 임의의 주제로 정함 )
+         */
+
+
         return new LiarGameResponseDto();
     }
 
