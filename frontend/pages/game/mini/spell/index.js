@@ -1,22 +1,24 @@
-'use Client'
+// 초성게임 정보를 저장해보자
+import { createSlice } from "@reduxjs/toolkit";
 
-// 이 창에 들어오면 초기화 구현, roomID 확인
+const initialState= {
+  currentConsonant: "",
+};
 
-// import storage from "@/lib/utils/storage";
-// import { useDispatch } from "react-redux";
-import React from "react";
-import { useSelector } from "react-redux";
+// const roomSlice = createSlice({
+//   name: "room",
+//   initialState,
+//   reducers: {
+//     enterRoom: (state, action) => {
+//       state.currentRoomID = action.payload.roomId;
+//       state.currentProgress = action.payload.progress
+//       state.currentSecret = action.payload.secret
+//     },
+//   }
+// });
 
-function checkID() {
-  const currentRoomAddress = useSelector(state => state.room.currentRoomAddress);
 
-  return (
-    <div>
-      <h2>roomID:</h2>
-      <h1>{currentRoomAddress}</h1>
-    </div>
-  );
-}
-
-export default checkID;
-
+export default spellSlice;
+export const {
+  enterRoom
+} = spellSlice.actions
