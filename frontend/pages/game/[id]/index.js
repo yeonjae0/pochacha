@@ -10,9 +10,11 @@ import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import axios from 'axios'
 import { Transition } from 'react-transition-group'
+import { useDispatch, useSelector } from "react-redux";
+import { enterRoom } from "@/store/reducers/room.js";
 
-/* 연재 : 모달 시작 (미완) */
-// 해야할 것: 모달 창 꾸미기, 자동으로 사라지게 하기
+/* 연재 : 모달 시작 */
+// 해야할 것: 모달 창 꾸미기
 const ModalContainer = styled.div`
   position: fixed;
   top: 0;
@@ -36,9 +38,11 @@ const ModalContent = styled.div`
 export default function GamePage() {
 
   const router = useRouter()
+  const dispatch = useDispatch();
   let info = JSON.parse(router.query.currentName)
 
-  let [roomId, setRoomId] = useState(info.roomId); // 현재 방 ID (임의 삽입)
+  let roomId = useSelector(state => state.room.currentRoomID )
+  // let [roomId, setRoomId] = useState(info.roomId); // 현재 방 ID (임의 삽입)
   let [includeMini, setIncludeMini] = useState(true); // 미니게임 진행 여부
   let [dice, setDice] = useState(0); // 주사위
   let [pin, setPin] = useState(1); // 현재 위치
@@ -69,9 +73,8 @@ export default function GamePage() {
 
   // 현재 방의 맵 불러오는 함수
   const createMap = async () => {
-    console.log("before axios roomId", roomId)
     axios({
-      url: "http://localhost:80/game/cell",
+      url: "http://localhost:80/game/start",
       header: {
         "Accept": "application/json",
         "Content-type": "application/json;charset=UTF-8"
@@ -82,8 +85,12 @@ export default function GamePage() {
         "includeMini": includeMini // 미니게임 여부
       }
     }).then((response) => {
+      console.log(roomId)
       console.log(response.data);
       console.log('셀 데이터 출력 **************************************' , response.data)
+      .catch((err) => {
+        console.log('에러임', err)
+      } )
       /*
         TO DO :: Cell 색에 맞춰 배합
       */
@@ -95,6 +102,7 @@ export default function GamePage() {
       const sock = new SockJS("http://localhost:80/ws")
       return sock;
     });
+    client.current.debug = () => {};
   }
 
   const subscribeSocket = () => {
@@ -158,7 +166,7 @@ export default function GamePage() {
       </>
     )
   }
-  /* 연재 : 모달 끝 (미완) */
+  /* 연재 : 모달 끝 */
   
   return (
     <div className={styles.container}>

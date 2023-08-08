@@ -5,18 +5,12 @@
   font-style: normal;
 }
 
-/* body {
-  margin: 0;
-  padding: 0;
-
-  width: 100vw;
-  height: 100vh;
-
-  background-image: url("../public/main/background2.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-} */
+@font-face {
+  font-family: 'LeeSeoyun';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/LeeSeoyun.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 
 * {
   font-family: 'NanumSquareRound';
@@ -49,3 +43,7 @@ button {
   background: none;
   border: none;
 }
+
+/* .cursor {
+  cursor: url("../public/hammer1.png") 2 2, auto;
+} */

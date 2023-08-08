@@ -4,21 +4,16 @@ import com.ssafy.oho.model.dto.request.PlayerRequestDto;
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.RoomResponseDto;
 import com.ssafy.oho.model.entity.Room;
+import com.ssafy.oho.model.repository.CellRepository;
+import com.ssafy.oho.model.repository.MinigameRepository;
 import com.ssafy.oho.model.repository.RoomRepository;
 import com.ssafy.oho.util.exception.RoomDeleteException;
 import com.ssafy.oho.util.exception.RoomGetException;
 import com.ssafy.oho.util.exception.RoomSetException;
 import com.ssafy.oho.util.exception.RoomUpdateException;
 import io.openvidu.java.client.*;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
 
@@ -26,26 +21,25 @@ import java.util.Map;
 public class RoomService {
 
     private final RoomRepository roomRepository;
+    private final CellRepository cellRepository;
+    private final MinigameRepository minigameRepository;
 
     @Autowired
-    private RoomService(RoomRepository roomRepository){
+    private RoomService(RoomRepository roomRepository, CellRepository cellRepository, MinigameRepository minigameRepository){
         this.roomRepository=roomRepository;
+        this.cellRepository = cellRepository;
+        this.minigameRepository = minigameRepository;
     }
 
     public RoomResponseDto setRoom(PlayerRequestDto playerRequestDto, OpenVidu openVidu) throws RoomSetException {
         try {
 
-            /* 혜지 : 방 Session ID 발급으로 변경 */
             String id;
-
-//            do {
-//                id = RandomStringUtils.random(12, true, true);
-//            } while(roomRepository.existsById(id));
 
             SessionProperties properties = new SessionProperties
                     .Builder()
                     .build();
-            Session session = openVidu.createSession(properties);
+            Session session = openVidu.createSession(properties);  // 세션 아이디 발급
 
             id=session.getSessionId(); //VALUE EXAMPLE : "ses_JM9v0nfD1l"
 
@@ -66,7 +60,6 @@ public class RoomService {
             return roomResponseDto;
 
         } catch(Exception e) { //OpenViduJavaClientException, OpenViduHttpException, ...
-            System.out.println(e.getMessage());
             throw new RoomSetException();
         }
     }

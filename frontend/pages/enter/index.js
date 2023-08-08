@@ -8,10 +8,14 @@ import classNames from 'classnames'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import axios from 'axios'
+import { useDispatch, useSelector } from "react-redux";
+import { enterRoom } from "@/store/reducers/room.js";
+import { addPlayer } from '@/store/reducers/player.js'
 
 export default function EnterPage() {
 
   const router = useRouter()
+  const dispatch = useDispatch();
 
   /* 유영 : 소켓 간단 연결 작업 시작 */
   useEffect(() => {
@@ -26,11 +30,11 @@ export default function EnterPage() {
 
   /* 유영 : axios를 통한 닉네임 생성 및 방 생성 시작 */
   /* 희진 : axios 렌더링 타이밍 변경 시작 (페이지 로딩 시 최초 1회) */
-  let roomId = ''
+  // let roomId = ''
   let progress = false
   let secret = false
   let nick = ''
-  let playerId = 0
+  let playerId = ''
   let ready = false
   let obj = {}
 
@@ -80,20 +84,45 @@ export default function EnterPage() {
         nickname: text
       }
     }).then((response) => {
-      console.log(response.data)
+      console.log('response.data' , response.data)
 
       obj = 
-      { 'roomId': response.data.room.id,
+      { 'roomId': response.data.room.id,//오픈비두 세션
         'progress': response.data.room.progress,
-        'secret': response.data.room.secret,
+        'secret': response.data.room.secret, // 비밀 방인지, 아닌지
         'nick': text || response.data.player.nickname,
-        'playerId': response.data.player.id,
+        'playerId': response.data.player.id,//오픈비두 토큰
         'ready': response.data.player.ready,
-        'token' : response.data.player.token }
+       }
+       let playerInfo =  {
+        playerId: response.data.player.id,
+        nick: text || response.data.player.nickname,
+        ready: response.data.player.ready,
+      }
 
       const sendData = () => {
+         /* 연재 : obj 정보 저장 */
+         dispatch(
+          enterRoom({
+            roomId: response.data.room.id,//오픈비두 세션
+            progress: response.data.room.progress,
+            secret: response.data.room.secret,
+          })
+         );
+         dispatch(addPlayer(playerInfo))
+        //  dispatch(
+        //   playerInRoom({
+        //     nick: text || response.data.player.nickname,
+        //     playerId: response.data.player.id,//오픈비두 토큰
+        //     ready: response.data.player.ready,
+        //   })
+        //  )
+
+        //  const roomID = useSelector(state => state.room.currentRoomAddress);
         router.push(
           {
+            // pathname: '/enter',
+            // pathname: `/room/${roomID}`,
             pathname: `/room/${response.data.room.id}`,
             query: { currentName: JSON.stringify(obj) },
           },
@@ -101,8 +130,7 @@ export default function EnterPage() {
           // `/room/${response.data.room.id}`
         )
       }
-
-      sendData()
+      sendData();
     }).catch(error => console.log(error))
   }
   /* 유영 : axios를 통한 닉네임 생성 및 방 생성 끝 */

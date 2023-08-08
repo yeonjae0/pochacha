@@ -2,7 +2,6 @@ package com.ssafy.oho.model.service;
 
 import com.ssafy.oho.model.dto.request.PlayerRequestDto;
 import com.ssafy.oho.model.dto.response.PlayerResponseDto;
-import com.ssafy.oho.model.dto.response.RoomResponseDto;
 import com.ssafy.oho.model.entity.Player;
 import com.ssafy.oho.model.entity.Room;
 import com.ssafy.oho.model.repository.PlayerRepository;
@@ -12,23 +11,13 @@ import com.ssafy.oho.util.exception.PlayerGetException;
 import com.ssafy.oho.util.exception.PlayerSetException;
 import com.ssafy.oho.util.exception.PlayerUpdateException;
 import io.openvidu.java.client.*;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Service
-public class PlayerService {
-    private final StringRedisTemplate redisTemplate;  // REDIS
-    private HashOperations<String, Object, Object> hashOperations = null;  // Redis 데이터 담을 변수
+public class PlayerService extends RedisService {
     private final PlayerRepository playerRepository;
     private final RoomRepository roomRepository;
     private final String[] randAdj = {"풍부한", "어지러운", "미세한", "혁신적인", "진실의", "통통한", "믿을만한", "혼란스러운",
@@ -37,36 +26,15 @@ public class PlayerService {
     private final String[] randNoun = {"연제정", "김태훈", "배희진", "김연재", "유영", "임혜지", "이현석", "성유지", "최웅렬"}; // 명사 모음
 
     private PlayerService(StringRedisTemplate redisTemplate, PlayerRepository playerRepository, RoomRepository roomRepository) {
-        this.redisTemplate = redisTemplate;
+        super(redisTemplate);
         this.playerRepository = playerRepository;
         this.roomRepository = roomRepository;
-
-        // Redis 데이터와 연결
-        this.hashOperations = this.redisTemplate.opsForHash();
-    }
-
-    private String getPlayerListKey(String roomId, String playerId) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(roomId).append(".player.").append(playerId);
-
-        return sb.toString();
-    }
-
-    private void defaultPlayerRedis(String roomId, Player player) {
-        /*** Redis Input : 모든 데이터를 String으로 변경 ***/
-        hashOperations.put(getPlayerListKey(roomId, player.getId()), "id", player.getId());
-        hashOperations.put(getPlayerListKey(roomId, player.getId()), "nickname", player.getNickname());
-        hashOperations.put(getPlayerListKey(roomId, player.getId()), "head", Boolean.toString(player.isHead()));
-        hashOperations.put(getPlayerListKey(roomId, player.getId()), "ready", "false");
     }
 
     public PlayerResponseDto setHead(PlayerRequestDto playerRequestDto, String roomId, OpenVidu openVidu) throws PlayerSetException {
-        System.out.println("PLAYER SERVECE: SET HEAD");
-        System.out.println("ROOMID: "+roomId);
-        System.out.println("----------------------------");
         try {
             PlayerResponseDto headResponseDto = setPlayer(playerRequestDto, roomId, openVidu);
-            Player head = playerRepository.findById(headResponseDto.getId()).orElseThrow(()-> new PlayerSetException());
+            Player head = playerRepository.findById(headResponseDto.getId()).orElseThrow(PlayerSetException::new);
 
             /*** Entity Build ***/
             head = Player.builder()
@@ -76,19 +44,18 @@ public class PlayerService {
                     .head(true)
                     .build();
 
-            System.out.println(head.toString());
             playerRepository.save(head);
-            System.out.println("AFTER SAVING HEAD");
 
             /*** Redis Input ***/
-            hashOperations.put(getPlayerListKey(roomId, head.getId()), "head", Boolean.toString(head.isHead()));
-            hashOperations.put(getPlayerListKey(roomId, head.getId()), "ready", "true");
+            Map<String, String> hash = new HashMap<>() {{ put("head", "true"); put("ready", "true"); }};
+            super.setPlayerInfo(roomId, head.getId(), hash);
 
             /*** Response DTO Build ***/
             headResponseDto = PlayerResponseDto.builder()
                     .id(head.getId())
                     .nickname(head.getNickname())
                     .head(head.isHead())
+                    .ready(true)
                     .build();
 
             return headResponseDto;
@@ -97,30 +64,26 @@ public class PlayerService {
         }
     }
     public PlayerResponseDto setPlayer(PlayerRequestDto playerRequestDto, String roomId, OpenVidu openVidu) throws PlayerSetException {
-        //System.out.println("PLAYER SERVICE: SET PLAYER");
         try {
-            Room room = roomRepository.findById(roomId).orElseThrow(()-> new PlayerSetException());
-            // 방이 존재하지 않을 경우
-            // 플레이어가 4명 이상인 경우
-            // 게임이 이미 시작된 경우
-            if (room == null || 4 <= playerRepository.countByRoom(room) || room.isProgress()) {
+            Room room = roomRepository.findById(roomId).orElseThrow(PlayerSetException::new);
+            // 방이 존재하지 않을 경우, 플레이어가 4명 이상인 경우, 게임이 이미 시작된 경우
+            if (room == null ||(room.getPlayers() != null && 4 <= room.getPlayers().size()) || room.isProgress()) {
                 throw new PlayerSetException("해당 방에 접속할 수 없습니다.");
             }
 
             // 닉네임 입력 시 해당 닉네임, 미입력시 랜덤 닉네임 생성
             String nickname = "";
-            if (playerRequestDto.getNickname() == null && playerRequestDto.getNickname().trim().equals("")) {  // 닉네임 없을 경우
+            if (playerRequestDto.getNickname() != null && !playerRequestDto.getNickname().trim().equals("")) {  // 닉네임 없을 경우
                 nickname = playerRequestDto.getNickname();
             } else {  // 닉네임 없을 경우
                 nickname = randAdj[new Random().nextInt(randAdj.length)] +
                         randNoun[new Random().nextInt(randNoun.length)] +
-                        new Random().nextInt(10000);  // 랜덤 닉네임 생성
+                        (new Random().nextInt(8999) + 1000);  // 랜덤 닉네임 생성 알고리즘
             }
 
             /* 혜지 : OpenVidu Token 발급 */
             Session session = openVidu.getActiveSession(roomId);
             if (session == null) {
-                System.out.println("ERROR: CREATING OPENVIDU SESSION");
                 throw new PlayerSetException();
             }
             ConnectionProperties properties = new ConnectionProperties
@@ -129,9 +92,9 @@ public class PlayerService {
                     .data(nickname) /* 혜지: data로 nickname 실어 보내기 */
                     .build();
             Connection connection = session.createConnection(properties);
-            String token=connection.getToken();  // VALUE EXAMPLE : "wss://localhost:4443?sessionId=ses_JM9v0nfD1l&token=tok_MIYGGzuDQb8Xf1Qd"
-
-            System.out.println("TOKEN: "+token);
+            String token = connection.getToken();  // VALUE EXAMPLE : "wss://localhost:4443?sessionId=ses_JM9v0nfD1l&token=tok_MIYGGzuDQb8Xf1Qd"
+            String[] tokenUnit = token.split("=");
+            String tokenParam = tokenUnit[tokenUnit.length - 1];
 
             /*** Entity Build ***/
             Player player = Player.builder()
@@ -141,20 +104,19 @@ public class PlayerService {
                     .head(false)
                     .build();
 
-            System.out.println(player.toString());
+            System.out.println(player);
+
             playerRepository.save(player);
-            defaultPlayerRedis(roomId, player); // Redis에 저장
+            super.setPlayer(roomId, player);
 
             /*** Response DTO Build ***/
-            PlayerResponseDto playerResponseDto = PlayerResponseDto.builder()
+            return PlayerResponseDto.builder()
                     .id(player.getId())
                     .nickname(player.getNickname())
                     .head(player.isHead())
+                    .ready(Boolean.parseBoolean(super.getPlayerInfo(roomId, player.getId(), "ready")))
                     .build();
-
-            return playerResponseDto;
-        } catch (Exception e) {//OpenViduJavaClientException, OpenViduHttpException, ...
-            e.printStackTrace();
+        } catch (Exception e) {  // OpenViduJavaClientException, OpenViduHttpException, ...
             throw new PlayerSetException();
         }
     }
@@ -164,15 +126,14 @@ public class PlayerService {
             Player player = playerRepository.findById(playerRequestDto.getId()).orElseThrow(()-> new PlayerGetException());
 
             /*** Response DTO Build ***/
-            PlayerResponseDto playerResponseDto = PlayerResponseDto.builder()
+            return PlayerResponseDto.builder()
                     .id(player.getId())
                     .nickname(player.getNickname())
                     .head(player.isHead())
+                    .ready(Boolean.parseBoolean(super.getPlayerInfo(playerRequestDto.getRoomId(), player.getId(), "ready")))
                     .build();
-
-            return playerResponseDto;
         } catch(Exception e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
             throw new PlayerGetException();
         }
     }
@@ -182,13 +143,13 @@ public class PlayerService {
         try {
             /*** 유효성 검사 ***/
             // 현재 방의 플레이어 존재 확인
-            Player player = playerRepository.findById(playerRequestDto.getId()).orElseThrow(()-> new PlayerGetException());
+            Player player = playerRepository.findById(playerRequestDto.getId()).orElseThrow(PlayerGetException::new);
             if(player == null || !player.getRoom().getId().equals(roomId)){
                 throw new PlayerGetException();
             }
 
             // 방 유효성 확인
-            Room room = roomRepository.findById(roomId).orElseThrow(()-> new PlayerGetException());
+            Room room = roomRepository.findById(roomId).orElseThrow(PlayerGetException::new);
             if(room == null || room.getId().trim().equals("")){
                 throw new PlayerGetException();
             }
@@ -209,7 +170,6 @@ public class PlayerService {
             return playerResponseDtoList;
 
         } catch(Exception e) {
-            e.printStackTrace();
             throw new PlayerGetException();
         }
     }
@@ -218,37 +178,37 @@ public class PlayerService {
         try {
             /*** 유효성 검사 ***/
             // 플레이어 존재 확인
-            if(!payload.containsKey("id")) {
+            if(!payload.containsKey("playerId")) {
                 throw new PlayerUpdateException();
             }
 
-            String playerId = (String) payload.get("id");
+            String playerId = (String) payload.get("playerId");
             // Redis 저장 확인
-            if (!hashOperations.hasKey(getPlayerListKey(roomId, playerId), "ready")) {
+            if (super.getPlayer(roomId, playerId) == null) {
                 // Redis에도 DB에도 없을 시 Exception
                 if(!playerRepository.existsById(playerId)) {
                     throw new PlayerUpdateException();
                 }
-                
+
                 // DB엔 있으나 Redis에 없을 시 Redis에 저장
-                defaultPlayerRedis(roomId, playerRepository.findById(playerId).orElseThrow(()-> new PlayerUpdateException()));
+                super.setPlayer(roomId, playerRepository.findById(playerId).orElseThrow(()-> new PlayerUpdateException()));
             }
 
             /*** Redis Input ***/
-            if(payload.containsKey("ready")) {  // Ready 상태 변경
-                hashOperations.put(getPlayerListKey(roomId, playerId), "ready", Boolean.valueOf((boolean) payload.get("ready")));
+            Map<String, String> hash = new HashMap<>();
+            if(payload.containsKey("head")) {  // Head 상태 변경
+                hash.put("head", Boolean.toString((boolean) payload.get("head")));
             }
+            if(payload.containsKey("ready")) {  // Ready 상태 변경
+                hash.put("ready", Boolean.toString((boolean) payload.get("ready")));
+            }
+            super.setPlayerInfo(roomId, playerId, hash);
 
             /*** Response DTO Build ***/
-            PlayerResponseDto playerResponseDto = PlayerResponseDto.builder()
+            return PlayerResponseDto.builder()
                     .id(playerId)
-                    .nickname((String) hashOperations.get(getPlayerListKey(roomId, playerId), "nickname"))
-                    .head((boolean) hashOperations.get(getPlayerListKey(roomId, playerId), "head"))
-                    .ready((boolean) hashOperations.get(getPlayerListKey(roomId, playerId), "ready"))
+                    .ready(Boolean.parseBoolean(super.getPlayerInfo(roomId, playerId, "ready")))
                     .build();
-
-
-            return playerResponseDto;
         } catch(Exception e) {
             throw new PlayerUpdateException();
         }
@@ -256,14 +216,24 @@ public class PlayerService {
 
     public PlayerResponseDto deletePlayer(Map<String, Object> payload, String roomId) throws PlayerDeleteException {
         try {
+            // 플레이어 존재 확인
+            if(!payload.containsKey("playerId")) {
+                throw new PlayerDeleteException();
+            }
             String playerId = (String) payload.get("id");
-            hashOperations.delete(getPlayerListKey(roomId, playerId), "nickname", "head", "ready");
-            playerRepository.deleteById(playerId);
+            if (super.getPlayer(roomId, playerId) == null) {
+                // Redis에도 DB에도 없을 시 Exception
+                if(!playerRepository.existsById(playerId)) {
+                    throw new PlayerDeleteException();
+                }
+            }
 
-            PlayerResponseDto playerResponseDto = PlayerResponseDto.builder()
+            super.deletePlayer(roomId, playerId);  // Redis 삭제
+            playerRepository.deleteById(playerId);  // DB 삭제
+
+            return PlayerResponseDto.builder()
                     .id(playerId)
                     .build();
-            return playerResponseDto;
         } catch(Exception e) {
             throw new PlayerDeleteException();
         }
