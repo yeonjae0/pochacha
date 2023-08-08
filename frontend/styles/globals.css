@@ -44,6 +44,6 @@ button {
   border: none;
 }
 
-/* .cursor {
-  cursor: url("../public/hammer1.png") 2 2, auto;
-} */
+.custom-cursor {
+  cursor: url('/public/두더지_망치1.png'), auto;
+}
