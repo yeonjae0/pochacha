@@ -10,7 +10,7 @@ import { Stomp } from '@stomp/stompjs'
 import axios from 'axios'
 import { useDispatch, useSelector } from "react-redux";
 import { enterRoom } from "@/store/reducers/room.js";
-import { playerInRoom } from '@/store/reducers/player.js'
+import { addPlayer } from '@/store/reducers/player.js'
 
 export default function EnterPage() {
 
@@ -94,6 +94,11 @@ export default function EnterPage() {
         'playerId': response.data.player.id,//오픈비두 토큰
         'ready': response.data.player.ready,
        }
+       let playerInfo =  {
+        playerId: response.data.player.id,
+        nick: text || response.data.player.nickname,
+        ready: response.data.player.ready,
+      }
 
       const sendData = () => {
          /* 연재 : obj 정보 저장 */
@@ -104,14 +109,14 @@ export default function EnterPage() {
             secret: response.data.room.secret,
           })
          );
-
-         dispatch(
-          playerInRoom({
-            nick: text || response.data.player.nickname,
-            playerId: response.data.player.id,//오픈비두 토큰
-            ready: response.data.player.ready,
-          })
-         )
+         dispatch(addPlayer(playerInfo))
+        //  dispatch(
+        //   playerInRoom({
+        //     nick: text || response.data.player.nickname,
+        //     playerId: response.data.player.id,//오픈비두 토큰
+        //     ready: response.data.player.ready,
+        //   })
+        //  )
 
         //  const roomID = useSelector(state => state.room.currentRoomAddress);
         router.push(

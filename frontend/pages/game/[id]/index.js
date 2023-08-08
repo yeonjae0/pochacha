@@ -41,6 +41,7 @@ export default function GamePage() {
   const dispatch = useDispatch();
   let info = JSON.parse(router.query.currentName)
 
+  let roomId = useSelector(state => state.room.currentRoomID )
   // let [roomId, setRoomId] = useState(info.roomId); // 현재 방 ID (임의 삽입)
   let [includeMini, setIncludeMini] = useState(true); // 미니게임 진행 여부
   let [dice, setDice] = useState(0); // 주사위
