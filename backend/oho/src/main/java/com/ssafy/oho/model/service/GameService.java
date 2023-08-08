@@ -10,13 +10,16 @@ import com.ssafy.oho.model.entity.Room;
 import com.ssafy.oho.model.repository.CellRepository;
 import com.ssafy.oho.model.repository.MinigameRepository;
 import com.ssafy.oho.model.repository.RoomRepository;
+import com.ssafy.oho.util.data.liargame.words.*;
+import com.ssafy.oho.util.data.liargame.words.Objects;
 import com.ssafy.oho.util.exception.GameGetException;
+import com.ssafy.oho.util.exception.GameSetException;
+import com.ssafy.oho.util.exception.RoomGetException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.regex.Pattern;
 
 @Service
 public class GameService extends RedisService {
@@ -142,19 +145,67 @@ public class GameService extends RedisService {
     /*
         TO DO :: 라이어 게임 세팅 API
      */
-    public LiarGameResponseDto setLiarGame(Map<String, Object> payload, String roomId) {
-        /*
-        <구현 로직>
-        1. word와 liar, player 순서 리스트 내보내기
-        2. Redis에 roomId와 함께 저장하기
-         */
+    public LiarGameResponseDto setLiarGame(Map<String, Object> payload, String roomId) throws GameSetException{
+        Map<String, Object> responsePayload = new HashMap<>();
+
+        try {
+            Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomGetException());
+            List<Player> playerList=room.getPlayers();
+
+            //멀티 게임이므로 2명 미만의 상태에서는 진행 불가
+            if(playerList.size()<2){
+                throw new GameSetException();
+            }
+
+            //게임 진행 턴(순서) 임의로 배정
+            Collections.shuffle(playerList);
+
+            String subject = ((String) payload.getOrDefault("subject", "")).trim();
+
+            /*
+                CONFIRM :: 조건문을 바꿀 방법 찾기 (enum 데이터 저장 방식 변경)
+                            그러나 우아한 형제들 블로그에서는 enum과 함께 아래처럼 사용
+             */
+
+            String word="";
+            if(subject.equals("animal")){
+                word=Animal.getRandomValue();
+            }
+            else if(subject.equals("country")){
+                word=Country.getRandomValue();
+            }
+            else if(subject.equals("food")){
+                word=Food.getRandomValue();
+            }
+            else if(subject.equals("objects")){
+                word=Objects.getRandomValue();
+            }
+            else if(subject.equals("singer")){
+                word=Singer.getRandomValue();
+            }
+            else if(subject.equals("sports")) {
+                word = Sports.getRandomValue();
+            }
+            else{
+                throw new GameSetException();
+            }
+
+            /*** Response DTO Build ***/
+            LiarGameResponseDto.builder()
+                    .liar(playerList.get(0).getId())
+                    .word(word)
+                    .turns(playerList)
+                    .build();
+
 
         /*
-            TO DO :: 입력 받은 주제에 대해 해당하는 단어 랜덤으로 출력 ( 현재 임의의 주제로 정함 )
+            TO DO :: Redis에 roomId, liar, room, turns 저장
          */
-
-
-        return new LiarGameResponseDto();
+            return new LiarGameResponseDto();
+        }
+        catch(Exception e){
+            throw new GameSetException();
+        }
     }
 
     /*
