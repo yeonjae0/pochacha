@@ -4,17 +4,36 @@ import { useEffect, useState } from 'react'
 import styles from '@/styles/RoomPage.module.css'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
-import { useRouter } from 'next/router'
+//import { useRouter } from 'next/router'
 
 export default function RoomChat({ info }) {
 
   /* 태훈 : 링크 복붙으로 들어온 유저의 경우에 params로 전달받은 info가 null값이 되어버리기 때문에 url의 parameter를 파싱해 info를 설정함 */
-  const router = useRouter()
+  //const router = useRouter()
   const [information, setInformation] = useState(info)
-  
+
+  const extractParamsFromURL = (url) => {
+    const params = {};
+    const urlSearchParams = new URLSearchParams(url);
+
+    urlSearchParams.forEach((value, key) => {
+      try {
+        params[key] = JSON.parse(decodeURIComponent(value));
+      } catch (error) {
+        params[key] = value;
+      }
+    });
+      
+    console.log(params["currentName"]);
+
+    return params["currentName"];
+  }
+
+  // const information = extractParamsFromURL(window.location.href);
+
   /* 유영 : Socket 함수 최초 호출 시작 */
   useEffect(() => {
-    setInformation(info ? info : (router.query.currentName ? JSON.parse(router.query.currentName) : ''))
+    setInformation(info ? info : extractParamsFromURL(window.location.href))
     connectSocket()
     subscribeChat()
   }, [])
@@ -22,7 +41,7 @@ export default function RoomChat({ info }) {
 
   /* 유영 : Socket을 이용한 채팅 함수 시작 */
   const [message, setMessage] = useState('')
-  const [chatHistory, setChatHistory] = useState(`${information?.nick}님이 입장하셨습니다.`+ '\n')
+  const [chatHistory, setChatHistory] = useState(`${info?.nick}님이 입장하셨습니다.`+ '\n')
 
   const handleOnChange = (e) => {
     setMessage(e.target.value)
@@ -45,7 +64,7 @@ export default function RoomChat({ info }) {
 
   const subscribeChat = () => {
     client.current.connect({}, () => {
-      client.current.subscribe(`/topic/chat/${information.roomId}`, (response) => {  // 채팅 구독 url
+      client.current.subscribe(`/topic/chat/${info.roomId}`, (response) => {  // 채팅 구독 url
         var data = JSON.parse(response.body)
         setChatHistory((prevHistory) => prevHistory + data.playerId + ': ' + data.message + '\n')
       })
@@ -66,6 +85,8 @@ export default function RoomChat({ info }) {
           "playerId": information.nick,
           "message": message,
         }
+	console.log(information)
+	//console.log("information" + information)
         client.current.send("/chat/" + information.roomId, {}, JSON.stringify(sendData))
       }}>전송</button>
     </div>
