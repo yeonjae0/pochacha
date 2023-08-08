@@ -1,6 +1,8 @@
 export default function WordComponent(){
 
     return (
-        <div>올바른 단어 컴포넌트</div>
+        <div>
+            <h1>제시어 : 사탕</h1>
+        </div>
     )
 }
