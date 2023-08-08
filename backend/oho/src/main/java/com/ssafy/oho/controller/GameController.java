@@ -1,7 +1,6 @@
 package com.ssafy.oho.controller;
 
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
-import com.ssafy.oho.model.dto.response.LiarGameResponseDto;
 import com.ssafy.oho.model.dto.response.TimeStatusResponseDto;
 import com.ssafy.oho.model.service.GameService;
 import com.ssafy.oho.util.exception.GameGetException;
@@ -63,25 +62,4 @@ public class GameController {
     }
 
 
-    /* 라이어 게임 API */
-    @MessageMapping("/mini/liar/{roomId}")
-    public void setLiarGame(@Payload Map<String,Object> payload, @DestinationVariable String roomId){
-        LiarGameResponseDto liarGameResponseDto=gameService.setLiarGame(payload,roomId);
-        webSocket.convertAndSend("/topic/game/"+roomId,liarGameResponseDto);
-    }
-
-    @PostMapping("/mini/spell")
-    public ResponseEntity<?> setSpell(@RequestBody RoomRequestDto roomRequestDto) {
-        try {
-            return ResponseEntity.ok(gameService.setSpell(roomRequestDto));
-        } catch (GameGetException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @MessageMapping("/mini/spell/confirm/{roomId}")
-    public void confirmSpell(@Payload Map<String,Object> payload, @DestinationVariable String roomId) {
-        // 초성 분리 및 정답 확인
-        webSocket.convertAndSend("/topic/game/" + roomId, gameService.confirmSpell(payload, roomId));
-    }
 }
