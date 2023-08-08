@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SockJS from 'sockjs-client';
-import Stomp from 'stompjs';
+import { Stomp } from '@stomp/stompjs';
 
 /*
     CONFIRM :: 두더지게임 타이머를 적용할지 고민
