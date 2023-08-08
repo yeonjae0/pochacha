@@ -16,8 +16,6 @@ import org.hibernate.annotations.DynamicInsert;
 @Builder
 @Getter
 @DynamicInsert
-@NoArgsConstructor
-@AllArgsConstructor
 /* 혜지 : Player Id를 OpenVidu Token으로 정정 */
 public class Player extends Base {
 

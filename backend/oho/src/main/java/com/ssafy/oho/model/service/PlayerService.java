@@ -159,7 +159,7 @@ public class PlayerService {
 
             /*** Redis Input : 모든 데이터를 String으로 변경 ***/
             /* TO DO :: player id를 토큰으로 변경하며, data type 변경 필요 */
-            hashOperations.put(roomId + ".player." + playerResponseDto.getId(), "id", Long.toString(playerResponseDto.getId()));
+            hashOperations.put(roomId + ".player." + playerResponseDto.getId(), "id", playerResponseDto.getId());
             hashOperations.put(roomId + ".player." + playerResponseDto.getId(), "nickname", playerResponseDto.getNickname());
             hashOperations.put(roomId + ".player." + playerResponseDto.getId(), "head", Boolean.toString(playerResponseDto.isHead()));
             hashOperations.put(roomId + ".player." + playerResponseDto.getId(), "ready", Boolean.toString(playerRequestDto.isReady()));
