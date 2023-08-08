@@ -10,14 +10,11 @@ export default function RoomChat({ info }) {
 
   /* 태훈 : 링크 복붙으로 들어온 유저의 경우에 params로 전달받은 info가 null값이 되어버리기 때문에 url의 parameter를 파싱해 info를 설정함 */
   const router = useRouter()
-  const [information, setInformation] = useState(info ? info : getInfoFromParams())
-
-  const getInfoFromParams = () => {
-    return router.query.currentName ? JSON.parse(router.query.currentName) : ''
-  }
+  const [information, setInformation] = useState(info)
   
   /* 유영 : Socket 함수 최초 호출 시작 */
   useEffect(() => {
+    setInformation(info ? info : (router.query.currentName ? JSON.parse(router.query.currentName) : ''))
     connectSocket()
     subscribeChat()
   }, [])
