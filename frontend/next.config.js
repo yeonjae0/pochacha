@@ -1,8 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  "exportTrailingSlash": true,
-  "output": "export",
+  output: "export",
+  trailingSlash: true,
   reactStrictMode: true,
+  images: {
+    loader: 'imgix',
+    path: 'ohogame.shop',
+  },
 }
 
 module.exports = nextConfig
