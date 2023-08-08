@@ -5,20 +5,19 @@ const initialState= {
   currentConsonant: "",
 };
 
-const roomSlice = createSlice({
-  name: "room",
+const spellSlice = createSlice({
+  name: "spell",
   initialState,
   reducers: {
-    enterRoom: (state, action) => {
-      state.currentRoomID = action.payload.roomId;
-      state.currentProgress = action.payload.progress
-      state.currentSecret = action.payload.secret
+    startGame: (state, action) => {
+      state.currentConsonant = action.payload.consonant;
     },
   }
 });
 
 
-export default roomSlice;
+
+export default spellSlice;
 export const {
-  enterRoom
-} = roomSlice.actions
+  startGame
+} = spellSlice.actions

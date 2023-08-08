@@ -11,8 +11,8 @@ function OtherPage() {
 
   return (
     <div>
-      <h2>Fruit List</h2>
-      {fruits}
+      {/* <h2>Fruit List</h2>
+      {fruits} */}
       <hr />
       <h2>플레이어 정보</h2>
       {playerInfo && playerInfo.length > 0 ? (
