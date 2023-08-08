@@ -2,9 +2,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styles from '@/styles/LiarGame.module.css'
 
-import WordComponent from "./wordComponent"
-import LiarComponent from "./liarComponent"
-import VoteLiarComponent from "./voteLiarComponent"
+import WordComponent from './WordComponent'
+import LiarComponent from './LiarComponent'
+import VoteLiarComponent from './VoteLiarComponent'
+
 /*
 <구현 로직>
 현재 사용자 === liar? (LiarComponent) : (WordComponent)
