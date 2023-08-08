@@ -1,7 +1,6 @@
 package com.ssafy.oho.model.service;
 
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
-import com.ssafy.oho.model.dto.response.KrWordResponseDto;
 import com.ssafy.oho.model.dto.response.LiarGameResponseDto;
 import com.ssafy.oho.model.entity.Cell;
 import com.ssafy.oho.model.entity.Minigame;
@@ -23,8 +22,6 @@ import java.util.*;
 
 @Service
 public class GameService extends RedisService {
-
-    // private final StringRedisTemplate redisTemplate;
     private final CellRepository cellRepository;
     private final MinigameRepository minigameRepository;
     private final RoomRepository roomRepository;
@@ -34,7 +31,6 @@ public class GameService extends RedisService {
     @Autowired
     private GameService(StringRedisTemplate redisTemplate, CellRepository cellRepository, MinigameRepository minigameRepository, RoomRepository roomRepository) {
         super(redisTemplate);
-        // this.redisTemplate = redisTemplate;
         this.cellRepository = cellRepository;
         this.minigameRepository = minigameRepository;
         this.roomRepository = roomRepository;
@@ -57,32 +53,32 @@ public class GameService extends RedisService {
 //            }
 
             for(Player p : room.getPlayers()) {
-                if(!super.hashOperations.hasKey(super.getPlayerListKey(roomId, p.getId()), "id")) {
+                if(super.getPlayer(roomId, p.getId()) == null) {
                     throw new GameGetException("해당 방에 존재하지 않는 플레이어입니다.");
                 }
-                if(!Boolean.parseBoolean((String) super.hashOperations.get(super.getPlayerListKey(roomId, p.getId()), "ready"))) {
+                if((boolean) super.getPlayerInfo(roomId, p.getId(), "ready")) {
                     throw new GameGetException("모든 플레이어가 준비되지 않았습니다.");
                 }
             }
             /*** 유효성 검사 끝 ***/
 
             // 게임 정보 존재하지 않을 경우
-            if(!super.hashOperations.hasKey(super.getGameKey(roomId), "id")) {
+            if(super.getGame(roomId) == null) {
                 /*** 유효성 검사 ***/
                 if(room.isProgress()) {  // 게임이 이미 시작 중일 경우
                     throw new GameGetException();
                 }
 
-                super.defaultGameRedis(room.getId(), room.getPlayers());  // 게임 정보 Redis에 삽입
+                super.setGame(room.getId(), 0, 0);
                 setCell(roomId, roomRequestDto);
             }
 
-            Object[] cellStatusList = new Object[24];
+            Object[] cellList = new Object[24];
             for (int i = 0; i < CELL_CNT; i++) {
-                cellStatusList[i] = super.hashOperations.entries(super.getCellListKey(roomId, i));
+                cellList[i] = super.getCell(roomId, i);
             }
 
-            return cellStatusList;
+            return cellList;
         } catch(Exception e) {
             throw new GameGetException();
         }
@@ -101,27 +97,24 @@ public class GameService extends RedisService {
             int miniIndex;
             Set<Integer> randomIndex = new HashSet<>();  // 삽입할 index 담기
             for (int i = 0; i < MINIGAME_CNT; i++) {
-                minigame = miniCellList.get((int) Math.floor(i % miniCellList.size()));  // 미니게임 가져오기
+                minigame = miniCellList.get(i % miniCellList.size());  // 미니게임 가져오기
                 do {
-                    miniIndex = (int)(Math.random() * CELL_CNT);
+                    miniIndex = new Random().nextInt(CELL_CNT);
                 }while (randomIndex.contains(miniIndex));
 
-                super.defaultMinigameRedis(minigame, roomId, miniIndex);  /// Redis에 minigame 삽입
+                randomIndex.add(miniIndex);
+                super.setMinigame(roomId, minigame, miniIndex);  /// Redis에 minigame 삽입
             }
         }  // 미니게임 ON 끝
 
         Cell cell;
         for (int i = 0; i < CELL_CNT; i++) {
             // 해당 순서에 미니게임 이미 삽입되어 있을 경우 pass
-            if(super.hashOperations.hasKey(super.getCellListKey(roomId, i), "name")) continue;
+            if(super.getCell(roomId, i) != null) continue;
             cell = normalCellList.get((int) Math.floor(i % normalCellList.size()));  // 각 칸 가져오기
 
-            super.defaultCellRedis(cell, roomId, i);  /// Redis에 cell 삽입
+            super.setCell(roomId, cell, i);  /// Redis에 cell 삽입
         }
-    }
-
-    public Map<Object, Object> getCell(String roomId, int index) {
-        return super.hashOperations.entries(super.getCellListKey(roomId, index));
     }
 
     public Map<String, Object> movePin(Map<String, Object> payload, String roomId) {
@@ -129,15 +122,19 @@ public class GameService extends RedisService {
 
         int dice = (int) (Math.random() * 6) +1;
 
-        int pin = ((int) payload.get("pin") + dice) % 24;
-        if(pin < 0) pin += 24;
+        int pin = (int) super.getGameInfo(roomId, "pin");
+        int lab = (int) super.getGameInfo(roomId, "lab");
 
-        int lab = (int) payload.get("lab");
-        if(pin < (int) payload.get("pin")) lab++;
+        Map<String, String> hash = new HashMap<>();
 
-        responsePayload.put("dice", dice);
-        responsePayload.put("pin", pin);
-        responsePayload.put("lab", lab);
+        hash.put("pin", Integer.toString((pin + dice) % 24));
+        if(Integer.parseInt(hash.get("pin")) < 0) hash.put("pin", hash.get("pin") + 24);
+        if(pin < Integer.parseInt(hash.get("pin"))) hash.put("lab", Integer.toString(++lab));
+
+        super.setGameInfo(roomId, hash);  // Redis에 저장
+
+        responsePayload.put("game", super.getGame(roomId));
+        responsePayload.put("cell", super.getCell(roomId, Integer.parseInt(hash.get("pin"))));
 
         return responsePayload;
     }
@@ -217,31 +214,29 @@ public class GameService extends RedisService {
             "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ",
             "ㅋ", "ㅌ", "ㅍ", "ㅎ"
     };
-    public KrWordResponseDto setKrWord(Map<String, Object> payload, String roomId) {
+    public HashMap<String, Object> setSpell(RoomRequestDto roomRequestDto) throws GameGetException {
         String firstWord = wordUnit[(int) Math.floor(Math.random() * wordUnit.length)];
         String secondWord = wordUnit[(int) Math.floor(Math.random() * wordUnit.length)];
+
+        Room room = roomRepository.findById(roomRequestDto.getId()).orElseThrow(GameGetException::new);
         List<String> playerIdList = new ArrayList<>();
-        // 플레이어 ID 리스트에 추가
-        playerIdList.add((String) super.hashOperations.get(super.getGameKey(roomId), "player1"));
-        playerIdList.add((String) super.hashOperations.get(super.getGameKey(roomId), "player2"));
-        playerIdList.add((String) super.hashOperations.get(super.getGameKey(roomId), "player3"));
-        playerIdList.add((String) super.hashOperations.get(super.getGameKey(roomId), "player4"));
+        for (Player p : room.getPlayers()) {
+            playerIdList.add(p.getId());
+        }
 
         Collections.shuffle(playerIdList);  // 무작위 섞기
 
         /*** Redis Input ***/
-        defaultKrWordRedis(roomId, firstWord, secondWord, playerIdList);
+        super.setSpell(roomRequestDto.getId(), firstWord, secondWord, playerIdList);
 
         /*** Response DTO Build ***/
-        KrWordResponseDto krWordResponseDto = KrWordResponseDto.builder()
-                .firstWord(firstWord)
-                .secondWord(secondWord)
-                .turn(playerIdList)
-                .build();
-
-        return krWordResponseDto;
+        return new HashMap<>() {{
+            put("firstWord", firstWord);
+            put("secondWord", secondWord);
+            put("playerIdList", playerIdList);
+        }};
     }
-    public Map<String, Object> confirmKrWord(Map<String, Object> payload, String roomId) {
+    public Map<String, Object> confirmSpell(Map<String, Object> payload, String roomId) {
         /*
             TO DO :: 플레이어 올바른 순서 확인 로직 필요
          */
@@ -250,11 +245,11 @@ public class GameService extends RedisService {
         confirmMap.put("correct", false);  // Default correct
         confirmMap.put("msg", "틀렸습니다.");  // Default msg
 
-        String firstWord = (String) super.hashOperations.get(super.getKrWordKey(roomId), "firstWord");
-        String secondWord = (String) super.hashOperations.get(super.getKrWordKey(roomId), "secondWord");
+        String firstWord = (String) super.getSpellInfo(roomId, "firstWord");
+        String secondWord = (String) super.getSpellInfo(roomId, "secondWord");
 
         String word = ((String) payload.getOrDefault("word", "")).trim();
-        if(word.equals("") || word.length() != 2) {  // 단어를 받지 못했을 경우, 단어 길이가 다를 경우
+        if(word.length() != 2) {  // 단어를 받지 못했을 경우, 단어 길이가 다를 경우
             confirmMap.put("msg", "단어의 길이를 확인해 주세요.");
             return confirmMap;
         }

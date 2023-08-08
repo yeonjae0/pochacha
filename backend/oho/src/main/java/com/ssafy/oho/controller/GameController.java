@@ -47,8 +47,6 @@ public class GameController {
     public void movePin(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
 
         Map<String, Object> responsePayload = gameService.movePin(payload, roomId);
-        responsePayload.put("cell", gameService.getCell(roomId, (int) responsePayload.get("pin") - 1));
-
         webSocket.convertAndSend("/topic/move/" + roomId, responsePayload);
     }
 
@@ -81,15 +79,18 @@ public class GameController {
        
     }
 
-    @MessageMapping("mini/krword/set/{roomId}")
-    public void setKrWord(@Payload Map<String,Object> payload, @DestinationVariable String roomId) {
-        // 초성과 플레이 순서 전달
-        webSocket.convertAndSend("/topic/game/" + roomId, gameService.setKrWord(payload, roomId));
+    @PostMapping("/mini/spell")
+    public ResponseEntity<?> setSpell(@RequestBody RoomRequestDto roomRequestDto) {
+        try {
+            return ResponseEntity.ok(gameService.setSpell(roomRequestDto));
+        } catch (GameGetException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @MessageMapping("mini/krword/confirm/{roomId}")
-    public void confirmKrWord(@Payload Map<String,Object> payload, @DestinationVariable String roomId) {
+    @MessageMapping("/mini/spell/confirm/{roomId}")
+    public void confirmSpell(@Payload Map<String,Object> payload, @DestinationVariable String roomId) {
         // 초성 분리 및 정답 확인
-        webSocket.convertAndSend("/topic/game/" + roomId, gameService.confirmKrWord(payload, roomId));
+        webSocket.convertAndSend("/topic/game/" + roomId, gameService.confirmSpell(payload, roomId));
     }
 }
