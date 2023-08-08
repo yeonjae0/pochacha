@@ -10,6 +10,7 @@ import { Stomp } from '@stomp/stompjs'
 import axios from 'axios'
 import { useDispatch, useSelector } from "react-redux";
 import { enterRoom } from "@/store/reducers/room.js";
+import { playerInRoom } from '@/store/reducers/player.js'
 
 export default function EnterPage() {
 
@@ -33,7 +34,7 @@ export default function EnterPage() {
   let progress = false
   let secret = false
   let nick = ''
-  let playerId = 0
+  let playerId = ''
   let ready = false
   let obj = {}
 
@@ -86,29 +87,31 @@ export default function EnterPage() {
       console.log('response.data' , response.data)
 
       obj = 
-      { 'roomId': response.data.room.id,
+      { 'roomId': response.data.room.id,//오픈비두 세션
         'progress': response.data.room.progress,
         'secret': response.data.room.secret, // 비밀 방인지, 아닌지
         'nick': text || response.data.player.nickname,
-        'playerId': response.data.player.id,
+        'playerId': response.data.player.id,//오픈비두 토큰
         'ready': response.data.player.ready,
-        'token' : response.data.player.token }
+       }
 
       const sendData = () => {
          /* 연재 : obj 정보 저장 */
          dispatch(
           enterRoom({
-            roomId: response.data.room.id,
+            roomId: response.data.room.id,//오픈비두 세션
             progress: response.data.room.progress,
             secret: response.data.room.secret,
-          }),
-          playerInRoom({
-            nick: text || response.data.player.nickname,
-            playerId: response.data.player.id,
-            ready: response.data.player.ready,
-            token: response.data.player.token
           })
          );
+
+         dispatch(
+          playerInRoom({
+            nick: text || response.data.player.nickname,
+            playerId: response.data.player.id,//오픈비두 토큰
+            ready: response.data.player.ready,
+          })
+         )
 
         //  const roomID = useSelector(state => state.room.currentRoomAddress);
         router.push(
@@ -122,7 +125,7 @@ export default function EnterPage() {
           // `/room/${response.data.room.id}`
         )
       }
-      sendData()
+      sendData();
     }).catch(error => console.log(error))
   }
   /* 유영 : axios를 통한 닉네임 생성 및 방 생성 끝 */
