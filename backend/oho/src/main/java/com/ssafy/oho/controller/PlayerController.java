@@ -8,7 +8,6 @@ import com.ssafy.oho.util.exception.PlayerDeleteException;
 import com.ssafy.oho.util.exception.PlayerGetException;
 import com.ssafy.oho.util.exception.PlayerSetException;
 import com.ssafy.oho.util.exception.PlayerUpdateException;
-import com.ssafy.oho.util.openvidu.OpenViduConfig;
 import io.openvidu.java.client.OpenVidu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -51,7 +50,6 @@ public class PlayerController {
      */
     @PostMapping(value="create")
     private ResponseEntity<?> setPlayer(@RequestBody PlayerRequestDto playerRequestDto) {
-        System.out.println("SET PLAYER API CALL");
         try {
             PlayerResponseDto playerResponseDto;
             if(playerRequestDto.isHead()) {  // 방장일 경우
@@ -89,7 +87,7 @@ public class PlayerController {
     }
 
 
-    @MessageMapping("/ready/{roomId}")
+    @MessageMapping("ready/{roomId}")
     public void updatePlayer(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
         try {
             PlayerResponseDto playerResponseDto = playerService.updatePlayer(payload, roomId);
@@ -97,33 +95,31 @@ public class PlayerController {
         } catch(PlayerUpdateException e) {
             HashMap<String, String> errorMsg = new HashMap<>();
             errorMsg.put("error", e.getMessage());
-            webSocket.convertAndSend("/queue/" + payload.get("id"), errorMsg);
+            //webSocket.convertAndSend("/queue/" + payload.get("id"), errorMsg);
+            webSocket.convertAndSend("/topic/player/" + roomId, errorMsg/* 임시 값 저장 */);
         } catch(Exception e) {
-            e.printStackTrace();
-
             HashMap<String, String> errorMsg = new HashMap<>();
             errorMsg.put("error", e.getMessage());
             webSocket.convertAndSend("/topic/player/" + roomId, payload/* 임시 값 저장 */);
         }
     }
 
-    //@MessageMapping("/leave/{roomId}")
-    //public void deletePlayer(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
-    //    try {
-    //        PlayerResponseDto playerResponseDto = playerService.deletePlayer(payload, roomId);
-    //        
-    //        // id만 가지고 있는 값 전송
-    //        webSocket.convertAndSend("/topic/player/" + roomId, playerResponseDto);
-    //    } catch(PlayerDeleteException e) {
-    //        HashMap<String, String> errorMsg = new HashMap<>();
-    //        errorMsg.put("error", e.getMessage());
-    //        webSocket.convertAndSend("/queue/" + payload.get("id"), errorMsg);
-    //    } catch(Exception e) {
-    //        e.printStackTrace();
-    //
-    //        HashMap<String, String> errorMsg = new HashMap<>();
-    //        errorMsg.put("error", e.getMessage());
-    //        webSocket.convertAndSend("/topic/player/" + roomId, payload/* 임시 값 저장 */);
-    //    }
-    //}
+    @MessageMapping("leave/{roomId}")
+    public void deletePlayer(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
+        try {
+            PlayerResponseDto playerResponseDto = playerService.deletePlayer(payload, roomId);
+
+            // id만 가지고 있는 값 전송
+            webSocket.convertAndSend("/topic/player/" + roomId, playerResponseDto);
+        } catch(PlayerDeleteException e) {
+            HashMap<String, String> errorMsg = new HashMap<>();
+            errorMsg.put("error", e.getMessage());
+            webSocket.convertAndSend("/queue/" + payload.get("id"), errorMsg);
+        } catch(Exception e) {
+            HashMap<String, String> errorMsg = new HashMap<>();
+            errorMsg.put("error", e.getMessage());
+            webSocket.convertAndSend("/topic/player/" + roomId, payload/* 임시 값 저장 */);
+        }
+    }
+
 }

@@ -9,9 +9,7 @@ import com.ssafy.oho.model.service.RoomService;
 import com.ssafy.oho.util.exception.PlayerSetException;
 import com.ssafy.oho.util.exception.RoomSetException;
 import com.ssafy.oho.util.exception.RoomUpdateException;
-import com.ssafy.oho.util.openvidu.OpenViduConfig;
 import io.openvidu.java.client.OpenVidu;
-import org.aspectj.apache.bcel.classfile.Module;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,13 +39,10 @@ public class RoomController {
 
     /**
      * @param playerRequestDto Nickname
-     * @return room(Session Id), player
+     * @return room(Session Id), player(Token)
      */
     @PostMapping(value="/enter")
     private ResponseEntity<?> setRoom(@RequestBody PlayerRequestDto playerRequestDto) {
-        System.out.println("SET ROOM API CALL");
-        System.out.println(playerRequestDto.toString());
-        System.out.println("----------------------------");
         try {
             Map<String, Object> map = new HashMap<>();
 

@@ -3,21 +3,17 @@ import React, { Component, useState, useEffect } from 'react'
 import UserVideoComponent from './UserVideoComponent'
 import styles from '@/styles/UserVideo.module.css'
 //import {BsFillCameraVideoFill,BsFillCameraVideoOffFill} from 'react-icons/bs'
+import { useSelector } from "react-redux";
 
-export default function RoomCam(props) {
-
-  const info = props.info;
-  console.log("This is Room Info: ", info);
+export default function RoomCam() {
 
   const OV = new OpenVidu();
   let session = OV.initSession();
-  const token = info?.playerId;
 
-  const [nickname, setNickname] = useState(info?.nick); //참여자 닉네임
-  // const [OV, setOV] = useState(new OpenVidu());//OpenVidu 객체
-  // const [session, setSession] = useState({});//방
-  const [roomId, setRoomId] = useState(info?.roomId);//방 세션
-  //const [token, setToken] = useState(info.playerId);//참여자 토큰
+  const roomId= useSelector(state => state.room.currentRoomID); //오픈비두 세션
+  const token=useSelector(state => state.player.currentPlayerId); //오픈비두 토큰
+  const nickname=useSelector(state => state.player.currentNick);
+
   const [mainStreamManager, setMainStreamManager] = useState(undefined);// 메인비디오
   const [publisher, setPublisher] = useState(undefined); //비디오, 오디오 송신자
   const [participants, setParticipants] = useState([]);//참여자들
@@ -27,7 +23,7 @@ export default function RoomCam(props) {
   /* 혜지 : 첫 렌더링 시에 OV, session 세팅 */
   useEffect(() => {
     window.addEventListener('beforeunload', onbeforeunload);
-    joinSession();
+    joinSession(token);
     return () => {
       window.removeEventListener('beforeunload', onbeforeunload);
     }
@@ -52,8 +48,10 @@ export default function RoomCam(props) {
     }
   }
 
-  const joinSession = async () => {
+  const joinSession = async (token) => {
     console.log("JOINSESSION");
+    console.log("TOKEN");
+    console.log(token)
 
     console.log("session: " + session)
 

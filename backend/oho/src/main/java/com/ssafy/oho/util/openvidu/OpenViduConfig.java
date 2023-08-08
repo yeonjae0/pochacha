@@ -1,5 +1,7 @@
 package com.ssafy.oho.util.openvidu;
 
+import com.ssafy.oho.util.data.liargame.words.Animal;
+import com.ssafy.oho.util.data.liargame.words.Sports;
 import io.openvidu.java.client.OpenVidu;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
