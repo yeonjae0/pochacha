@@ -32,32 +32,42 @@ public class GameService extends RedisService {
     }
 
     public Object[] startGame(RoomRequestDto roomRequestDto) throws GameGetException {
+        System.out.println("START GAME");
         try {
             /*** 유효성 검사 ***/
             String roomId = roomRequestDto.getId();
+            System.out.println("ROOMID: "+roomId);
             /*
                 TO DO :: 플레이어 존재 여부 확인
              */
-            if (roomId == null || !roomRepository.existsById(roomId)) {  // 해당 방이 존재하지 않을 경우
-                throw new GameGetException();
-            }
+
+            /* 혜지 : 아래 코드와 겹치는 내용이라 주석 처리함 */
+//            if (roomId == null || !roomRepository.existsById(roomId)) {  // 해당 방이 존재하지 않을 경우
+//                throw new GameGetException();
+//            }
             Room room = roomRepository.findById(roomId).orElseThrow(() -> new GameGetException("방 조회에 실패하였습니다. (방이 존재하지 않음)"));
 
 //            if(room.getPlayers().size() != 4) {  // 정원 4인이 모두 접속하지 않았을 경우
 //                throw new GameGetException("4명이 되어야 게임을 시작할 수 있습니다.");
 //            }
-
+            
             for(Player p : room.getPlayers()) {
                 if(super.getPlayer(roomId, p.getId()) == null) {
                     throw new GameGetException("해당 방에 존재하지 않는 플레이어입니다.");
                 }
 
-                /* 혜지 : String을 Boolean로 변경할 수 없다는 오류 해결 */
-                if(Boolean.valueOf(super.getPlayerInfo(roomId, p.getId(), "ready"))) {
-                    throw new GameGetException("모든 플레이어가 준비되지 않았습니다.");
-                }
+                /*
+                    CONFIRM :: 오류 발생으로 임시 주석 처리
+                */
+                // 혜지 : String을 Boolean로 변경할 수 없다는 오류 해결
+//                if(Boolean.valueOf(super.getPlayerInfo(roomId, p.getId(), "ready"))) {
+//                    throw new GameGetException("모든 플레이어가 준비되지 않았습니다.");
+//                }
             }
+
+
             /*** 유효성 검사 끝 ***/
+            System.out.println("유효성 검사1 완료");
 
             // 게임 정보 존재하지 않을 경우
             if(super.getGame(roomId) == null) {
@@ -69,14 +79,19 @@ public class GameService extends RedisService {
                 super.setGame(room.getId(), 0, 0);
                 setCell(roomId, roomRequestDto);
             }
+            System.out.println("유효성 검사2 완료");
 
-            Object[] cellList = new Object[24];
+            Object[] cellList = new Object[CELL_CNT];
             for (int i = 0; i < CELL_CNT; i++) {
                 cellList[i] = super.getCell(roomId, i);
+            }
+            for (Object o:cellList){
+                System.out.println(o.toString());
             }
 
             return cellList;
         } catch(Exception e) {
+            System.out.println(e.getMessage());
             throw new GameGetException();
         }
 
@@ -84,7 +99,9 @@ public class GameService extends RedisService {
     }
 
     public void setCell(String roomId, RoomRequestDto roomRequestDto) throws GameGetException {
+        System.out.println("SET CELL");
         List<Cell> normalCellList = cellRepository.findTop19Random();
+        System.out.println("CELL LIST 받기 끝");
 
         if(roomRequestDto.isIncludeMini()) { // 미니게임 ON 시작
             List<Minigame> miniCellList = minigameRepository.findTop4Random();
