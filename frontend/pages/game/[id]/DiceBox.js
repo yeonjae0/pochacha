@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react'
-import Dice from './Dice.js'
-import styles from '@/styles/Home.module.css';
+import React, { useState, useEffect, useRef } from 'react';
+import Dice from './Dice.js';
+import styles from '@/styles/DiceBox.module.css';
 
-export default function DiceBox(props) {
+export default function DiceBox() {
 
-  console.log('DiceBox props', props)
-
-  const [diceWidth, setDiceWidth] = useState(0) // 주사위 가로 길이
-  const [dice, setDice] = useState(1) // 주사위 눈 값
+  const [diceWidth, setDiceWidth] = useState(0); // 
+  const [dice1, setDice1] = useState(1); //
 
   const diceRef = useRef(null);
 
@@ -17,31 +15,33 @@ export default function DiceBox(props) {
     const updateDiceWidth = () => {
       if (diceRef.current) {
         setDiceWidth(diceRef.current.clientWidth);
-        console.log(diceWidth)
+        console.log(diceWidth);
       }
-    }
+    };
 
     window.addEventListener('resize', updateDiceWidth);
-    updateDiceWidth()
+    updateDiceWidth();
     return () => {
       window.removeEventListener('resize', updateDiceWidth);
     };
 
-  }, [diceWidth])
+  }, [diceWidth]);
 
-  const rolling = (props) => {
-    // let ranNum = Math.floor(Math.random() * 6) + 1
-    setDice(props.dice)
-  }
+  const rolling = () => {
+    let ranNum = Math.floor(Math.random() * 6) + 1
+    setDice1(ranNum);
+    console.log('랜덤 난수 ====> ', ranNum)
+    // console.log(ranNum);
+  };
 
   return (
     <section className={styles.diceBox} ref={diceRef}>
       <div className={styles.dice_wrap}>
-        <Dice face={props.dice} diceWidth={diceWidth} />
+        <Dice face={dice1} diceWidth={diceWidth} />
       </div>
-      {/* <button id="btnRolling" onClick={rolling}>
+      <button className={styles.btnRolling} onClick={rolling}>
         주사위 굴리기
-      </button> */}
+      </button>
     </section>
   )
-}
+};
