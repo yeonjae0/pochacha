@@ -1,0 +1,48 @@
+.wrapper {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  /* align-items: center; */
+  background-color: gainsboro;
+}
+
+.text {
+  text-align:center;
+  font-size: 1em;
+}
+
+.redBlock {
+  /* position: relative; */
+  position: absolute;
+  width: 600px;
+  height: 450px;
+  background: hsl(0, 71%, 51%);
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  justify-items: center;
+  margin-top: 200px;
+  /* z-index: 0; */
+  /* margin: '0 auto', */
+}
+
+.miniBlock1 {
+  /* position: relative;  */
+  position: absolute; 
+  width: 150px;
+  height: 300px;
+  background: gainsboro;
+  top: 150px;
+  /* z-index: 10; */
+}
+
+.miniBlock2 {
+  /* position: relative;   */
+  position: absolute;  
+  width: 150px;
+  height: 300px;
+  background: gainsboro;
+  top: 150px;
+  left: 450px;
+/* z-index: 10; */
+}

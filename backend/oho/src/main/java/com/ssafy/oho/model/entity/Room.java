@@ -19,7 +19,6 @@ import java.util.List;
 @Builder
 @Getter
 @DynamicInsert
-@ToString //배포 시 삭제
 public class Room extends Base {
 
     @Id//PK

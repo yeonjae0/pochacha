@@ -11,7 +11,6 @@ import { Stomp } from '@stomp/stompjs'
 import axios from 'axios'
 import { Transition } from 'react-transition-group'
 import { useDispatch, useSelector } from "react-redux";
-import { enterRoom } from "@/store/reducers/room.js";
 
 /* 연재 : 모달 시작 */
 // 해야할 것: 모달 창 꾸미기
@@ -41,7 +40,7 @@ export default function GamePage() {
   const dispatch = useDispatch();
   let info = JSON.parse(router.query.currentName)
 
-  let roomId = useSelector(state => state.room.currentRoomID )
+  let roomId = useSelector(state => state.room.currentRoomId )
   // let [roomId, setRoomId] = useState(info.roomId); // 현재 방 ID (임의 삽입)
   let [includeMini, setIncludeMini] = useState(true); // 미니게임 진행 여부
   let [dice, setDice] = useState(0); // 주사위
@@ -88,13 +87,12 @@ export default function GamePage() {
       console.log(roomId)
       console.log(response.data);
       console.log('셀 데이터 출력 **************************************' , response.data)
-      .catch((err) => {
+    }).catch((err) => {
         console.log('에러임', err)
-      } )
+      });
       /*
         TO DO :: Cell 색에 맞춰 배합
       */
-    });
   };
 
   const connectSocket = () => {
@@ -112,15 +110,15 @@ export default function GamePage() {
         let data = JSON.parse(response.body)
         let currentCell = data.cell.name
 
-        setDice(data.dice)
-        setPin(data.pin)
-        setLab(data.lab)
+        setDice(data.game.dice)
+        setPin(data.game.pin)
+        setLab(data.game.lab)
         setCurrentCell(data.cell.name)
 
+        console.log(data.game)
         console.log(data.cell)
-        console.log(data.cell.name)
         console.log('*********')
-        console.log(data.pin)
+        console.log(data.game.pin)
       })
     })
   }

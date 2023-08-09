@@ -2,9 +2,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState= {
-  currentRoomID: "",
+  currentRoomId: "",
   currentProgress: false,
-  currentSecret: false
+  currentSecret: false,
 };
 
 const roomSlice = createSlice({
@@ -12,7 +12,7 @@ const roomSlice = createSlice({
   initialState,
   reducers: {
     enterRoom: (state, action) => {
-      state.currentRoomID = action.payload.roomId;
+      state.currentRoomId = action.payload.roomId;
       state.currentProgress = action.payload.progress;
       state.currentSecret = action.payload.secret;
     },

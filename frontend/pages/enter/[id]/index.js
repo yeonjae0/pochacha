@@ -1,26 +1,26 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React,{ useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router'
-import RightBox from './RightBox.js'
+import RightBox from '../RightBox';
 import styles from '@/styles/EnterPage.module.css'
 import classNames from 'classnames'
-import SockJS from 'sockjs-client'
-import { Stomp } from '@stomp/stompjs'
 import axios from 'axios'
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
 import { useDispatch } from "react-redux";
 import { enterRoom } from "@/store/reducers/room.js";
-//import { addPlayers } from '@/store/reducers/players.js'
-import { MyPlayerData } from '@/store/reducers/player.js'
+//import { addPlayers } from '@/store/reducers/players';
+import { MyPlayerData } from '@/store/reducers/player';
 
-//방장 입장 페이지
-export default function EnterPage() {
+//비방장 입장 페이지
+export default function EnterRoomPage() {
 
   const router = useRouter();
   const dispatch = useDispatch();
 
-  /* 유영 : 소켓 간단 연결 작업 시작 */
-  useEffect(() => {
+/* 유영 : 소켓 간단 연결 작업 시작 */
+useEffect(() => {
     const socket = new SockJS("http://localhost:80/ws");
     const stompClient = Stomp.over(socket);
 
@@ -33,14 +33,16 @@ export default function EnterPage() {
   /* 유영 : axios를 통한 닉네임 생성 및 방 생성 시작 */
   /* 희진 : axios 렌더링 타이밍 변경 시작 (페이지 로딩 시 최초 1회) */
 
-  let roomId = '';
+  const room=router.query.id;//url에서 받은 roomId
+  /*
+    TO DO :: progress와 secret 정보 api 통해 받아올 수 있게 처리
+  */
   let progress = false;
   let secret = false;
 
   let playerId = '';
   let nick = '';
   let ready = false;
-
   let obj = {};
 
   /* 혜지 : 웹캠 화면 띄우기 위한 구현 시작 */
@@ -58,8 +60,8 @@ export default function EnterPage() {
       .catch((error) => {
         console.log("WEBCAM ERROR");
         console.log(error);
-      });
-  };
+      })
+  }
 
   useEffect(() => {
     getUserCamera();
@@ -79,7 +81,7 @@ export default function EnterPage() {
 
   const gameStart = () => {
     axios({
-      url: "http://localhost:80/enter",
+      url: "http://localhost:80/player/create",
       header: {
         "Accept": "application/json",
         "Content-type": "application/json;charset=UTF-8"
@@ -87,87 +89,54 @@ export default function EnterPage() {
       method: "POST",
       data: {
         nickname: text,
+        roomId: room,
       }
     }).then((response) => {
       console.log("GAME START");
       console.log('response.data' , response.data);
 
       obj = 
-      { 'roomId': response.data.room.id,//오픈비두 세션
-        'progress': response.data.room.progress,
-        'secret': response.data.room.secret, // 비밀 방인지, 아닌지
-        'nick': text || response.data.player.nickname,
-        'playerId': response.data.player.id,//오픈비두 토큰
-        'ready': response.data.player.ready,
+      { 'roomId': room,//오픈비두 세션
+      
+      /* 혜지 : setPlayer API에서는 Room 값을 받아오지 않으므로, progress와 secret 임시로 false 부여 */
+        'progress': false, 
+        'secret': false, // 비밀 방인지, 아닌지
+
+        'nick': text || response.data.nickname,
+        'playerId': response.data.id,//오픈비두 토큰
+        'ready': response.data.ready,
        }
        let playerInfo =  {
-        playerId: response.data.player.id,
-        nick: text || response.data.player.nickname,
-        ready: response.data.player.ready,
+        playerId: response.data.id,
+        nick: text || response.data.nickname,
+        ready: response.data.ready,
       }
 
       const sendData = () => {
          /* 연재 : obj 정보 저장 */
          dispatch(
           enterRoom({
-            roomId: response.data.room.id,//오픈비두 세션
-            progress: response.data.room.progress,
-            secret: response.data.room.secret,
-          })
+            roomId: room,
+
+            /* 혜지 : setPlayer API에서는 Room 값을 받아오지 않으므로, progress와 secret 임시로 false 부여 */
+            progress: false, 
+            secret: false,
+          }),
          );
          //dispatch(addPlayers(playerInfo));
          dispatch(MyPlayerData(playerInfo));
+         console.log
 
-        router.push(
+          router.push(
           {
-            pathname: `/room/${response.data.room.id}`,
+            pathname: `/room/${room}`,
             query: { currentName: JSON.stringify(obj) },
           },
-          /* 희진 : store에 데이터 저장 작업 완료 후 삭제 예정 코드 */
         )
       }
       sendData();
     }).catch(error => console.log(error));
   }
-  /* 유영 : axios를 통한 닉네임 생성 및 방 생성 끝 */
-  /* 희진 : axios 렌더링 타이밍 변경 끝 */
-
-  /* 희진 : 추후 삭제 예정 시작 */
-  // const tmp = (
-  //   <div className="first" >
-
-  //     {/* <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}> */}
-  //     <div className="title">
-  //       {/* <img src="/tent.png" />
-  //       <br /> */}
-  //       <img src="/main/title.png" />
-  //       {/* <br /> */}
-  //     </div>
-
-  //     <div style={{ display: 'flex' }}>
-  //       <div className='leftBox'>
-  //         <div style={{ display: 'flex' }}>
-  //           <div className='imgCircle'></div>
-  //           <div className='inputNickname'>
-  //             <p style={{ fontSize: '20px' }}>캐릭터와 닉네임 선택</p>
-  //             <br />
-  //             <label htmlFor=""></label>
-  //             <input
-  //               value={text}
-  //               onChange={handleOnChange}
-  //               onKeyDown={enterDown}
-  //             />
-  //           </div>
-  //           <button id='startBtn' onClick={gameStart}>START</button>
-  //         </div>
-  //       </div>
-
-  //       <RightBox />
-  //       {/* <p id="bottom">서비스 약관 | 개인정보 취급정보 | 문의</p> */}
-  //     </div>
-  //   </div>
-  // )
-  /* 희진 : 추후 삭제 예정 끝 */
 
   return (
     <div className={styles.container}>
@@ -200,5 +169,3 @@ export default function EnterPage() {
     </div>
   )
 }
-
-EnterPage.useClient = true
