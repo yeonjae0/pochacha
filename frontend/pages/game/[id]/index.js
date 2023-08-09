@@ -88,13 +88,12 @@ export default function GamePage() {
       console.log(roomId)
       console.log(response.data);
       console.log('셀 데이터 출력 **************************************' , response.data)
-      .catch((err) => {
+    }).catch((err) => {
         console.log('에러임', err)
-      } )
+      });
       /*
         TO DO :: Cell 색에 맞춰 배합
       */
-    });
   };
 
   const connectSocket = () => {
