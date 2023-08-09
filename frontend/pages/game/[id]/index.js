@@ -24,7 +24,6 @@ const ModalContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* transition: visibility 0.5s ease-out; */
   `;
 
 const ModalContent = styled.div`
