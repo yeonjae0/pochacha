@@ -11,8 +11,8 @@ export default function RoomCam() {
   let session = OV.initSession();
 
   const roomId= useSelector(state => state.room.currentRoomID); //오픈비두 세션
-  const token=useSelector(state => state.player.currentPlayerId); //오픈비두 토큰
-  const nickname=useSelector(state => state.player.currentNick);
+  const token=useSelector(state => state.player.players[0].playerId); //오픈비두 토큰
+  const nickname=useSelector(state => state.player.players[0].nick);
 
   const [mainStreamManager, setMainStreamManager] = useState(undefined);// 메인비디오
   const [publisher, setPublisher] = useState(undefined); //비디오, 오디오 송신자

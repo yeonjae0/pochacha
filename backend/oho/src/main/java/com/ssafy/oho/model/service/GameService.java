@@ -32,11 +32,9 @@ public class GameService extends RedisService {
     }
 
     public Object[] startGame(RoomRequestDto roomRequestDto) throws GameGetException {
-        System.out.println("START GAME");
         try {
             /*** 유효성 검사 ***/
             String roomId = roomRequestDto.getId();
-            System.out.println("ROOMID: "+roomId);
             /*
                 TO DO :: 플레이어 존재 여부 확인
              */
@@ -67,7 +65,6 @@ public class GameService extends RedisService {
 
 
             /*** 유효성 검사 끝 ***/
-            System.out.println("유효성 검사1 완료");
 
             // 게임 정보 존재하지 않을 경우
             if(super.getGame(roomId) == null) {
@@ -79,29 +76,20 @@ public class GameService extends RedisService {
                 super.setGame(room.getId(), 0, 0);
                 setCell(roomId, roomRequestDto);
             }
-            System.out.println("유효성 검사2 완료");
 
             Object[] cellList = new Object[CELL_CNT];
             for (int i = 0; i < CELL_CNT; i++) {
                 cellList[i] = super.getCell(roomId, i);
             }
-            for (Object o:cellList){
-                System.out.println(o.toString());
-            }
 
             return cellList;
         } catch(Exception e) {
-            System.out.println(e.getMessage());
             throw new GameGetException();
         }
-
-
     }
 
     public void setCell(String roomId, RoomRequestDto roomRequestDto) throws GameGetException {
-        System.out.println("SET CELL");
         List<Cell> normalCellList = cellRepository.findTop19Random();
-        System.out.println("CELL LIST 받기 끝");
 
         if(roomRequestDto.isIncludeMini()) { // 미니게임 ON 시작
             List<Minigame> miniCellList = minigameRepository.findTop4Random();
@@ -132,24 +120,34 @@ public class GameService extends RedisService {
     }
 
     public Map<String, Object> movePin(Map<String, Object> payload, String roomId) {
+        System.out.println("MOVE PIN");
         Map<String, Object> responsePayload = new HashMap<>();
 
         int dice = (int) (Math.random() * 6) +1;
+        System.out.println("DICE: "+dice);
 
         /* 혜지 : String을 Integer로 변경할 수 없다는 오류 해결 */
         int pin = Integer.valueOf(super.getGameInfo(roomId, "pin"));
+        System.out.println("PIN: "+pin);
         int lab = Integer.valueOf(super.getGameInfo(roomId, "lab"));
+        System.out.println("LAB: "+lab);
 
         Map<String, String> hash = new HashMap<>();
 
+        /* 혜지 : dice 값 추가 */
+        hash.put("dice",Integer.toString(dice));
         hash.put("pin", Integer.toString((pin + dice) % 24));
+        System.out.println("바뀐 PIN: "+Integer.toString((pin + dice) % 24));
         if(Integer.parseInt(hash.get("pin")) < 0) hash.put("pin", hash.get("pin") + 24);
         if(pin < Integer.parseInt(hash.get("pin"))) hash.put("lab", Integer.toString(++lab));
 
         super.setGameInfo(roomId, hash);  // Redis에 저장
+        System.out.println("REDIS에 GAME INFO 저장 완료");
 
         responsePayload.put("game", super.getGame(roomId));
+        System.out.println("GAME: "+super.getGame(roomId));
         responsePayload.put("cell", super.getCell(roomId, Integer.parseInt(hash.get("pin"))));
+        System.out.println("PIN: "+super.getCell(roomId, Integer.parseInt(hash.get("pin"))));
 
         return responsePayload;
     }
