@@ -54,7 +54,7 @@ function MoleGame({ sec }) {
       setMolePositions(freshMolePositions);
     };
 
-    const moleTimer = setInterval(generateMole, 2000);
+    const moleTimer = setInterval(generateMole, 1000);
     return () => clearInterval(moleTimer);
   }, []);
 
