@@ -89,7 +89,7 @@ export default function GamePage() {
     }).then((response) => {
       console.log(roomId)
       console.log(response.data);
-      console.log('셀 데이터 출력 **************************************' , response.data)
+      console.log('셀 데이터 출력 **************************************', response.data)
     }).catch((error) => {
         console.log(error)
       });

@@ -79,9 +79,3 @@
 .invisible {
   opacity: 0;
 }
-
-.characterImage1 {
-  background-image: url("../public/character.png");
-  width: 50px;
-  transform: inherit;
-}
