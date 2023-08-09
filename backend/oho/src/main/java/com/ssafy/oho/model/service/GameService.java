@@ -32,39 +32,27 @@ public class GameService extends RedisService {
     }
 
     public Object[] startGame(RoomRequestDto roomRequestDto) throws GameGetException {
-        try {
-            /*** 유효성 검사 ***/
-            String roomId = roomRequestDto.getId();
+        /*** 유효성 검사 ***/
+        String roomId = roomRequestDto.getId();
             /*
                 TO DO :: 플레이어 존재 여부 확인
              */
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new GameGetException("방 조회에 실패하였습니다. (방이 존재하지 않음)"));
 
-            /* 혜지 : 아래 코드와 겹치는 내용이라 주석 처리함 */
-//            if (roomId == null || !roomRepository.existsById(roomId)) {  // 해당 방이 존재하지 않을 경우
-//                throw new GameGetException();
-//            }
-            Room room = roomRepository.findById(roomId).orElseThrow(() -> new GameGetException("방 조회에 실패하였습니다. (방이 존재하지 않음)"));
+        if(room.getPlayers().size() != 4) {  // 정원 4인이 모두 접속하지 않았을 경우
+            throw new GameGetException("4명이 되어야 게임을 시작할 수 있습니다.");
+        }
 
-//            if(room.getPlayers().size() != 4) {  // 정원 4인이 모두 접속하지 않았을 경우
-//                throw new GameGetException("4명이 되어야 게임을 시작할 수 있습니다.");
-//            }
-            
-            for(Player p : room.getPlayers()) {
-                if(super.getPlayer(roomId, p.getId()) == null) {
-                    throw new GameGetException("해당 방에 존재하지 않는 플레이어입니다.");
-                }
-
-                /*
-                    CONFIRM :: 오류 발생으로 임시 주석 처리
-                */
-                // 혜지 : String을 Boolean로 변경할 수 없다는 오류 해결
-//                if(Boolean.valueOf(super.getPlayerInfo(roomId, p.getId(), "ready"))) {
-//                    throw new GameGetException("모든 플레이어가 준비되지 않았습니다.");
-//                }
+        for(Player p : room.getPlayers()) {
+            if(super.getPlayer(roomId, p.getId()) == null) {
+                throw new GameGetException("해당 방에 존재하지 않는 플레이어입니다.");
             }
-
-
-            /*** 유효성 검사 끝 ***/
+            if(Boolean.parseBoolean(super.getPlayerInfo(roomId, p.getId(), "ready"))) {
+                throw new GameGetException("모든 플레이어가 준비되지 않았습니다.");
+            }
+        }
+        /*** 유효성 검사 끝 ***/
+        try {
 
             // 게임 정보 존재하지 않을 경우
             if(super.getGame(roomId) == null) {
@@ -120,34 +108,25 @@ public class GameService extends RedisService {
     }
 
     public Map<String, Object> movePin(Map<String, Object> payload, String roomId) {
-        System.out.println("MOVE PIN");
         Map<String, Object> responsePayload = new HashMap<>();
 
         int dice = (int) (Math.random() * 6) +1;
-        System.out.println("DICE: "+dice);
 
-        /* 혜지 : String을 Integer로 변경할 수 없다는 오류 해결 */
-        int pin = Integer.valueOf(super.getGameInfo(roomId, "pin"));
-        System.out.println("PIN: "+pin);
-        int lab = Integer.valueOf(super.getGameInfo(roomId, "lab"));
-        System.out.println("LAB: "+lab);
+        int pin = Integer.parseInt(super.getGameInfo(roomId, "pin"));
+        int lab = Integer.parseInt(super.getGameInfo(roomId, "lab"));
 
         Map<String, String> hash = new HashMap<>();
 
         /* 혜지 : dice 값 추가 */
         hash.put("dice",Integer.toString(dice));
         hash.put("pin", Integer.toString((pin + dice) % 24));
-        System.out.println("바뀐 PIN: "+Integer.toString((pin + dice) % 24));
         if(Integer.parseInt(hash.get("pin")) < 0) hash.put("pin", hash.get("pin") + 24);
         if(pin < Integer.parseInt(hash.get("pin"))) hash.put("lab", Integer.toString(++lab));
 
         super.setGameInfo(roomId, hash);  // Redis에 저장
-        System.out.println("REDIS에 GAME INFO 저장 완료");
 
         responsePayload.put("game", super.getGame(roomId));
-        System.out.println("GAME: "+super.getGame(roomId));
         responsePayload.put("cell", super.getCell(roomId, Integer.parseInt(hash.get("pin"))));
-        System.out.println("PIN: "+super.getCell(roomId, Integer.parseInt(hash.get("pin"))));
 
         return responsePayload;
     }

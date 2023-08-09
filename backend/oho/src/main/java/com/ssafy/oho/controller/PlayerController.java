@@ -89,13 +89,13 @@ public class PlayerController {
 
     @MessageMapping("ready/{roomId}")
     public void updatePlayer(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
+        System.out.println("CONNECTED");
         try {
             PlayerResponseDto playerResponseDto = playerService.updatePlayer(payload, roomId);
             webSocket.convertAndSend("/topic/player/" + roomId, playerResponseDto/* 임시 값 저장 */);
         } catch(PlayerUpdateException e) {
             HashMap<String, String> errorMsg = new HashMap<>();
             errorMsg.put("error", e.getMessage());
-            //webSocket.convertAndSend("/queue/" + payload.get("id"), errorMsg);
             webSocket.convertAndSend("/topic/player/" + roomId, errorMsg/* 임시 값 저장 */);
         } catch(Exception e) {
             HashMap<String, String> errorMsg = new HashMap<>();
