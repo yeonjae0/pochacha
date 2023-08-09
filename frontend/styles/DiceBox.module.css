@@ -2,12 +2,9 @@
   max-width: 600px;
   width: 90vw;
   height: auto;
-  background-color: #000000;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  background-color: purple; /* 박스 위치 확인용 */
   padding: 40px;
   box-sizing: border-box;
-  margin: auto;
 }
 
 .diceBox>.dice_wrap {
@@ -16,7 +13,7 @@
   margin-bottom: 20px;
 }
 
-.diceBox>.dice_wrap>[class^="dice"] .dice>div {
+/* .diceBox>.dice_wrap>[class^="dice"] .dice>div {
   position: absolute;
   top: 0;
   left: 0;
@@ -28,10 +25,10 @@
   opacity: 0.8;
   color: #fff;
   font-size: 60px;
-}
+} */
 
 /* 버튼 */
-/* #btnRolling {
+.btnRolling {
   display: block;
   width: 160px;
   height: 40px;
@@ -45,7 +42,7 @@
   overflow: hidden;
 }
 
-#btnRolling::before {
+.btnRolling::before {
   display: block;
   content: "";
   width: 60px;
@@ -60,6 +57,6 @@
   opacity: 0.3;
 }
 
-#btnRolling:hover::before {
+.btnRolling:hover::before {
   transform: skewX(-45deg) translateX(280px);
-} */
+}
