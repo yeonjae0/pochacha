@@ -12,7 +12,7 @@ export default function VoteLiarComponent({nicknames}){
             <fieldset>
        { nicknames.map((nickname, i) => {
             return (
-                <label>
+                <label key={nickname}>
                     <input
                         type="radio"
                         value={nickname}
