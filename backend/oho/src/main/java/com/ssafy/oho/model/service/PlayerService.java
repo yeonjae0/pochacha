@@ -104,8 +104,6 @@ public class PlayerService extends RedisService {
                     .head(false)
                     .build();
 
-            System.out.println(player);
-
             playerRepository.save(player);
             super.setPlayer(roomId, player);
 
@@ -133,7 +131,6 @@ public class PlayerService extends RedisService {
                     .ready(Boolean.parseBoolean(super.getPlayerInfo(playerRequestDto.getRoomId(), player.getId(), "ready")))
                     .build();
         } catch(Exception e) {
-            //System.out.println(e.getMessage());
             throw new PlayerGetException();
         }
     }

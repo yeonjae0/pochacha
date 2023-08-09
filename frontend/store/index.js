@@ -2,14 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import { createWrapper } from "next-redux-wrapper";
 import rootReducer from "./reducers";
 import { persistStore, persistReducer, } from "redux-persist";
-// import storageSession from 'redux-persist/lib/storage/session'
-import storage from 'redux-persist/lib/storage'
+import storageSession from "redux-persist/lib/storage/session";
+// import storage from 'redux-persist/lib/storage'
 import logger from 'redux-logger';
 
 const persistConfig = {
   key: "root",
-  // storageSession,
-  storage,
+  storage: storageSession,
+  //storage,
   // whiteList: ["fruit"],
 }
 
@@ -21,8 +21,6 @@ export const store = configureStore({
   reducer: perReducer,
   middleware: middlewares
 });
-
-
 
 const setUpStore = (context) => store;
 const makeStore = (context) => setUpStore(context);
