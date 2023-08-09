@@ -52,7 +52,6 @@
   position: relative;
 }
 
-/* 주사위 눈 */
 .face1 {
   transform: rotateX(0deg) rotateY(0deg);
 }
