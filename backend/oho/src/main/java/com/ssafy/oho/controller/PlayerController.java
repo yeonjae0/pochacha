@@ -95,7 +95,6 @@ public class PlayerController {
         } catch(PlayerUpdateException e) {
             HashMap<String, String> errorMsg = new HashMap<>();
             errorMsg.put("error", e.getMessage());
-            //webSocket.convertAndSend("/queue/" + payload.get("id"), errorMsg);
             webSocket.convertAndSend("/topic/player/" + roomId, errorMsg/* 임시 값 저장 */);
         } catch(Exception e) {
             HashMap<String, String> errorMsg = new HashMap<>();

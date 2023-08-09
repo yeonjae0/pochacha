@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useSelector } from "react-redux";
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
 
 // Room 입장시 받은 router.query를 props로 활용
 export default function RoomBtn(props) {
@@ -90,19 +92,6 @@ export default function RoomBtn(props) {
     };
     client.current.send(`/ready/${info.roomId}`, {}, JSON.stringify(sendData));
   } /* 유영 : 플레이어 ready 정보 socket 전송 끝 */
-
-  const subscribePlayer = () => {
-    client.current.connect({}, () => {
-      client.current.subscribe(`/topic/player/${info.roomId}`, (response) => {
-        var data = JSON.parse(response.body);
-        console.log(data);
-      })  // 플레이어 정보 구독
-    })
-  }
-
-  useEffect(() => {
-    subscribePlayer();
-  }, []);
 
   return (
     <div>
