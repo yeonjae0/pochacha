@@ -4,7 +4,7 @@ import { HYDRATE } from "next-redux-wrapper";
 // 슬라이스들 import
 import fruitSlice from './fruit';
 import roomSlice from './room';
-import playerSlice from './player';
+import playerSlice from './players';
 import spellSlice from "./spell";
 import cellSlice from "./cell";
 

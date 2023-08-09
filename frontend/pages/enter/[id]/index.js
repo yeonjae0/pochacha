@@ -10,7 +10,7 @@ import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { useDispatch, useSelector } from "react-redux";
 import { enterRoom } from "@/store/reducers/room.js";
-import { addPlayer } from '@/store/reducers/player.js'
+import { addPlayer } from '@/store/reducers/players.js'
 
 export default function EnterRoomPage() {
 

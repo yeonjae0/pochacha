@@ -4,7 +4,7 @@ import Link from 'next/link'
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { enterRoom } from "@/store/reducers/room.js";
-import { resetPlayer } from "@/store/reducers/player.js";
+import { resetPlayer } from "@/store/reducers/players.js";
 
 const inter = Inter({ subsets: ['latin'] })
 
