@@ -100,6 +100,8 @@ public class RedisService {
     }
 
     protected void setGameInfo(String roomId, Map<String, String> hash) {
+        System.out.println("REDIS SERVICE: SET GAME INFO");
+        System.out.println("ROOMID: "+roomId);
         redisTemplate.execute(new SessionCallback<>() {
             @Override
             public Object execute(RedisOperations operations) throws DataAccessException {
@@ -114,6 +116,9 @@ public class RedisService {
         redisTemplate.expire(getGameKey(roomId), TTL, TimeUnit.SECONDS);
     }
     protected String getGameInfo(String roomId, String hashKey) {
+        System.out.println("REDIS SERVICE: GET GAME INFO");
+        System.out.println("ROOMID: "+roomId);
+        System.out.println("HASHKEY: "+hashKey);
         return (String) hashOperations.get(getGameKey(roomId), hashKey);
     }
 

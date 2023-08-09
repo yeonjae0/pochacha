@@ -111,15 +111,15 @@ export default function GamePage() {
         let data = JSON.parse(response.body)
         let currentCell = data.cell.name
 
-        setDice(data.dice)
-        setPin(data.pin)
-        setLab(data.lab)
+        setDice(data.game.dice)
+        setPin(data.game.pin)
+        setLab(data.game.lab)
         setCurrentCell(data.cell.name)
 
+        console.log(data.game)
         console.log(data.cell)
-        console.log(data.cell.name)
         console.log('*********')
-        console.log(data.pin)
+        console.log(data.game.pin)
       })
     })
   }

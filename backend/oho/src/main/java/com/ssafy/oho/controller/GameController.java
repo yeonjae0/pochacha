@@ -36,14 +36,14 @@ public class GameController {
 
             return ResponseEntity.ok(cellStatusList);
         } catch(GameGetException e) {
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     // 말 이동 Socket 함수
     @MessageMapping("move/{roomId}")
-    public void movePin(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
-
+    public void movePin(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {;
         Map<String, Object> responsePayload = gameService.movePin(payload, roomId);
         webSocket.convertAndSend("/topic/move/" + roomId, responsePayload);
     }
