@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { useSelector } from "react-redux";
 
 // Room 입장시 받은 router.query를 props로 활용
 export default function RoomBtn(props) {
@@ -53,8 +54,9 @@ export default function RoomBtn(props) {
   let [setting, setSetting] = useState(true)
   
   /* 희진 : JS 클립보드 API 시작 */
-  let url = usePathname()
-  let urls = `http://localhost:3000${url}`
+  //let url = usePathname()
+  const roomId= useSelector(state => state.room.currentRoomID); //오픈비두 세션
+  let urls = `http://localhost:3000/enter/`+roomId;
   
   const clipBoard = () => {
     navigator.clipboard.writeText(urls)
