@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-/* 혜지 : 자기 자신을 포함하여 방 접속 플레이어들의 정보(playerId,nick,ready)들을 저장 */
+/* 혜지 : 자기 자신을 포함하여 방 접속 플레이어들의 정보(playerId,nick,ready,head)들을 저장 */
 const initialState = {
   players: [],
 };
@@ -19,11 +19,11 @@ const playersSlice = createSlice({
         state.players[playerIndex] = { ...state.players[playerIndex], ...updates }; 
       }
     },
-    removePlayer: (state, action) => {
+    removePlayers: (state, action) => {
       const playerId = action.payload;
       state.players = state.players.filter(player => player.playerId !== playerId); 
     },
-    resetPlayer: (state, action) => {
+    resetPlayers: (state, action) => {
       state.players =  action.payload
     }
   },

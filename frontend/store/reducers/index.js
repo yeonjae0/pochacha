@@ -4,7 +4,8 @@ import { HYDRATE } from "next-redux-wrapper";
 // 슬라이스들 import
 import fruitSlice from './fruit';
 import roomSlice from './room';
-import playerSlice from './players';
+import playersSlice from './players';
+import playerSlice from './player';
 import spellSlice from "./spell";
 import cellSlice from "./cell";
 
@@ -21,9 +22,9 @@ const rootReducer = (state, action) => {
         fruit: fruitSlice.reducer,
         room: roomSlice.reducer,
         player: playerSlice.reducer,
+        players:playersSlice.reducer,
         spell: spellSlice.reducer,
         cell: cellSlice.reducer,
-
       });
       return combineReducer(state, action);
     }

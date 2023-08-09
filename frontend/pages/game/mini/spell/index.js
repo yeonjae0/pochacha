@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 
 function getConsonant() {
-  const roomInfo = useSelector(state => state.room.currentRoomID);
+  const roomInfo = useSelector(state => state.room.currentRoomId);
   const [randomConsonant, setRandomConsonant] = useState([]);
   const [userInput, setUserInput] = useState("");
   // const [result, setResult] = useState("");

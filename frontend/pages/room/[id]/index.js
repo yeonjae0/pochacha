@@ -10,11 +10,15 @@ import classNames from 'classnames'
 import axios from 'axios'
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
+import { useDispatch } from "react-redux";
+//import { addPlayers } from '@/store/reducers/players.js';
 
 export default function RoomPage() {
 
-  const router = useRouter()
-  let info = JSON.parse(router.query.currentName)
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  let info = JSON.parse(router.query.currentName);
 
   /* 유영 : 최초 한 번 사용자 목록 불러오기 시작 */
   const getPlayerList = () => {
@@ -22,14 +26,19 @@ export default function RoomPage() {
       url: `http://localhost:80/player/${info.roomId}`,
       header: {
         "Accept": "application/json",
-        "Content-type": "application/json;charset=UTF-8"
+        "Content-type": "application/json;charset=UTF-8",
       },
       method: "POST",
       data: {
-        "id" : info.playerId
+        "id" : info.playerId,
       }
     }).then((response) => {
+      console.log("GET PLAYERLIST");
       console.log(response.data);
+      /*
+        TO DO :: 사용자 리스트를 players 저장소에 저장
+      */
+      
     }).catch(
       error => console.log(error)
     );
@@ -40,7 +49,7 @@ export default function RoomPage() {
   /* 유영 : Socket 함수 시작 */
   const connectSocket = async() => {
     client.current = await Stomp.over(() => {
-      const sock = new SockJS("http://localhost:80/ws")
+      const sock = new SockJS("http://localhost:80/ws");
       return sock;
     });
     client.current.debug = () => {};
@@ -56,7 +65,6 @@ export default function RoomPage() {
   } /* 유영 : Socket 함수 끝 */
   
   connectSocket();
-
 
   useEffect(() => {
     subscribeSelf();

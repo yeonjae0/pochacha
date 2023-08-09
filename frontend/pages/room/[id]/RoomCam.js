@@ -1,9 +1,8 @@
 import { OpenVidu } from 'openvidu-browser'
-import React, { Component, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import UserVideoComponent from './UserVideoComponent'
-import styles from '@/styles/UserVideo.module.css'
 //import {BsFillCameraVideoFill,BsFillCameraVideoOffFill} from 'react-icons/bs'
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 export default function RoomCam(props) {
 
@@ -13,7 +12,7 @@ export default function RoomCam(props) {
   /*
     TO DO :: 각각의 환경에 저장된 TOKEN을 받을 수 있도록 props에서 변경
   */
-  // const roomId= useSelector(state => state.room.currentRoomID); //오픈비두 세션
+  // const roomId= useSelector(state => state.room.currentRoomId); //오픈비두 세션
   // const token=useSelector(state => state.player.players[0].playerId); //오픈비두 토큰
   // const nickname=useSelector(state => state.player.players[0].nick);
 
@@ -41,14 +40,14 @@ export default function RoomCam(props) {
   }
 
   const handleMainVideoStream = (stream) => {
-    console.log("HANDLE MAIN VIDEO STREAM");
+    // console.log("HANDLE MAIN VIDEO STREAM");
     if (mainStreamManager !== stream) {
       setMainStreamManager(stream);
     }
   }
 
   const deleteParticipant = (streamManager) => {
-    console.log("DELETE PARTICIPANT");
+    // console.log("DELETE PARTICIPANT");
     let index = participants.indexOf(streamManager, 0);
     if (index > -1) {
       setParticipants(participants.splice(index, 1));
@@ -56,13 +55,13 @@ export default function RoomCam(props) {
   }
 
   const joinSession = async (token) => {
-    console.log("JOINSESSION");
+    // console.log("JOINSESSION");
     console.log("TOKEN");
     console.log(token)
 
     // 기존에 정의한 session 변수를 사용하도록 수정
     session.on('streamCreated', (event) => {
-      console.log("STREAM CREATED");
+      // console.log("STREAM CREATED");
       // OpenVidu는 자체적으로 VIDEO 생성 못함
       var participant = session.subscribe(event.stream, undefined);
       var updatedParticipants = [...participants]; // 새로운 배열을 만들어서 업데이트
@@ -71,7 +70,7 @@ export default function RoomCam(props) {
     });
 
     session.on('streamDestroyed', (event) => {
-      console.log("STREAM DESTROYED");
+      // console.log("STREAM DESTROYED");
       deleteParticipant(event.stream.streamManager);
     });
 
@@ -82,7 +81,7 @@ export default function RoomCam(props) {
     /* 혜지 : 모든 사용자 PUBLISHER 지정 필수 */
     await session.connect(token, { clientData: nickname, publisher: true })
       .then(() => {
-        console.log("CONNECT OPENVIDU");
+        // console.log("CONNECT OPENVIDU");
 
         /* 카메라 세팅 */
         OV.initPublisherAsync(undefined, {
@@ -97,7 +96,7 @@ export default function RoomCam(props) {
         }).then((publisher) => {
           session.publish(publisher);
 
-          console.log("GET DEVICES");
+          // console.log("GET DEVICES");
           console.log(OV.getDevices());
           let deviceList = OV.getDevices();
           setDevices(deviceList);
@@ -110,24 +109,22 @@ export default function RoomCam(props) {
           setMainStreamManager(publisher);
           setPublisher(publisher);
         }).catch((error) => {
-          console.log('OPENVIDU PUBLISHER ERROR: ', error.code, error.message);
+          console.log('OPENVIDU PUBLISHER ERROR');
           console.log(error);
         });
       })
       .catch((error) => {
-        console.log('OPENVIDU CONNECT ERROR: ', error.code, error.message);
+        console.log('OPENVIDU CONNECT ERROR');
         console.log(error);
       });
   }
 
   const leaveSession = () => {
-    console.log("LEAVE SESSION");
+    // console.log("LEAVE SESSION");
     if (session) {
       session.disconnect();
     }
 
-    // setOV(null);
-    // setSession({});
     setParticipants([]);
     setMainStreamManager(undefined);
     setPublisher(undefined);
@@ -147,7 +144,6 @@ export default function RoomCam(props) {
                 onClick={this.leaveSession}
                 value="Leave session"
               /> */}
-
           </div>
 
           {/* 혜지 : mainStreaming 비디오 제거 (본인 비디오 두 개 열리는 문제 방지!) */}

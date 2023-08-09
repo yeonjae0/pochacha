@@ -104,13 +104,13 @@ export default function RoomChat(props) {
         />
       ) : null}
 
-      {/* <button className={styles.sendBtn} onClick={() => {
+      <button className={styles.sendBtn} onClick={() => {
         var sendData = {
           "playerId": info.nick,
           "message": message,
         }
         client.current.send("/chat/" + info.roomId, {}, JSON.stringify(sendData))
-      }}>전송</button> */}
+      }}>전송</button>
     </div>
   )
 }

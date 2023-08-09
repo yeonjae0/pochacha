@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState= {
   currentPlayerId: "",
   currentNick: "",
-  currentReady: False,
+  currentReady: false,
 };
 
 const playerSlice = createSlice({

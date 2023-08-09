@@ -4,7 +4,7 @@ import Link from 'next/link'
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { enterRoom } from "@/store/reducers/room.js";
-import { resetPlayer } from "@/store/reducers/players.js";
+import { resetPlayers } from '@/store/reducers/players';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -14,8 +14,8 @@ export default function Home() {
   const dispatch = useDispatch();
 
   const doInitialize = () => {
-    dispatch(enterRoom({ currentRoomID: null, currentProgress: null, currentSecret: null }));
-    dispatch(resetPlayer([]));
+    dispatch(enterRoom({ currentRoomId: null, currentProgress: null, currentSecret: null }));
+    dispatch(resetPlayers([]));
   };
 
   useEffect(() => {
