@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { enterRoom } from "@/store/reducers/room.js";
-import { addPlayer, updatePlayer, removePlayer, resetPlayer } from "@/store/reducers/player.js";
+import { addPlayer, updatePlayer, removePlayer, resetPlayer } from "@/store/reducers/players.js";
 
 function ResetPage() {
   const dispatch = useDispatch();

@@ -7,9 +7,9 @@ import styles from '@/styles/SpellGame.module.css';
 
 
 function getConsonant() {
-//   const roomInfo = useSelector(state => state.room.currentRoomID);
-//   const [randomConsonant, setRandomConsonant] = useState([]);
-//   const [userInput, setUserInput] = useState("");
+  const roomInfo = useSelector(state => state.room.currentRoomID);
+  const [randomConsonant, setRandomConsonant] = useState([]);
+  const [userInput, setUserInput] = useState("");
   // const [result, setResult] = useState("");
   // const [myTurn, setMyTurn] = useState(false);
 
