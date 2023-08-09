@@ -4,12 +4,18 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SockJS from 'sockjs-client';
 import styles from '@/styles/SpellGame.module.css';
+import { useDispatch, useSelector } from "react-redux";
 
 
 function getConsonant() {
-  const roomInfo = useSelector(state => state.room.currentRoomID);
-  const [randomConsonant, setRandomConsonant] = useState([]);
-  const [userInput, setUserInput] = useState("");
+  const dispatch = useDispatch();
+  
+  let randomConsonant = 'ㄱ ㅅ'
+  let [showModal, setShowModal] = useState(false);
+  // const roomInfo = useSelector(state => state.room.currentRoomID);
+  // const [randomConsonant, setRandomConsonant] = useState([]);
+  // const [userInput, setUserInput] = useState("");
+
   // const [result, setResult] = useState("");
   // const [myTurn, setMyTurn] = useState(false);
 
@@ -35,19 +41,31 @@ function getConsonant() {
   // connectSocket();
 
 
-  // // Axios를 사용하여 초성 가져오기
-  // useEffect(() => {
-  //   subscribeSelf();
+  // Axios를 사용하여 초성 가져오기
+//   useEffect(() => {
+//     // subscribeSelf();
+//     getRandomConsonant();
+//   }, []);
 
-  //   axios.get("/api")
-  //     .then(response => {
-  //       setConsonant(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error("에러났당", error);
-  //     });
-  // }, []);
-
+//   const getRandomConsonant = () => {
+//   axios({
+//     url: `http://localhost:80/player/${info.roomId}`,  // 여기 변경해야함!
+//     header: {
+//       "Accept": "application/json",
+//       "Content-type": "application/json;charset=UTF-8"
+//     },
+//     method: "POST",
+//     data: {
+//       "id" : info.playerId
+//     }
+//   }).then(response => {
+//     setRandomConsonant(response.data);
+//     })
+//     .catch(error => {
+//       console.error("에러났당", error);
+//     });
+// }
+    
   // const handleInputChange = e => {
   //   setUserInput(e.target.value);
   // };
@@ -56,6 +74,34 @@ function getConsonant() {
   // const handleSubmit = e => {
   //   e.preventDefault();
 
+  // 시작할 때 안내 모달을 띄우자
+  useEffect(() => {
+    setShowModal(true)
+  }, [])
+
+  const ModalPage = () => {
+      if (showModal) {
+        document.body.style.overflow = 'hidden'
+        return(
+          <>
+        {showModal && (
+          <ModalContainer className={styles.modalContainer}>
+          <ModalContent className={styles.modalContent}>
+            <p>10초 안에 제시된 초성과 일치하는 단어를 입력하세요.</p>
+            <p>*세종대왕님이 보고 계십니다*</p>
+            <p>*사전에 등재된 단어만 입력해주세요.*</p>
+            <h4>제시된 초성: {randomConsonant}</h4>
+            {/* <button onClick={onCloseModal}>Close</button> */}
+          </ModalContent>
+        </ModalContainer>
+        )}
+        </>
+      );
+      } else {
+        document.body.style.overflow = 'initial';
+        return null;
+      }
+  }
 
 
 
@@ -87,6 +133,15 @@ function getConsonant() {
             </img>
           <div className={styles.miniBlock1}></div>
           <div className={styles.miniBlock2}></div>
+          <h3 style={{
+            position: 'absolute',
+            backgroundColor: 'Yellow',
+            // textAlign: 'center',
+              left: '250px',
+              zIndex:'1'
+              
+            }}
+            >초성: {randomConsonant} </h3>
           <img src='/두루마리.png' 
             style={{
               position: 'absolute',
@@ -107,6 +162,7 @@ function getConsonant() {
         // disabled={!myTurn}
       >제출</button> */}
     </div>
+    {/* <ModalPage/> */}
     </>
   );
 }

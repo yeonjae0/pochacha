@@ -164,6 +164,7 @@ export default function GamePage() {
       </>
     )
   }
+  
   /* 연재 : 모달 끝 */
   
   return (
