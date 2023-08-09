@@ -2,9 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import styles from '@/styles/RoomPage.module.css'
-import SockJS from 'sockjs-client'
-import { Stomp } from '@stomp/stompjs'
-
 export default function RoomChat(props) {
   const info = props.info;
   const client = props.client;

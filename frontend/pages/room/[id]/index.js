@@ -47,7 +47,6 @@ export default function RoomPage() {
 
 
   /* 유영 : Socket 함수 시작 */
-  let client = {};
   const connectSocket = () => {
     client.current = Stomp.over(() => {
       const sock = new SockJS("http://localhost:80/ws");
