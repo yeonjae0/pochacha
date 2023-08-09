@@ -25,7 +25,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/player")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class PlayerController {
 
     /* 혜지 : OpenViduController RoomController 통합 작업 */
