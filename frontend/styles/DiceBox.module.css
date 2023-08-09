@@ -1,23 +1,22 @@
 .diceBox {
   max-width: 600px;
-  width: 50vw;
-  height: 35.3vh;
-  background-color: rgb(0, 0, 0);
-  /* border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); */
+  width: 90vw;
+  height: auto;
+  background-color: #000000;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   padding: 40px;
   box-sizing: border-box;
   margin: auto;
 }
 
-/* DiceBox.js에 inline style로 반영 */
-/* .diceBox>.dice_wrap {
+.diceBox>.dice_wrap {
   width: 100%;
   height: auto;
   margin-bottom: 20px;
-} */
+}
 
-/* .diceBox>.dice_wrap>[class^="dice"] .dice>div {
+.diceBox>.dice_wrap>[class^="dice"] .dice>div {
   position: absolute;
   top: 0;
   left: 0;
@@ -29,4 +28,38 @@
   opacity: 0.8;
   color: #fff;
   font-size: 60px;
+}
+
+/* 버튼 */
+/* #btnRolling {
+  display: block;
+  width: 160px;
+  height: 40px;
+  margin: 0 auto;
+  background-color: royalblue;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+#btnRolling::before {
+  display: block;
+  content: "";
+  width: 60px;
+  height: 100%;
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  left: -60px;
+  transition: all 0.5s;
+  transform: skewX(-45deg);
+  transform-origin: top left;
+  opacity: 0.3;
+}
+
+#btnRolling:hover::before {
+  transform: skewX(-45deg) translateX(280px);
 } */

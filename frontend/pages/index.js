@@ -1,12 +1,31 @@
-import Head from 'next/head'
-import Image from 'next/image'
+
 import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
 import Link from 'next/link'
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { enterRoom } from "@/store/reducers/room.js";
+import { resetPlayers } from '@/store/reducers/players';
+import { MyPlayerData } from '@/store/reducers/player';
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+
+  /* 혜지 : 현재 오픈비두 토큰을 로컬 스토리지의 players[0] 값에서 받아오므로, 초기 페이지에서는 무조건 storage 초기화하도록 설정 */
+  const dispatch = useDispatch();
+
+  const doInitialize = () => {
+    dispatch(enterRoom({ currentRoomId: null, currentProgress: null, currentSecret: null }));
+    dispatch(resetPlayers([]));
+    dispatch(MyPlayerData({  currentPlayerId:null,
+    currentNick: null,
+    currentReady: null}))
+  };
+
+  useEffect(() => {
+    doInitialize();
+  }, []);
+
   return (
     <div>
       <p>메인 배경색 수정 가능</p>

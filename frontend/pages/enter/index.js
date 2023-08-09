@@ -93,8 +93,8 @@ export default function EnterPage() {
         'nick': text || response.data.player.nickname,
         'playerId': response.data.player.id,//오픈비두 토큰
         'ready': response.data.player.ready,
-       }
-       let playerInfo =  {
+      }
+      let playerInfo =  {
         playerId: response.data.player.id,
         nick: text || response.data.player.nickname,
         ready: response.data.player.ready,
@@ -107,6 +107,9 @@ export default function EnterPage() {
             roomId: response.data.room.id,//오픈비두 세션
             progress: response.data.room.progress,
             secret: response.data.room.secret,
+            nick: text || response.data.player.nickname,
+            // playerId: response.data.player.id,//오픈비두 토큰
+            // ready: response.data.player.ready,
           })
          );
          dispatch(addPlayer(playerInfo))

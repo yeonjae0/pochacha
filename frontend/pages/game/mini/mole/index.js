@@ -5,7 +5,7 @@ export default function Timer() {
 
   // const [min, setMin] = useState(3);
   const [sec, setSec] = useState(0);
-  const time = useRef(30);
+  const time = useRef(34);
   const timerId = useRef(null);
 
   useEffect(() => {

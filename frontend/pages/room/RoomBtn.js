@@ -1,14 +1,16 @@
 'use client'
 
 import styled from 'styled-components'
-import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { useSelector } from "react-redux";
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
 
 // Room 입장시 받은 router.query를 props로 활용
 export default function RoomBtn(props) {
 
-  const router = useRouter()
+  const router = useRouter();
 
   let ModeBtn = styled.button`
   margin: 10px;
@@ -18,7 +20,7 @@ export default function RoomBtn(props) {
   color: white;
   width: 80px;
   height: 50px;
-  `
+  `;
 
   let CopyBtn = styled.button`
   width: 219px;
@@ -26,7 +28,7 @@ export default function RoomBtn(props) {
   background: #43BEF2;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
-  `
+  `;
 
   let ReadyBtn = styled.button`
   width: 325px;
@@ -34,7 +36,7 @@ export default function RoomBtn(props) {
   background: #FF285C;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
-  `
+  `;
 
   let StartBtn = styled.button`
   width: 325px;
@@ -42,23 +44,21 @@ export default function RoomBtn(props) {
   background: #FF285C;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
-  `
+  `;
 
-  const info = props.info
+  const info = props.info;
   const client = props.client;
 
-  console.log(`Room Button Info: ${info?.roomId}`)
-
   let [ready, setReady] = useState(info.ready);
-  let [setting, setSetting] = useState(true)
+  let [setting, setSetting] = useState(true);
   
   /* 희진 : JS 클립보드 API 시작 */
-  let url = usePathname()
-  let urls = process.env.NEXT_PUBLIC_HOST + `${url}`
+  const roomId= useSelector(state => state.room.currentRoomId); //오픈비두 세션
+  let urls = process.env.NEXT_PUBLIC_HOST + `/enter/`+roomId;
   
   const clipBoard = () => {
-    navigator.clipboard.writeText(urls)
-    alert("클립보드에 URL이 복사되었습니다.")
+    navigator.clipboard.writeText(urls);
+    alert("클립보드에 URL이 복사되었습니다.");
   }
   /* 희진 : JS 클립보드 API 끝 */
 
@@ -86,23 +86,11 @@ export default function RoomBtn(props) {
     setReady(!ready);
     let sendData = {
       "playerId" : info.playerId,
-      "ready" : ready
+      "ready" : ready,
     };
     client.current.send(`/ready/${info.roomId}`, {}, JSON.stringify(sendData));
   } /* 유영 : 플레이어 ready 정보 socket 전송 끝 */
 
-  const subscribePlayer = () => {
-    client.current.connect({}, () => {
-      client.current.subscribe(`/topic/player/${info.roomId}`, (response) => {
-        var data = JSON.parse(response.body);
-        console.log(data);
-      })  // 플레이어 정보 구독
-    })
-  }
-
-  useEffect(() => {
-    subscribePlayer();
-  }, []);
   return (
     <div>
       <ModeBtn onClick={() => { setSetting(!setting) }}>{ setting == true ? ('기본 모드 ON') : '미니게임 ON' }</ModeBtn>
