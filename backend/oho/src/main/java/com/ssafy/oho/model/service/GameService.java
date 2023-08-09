@@ -47,7 +47,8 @@ public class GameService extends RedisService {
             if(super.getPlayer(roomId, p.getId()) == null) {
                 throw new GameGetException("해당 방에 존재하지 않는 플레이어입니다.");
             }
-            if(Boolean.parseBoolean(super.getPlayerInfo(roomId, p.getId(), "ready"))) {
+            if(!Boolean.parseBoolean(super.getPlayerInfo(roomId, p.getId(), "ready"))) {
+                System.out.println(p.getId());
                 throw new GameGetException("모든 플레이어가 준비되지 않았습니다.");
             }
         }

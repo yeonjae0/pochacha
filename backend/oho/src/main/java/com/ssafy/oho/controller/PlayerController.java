@@ -89,7 +89,6 @@ public class PlayerController {
 
     @MessageMapping("ready/{roomId}")
     public void updatePlayer(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
-        System.out.println("CONNECTED");
         try {
             PlayerResponseDto playerResponseDto = playerService.updatePlayer(payload, roomId);
             webSocket.convertAndSend("/topic/player/" + roomId, playerResponseDto/* 임시 값 저장 */);
