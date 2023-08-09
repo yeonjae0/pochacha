@@ -4,7 +4,6 @@ import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/router'
 import BoardMap from './BoardMap.js'
 import DiceBox from './DiceBox.js'
-import RoomCam from '../../room/[id]/RoomCam.js'
 import ActiveBoard from './ActiveBoard.js'
 import styles from '@/styles/GamePage.module.css'
 import { styled } from 'styled-components'
@@ -170,7 +169,6 @@ export default function GamePage() {
   
   return (
     <div className={styles.container}>
-      <RoomCam />
       <nav className={styles.infobar}>
         <button value="innerHTML" onClick={() => {
           var sendData = {
