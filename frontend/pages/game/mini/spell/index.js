@@ -10,10 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 function getConsonant() {
   const dispatch = useDispatch();
   
-  let randomConsonant = 'ㄱ ㅅ'
+  // let randomConsonant = 'ㄱ ㅅ'
+
   let [showModal, setShowModal] = useState(false);
-  // const roomInfo = useSelector(state => state.room.currentRoomID);
-  // const [randomConsonant, setRandomConsonant] = useState([]);
+  const roomInfo = useSelector(state => state.room.currentRoomID);
+  const [randomConsonant, setRandomConsonant] = useState([]);
   // const [userInput, setUserInput] = useState("");
 
   // const [result, setResult] = useState("");
@@ -42,29 +43,31 @@ function getConsonant() {
 
 
   // Axios를 사용하여 초성 가져오기
-//   useEffect(() => {
-//     // subscribeSelf();
-//     getRandomConsonant();
-//   }, []);
+  useEffect(() => {
+    // subscribeSelf();
+    getRandomConsonant();
+    console.log(roomInfo)
+  }, []);
 
-//   const getRandomConsonant = () => {
-//   axios({
-//     url: `http://localhost:80/player/${info.roomId}`,  // 여기 변경해야함!
-//     header: {
-//       "Accept": "application/json",
-//       "Content-type": "application/json;charset=UTF-8"
-//     },
-//     method: "POST",
-//     data: {
-//       "id" : info.playerId
-//     }
-//   }).then(response => {
-//     setRandomConsonant(response.data);
-//     })
-//     .catch(error => {
-//       console.error("에러났당", error);
-//     });
-// }
+  const getRandomConsonant = () => {
+  axios({
+    url: `http://localhost:80/game/mini/spell`,  // 여기 변경해야함!
+    header: {
+      "Accept": "application/json",
+      "Content-type": "application/json;charset=UTF-8"
+    },
+    method: "POST",
+    data: {
+      "id" : roomInfo
+    }
+  }).then(response => {
+    setRandomConsonant(response.data);
+    })
+    .catch(error => {
+      console.error("에러났당", error);
+      console.error(roomInfo);
+    });
+}
     
   // const handleInputChange = e => {
   //   setUserInput(e.target.value);
