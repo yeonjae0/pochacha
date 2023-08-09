@@ -5,14 +5,21 @@ import styles from '@/styles/UserVideo.module.css'
 //import {BsFillCameraVideoFill,BsFillCameraVideoOffFill} from 'react-icons/bs'
 import { useSelector } from "react-redux";
 
-export default function RoomCam() {
+export default function RoomCam(props) {
 
   const OV = new OpenVidu();
   let session = OV.initSession();
 
-  const roomId= useSelector(state => state.room.currentRoomID); //오픈비두 세션
-  const token=useSelector(state => state.player.players[0].playerId); //오픈비두 토큰
-  const nickname=useSelector(state => state.player.players[0].nick);
+  /*
+    TO DO :: 각각의 환경에 저장된 TOKEN을 받을 수 있도록 props에서 변경
+  */
+  // const roomId= useSelector(state => state.room.currentRoomID); //오픈비두 세션
+  // const token=useSelector(state => state.player.players[0].playerId); //오픈비두 토큰
+  // const nickname=useSelector(state => state.player.players[0].nick);
+
+  console.log(props.info)
+  const token=props.info.playerId;
+  const nickname=props.info.nick;
 
   const [mainStreamManager, setMainStreamManager] = useState(undefined);// 메인비디오
   const [publisher, setPublisher] = useState(undefined); //비디오, 오디오 송신자
