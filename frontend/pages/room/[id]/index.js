@@ -11,7 +11,7 @@ import axios from 'axios'
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { useDispatch } from "react-redux";
-//import { addPlayers } from '@/store/reducers/players.js';
+import { addPlayers } from '@/store/reducers/players.js';
 
 export default function RoomPage() {
 
@@ -39,6 +39,23 @@ export default function RoomPage() {
       /*
         TO DO :: 사용자 리스트를 players 저장소에 저장
       */
+     const arrayLength=response.data.length;
+
+     for(let i=0;i<arrayLength;i++){
+      let head=response.data[i].head;
+      let id=response.data[i].id;
+      let nickname=response.data[i].nickname;
+      let ready=response.data[i].ready;
+
+      let obj={
+        head:head,
+        playerId:id,
+        nick:nickname,
+        ready:ready,
+      };
+
+      dispatch(addPlayers(obj));
+     }
       
     }).catch(
       error => console.log(error)
@@ -79,18 +96,14 @@ export default function RoomPage() {
     <div className={styles.container}>
       <div className={styles.roof}></div>
       <div className={styles.room}>
-        <div className={styles.camList}>
-          <div className={styles.cam}></div>
-          <div className={styles.cam}></div>
-          <div className={styles.cam}></div>
-          <div className={styles.cam}></div>
+        <div>
+          <RoomCam info={info}/>
         </div>
         <div className={classNames({[styles.chatContainer]: true, [styles.outerChat]: true})}>
           <div className={classNames({[styles.chatContainer]: true, [styles.innerChat]: true})}>
           <RoomChat info={info} client={client} chatHistory={chatHistory} />
           </div>
         </div>
-        <RoomCam info={info}/>
         <RoomBtn info={info} client={client} />
       </div>
     </div>

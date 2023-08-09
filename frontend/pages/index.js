@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { enterRoom } from "@/store/reducers/room.js";
 import { resetPlayers } from '@/store/reducers/players';
+import { MyPlayerData } from '@/store/reducers/player';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,6 +17,9 @@ export default function Home() {
   const doInitialize = () => {
     dispatch(enterRoom({ currentRoomId: null, currentProgress: null, currentSecret: null }));
     dispatch(resetPlayers([]));
+    dispatch(MyPlayerData({  currentPlayerId:null,
+    currentNick: null,
+    currentReady: null}))
   };
 
   useEffect(() => {
