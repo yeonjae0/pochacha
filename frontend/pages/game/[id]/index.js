@@ -13,7 +13,6 @@ import { Stomp } from '@stomp/stompjs'
 import axios from 'axios'
 import { Transition } from 'react-transition-group'
 import { useDispatch, useSelector } from "react-redux";
-import { enterRoom } from "@/store/reducers/room.js";
 
 /* 연재 : 모달 시작 */
 // 해야할 것: 모달 창 꾸미기
@@ -43,7 +42,7 @@ export default function GamePage() {
   const dispatch = useDispatch();
   let info = JSON.parse(router.query.currentName)
 
-  let roomId = useSelector(state => state.room.currentRoomID )
+  let roomId = useSelector(state => state.room.currentRoomId )
   // let [roomId, setRoomId] = useState(info.roomId); // 현재 방 ID (임의 삽입)
   let [includeMini, setIncludeMini] = useState(true); // 미니게임 진행 여부
   let [dice, setDice] = useState(0); // 주사위

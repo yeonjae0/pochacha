@@ -1,32 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  players: [],
+/* 혜지 : 자기 자신의 아이디, 닉네임, 레디 상태 저장 */
+const initialState= {
+  currentPlayerId: "",
+  currentNick: "",
+  currentReady: false,
 };
 
 const playerSlice = createSlice({
   name: "player",
   initialState,
   reducers: {
-    addPlayer: (state, action) => {
-      state.players.push(action.payload); 
+    MyPlayerData: (state, action) => {
+      state.currentPlayerId = action.payload.playerId;
+      state.currentNick = action.payload.nick;
+      state.currentReady = action.payload.ready;
     },
-    updatePlayer: (state, action) => {
-      const { playerId, updates } = action.payload;
-      const playerIndex = state.players.findIndex(player => player.playerId === playerId);
-      if (playerIndex !== -1) {
-        state.players[playerIndex] = { ...state.players[playerIndex], ...updates }; 
-      }
-    },
-    removePlayer: (state, action) => {
-      const playerId = action.payload;
-      state.players = state.players.filter(player => player.playerId !== playerId); 
-    },
-    resetPlayer: (state, action) => {
-      state.players =  action.payload
-    }
-  },
+  }
 });
 
 export default playerSlice;
-export const { addPlayer, updatePlayer, removePlayer, resetPlayer } = playerSlice.actions;
+export const {
+    MyPlayerData
+} = playerSlice.actions
