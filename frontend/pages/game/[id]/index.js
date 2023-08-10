@@ -41,7 +41,7 @@ export default function GamePage() {
   const dispatch = useDispatch();
   let info = router.query.currentName ? JSON.parse(router.query.currentName) : ''
 
-  let roomId = useSelector(state => state.room.currentRoomId )
+  let roomId = useSelector(state => state.room.currentRoomId)
   // let [roomId, setRoomId] = useState(info.roomId); // 현재 방 ID (임의 삽입)
   let [includeMini, setIncludeMini] = useState(true); // 미니게임 진행 여부
   let [dice, setDice] = useState(0); // 주사위
@@ -143,7 +143,9 @@ export default function GamePage() {
         setPin(data.game.pin)
         setLab(data.game.lab)
         setCurrentCell(data.cell.name)
-
+        {currentCell == '두더지 게임' ? (window.location.href = 'http://localhost:3000/game/mini/mole') : null}
+        {currentCell == '훈민정음' ? (window.location.href = 'http://localhost:3000/game/mini/spell') : null}
+        {currentCell == '라이어 게임' ? (window.location.href = 'http://localhost:3000/game/mini/liar') : null}
         // console.log(data.game)
         // console.log(data.cell)
         // console.log(data.game.pin)
@@ -184,7 +186,7 @@ export default function GamePage() {
           <ModalContainer id='modalContainer'>
             <ModalContent className={styles.modalContent} style={{ zIndex: '1' }}>
               <p>{currentCell}</p>
-              {
+              {/* {
                 currentCell == '두더지 게임' ?
                 (window.location.href = 'http://localhost:3000/game/mini/mole')
                 : null
@@ -198,7 +200,7 @@ export default function GamePage() {
                 currentCell == '라이어 게임' ?
                 (window.location.href = 'http://localhost:3000/game/mini/liar')
                 : null
-              }
+              } */}
               {/* <button onClick={onCloseModal}>Close</button> */}
             </ModalContent>
           </ModalContainer>
@@ -206,7 +208,7 @@ export default function GamePage() {
       </>
     )
   }
-  
+
   /* 연재 : 모달 끝 */
 
   return (
@@ -225,7 +227,7 @@ export default function GamePage() {
         handleRollDiceClick();
       }}>주사위 굴리기</button>
       <div>
-      {/* <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}> */}
+        {/* <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}> */}
 
         <div className={styles.upper_container}>
           <video className={styles.cam} style={{ float: 'left' }} ref={videoRef} /> {/* WEBCAM 화면 */}
