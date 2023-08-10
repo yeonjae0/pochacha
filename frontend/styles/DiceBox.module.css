@@ -1,17 +1,17 @@
 .diceBox {
   max-width: 600px;
   width: 90vw;
-  height: auto;
-  background-color: purple; /* 박스 위치 확인용 */
-  padding: 40px;
+  height: 30vw;
+  padding: 200px;
   box-sizing: border-box;
+  margin: 0 auto;
 }
 
-.diceBox>.dice_wrap {
+/* .diceBox>.dice_wrap {
   width: 100%;
   height: auto;
   margin-bottom: 20px;
-}
+} */
 
 /* .diceBox>.dice_wrap>[class^="dice"] .dice>div {
   position: absolute;
@@ -27,8 +27,7 @@
   font-size: 60px;
 } */
 
-/* 버튼 */
-.btnRolling {
+/* .btnRolling {
   display: block;
   width: 160px;
   height: 40px;
