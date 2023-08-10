@@ -1,14 +1,40 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "@/styles/SpellGame.module.css";
+import axios from "axios";
+import SockJS from 'sockjs-client';
 
-function getConsonant() {
+// let randomConsonant = 'ㄱ ㅅ
+
+const getConsonant = () => {
+
+  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(true);
-  const [randomConsonant, setRandomConsonant] = useState("ㄱ ㅅ");
+  const [randomConsonant, setRandomConsonant] = useState("");
   const [inputWords, setInputWords] = useState([]);  // 입력한 단어들 저장
   const [inputValue, setInputValue] = useState("");  // 유저 입력값 저장
+  const roomInfo = useSelector(state => state.room.currentRoomId);
+  
+  //랜덤 초성 가져오기
+  axios({
+    url: `http://localhost:80/game/mini/spell`,  // 여기 변경해야함!
+    header: {
+      "Accept": "application/json",
+      "Content-type": "application/json;charset=UTF-8"
+    },
+    method: "POST",
+    data: {
+      "id" : roomInfo
+    }
+  }).then(response => {
+    setRandomConsonant(response.data);
+    })
+    .catch(error => {
+      console.error("에러났당", error);
+      console.error(roomInfo);
+    });
 
-
-  // 두루마리에 단어 표시하기
+  // Input창 단어 관련
   const handleInput = (e) => {
     setInputValue(e.target.value);
   };
