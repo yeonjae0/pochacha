@@ -4,7 +4,8 @@ import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/router'
 import BoardMap from './BoardMap.js'
 import DiceBox from './DiceBox.js'
-import styles from '@/styles/Map.module.css'
+import ActiveBoard from './ActiveBoard.js'
+import styles from '@/styles/GamePage.module.css'
 import { styled } from 'styled-components'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
@@ -86,13 +87,13 @@ export default function GamePage() {
     }).then((response) => {
       console.log(roomId)
       console.log(response.data);
-      console.log('셀 데이터 출력 **************************************' , response.data)
-    }).catch((err) => {
-        console.log('에러임', err)
-      });
-      /*
-        TO DO :: Cell 색에 맞춰 배합
-      */
+      console.log('셀 데이터 출력 **************************************', response.data)
+    }).catch((error) => {
+      console.log(error)
+    });
+    /*
+      TO DO :: Cell 색에 맞춰 배합
+    */
   };
 
   const connectSocket = () => {
@@ -100,7 +101,7 @@ export default function GamePage() {
       const sock = new SockJS("http://localhost:80/ws")
       return sock;
     });
-    client.current.debug = () => {};
+    client.current.debug = () => { };
   }
 
   const subscribeSocket = () => {
@@ -129,7 +130,7 @@ export default function GamePage() {
     connectSocket()
     subscribeSocket()
   }, [])
-  
+
   let handleRollDiceClick = () => {
     setTimeout(() => {
       setShowModal(true)
@@ -139,9 +140,9 @@ export default function GamePage() {
     }, 2500)
     // setShowModal(false)
   }
-  
+
   const ModalPage = ({ currentCell, pin }) => {
-    
+
     useEffect(() => {
       if (showModal) {
         document.body.style.overflow = 'hidden'
@@ -149,12 +150,12 @@ export default function GamePage() {
         document.body.style.overflow = 'initial'
       }
     }, [showModal])
-    
+
     return (
       <>
         {showModal && (
           <ModalContainer id='modalContainer'>
-            <ModalContent className={styles.modalContent}>
+            <ModalContent className={styles.modalContent} style={{ zIndex: '1' }}>
               <p>{currentCell}</p>
               <p>{pin}</p>
               {/* <button onClick={onCloseModal}>Close</button> */}
@@ -165,39 +166,44 @@ export default function GamePage() {
     )
   }
   /* 연재 : 모달 끝 */
-  
+
   return (
     <div className={styles.container}>
       <nav className={styles.infobar}>
-        <button value="innerHTML" onClick={() => {
-          var sendData = {
-            "dice": dice,
-            "pin": pin,
-            "lab": lab,
-          };
-          
-          client.current.send("/move/" + roomId, {}, JSON.stringify(sendData));
-          handleRollDiceClick();
-        }}>주사위 굴리기</button>
         <h5>주사위 눈 : {dice}, 현재 {pin}번 블록에 위치, {lab}바퀴</h5>
       </nav>
-      <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+      <button className={styles.btnRolling} value="innerHTML" onClick={() => {
+        var sendData = {
+          "dice": dice,
+          "pin": pin,
+          "lab": lab,
+        };
+
+        client.current.send("/move/" + roomId, {}, JSON.stringify(sendData));
+        handleRollDiceClick();
+      }}>주사위 굴리기</button>
+      <div>
+      {/* <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}> */}
+
         <div className={styles.upper_container}>
-          <video className={styles.cam} ref={videoRef} /> {/* WEBCAM 화면 */}
-          <video className={styles.cam} ref={videoRef} /> {/* WEBCAM 화면 */}
+          <video className={styles.cam} style={{ float: 'left' }} ref={videoRef} /> {/* WEBCAM 화면 */}
+          <video className={styles.cam} style={{ float: 'right' }} ref={videoRef} /> {/* WEBCAM 화면 */}
         </div>
 
-        <div style={{ position: "relative" }}>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <DiceBox dice={dice} />
-          </div>
-          <div className={styles.lower_container}>
-            <video className={styles.cam} ref={videoRef} /> {/* WEBCAM 화면 */}
-            <video className={styles.cam} ref={videoRef} /> {/* WEBCAM 화면 */}
-          </div>
-          <div style={{ position: "absolute" }}>
+        {/* <div style={{ position: "relative" }}> */}
+        <div>
+          <DiceBox dice={dice} />
+          <ActiveBoard pin={pin} />
+          {/* <div style={{ display: "flex", justifyContent: "center" }}>
+          </div> */}
+
+          {/* <div style={{ position: "absolute" }}>
             <BoardMap pin={pin} style={{ bottom: "0" }} />
-          </div>
+          </div> */}
+        </div>
+        <div className={styles.lower_container}>
+          <video className={styles.cam} style={{ float: 'left' }} ref={videoRef} /> {/* WEBCAM 화면 */}
+          <video className={styles.cam} style={{ float: 'right' }} ref={videoRef} /> {/* WEBCAM 화면 */}
         </div>
       </div>
       <>
