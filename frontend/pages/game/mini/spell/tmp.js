@@ -1,179 +1,188 @@
-'use client'
-
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import SockJS from 'sockjs-client';
-import styles from '@/styles/SpellGame.module.css';
 import { useDispatch, useSelector } from "react-redux";
+import styles from "@/styles/SpellGame.module.css";
+import axios from 'axios'
+import SockJS from 'sockjs-client'
+import { Stomp } from '@stomp/stompjs'
 
+// let randomConsonant = 'ㄱ ㅅ
 
-function getConsonant() {
+const getConsonant = () => {
+
   const dispatch = useDispatch();
-  
-  let randomConsonant = 'ㄱ ㅅ'
+  const [showModal, setShowModal] = useState(true);
+  const [randomConsonant, setRandomConsonant] = useState("");
+  const [inputWords, setInputWords] = useState([]);  // 입력한 단어들 저장
+  const [inputValue, setInputValue] = useState("");  // 유저 입력값 저장
+  const roomId = useSelector(state => state.room.currentRoomId );
+  const [client, setClient] = useState({});
 
-  let [showModal, setShowModal] = useState(false);
-  const roomInfo = useSelector(state => state.room.currentRoomId);
-  // const [randomConsonant, setRandomConsonant] = useState([]);
-  // const [userInput, setUserInput] = useState("");
+  // Input창 단어 관련
+  const handleInput = (e) => {
+    setInputValue(e.target.value);
+  };
 
-  // const [result, setResult] = useState("");
-  // const [myTurn, setMyTurn] = useState(false);
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSubmit()
+    }};
 
-  // // socket 연결하기
-  // let client = {};
-  // const connectSocket = async() => {
-  //   client.current = await Stomp.over(() => {
-  //     const sock = new SockJS("http://localhost:80/ws")
-  //     return sock;
-  //   });
-  //   client.current.debug = () => {};
-  // }
-
-  // const subscribeSelf = () => {
-  //   client.current.connect({}, () => {
-  //     client.current.subscribe(`/topic/game/${roomInfo}`, (response) => {
-  //       var data = JSON.parse(response.body);
-  //       console.log(data);
-  //     })  // 채팅 구독
-  //   })
-  // } 
-  
-  // connectSocket();
-
-
-  // Axios를 사용하여 초성 가져오기
-  // useEffect(() => {
-  //   // subscribeSelf();
-  //   getRandomConsonant();
-  //   console.log(roomInfo)
-  // }, []);
-
-  const getRandomConsonant = () => {
-  axios({
-    url: `http://localhost:80/game/mini/spell`,  // 여기 변경해야함!
-    header: {
-      "Accept": "application/json",
-      "Content-type": "application/json;charset=UTF-8"
-    },
-    method: "POST",
-    data: {
-      "id" : roomInfo
+  const handleSubmit = () => {
+    if (inputValue.trim() !== "") {
+      if(client.current) {
+        let sendData = {
+          "word" : inputValue,
+        }
+        console.log('inputValue', inputValue)  
+        console.log('sendData', sendData) 
+        // console.log('여기까지..?', data.correct) 
+        client.current.send(`/mini/spell/confirm/${roomId}`, {}, JSON.stringify(sendData));
+      } else {
+        alert("소켓이 연결되지 않았습니다.");
+      }
+      setInputWords((prevWords) => [...prevWords, inputValue]);
+      setInputValue("");
     }
-  }).then(response => {
-    setRandomConsonant(response.data);
-    })
-    .catch(error => {
-      console.error("에러났당", error);
-      console.error(roomInfo);
+  };
+
+  const setConsonant = () => {
+    axios({
+      url: "http://localhost:80/game/mini/spell",
+      header: {
+        "Accept": "application/json",
+        "Content-type": "application/json;charset=UTF-8"
+      },
+      method: "POST",
+      data: {
+        "id" : roomId
+      }
+    }).then((response) => {
+      let data = response.data;
+      setRandomConsonant(data.firstWord + data.secondWord);
+    }
+    ).catch(e => console.log(e));
+  }
+
+  // const client = {};
+  const connectSocket = () => {
+    client.current = Stomp.over(() => {
+      const sock = new SockJS("http://localhost:80/ws");
+      return sock;
     });
-    
-    // const handleInputChange = e => {
-      //   setUserInput(e.target.value);
-      // };
-      
-      // 새고 방지
-      // const handleSubmit = e => {
-        //   e.preventDefault();
-        
-        useEffect(() => {
-          setShowModal(true);
-          const timeout = setTimeout(() => {
-            setShowModal(false);
-          }, 3000);
-      
-          return () => {  // 재렌더링 될 떄 메모리 누수 방지
-            clearTimeout(timeout);
-          };
-        }, []);
-        
-        const ModalPage = () => {
-          if (showModal) {
-            document.body.style.overflow = 'hidden'
-            return(
-              <>
-        {showModal && (
-          <div className={styles.modalContainer}>
+    // client.current.debug = () => {};
+  }
+  
+  const subscribeSocket = () => {
+    client.current.connect({}, () => {
+      client.current.subscribe(`/topic/game/${roomId}`, (response) => {
+        var data = JSON.parse(response.body);
+        console.log(data);
+        console.log('틀렸or맞았', data.correct);
+      })  // 채팅 구독
+    })
+  }
+
+  useEffect(() => {
+    connectSocket();
+    subscribeSocket();
+    setConsonant();
+    const timeout = setTimeout(() => {
+      setShowModal(false);
+    }, 1000);  // 설명 모달 시간 설정! 7초 정도? 임시로 1초
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
+
+  const ModalPage = () => {
+    if (showModal) {
+      document.body.style.overflow = "hidden";
+      return (
+        <div className={styles.modalContainer}>
           <div className={styles.modalContent}>
             <p>10초 안에 제시된 초성과 일치하는 단어를 입력하세요.</p>
             <p>*세종대왕님이 보고 계십니다*</p>
             <p>*사전에 등재된 단어만 입력해주세요.*</p>
             <h4>제시된 초성: {randomConsonant}</h4>
-            {/* <button onClick={onCloseModal}>Close</button> */}
           </div>
         </div>
-        )}
-        </>
       );
     } else {
-      document.body.style.overflow = 'initial';
+      document.body.style.overflow = "initial";
       return null;
-      }
     }
-    
-    
-    
-    return (
-      <>
+  };
+
+  return (
+    <>
       <ModalPage />
-    <div
-      className={styles.wrapper}> 
-      <div className={styles.text}>
-      <h1>초성 게임</h1>
-      <label>
-        단어를 입력하세요:
-        <input type="text" 
-        />
-      </label>
-      <button type="submit">제출</button>
-      </div>
-      <br />
-      <div 
-        className={styles.redBlock}>
-          <img src='/세종대왕_기본.png'
+
+      <div className={styles.wrapper}>
+        <div className={styles.text}>
+          <h1>초성 게임</h1>
+          <label>
+            단어를 입력하세요:
+            <input type="text" value={inputValue} onChange={handleInput} onKeyDown={handleKeyDown} />
+          </label>
+          <button type="button" onClick={handleSubmit} >
+            제출
+          </button>
+        </div>
+        <br />
+        <div className={styles.redBlock}>
+          <img
+            src="/세종대왕_기본.png"
             style={{
-              position: 'absolute',
-              // justifyContent: 'center',
-              left: '125px',
-              width: '350px',
-              marginTop: '-350px'
-              
-            }}>
-            </img>
+              position: "absolute",
+              left: "125px",
+              width: "350px",
+              marginTop: "-350px",
+            }}
+          />
           <div className={styles.miniBlock1}></div>
           <div className={styles.miniBlock2}></div>
-          <h3 style={{
-            position: 'absolute',
-            backgroundColor: 'Yellow',
-            // textAlign: 'center',
-            left: '250px',
-            zIndex:'1'
-            
-          }}
-          >초성: {randomConsonant} </h3>
-          <img src='/두루마리.png' 
+          <h3
             style={{
-              position: 'absolute',
-              width:'600px',
-              left:'0px',
-              marginBottom:'-150px',
-              zIndex: '0',
-            }}></img>
+              position: "absolute",
+              backgroundColor: "Yellow",
+              left: "250px",
+              zIndex: "1",
+            }}
+          >
+            초성: {randomConsonant}
+          </h3>
+          <img
+            src="/두루마리.png"
+            style={{
+              position: "absolute",
+              width: "700px",
+              left: "-50px",
+              marginBottom: "-200px",
+              zIndex: "0",
+            }}
+          />
+           <div className={styles.wordsContainer}>
+          {inputWords.map((word, index) => (
+            <div
+              key={index}
+              className={styles.word}
+              style={{
+                position: "absolute",
+                marginLeft: '100px',
+                marginTop: '250px',
+                left: `${(index % 7) * 50}px`,
+                top: `${Math.floor(index / 7) * 30}px`,
+              }}
+            >
+              {word}
+            </div>
+          ))}
+        </div>
+        </div>
       </div>
-      {/* <h2>{randomConsonant}</h2>
-        <label>
-        단어를 입력하세요:
-        <input type="text" value={userInput} onChange={handleInputChange} 
-        // disabled={!myTurn}
-        />
-        </label>
-        <button type="submit"
-        // disabled={!myTurn}
-      >제출</button> */}
-    </div>
-    {/* <ModalPage/> */}
     </>
   );
 }
-}
+
 export default getConsonant;
