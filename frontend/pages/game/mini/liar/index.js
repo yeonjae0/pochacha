@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
+import { useRouter } from 'next/router'
 import styles from '@/styles/LiarGame.module.css'
 
 import WordComponent from './WordComponent'
@@ -17,6 +18,9 @@ import VoteLiarComponent from './VoteLiarComponent'
 승패화면 ... -> 컴포넌트화
 */
 export default function Liar() {
+
+  const router = useRouter()
+
   //const topics = ['동물', '국가', '가수', '사물', '음식', '스포츠']
 
   /*
@@ -24,14 +28,14 @@ export default function Liar() {
   */
   let liar = true; //임의의 값으로 liar 설정 (api 연결x)
 
-    /*
-    TO DO :: 턴 종료 시 투표 진행 및 집계 API 호출
-    */
+  /*
+  TO DO :: 턴 종료 시 투표 진행 및 집계 API 호출
+  */
   let vote = true; //임의의 값으로 투표 여부 설정 (api 연결x)
 
-  const nicknames = ["인프라맨","엉뚱한 유영팀장","쉬었으면 하는 배희진","자고있는 김연재"]; //임의의 닉네임
+  const nicknames = ["인프라맨", "엉뚱한 유영팀장", "쉬었으면 하는 배희진", "자고있는 김연재"]; //임의의 닉네임
 
-/* 혜지 : 임시로 웹캠 화면 띄우기 위한 구현 시작 */
+  /* 혜지 : 임시로 웹캠 화면 띄우기 위한 구현 시작 */
   let videoRef = useRef(null)
 
   const getUserCamera = () => {
@@ -70,7 +74,7 @@ export default function Liar() {
         */
       }
       <div className={styles.camComponent1} >
-      <video className={styles.cam} ref={videoRef} /> {/* 임시 화상화면 상자 */}
+        <video className={styles.cam} ref={videoRef} /> {/* 임시 화상화면 상자 */}
         <div className={styles.nickname}>{nicknames[0]}</div>
       </div>
       <div className={styles.camComponent2} >
@@ -78,47 +82,36 @@ export default function Liar() {
         <div className={styles.nickname}>{nicknames[1]}</div>
       </div>
       <div className={styles.camComponent3} >
-      <video className={styles.cam} ref={videoRef} /> {/* 임시 화상화면 상자 */}
+        <video className={styles.cam} ref={videoRef} /> {/* 임시 화상화면 상자 */}
         <div className={styles.nickname}>{nicknames[2]}</div>
       </div>
       <div className={styles.camComponent4} >
-      <video className={styles.cam} ref={videoRef} /> {/* 임시 화상화면 상자 */}
-      <div className={styles.nickname}>{nicknames[3]}</div>
+        <video className={styles.cam} ref={videoRef} /> {/* 임시 화상화면 상자 */}
+        <div className={styles.nickname}>{nicknames[3]}</div>
       </div>
-        
-        <div className={styles.roof}>
-          <img className={styles.title} src="/main/title.png" />
-          {/*            
+
+      <div className={styles.roof}>
+        <img className={styles.title} src="/main/title.png" />
+        {/*            
           TO DO :: 라이어 게임 타이틀로 변경
          */}
-        </div>
-          <div className={styles.boxContainer}>
+      </div>
+      <div className={styles.boxContainer}>
         <div className={styles.box}>
-          
+
           {
             vote === true ?
-              <VoteLiarComponent nicknames={nicknames}/>
-              : 
-                (
+              <VoteLiarComponent nicknames={nicknames} />
+              :
+              (
                 liar === true ?
-                <LiarComponent />
+                  <LiarComponent />
                   : <WordComponent />
-                 )
+              )
           }
-            </div>
-          </div>            
-      <div>
-   
-        {/* <p>주제를 선택해주세요!</p>
-        {
-          topics.map((topic, i) => {
-            return (
-              <button>{topic}</button>
-            )
-          })
-        } */}
+        </div>
       </div>
-      <br/>
+      <br />
     </div>
   )
 }
