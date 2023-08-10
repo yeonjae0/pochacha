@@ -32,13 +32,15 @@ const getConsonant = () => {
       if(client.current) {
         let sendData = {
           "word" : inputValue,
-          
         }
+        console.log('inputValue', inputValue)  
+        console.log('sendData', sendData) 
+        // console.log('여기까지..?', data.correct) 
         client.current.send(`/mini/spell/confirm/${roomId}`, {}, JSON.stringify(sendData));
       } else {
         alert("소켓이 연결되지 않았습니다.");
       }
-      setInputWords((prevWords) => [...prevWords, inputValue]);
+      // setInputWords((prevWords) => [...prevWords, inputValue]);
       setInputValue("");
     }
   };
@@ -61,6 +63,7 @@ const getConsonant = () => {
     ).catch(e => console.log(e));
   }
 
+  // 소켓 연결
   // const client = {};
   const connectSocket = () => {
     client.current = Stomp.over(() => {
@@ -75,6 +78,8 @@ const getConsonant = () => {
       client.current.subscribe(`/topic/game/${roomId}`, (response) => {
         var data = JSON.parse(response.body);
         console.log(data);
+        console.log('틀렸or맞았', data.correct);
+        {data.correct == true ?   setInputWords((prevWords) => [...prevWords, inputValue]): alert(data.msg)}
       })  // 채팅 구독
     })
   }
@@ -85,7 +90,7 @@ const getConsonant = () => {
     setConsonant();
     const timeout = setTimeout(() => {
       setShowModal(false);
-    }, 7000);
+    }, 1000);  // 설명 모달 시간 설정! 7초 정도? 임시로 1초
 
     return () => {
       clearTimeout(timeout);
@@ -153,9 +158,9 @@ const getConsonant = () => {
             src="/두루마리.png"
             style={{
               position: "absolute",
-              width: "600px",
-              left: "0px",
-              marginBottom: "-150px",
+              width: "700px",
+              left: "-50px",
+              marginBottom: "-200px",
               zIndex: "0",
             }}
           />
@@ -166,8 +171,10 @@ const getConsonant = () => {
               className={styles.word}
               style={{
                 position: "absolute",
-                left: `${(index % 4) * 150}px`,
-                top: `${Math.floor(index / 4) * 50}px`,
+                marginLeft: '100px',
+                marginTop: '250px',
+                left: `${(index % 7) * 50}px`,
+                top: `${Math.floor(index / 7) * 30}px`,
               }}
             >
               {word}

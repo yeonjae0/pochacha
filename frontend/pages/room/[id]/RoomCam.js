@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 export default function RoomCam() {
 
-  const OV = new OpenVidu();
+  let OV = new OpenVidu();
   let session = OV.initSession();
 
   const roomId= useSelector(state => state.room.currentRoomId); //오픈비두 세션
@@ -65,9 +65,9 @@ export default function RoomCam() {
       console.log(event.stream);
       let participant = session.subscribe(event.stream, undefined);
       
-      //let tempParticipants=participants;
-      //tempParticipants=[...tempParticipants,participant];
-      setParticipants(participants => [...participants, participant]);
+      let tempParticipants=participants;
+      tempParticipants.push(participant);
+      setParticipants(tempParticipants);
     
       console.log("참가자들");
       console.log(participants);
@@ -122,30 +122,31 @@ export default function RoomCam() {
       session.disconnect();
     }
 
-    setParticipants([]);
+    OV=null;
     setMainStreamManager(undefined);
     setPublisher(undefined);
+    setParticipants([]);
   }
 
   return (
     <div className="container">
       {session !== undefined ? (
         <div id="session">
-          <div id="session-header">
-            {/* 혜지 : leaveSession 버튼 제거 */}
-            {/* <input
+          {/* <div id="session-header">
+            혜지 : leaveSession 버튼 제거
+            <input
                 className="btn btn-large btn-danger"
                 type="button"
                 id="buttonLeaveSession"
                 onClick={this.leaveSession}
                 value="Leave session"
-              /> */}
-          </div>
+              />
+          </div> */}
 
           {/* 혜지 : mainStreaming 비디오 제거 (본인 비디오 두 개 열리는 문제 방지!) */}
-          {/* {this.state.mainStreamManager !== undefined ? (
+          {/* {mainStreamManager !== undefined ? (
               <div id="main-video" className="col-md-6">
-                <UserVideoComponent streamManager={this.state.mainStreamManager} />
+                <UserVideoComponent streamManager={mainStreamManager} />
               </div>
             ) : null} */}
           <div id="video-container" className={styles.camList}>
@@ -158,6 +159,7 @@ export default function RoomCam() {
             {participants.map((sub, i) => (
               <span key={sub.id} className="stream-container col-md-6 col-xs-6" onClick={() => handleMainVideoStream(sub)}>
                 <span>{sub.id}</span>
+                {console.log("SUB ID")}
                 {console.log(sub)}
                 <UserVideoComponent className={styles.cam} streamManager={sub} nickname={"닉네임 왜안돼"} />
               </span>
