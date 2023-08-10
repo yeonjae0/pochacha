@@ -44,6 +44,10 @@ button {
   border: none;
 }
 
+video {
+  margin: 0 10px;
+}
+
 .custom-cursor {
   cursor: url('/public/두더지_망치1.png'), auto;
 }
@@ -54,4 +58,30 @@ img {
   -moz-user-drag: none;
   -o-user-drag: none;
   /* user-drag: none; */
+}
+
+.roof {
+  /* 로고 담겨있는 DIV */
+  height: 160px;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+
+  background-image: url("../public/main/roof.png");
+  background-size: cover;
+}
+
+.roof2 {
+  /* 로고 담겨있는 DIV */
+  height: 5.2rem;
+
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+
+  background-image: url("../public/roof2.png");
+  background-size: cover;
+  z-index: 99;
 }

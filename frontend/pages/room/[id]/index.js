@@ -39,23 +39,6 @@ export default function RoomPage() {
       /*
         TO DO :: 사용자 리스트를 players 저장소에 저장
       */
-     const arrayLength=response.data.length;
-
-     for(let i=0;i<arrayLength;i++){
-      let head=response.data[i].head;
-      let id=response.data[i].id;
-      let nickname=response.data[i].nickname;
-      let ready=response.data[i].ready;
-
-      let obj={
-        head:head,
-        playerId:id,
-        nick:nickname,
-        ready:ready,
-      };
-
-      dispatch(addPlayers(obj));
-     }
       
     }).catch(
       error => console.log(error)
@@ -64,7 +47,7 @@ export default function RoomPage() {
 
 
   /* 유영 : Socket 함수 시작 */
-  let client = {};
+  let   client = {};
   const connectSocket = () => {
     client.current = Stomp.over(() => {
       const sock = new SockJS("http://localhost:80/ws");
@@ -94,16 +77,20 @@ export default function RoomPage() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.roof}></div>
+      <div className="roof2"></div>
       <div className={styles.room}>
-        <div>
-          <RoomCam info={info}/>
+        <div className={styles.camList}>
+          <RoomCam className={styles.cam} info={info}/>
+          {/* <div className={styles.cam}></div> */}
+          <div className={styles.cam}></div>
+          <div className={styles.cam}></div>
+          <div className={styles.cam}></div>
         </div>
-        <div className={classNames({[styles.chatContainer]: true, [styles.outerChat]: true})}>
+        <RoomChat info={info} client={client} chatHistory={chatHistory} />
+        {/* <div className={classNames({[styles.chatContainer]: true, [styles.outerChat]: true})}>
           <div className={classNames({[styles.chatContainer]: true, [styles.innerChat]: true})}>
-          <RoomChat info={info} client={client} chatHistory={chatHistory} />
           </div>
-        </div>
+        </div> */}
         <RoomBtn info={info} client={client} />
       </div>
     </div>

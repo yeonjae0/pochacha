@@ -57,11 +57,14 @@ export default function RoomChat(props) {
   };
   /* 희진 : 도배 유저 일시 차단 끝 */
   return (
-    <div className={styles.send}>
-      <textarea className={styles.chatArea} readOnly value={props.chatHistory} />
-
+    <div>
+      <div className={styles.outerChat}>
+        <div className={styles.innerChat}>
+          <textarea className={styles.chatArea} readOnly value={props.chatHistory} />
+        </div>
+      </div>
       {inputVisible ? (
-        <input type="text" style={{ width: '500px' }} className={styles.chatInput}
+        <input type="text" className={styles.chatInput}
           value={message}
           onChange={handleOnChange}
           onKeyDown={enterDown}
@@ -69,7 +72,7 @@ export default function RoomChat(props) {
       ) : null}
 
       {!inputVisible ? (
-        <input type="text" style={{ width: '500px' }} className={styles.chatInput}
+        <input type="text" className={styles.chatInput}
           placeholder='15초 후에 채팅이 가능합니다.'
           value={message}
           onChange={handleOnChange}
