@@ -104,7 +104,7 @@ public class MinigameService extends RedisService {
             "ㅋ", "ㅌ", "ㅍ", "ㅎ"
     };
     private final String SPELL_KEY = "461267C04AE2F8FD88F1327EC3533DA7";
-    private static final String SPELL_URL = "https://krdict.korean.go.kr/api/search";
+    private static final String SPELL_URL = "http://krdict.korean.go.kr/api/search";
     public HashMap<String, Object> setSpell(@RequestBody RoomRequestDto roomRequestDto) throws GameGetException {
         String firstWord = randWordUnit[(int) Math.floor(Math.random() * randWordUnit.length)];
         String secondWord = randWordUnit[(int) Math.floor(Math.random() * randWordUnit.length)];
