@@ -1,3 +1,5 @@
+/* New Board */
+
 .board {
   width: 40vw;
   height: 40vw;
@@ -79,3 +81,15 @@
 .invisible {
   opacity: 0;
 }
+
+/* .status_bad {
+  
+}
+
+.status_bad {
+
+}
+
+.status_bad {
+
+} */
