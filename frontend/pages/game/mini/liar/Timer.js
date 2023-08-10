@@ -9,7 +9,7 @@ export default function Timer(){
     const [timeLeft,setTimeLeft]=useState(60);
     const [timerRunning,setTimerRunning]=useState(false);
 
-    const socket=new SockJS('http://localhost:80/ws');
+    const socket=new SockJS(process.env.NEXT_PUBLIC_WS + '/ws');
     //websocket server url 수정 필요
 
     useEffect(()=>{

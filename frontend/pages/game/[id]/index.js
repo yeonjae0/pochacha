@@ -74,7 +74,7 @@ export default function GamePage() {
   // 현재 방의 맵 불러오는 함수
   const createMap = async () => {
     axios({
-      url: process.env.NEXT_PUBLIC_HOST + "/api/game/start",
+      url: process.env.NEXT_PUBLIC_API + "/game/start",
       header: {
         "Accept": "application/json",
         "Content-type": "application/json;charset=UTF-8"
@@ -98,7 +98,7 @@ export default function GamePage() {
 
   const connectSocket = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS(process.env.NEXT_PUBLIC_HOST + "/ws")
+      const sock = new SockJS(process.env.NEXT_PUBLIC_WS + "/ws")
       return sock;
     });
     client.current.debug = () => {};

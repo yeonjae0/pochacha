@@ -24,7 +24,7 @@ export default function RoomPage() {
   /* 유영 : 최초 한 번 사용자 목록 불러오기 시작 */
   const getPlayerList = () => {
     axios({
-      url: process.env.NEXT_PUBLIC_HOST + `/api/player/${info.roomId}`,
+      url: process.env.NEXT_PUBLIC_API + `/player/${info.roomId}`,
       header: {
         "Accept": "application/json",
         "Content-type": "application/json;charset=UTF-8",
@@ -67,7 +67,7 @@ export default function RoomPage() {
   let client = {};
   const connectSocket = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS(process.env.NEXT_PUBLIC_HOST + "/ws");
+      const sock = new SockJS(process.env.NEXT_PUBLIC_WS + "/ws");
       return sock;
     });
     // client.current.debug = () => {};

@@ -10,7 +10,7 @@ function getConsonant() {
   const [result, setResult] = useState("");
   const [myTurn, setMyTurn] = useState(false);
 
-  const sock = new SockJS("http://localhost:80/ws");
+  const sock = new SockJS(process.env.NEXT_PUBLIC_WS + "/ws");
 
     // Axios를 사용하여 ID들 가져오기
     sock.onopen = () => {
@@ -36,7 +36,7 @@ function getConsonant() {
 
   // Axios를 사용하여 초성 가져오기
   useEffect(() => {
-    axios.get("/api/chosungs")
+    axios.get(process.env.NEXT_PUBLIC_API + "/chosungs")
       .then(response => {
         setConsonant(response.data);
       })

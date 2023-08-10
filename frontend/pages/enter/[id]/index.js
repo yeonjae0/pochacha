@@ -21,7 +21,7 @@ export default function EnterRoomPage() {
 
 /* 유영 : 소켓 간단 연결 작업 시작 */
 useEffect(() => {
-    const socket = new SockJS("http://localhost:80/ws");
+    const socket = new SockJS(process.env.NEXT_PUBLIC_WS + "/ws");
     const stompClient = Stomp.over(socket);
 
     stompClient.connect({}, /*Connect Callback*/() => {
@@ -81,7 +81,7 @@ useEffect(() => {
 
   const gameStart = () => {
     axios({
-      url: "http://localhost:80/player/create",
+      url: process.env.NEXT_PUBLIC_API + "/player/create",
       header: {
         "Accept": "application/json",
         "Content-type": "application/json;charset=UTF-8"
