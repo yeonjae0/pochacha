@@ -65,9 +65,9 @@ export default function RoomCam() {
       console.log(event.stream);
       let participant = session.subscribe(event.stream, undefined);
       
-      let tempParticipants=participants;
-      tempParticipants=[...tempParticipants,participant];
-      setParticipants(tempParticipants);
+      //let tempParticipants=participants;
+      //tempParticipants=[...tempParticipants,participant];
+      setParticipants(participants => [...participants, participant]);
     
       console.log("참가자들");
       console.log(participants);

@@ -4,7 +4,6 @@ import styles from "@/styles/SpellGame.module.css";
 import axios from 'axios'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
-import { useSelector } from "react-redux";
 
 // let randomConsonant = 'ㄱ ㅅ
 
