@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "@/styles/SpellGame.module.css";
 import axios from 'axios'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import { useSelector } from "react-redux";
 
-function getConsonant() {
+// let randomConsonant = 'ㄱ ㅅ
+
+const getConsonant = () => {
+
+  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(true);
-  const [randomConsonant, setRandomConsonant] = useState("ㄱ ㅅ");
+  const [randomConsonant, setRandomConsonant] = useState("");
   const [inputWords, setInputWords] = useState([]);  // 입력한 단어들 저장
   const [inputValue, setInputValue] = useState("");  // 유저 입력값 저장
   const roomId = useSelector(state => state.room.currentRoomId );
   const [client, setClient] = useState({});
 
-
-  // 두루마리에 단어 표시하기
+  // Input창 단어 관련
   const handleInput = (e) => {
     setInputValue(e.target.value);
   };
