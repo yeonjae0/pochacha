@@ -87,41 +87,6 @@ export default function FaceFilterComponent(){
 
     return(
       <div>
-        <div class="fixed-fullscreen" id="loading-screen">
-      <div
-        style="
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-        "
-      >
-        <img
-          id="initial-loading-logo"
-          style="max-width: 200px"
-          src="/images/crystal.png"
-          class="animate-bounce"
-        />
-        <div
-          style="
-            width: 100%;
-            height: 8px;
-            margin-top: 20px;
-            background-color: rgb(55 65 81 / 1);
-            border-radius: 100px;
-            overflow: hidden;
-          "
-        >
-          <div id="loading-progress-bar"></div>
-        </div>
-        <img
-          id="initial-loading-text"
-          style="max-width: 140px; margin-top: 30px"
-          src="/images/powered-by.svg"
-        />
-      </div>
-    </div>
-
     {/* <!-- permission denied screen --> */}
     <div
       class="fixed-fullscreen screen"
