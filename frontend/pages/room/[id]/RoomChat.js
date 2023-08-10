@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import styles from '@/styles/RoomPage.module.css'
 export default function RoomChat(props) {
   const info = props.info;
@@ -29,33 +29,51 @@ export default function RoomChat(props) {
   /* 희진 : 도배 유저 일시 차단 시작 */
   const enterDown = (e) => {
     if (e.key === 'Enter') {
+      e.preventDefault();
       sendMessage();
     }
   }
+
   const sendMessage = () => {
-      let spamMsg = spam;
-      setSpam(message) // 도배 메시지 저장
-      if (spamMsg === spam) {
-        setCount(count + 1)
-        if (count === 5) {
-          setInputVisible(false)
-          alert("5회 이상 같은 채팅을 입력하셨습니다.")
-          setCount(0)
-        }
+    let spamMsg = spam;
+    setSpam(message) // 도배 메시지 저장
+    if (spamMsg === message) {
+      setCount(count + 1)
+      if (count >= 4) {
+        setInputVisible(false)
+        alert("5회 이상 같은 채팅을 입력하셨습니다.")
+        setCount(0)
+        setMessage(''); // 메시지 비우기
+        return; // 도배일 경우 함수 종료
+      }
+    } else {
+      setCount(0);
+    }
+
+    if (message === '') {
+      alert("입력된 메시지가 없습니다.")
+    } else if (client.current) {
+      var sendData = {
+        "playerId": info.nick,
+        "message": message,
       }
 
-      if (message === '') {
-        alert("입력된 메시지가 없습니다.")
-      } else if(client.current) {
-        var sendData = {
-          "playerId": info.nick,
-          "message": message,
-        }
-
-        client.current.send("/chat/" + info.roomId, {}, JSON.stringify(sendData))
-      }
+      client.current.send("/chat/" + info.roomId, {}, JSON.stringify(sendData))
+    }
+    setMessage('');
   };
   /* 희진 : 도배 유저 일시 차단 끝 */
+  
+  
+  /* 희진 : 채팅창 자동 스크롤 시작 */
+  const chatTextAreaRef = useRef(null);
+
+  useEffect(() => {
+    if (chatTextAreaRef.current) {
+      chatTextAreaRef.current.scrollTop = chatTextAreaRef.current.scrollHeight;
+    }
+  }, [props.chatHistory]);
+
   return (
     <div>
       <div className={styles.outerChat}>

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from 'next/router'
 import styles from "@/styles/SpellGame.module.css";
 import axios from 'axios'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
-
-// let randomConsonant = 'ㄱ ㅅ
 
 const getConsonant = () => {
 
@@ -14,8 +13,10 @@ const getConsonant = () => {
   const [randomConsonant, setRandomConsonant] = useState("");
   const [inputWords, setInputWords] = useState([]);  // 입력한 단어들 저장
   const [inputValue, setInputValue] = useState("");  // 유저 입력값 저장
-  const roomId = useSelector(state => state.room.currentRoomId );
+  const roomId = useSelector(state => state.room.currentRoomId);
   const [client, setClient] = useState({});
+
+  const router = useRouter()
 
   // Input창 단어 관련
   const handleInput = (e) => {
@@ -25,16 +26,17 @@ const getConsonant = () => {
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       handleSubmit()
-    }};
+    }
+  };
 
   const handleSubmit = () => {
     if (inputValue.trim() !== "") {
-      if(client.current) {
+      if (client.current) {
         let sendData = {
-          "word" : inputValue,
+          "word": inputValue,
         }
-        console.log('inputValue', inputValue)  
-        console.log('sendData', sendData) 
+        console.log('inputValue', inputValue)
+        console.log('sendData', sendData)
         // console.log('여기까지..?', data.correct) 
         client.current.send(`/mini/spell/confirm/${roomId}`, {}, JSON.stringify(sendData));
       } else {
@@ -54,7 +56,7 @@ const getConsonant = () => {
       },
       method: "POST",
       data: {
-        "id" : roomId
+        "id": roomId
       }
     }).then((response) => {
       let data = response.data;
@@ -72,14 +74,14 @@ const getConsonant = () => {
     });
     // client.current.debug = () => {};
   }
-  
+
   const subscribeSocket = () => {
     client.current.connect({}, () => {
       client.current.subscribe(`/topic/game/${roomId}`, (response) => {
         var data = JSON.parse(response.body);
         console.log(data);
         console.log('틀렸or맞았', data.correct);
-        {data.correct == true ?   setInputWords((prevWords) => [...prevWords, inputValue]): alert(data.msg)}
+        { data.correct == true ? setInputWords((prevWords) => [...prevWords, inputValue]) : alert(data.msg) }
       })  // 채팅 구독
     })
   }
@@ -90,7 +92,7 @@ const getConsonant = () => {
     setConsonant();
     const timeout = setTimeout(() => {
       setShowModal(false);
-    }, 1000);  // 설명 모달 시간 설정! 7초 정도? 임시로 1초
+    }, 5000);  // 설명 모달 시간 설정! 7초 정도? 임시로 1초
 
     return () => {
       clearTimeout(timeout);
@@ -122,6 +124,13 @@ const getConsonant = () => {
 
       <div className={styles.wrapper}>
         <div className={styles.text}>
+
+        {/* 뒤로 가기 버튼 (임시) */}
+        <button type="button" onClick={() => router.back()}>
+          Click here to go back
+        </button>
+        {/* 뒤로 가기 버튼 (임시) */}
+
           <h1>초성 게임</h1>
           <label>
             단어를 입력하세요:
@@ -164,23 +173,23 @@ const getConsonant = () => {
               zIndex: "0",
             }}
           />
-           <div className={styles.wordsContainer}>
-          {inputWords.map((word, index) => (
-            <div
-              key={index}
-              className={styles.word}
-              style={{
-                position: "absolute",
-                marginLeft: '100px',
-                marginTop: '250px',
-                left: `${(index % 7) * 50}px`,
-                top: `${Math.floor(index / 7) * 30}px`,
-              }}
-            >
-              {word}
-            </div>
-          ))}
-        </div>
+          <div className={styles.wordsContainer}>
+            {inputWords.map((word, index) => (
+              <div
+                key={index}
+                className={styles.word}
+                style={{
+                  position: "absolute",
+                  marginLeft: '100px',
+                  marginTop: '250px',
+                  left: `${(index % 7) * 50}px`,
+                  top: `${Math.floor(index / 7) * 30}px`,
+                }}
+              >
+                {word}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </>
