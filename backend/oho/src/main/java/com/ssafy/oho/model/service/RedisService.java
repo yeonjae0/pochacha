@@ -190,10 +190,9 @@ public class RedisService {
                 /*** Redis Input : 모든 데이터를 String으로 변경 ***/
                 hashOperations.put(getSpellKey(roomId), "firstWord", firstWord);
                 hashOperations.put(getSpellKey(roomId), "secondWord", secondWord);
-                hashOperations.put(getSpellKey(roomId), playerIdList.get(0), Boolean.toString(false));
-                hashOperations.put(getSpellKey(roomId), playerIdList.get(1), Boolean.toString(false));
-                hashOperations.put(getSpellKey(roomId), playerIdList.get(2), Boolean.toString(false));
-                hashOperations.put(getSpellKey(roomId), playerIdList.get(3), Boolean.toString(false));
+                for (int i = 0; i < playerIdList.size(); i++) {
+                    hashOperations.put(getSpellKey(roomId), playerIdList.get(i), Boolean.toString(false));
+                }
 
                 operations.exec();  // 트랜잭션 실행
                 return null;

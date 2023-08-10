@@ -53,6 +53,7 @@ public class MinigameController {
     @PostMapping("/mini/spell")
     public ResponseEntity<?> setSpell(@RequestBody RoomRequestDto roomRequestDto) {
         try {
+            System.out.println(roomRequestDto);
             return ResponseEntity.ok(minigameService.setSpell(roomRequestDto));
         } catch (GameGetException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
