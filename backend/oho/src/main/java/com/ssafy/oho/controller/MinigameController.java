@@ -53,7 +53,6 @@ public class MinigameController {
     @PostMapping("/mini/spell")
     public ResponseEntity<?> setSpell(@RequestBody RoomRequestDto roomRequestDto) {
         try {
-            System.out.println(roomRequestDto);
             return ResponseEntity.ok(minigameService.setSpell(roomRequestDto));
         } catch (GameGetException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -62,7 +61,11 @@ public class MinigameController {
 
     @MessageMapping("/mini/spell/confirm/{roomId}")
     public void confirmSpell(@Payload Map<String,Object> payload, @DestinationVariable String roomId) {
-        // 초성 분리 및 정답 확인
-        webSocket.convertAndSend("/topic/game/" + roomId, minigameService.confirmSpell(payload, roomId));
+        try {
+            // 초성 분리 및 정답 확인
+            webSocket.convertAndSend("/topic/game/" + roomId, minigameService.confirmSpell(payload, roomId));
+        } catch (GameGetException e) {
+            webSocket.convertAndSend("/topic/game/" + roomId, e.getMessage());
+        }
     }
 }
