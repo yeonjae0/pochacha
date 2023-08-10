@@ -13,7 +13,7 @@ function getConsonant() {
   let randomConsonant = 'ㄱ ㅅ'
 
   let [showModal, setShowModal] = useState(false);
-  const roomInfo = useSelector(state => state.room.currentRoomID);
+  const roomInfo = useSelector(state => state.room.currentRoomId);
   // const [randomConsonant, setRandomConsonant] = useState([]);
   // const [userInput, setUserInput] = useState("");
 

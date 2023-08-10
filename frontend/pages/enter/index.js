@@ -105,7 +105,7 @@ export default function EnterPage() {
         nick: text || response.data.player.nickname,
         ready: response.data.player.ready,
       }
-
+      console.log(playerInfo);
       const sendData = () => {
          /* 연재 : obj 정보 저장 */
          dispatch(

@@ -4,34 +4,25 @@ import styles from "@/styles/SpellGame.module.css";
 function getConsonant() {
   const [showModal, setShowModal] = useState(true);
   const [randomConsonant, setRandomConsonant] = useState("ㄱ ㅅ");
-  const [inputWords, setInputWords] = useState([]);
-  const [inputValue, setInputValue] = useState("");
+  const [inputWords, setInputWords] = useState([]);  // 입력한 단어들 저장
+  const [inputValue, setInputValue] = useState("");  // 유저 입력값 저장
 
-  const wordsPerRow = 4; // 한 줄에 4개씩 단어 표시
 
   // 두루마리에 단어 표시하기
   const handleInput = (e) => {
-    const newValue = e.target.value;
-    setInputValue(newValue);
+    setInputValue(e.target.value);
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSubmit()
+    }};
+
   const handleSubmit = () => {
-    console.log('Submitted Value:', inputValue);
-    setInputWords((prevWords) => {
-      console.log('###', prevWords)
-      if (prevWords.length >= 12) {
-        return [inputValue];
-      }
-      if (prevWords.length % wordsPerRow === 0) {
-        return [...prevWords, [inputValue]];
-      } else {
-        const lastRow = [...prevWords.pop()];
-        console.log('###', inputValue)
-        lastRow.push(inputValue);
-        return [...prevWords, lastRow];
-      }
-    });
-    setInputValue("");
+    if (inputValue.trim() !== "") {
+      setInputWords((prevWords) => [...prevWords, inputValue]);
+      setInputValue("");
+    }
   };
 
   useEffect(() => {
@@ -72,9 +63,9 @@ function getConsonant() {
           <h1>초성 게임</h1>
           <label>
             단어를 입력하세요:
-            <input type="text" value={inputValue} onChange={handleInput} />
+            <input type="text" value={inputValue} onChange={handleInput} onKeyDown={handleKeyDown} />
           </label>
-          <button type="button" onClick={handleSubmit}>
+          <button type="button" onClick={handleSubmit} >
             제출
           </button>
         </div>
@@ -111,17 +102,21 @@ function getConsonant() {
               zIndex: "0",
             }}
           />
-          <div className={styles.wordsContainer}>
-            {inputWords.map((row, rowIndex) => (
-              <div className={styles.wordRow} key={rowIndex}>
-                {row.map((word, wordIndex) => (
-                  <div className={styles.word} key={wordIndex}>
-                    {word}
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
+           <div className={styles.wordsContainer}>
+          {inputWords.map((word, index) => (
+            <div
+              key={index}
+              className={styles.word}
+              style={{
+                position: "absolute",
+                left: `${(index % 4) * 150}px`,
+                top: `${Math.floor(index / 4) * 50}px`,
+              }}
+            >
+              {word}
+            </div>
+          ))}
+        </div>
         </div>
       </div>
     </>
