@@ -47,8 +47,8 @@ export default function RoomBtn(props) {
   `;
 
   const info = props.info;
-  const client = props.client;
-
+  
+  const [client] = useState(props.client);
   let [ready, setReady] = useState(info.ready);
   let [setting, setSetting] = useState(true);
   

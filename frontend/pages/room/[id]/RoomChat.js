@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import styles from '@/styles/RoomPage.module.css'
 export default function RoomChat(props) {
   const info = props.info;
-  const client = props.client;
+  const [client] = useState(props.client);
 
   /* 유영 : Socket 함수 최초 호출 시작 */
   //useEffect(() => {
@@ -36,6 +36,10 @@ export default function RoomChat(props) {
   /* 희진 : 도배 유저 일시 차단 시작 */
   const enterDown = (e) => {
     if (e.key === 'Enter') {
+      sendMessage();
+    }
+  }
+  const sendMessage = () => {
       let spamMsg = spam;
       setSpam(message) // 도배 메시지 저장
       if (spamMsg === spam) {
@@ -49,12 +53,15 @@ export default function RoomChat(props) {
 
       if (message === '') {
         alert("입력된 메시지가 없습니다.")
-      } else {
-        setChatHistory((prevHistory) => prevHistory + info.nick + ': ' + message + '\n')
-        setMessage('')
+      } else if(client.current) {
+        var sendData = {
+          "playerId": info.nick,
+          "message": message,
+        }
+
+        client.current.send("/chat/" + info.roomId, {}, JSON.stringify(sendData))
       }
-    }
-  }
+  };
   /* 희진 : 도배 유저 일시 차단 끝 */
   return (
     <div className={styles.send}>
@@ -77,14 +84,7 @@ export default function RoomChat(props) {
           disabled
         />
       ) : null}
-
-      <button className={styles.sendBtn} onClick={() => {
-        var sendData = {
-          "playerId": information.nick,
-          "message": message,
-        }
-        client.current.send("/chat/" + info.roomId, {}, JSON.stringify(sendData))
-      }}>전송</button>
+      <button className={styles.sendBtn} onClick={sendMessage}>전송</button>
     </div>
   )
 }

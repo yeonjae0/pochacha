@@ -22,9 +22,9 @@ export default function Home() {
     currentReady: null}))
   };
 
-  useEffect(() => {
-    doInitialize();
-  }, []);
+  // useEffect(() => {
+  //   doInitialize();
+  // }, []);
 
   return (
     <div>

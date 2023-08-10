@@ -149,6 +149,7 @@ useEffect(() => {
       <div className={styles.boxContainer}>
         {/* 닉네임 입력 상자 */}
         <div className={classNames({[styles.box]: true, [styles.leftBox]: true})}>
+        <h3 style={{ paddingTop: '0', marginBottom: '10px' }}>초대 코드로 입장하셨습니다</h3>
           <video className={styles.cam} ref={videoRef} /> {/* 임시 화상화면 상자 */}
           <div className={styles.inputContainer}>
             <input className={styles.nickname} spellCheck="false"
