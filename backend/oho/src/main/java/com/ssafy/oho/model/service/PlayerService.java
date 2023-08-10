@@ -199,8 +199,9 @@ public class PlayerService extends RedisService {
 //            if(payload.containsKey("ready")) {  // Ready 상태 변경
 //                hash.put("ready", Boolean.toString((boolean) payload.get("ready")));
 //            }
+            boolean ready = Boolean.parseBoolean(super.getPlayerInfo(roomId, playerId, "ready"));
 
-            hash.put("ready", (String) super.getPlayerInfo(roomId, playerId, "ready"));
+            hash.put("ready", Boolean.toString(!ready));
             super.setPlayerInfo(roomId, playerId, hash);
 
             /*** Response DTO Build ***/
