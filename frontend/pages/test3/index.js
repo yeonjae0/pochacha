@@ -9,7 +9,7 @@ function ResetPage() {
   const dispatch = useDispatch();
 
   const doInitialize = () => {
-    dispatch(enterRoom({ currentRoomID: null, currentProgress: null, currentSecret: null }));
+    dispatch(enterRoom({ currentRoomId: null, currentProgress: null, currentSecret: null }));
     dispatch(resetPlayer([]));
 
     // dispatch(addPlayer([]));
