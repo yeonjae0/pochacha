@@ -67,12 +67,13 @@ export default function RoomChat(props) {
 
   /* 희진 : 채팅창 자동 스크롤 시작 */
   const chatTextAreaRef = useRef(null);
-
+  
   useEffect(() => {
     if (chatTextAreaRef.current) {
       chatTextAreaRef.current.scrollTop = chatTextAreaRef.current.scrollHeight;
     }
   }, [props.chatHistory]);
+  /* 희진 : 채팅창 자동 스크롤 끝 */
 
   return (
     <div>
