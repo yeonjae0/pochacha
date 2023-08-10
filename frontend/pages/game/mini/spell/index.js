@@ -13,7 +13,7 @@ const getConsonant = () => {
   const [showModal, setShowModal] = useState(true);
   const [randomConsonant, setRandomConsonant] = useState("");
   const [inputWords, setInputWords] = useState([]);  // 입력한 단어들 저장
-  const [inputValue, setInputValue] = useState("");  // 유저 입력값 저장
+  const [inputValue, setInputValue] = useState("");  // 유저 입력값
   const roomId = useSelector(state => state.room.currentRoomId );
   const [client, setClient] = useState({});
 
@@ -41,7 +41,7 @@ const getConsonant = () => {
         alert("소켓이 연결되지 않았습니다.");
       }
       // setInputWords((prevWords) => [...prevWords, inputValue]);
-      setInputValue("");
+      // setInputValue("");
     }
   };
 
@@ -79,10 +79,24 @@ const getConsonant = () => {
         var data = JSON.parse(response.body);
         console.log(data);
         console.log('틀렸or맞았', data.correct);
-        {data.correct == true ?   setInputWords((prevWords) => [...prevWords, inputValue]): alert(data.msg)}
+        // {data.correct ? setInputWords((prevWords) => [...prevWords, inputValue]): alert(data.msg)}
+        if (data.correct) {
+          setInputWords((prevWords) => [...prevWords, inputValue])
+          console.log('data.correct', data.correct)
+          console.log('inputWords', inputWords)
+          console.log('inputValue', inputValue)
+        }
+        else{
+          console.log('data.correct', data.correct)
+          alert(data.msg)
+        }
+        setInputValue("");
       })  // 채팅 구독
     })
   }
+  // useEffect(() => {
+
+  // },[setInputWords] )
 
   useEffect(() => {
     connectSocket();
