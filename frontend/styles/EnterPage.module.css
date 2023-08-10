@@ -11,18 +11,6 @@
   background-repeat: no-repeat;
 }
 
-.roof {
-  /* 로고 담겨있는 DIV */
-  height: 160px;
-
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-
-  background-image: url("../public/main/roof.png");
-  background-size: cover;
-}
-
 .title {
   /* 로고 이미지 */
   width: 350px;

@@ -144,7 +144,7 @@ useEffect(() => {
     <div className={styles.container}>
       
       {/* 타이틀 화면 */}
-      <div className={styles.roof}>
+      <div className="roof">
         <img className={styles.title} src="/main/title.png" />
       </div>
 
