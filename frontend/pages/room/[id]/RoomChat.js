@@ -63,8 +63,8 @@ export default function RoomChat(props) {
     setMessage('');
   };
   /* 희진 : 도배 유저 일시 차단 끝 */
-  
-  
+
+
   /* 희진 : 채팅창 자동 스크롤 시작 */
   const chatTextAreaRef = useRef(null);
 
@@ -81,7 +81,7 @@ export default function RoomChat(props) {
           <textarea ref={chatTextAreaRef}
             className={styles.chatArea}
             readOnly
-        value={props.chatHistory} />
+            value={props.chatHistory} />
         </div>
       </div>
       {inputVisible ? (
