@@ -12,25 +12,18 @@
 }
 
 .upper_container {
-  position: static;
+  /* position: static;
   display: flex;
   justify-content: space-between;
   margin-left: 4.2vw;
-  margin-right: 2.9vw;
-  /* position: fixed; */
-  /* width: 1000px;
-  height: 600px; */
+  margin-right: 2.9vw; */
 }
 
 .lower_container {
-  /* position: absolute; */
-  display: flex;
+  /* display: flex;
   justify-content: space-between;
   margin-left: 4.2vw;
-  margin-right: 2.9vw;
-  /* position: fixed; */
-  /* width: 1000px;
-  height: 600px; */
+  margin-right: 2.9vw; */
 }
 
 .infobar {
@@ -47,9 +40,40 @@
 
 .cam {
   background-color: rgba(0, 0, 0, 1);
-  width: 200px;
-  height: 200px;
-  border-radius: 80px / 40px;
-  /* min-width: 5%;
-  max-height: 5%; */
+  width: 240px;
+  height: 180px;
+  border-radius: 50px / 50px;
+}
+
+.btnRolling {
+  display: block;
+  width: 160px;
+  height: 40px;
+  margin: 0 auto;
+  background-color: royalblue;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.btnRolling::before {
+  display: block;
+  content: "";
+  width: 60px;
+  height: 100%;
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  left: -60px;
+  transition: all 0.5s;
+  transform: skewX(-45deg);
+  transform-origin: top left;
+  opacity: 0.3;
+}
+
+.btnRolling:hover::before {
+  transform: skewX(-45deg) translateX(280px);
 }

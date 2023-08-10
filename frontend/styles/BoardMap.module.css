@@ -5,7 +5,7 @@
   min-height: 300px;
   margin: 0 auto;
   position: absolute;
-  top: 50%;
+  top: 40%;
   left: 50%;
   margin-left: -20vw; /* width의 50% */
   margin-top: -20vw; /* height의 50% */
