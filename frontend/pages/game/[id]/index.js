@@ -25,7 +25,6 @@ const ModalContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* transition: visibility 0.5s ease-out; */
   `;
 
 const ModalContent = styled.div`
@@ -165,6 +164,7 @@ export default function GamePage() {
       </>
     )
   }
+  
   /* 연재 : 모달 끝 */
 
   return (
