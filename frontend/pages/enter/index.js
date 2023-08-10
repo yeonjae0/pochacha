@@ -79,7 +79,7 @@ export default function EnterPage() {
 
   const gameStart = () => {
     axios({
-      url: "http://localhost:80/enter",
+      url: process.env.NEXT_PUBLIC_API + "/enter",
       header: {
         "Accept": "application/json",
         "Content-type": "application/json;charset=UTF-8"

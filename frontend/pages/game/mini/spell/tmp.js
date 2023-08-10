@@ -51,7 +51,7 @@ function getConsonant() {
 
   const getRandomConsonant = () => {
   axios({
-    url: `http://localhost:80/game/mini/spell`,  // 여기 변경해야함!
+    url: process.env.NEXT_PUBLIC_API + `/game/mini/spell`,  // 여기 변경해야함!
     header: {
       "Accept": "application/json",
       "Content-type": "application/json;charset=UTF-8"
