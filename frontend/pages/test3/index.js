@@ -3,17 +3,19 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { enterRoom } from "@/store/reducers/room.js";
-import { addPlayer, updatePlayer, removePlayer, resetPlayer } from "@/store/reducers/players.js";
+import { resetPlayers } from "@/store/reducers/players";
+import { MyPlayerData } from "@/store/reducers/player";
 
 function ResetPage() {
   const dispatch = useDispatch();
 
   const doInitialize = () => {
     dispatch(enterRoom({ currentRoomId: null, currentProgress: null, currentSecret: null }));
-    dispatch(resetPlayer([]));
+    dispatch(resetPlayers([]));
+    dispatch(MyPlayerData({  currentPlayerId: null,
+    currentNick: null,
+    currentReady: false,}))
 
-    // dispatch(addPlayer([]));
-   
   };
 
   useEffect(() => {
