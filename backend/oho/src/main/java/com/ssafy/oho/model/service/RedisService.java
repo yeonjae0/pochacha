@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisService {
     protected final StringRedisTemplate redisTemplate;
     protected HashOperations<String, Object, Object> hashOperations = null;  // Redis 데이터 담을 변수
-    private final long TTL = 60;  // 임의 TTL 시간
+    private final long TTL = 180;  // 임의 TTL 시간
 
     public RedisService(StringRedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;

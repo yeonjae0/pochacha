@@ -193,12 +193,14 @@ public class PlayerService extends RedisService {
 
             /*** Redis Input ***/
             Map<String, String> hash = new HashMap<>();
-            if(payload.containsKey("head")) {  // Head 상태 변경
-                hash.put("head", Boolean.toString((boolean) payload.get("head")));
-            }
-            if(payload.containsKey("ready")) {  // Ready 상태 변경
-                hash.put("ready", Boolean.toString((boolean) payload.get("ready")));
-            }
+//            if(payload.containsKey("head")) {  // Head 상태 변경
+//                hash.put("head", Boolean.toString((boolean) payload.get("head")));
+//            }
+//            if(payload.containsKey("ready")) {  // Ready 상태 변경
+//                hash.put("ready", Boolean.toString((boolean) payload.get("ready")));
+//            }
+
+            hash.put("ready", (String) super.getPlayerInfo(roomId, playerId, "ready"));
             super.setPlayerInfo(roomId, playerId, hash);
 
             /*** Response DTO Build ***/
