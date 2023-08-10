@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface CellRepository extends JpaRepository<Cell, Cell> {
-    @Query(value="SELECT * FROM Cell ORDER BY RAND() LIMIT 24", nativeQuery = true)
+    @Query(value="SELECT * FROM cell ORDER BY RAND() LIMIT 24", nativeQuery = true)
     List<Cell> findTop19Random();
 }
