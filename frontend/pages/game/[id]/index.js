@@ -143,9 +143,9 @@ export default function GamePage() {
         setPin(data.game.pin)
         setLab(data.game.lab)
         setCurrentCell(data.cell.name)
-        {currentCell == '두더지 게임' ? (window.location.href = 'http://localhost:3000/game/mini/mole') : null}
-        {currentCell == '훈민정음' ? (window.location.href = 'http://localhost:3000/game/mini/spell') : null}
-        {currentCell == '라이어 게임' ? (window.location.href = 'http://localhost:3000/game/mini/liar') : null}
+        {currentCell == '두더지 게임' ? (window.location.href = process.env.NEXT_PUBLIC_PAGE + '/game/mini/mole') : null}
+        {currentCell == '훈민정음' ? (window.location.href = process.env.NEXT_PUBLIC_PAGE + '/game/mini/spell') : null}
+        {currentCell == '라이어 게임' ? (window.location.href = process.env.NEXT_PUBLIC_PAGE + '/game/mini/liar') : null}
         // console.log(data.game)
         // console.log(data.cell)
         // console.log(data.game.pin)
