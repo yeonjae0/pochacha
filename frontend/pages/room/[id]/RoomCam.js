@@ -159,9 +159,12 @@ export default function RoomCam() {
             {participants.map((sub, i) => (
               <span key={sub.id} className="stream-container col-md-6 col-xs-6" onClick={() => handleMainVideoStream(sub)}>
                 <span>{sub.id}</span>
-                {console.log("SUB ID")}
-                {console.log(sub)}
-                <UserVideoComponent className={styles.cam} streamManager={sub} nickname={"닉네임 왜안돼"} />
+                {console.log(players[i])}
+                {
+
+                }
+                {console.log(JSON.parse(sub.stream.connection.data.split("%")[0]).clientData)}
+                <UserVideoComponent className={styles.cam} streamManager={sub} nickname={JSON.parse(sub.stream.connection.data.split("%")[0]).clientData} />
               </span>
             ))}
           </div>

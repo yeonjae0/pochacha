@@ -22,7 +22,6 @@ const UserVideoComponent = ({
   //   CONFIRM :: CALL AXIOS API
   //   */
   // })
-
   return (
     <div>
       {streamManager !== undefined ? (
