@@ -78,7 +78,10 @@ export default function RoomChat(props) {
     <div>
       <div className={styles.outerChat}>
         <div className={styles.innerChat}>
-          <textarea className={styles.chatArea} readOnly value={props.chatHistory} />
+          <textarea ref={chatTextAreaRef}
+            className={styles.chatArea}
+            readOnly
+        value={props.chatHistory} />
         </div>
       </div>
       {inputVisible ? (
