@@ -1,0 +1,55 @@
+.container {
+  margin: 0;
+  padding: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  background-image: url("../public/game/background.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.upper_container {
+  position: static;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 4.2vw;
+  margin-right: 2.9vw;
+  /* position: fixed; */
+  /* width: 1000px;
+  height: 600px; */
+}
+
+.lower_container {
+  /* position: absolute; */
+  display: flex;
+  justify-content: space-between;
+  margin-left: 4.2vw;
+  margin-right: 2.9vw;
+  /* position: fixed; */
+  /* width: 1000px;
+  height: 600px; */
+}
+
+.infobar {
+  /* position: absolute; */
+  background-color: rgb(255, 189, 114, 0.5);
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* z-index: 1; */
+}
+
+.cam {
+  background-color: rgba(0, 0, 0, 1);
+  width: 200px;
+  height: 200px;
+  border-radius: 80px / 40px;
+  /* min-width: 5%;
+  max-height: 5%; */
+}

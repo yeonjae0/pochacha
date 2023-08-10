@@ -4,7 +4,8 @@ import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/router'
 import BoardMap from './BoardMap.js'
 import DiceBox from './DiceBox.js'
-import styles from '@/styles/Map.module.css'
+import ActiveBoard from './ActiveBoard.js'
+import styles from '@/styles/GamePage.module.css'
 import { styled } from 'styled-components'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
@@ -85,9 +86,9 @@ export default function GamePage() {
     }).then((response) => {
       console.log(roomId)
       console.log(response.data);
-      console.log('셀 데이터 출력 **************************************' , response.data)
-    }).catch((err) => {
-        console.log('에러임', err)
+      console.log('셀 데이터 출력 **************************************', response.data)
+    }).catch((error) => {
+        console.log(error)
       });
       /*
         TO DO :: Cell 색에 맞춰 배합
@@ -189,14 +190,16 @@ export default function GamePage() {
 
         <div style={{ position: "relative" }}>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <DiceBox dice={dice} />
+            {/* <DiceBox dice={dice} /> */}
           </div>
+          <ActiveBoard pin={pin}/>
           <div className={styles.lower_container}>
             <video className={styles.cam} ref={videoRef} /> {/* WEBCAM 화면 */}
             <video className={styles.cam} ref={videoRef} /> {/* WEBCAM 화면 */}
           </div>
           <div style={{ position: "absolute" }}>
-            <BoardMap pin={pin} style={{ bottom: "0" }} />
+            {/* <BoardMap pin={pin} style={{ bottom: "0" }} /> */}
+            {/* <SemiBoard /> */}
           </div>
         </div>
       </div>
