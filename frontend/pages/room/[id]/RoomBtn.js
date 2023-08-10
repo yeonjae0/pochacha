@@ -47,10 +47,10 @@ export default function RoomBtn(props) {
   `;
 
   const info = props.info;
-  const client = props.client;
 
   //console.log(`Room Button Info: ${info.roomId}`);
 
+  const [client] = useState(props.client);
   let [ready, setReady] = useState(info.ready);
   let [setting, setSetting] = useState(true);
   
