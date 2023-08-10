@@ -59,7 +59,10 @@ export default function RoomBtn(props) {
   
   /* 희진 : JS 클립보드 API 시작 */
   const roomId= useSelector(state => state.room.currentRoomId); //오픈비두 세션
-  let urls = `http://localhost:3000/enter/`+roomId;
+  let urls = `http://localhost:3000/enter/room/?`+`roomId=`+roomId;
+
+  console.log("생성 url");
+  console.log(urls);
   
   const clipBoard = () => {
     navigator.clipboard.writeText(urls);
