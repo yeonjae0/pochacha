@@ -50,6 +50,9 @@ export default function RoomBtn(props) {
 
   //console.log(`Room Button Info: ${info.roomId}`);
 
+  /*
+    TO DO :: 현재 한 컴퓨터에서 다중 접속할 때, ready를 공유하는 문제 발생. MyPlayerData를 통해 ready api를 호출하도록 변경 필요.
+  */
   const [client] = useState(props.client);
   let [ready, setReady] = useState(info.ready);
   let [setting, setSetting] = useState(true);
