@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import OpenViduVideoComponent from './OvVideo.js'
 import styles from '@/styles/UserVideo.module.css'
 
@@ -8,13 +8,11 @@ import styles from '@/styles/UserVideo.module.css'
 */
 const UserVideoComponent = ({
   streamManager,//방장
-  ownerId,//접속한 id
   nickname,
   //turn,//차례
   //setTurn,//모두의 차례를 false로 초기화
 }) => {
-  const id = streamManager.stream.connection.data.id;
-
+  
   /* 
    CONFIRM :: useState() 활용해 FACE FILTER API 적용 여부 저장
    */
@@ -29,17 +27,13 @@ const UserVideoComponent = ({
     <div>
       {streamManager !== undefined ? (
         <div className={styles.streamcomponent}>
-          <OpenViduVideoComponent streamManager={streamManager} id={id} />
+          <OpenViduVideoComponent streamManager={streamManager} />
           {
             /*
                 CONFIRM :: ADD GAME SETTING
             */
           }
-          {ownerId === id ? (
-            <div className={styles.nickname}>{nickname}</div>
-          ) : (
-            <div>PARTICIPANT</div>
-          )}
+          <div className={styles.nickname}>{nickname}</div>
         </div>
       ) : null}
     </div>
