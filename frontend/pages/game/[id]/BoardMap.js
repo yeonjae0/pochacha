@@ -1,3 +1,5 @@
+/* 기존 보드 */
+
 import styles from '@/styles/Map.module.css'
 
 export default function BoardMap({ pin }) {

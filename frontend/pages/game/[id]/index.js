@@ -45,11 +45,12 @@ export default function GamePage() {
   // let [roomId, setRoomId] = useState(info.roomId); // 현재 방 ID (임의 삽입)
   let [includeMini, setIncludeMini] = useState(true); // 미니게임 진행 여부
   let [dice, setDice] = useState(0); // 주사위
-  let [pin, setPin] = useState(1); // 현재 위치
+  let [pin, setPin] = useState(0); // 현재 위치
   let [lab, setLab] = useState(0); // 바퀴 수
   let [client, setClient] = useState({});
   let [currentCell, setCurrentCell] = useState('')
   let [showModal, setShowModal] = useState(false);
+  let [cellObj, setCellObj] = useState({});
 
   let videoRef = useRef(null);
 
@@ -85,9 +86,36 @@ export default function GamePage() {
         "includeMini": includeMini // 미니게임 여부
       }
     }).then((response) => {
-      console.log(roomId)
-      console.log(response.data);
-      console.log('셀 데이터 출력 **************************************', response.data)
+      setCellObj(
+        {
+          'one': response.data[0].status,
+          'two': response.data[1].status,
+          'three': response.data[2].status,
+          'four': response.data[3].status,
+          'five': response.data[4].status,
+          'six': response.data[5].status,
+          'seven': response.data[6].status,
+          'eight': response.data[7].status,
+          'nine': response.data[8].status,
+          'ten': response.data[9].status,
+          'eleven': response.data[10].status,
+          'twelve': response.data[11].status,
+          'thirteen': response.data[12].status,
+          'fourteen': response.data[13].status,
+          'fifteen': response.data[14].status,
+          'sixteen': response.data[15].status,
+          'seventeen': response.data[16].status,
+          'eighteen': response.data[17].status,
+          'nineteen': response.data[18].status,
+          'twenty': response.data[19].status,
+          'twentyone': response.data[20].status,
+          'twentytwo': response.data[21].status,
+          'twentythree': response.data[22].status,
+          'twentyfour': response.data[23].status,
+        }
+      )
+      console.log('RoomId', roomId)
+      console.log('Cell Data', response.data)
     }).catch((error) => {
       console.log(error)
     });
@@ -116,10 +144,9 @@ export default function GamePage() {
         setLab(data.game.lab)
         setCurrentCell(data.cell.name)
 
-        console.log(data.game)
-        console.log(data.cell)
-        console.log('*********')
-        console.log(data.game.pin)
+        // console.log(data.game)
+        // console.log(data.cell)
+        // console.log(data.game.pin)
       })
     })
   }
@@ -157,7 +184,21 @@ export default function GamePage() {
           <ModalContainer id='modalContainer'>
             <ModalContent className={styles.modalContent} style={{ zIndex: '1' }}>
               <p>{currentCell}</p>
-              <p>{pin}</p>
+              {
+                currentCell == '두더지 게임' ?
+                (window.location.href = 'http://localhost:3000/game/mini/mole')
+                : null
+              }
+              {
+                currentCell == '훈민정음' ?
+                (window.location.href = 'http://localhost:3000/game/mini/spell')
+                : null
+              }
+              {
+                currentCell == '라이어 게임' ?
+                (window.location.href = 'http://localhost:3000/game/mini/liar')
+                : null
+              }
               {/* <button onClick={onCloseModal}>Close</button> */}
             </ModalContent>
           </ModalContainer>
@@ -193,7 +234,7 @@ export default function GamePage() {
         {/* <div style={{ position: "relative" }}> */}
         <div>
           <DiceBox dice={dice} />
-          <ActiveBoard pin={pin} />
+          <ActiveBoard pin={pin} cellObj={cellObj} />
           {/* <div style={{ display: "flex", justifyContent: "center" }}>
           </div> */}
 
