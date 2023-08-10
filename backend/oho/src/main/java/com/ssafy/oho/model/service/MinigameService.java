@@ -14,6 +14,7 @@ import com.ssafy.oho.util.exception.RoomGetException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.*;
 
@@ -91,11 +92,15 @@ public class MinigameService extends RedisService {
             "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ",
             "ㅋ", "ㅌ", "ㅍ", "ㅎ"
     };
-    public HashMap<String, Object> setSpell(RoomRequestDto roomRequestDto) throws GameGetException {
+    public HashMap<String, Object> setSpell(@RequestBody RoomRequestDto roomRequestDto) throws GameGetException {
         String firstWord = wordUnit[(int) Math.floor(Math.random() * wordUnit.length)];
         String secondWord = wordUnit[(int) Math.floor(Math.random() * wordUnit.length)];
 
-        Room room = roomRepository.findById(roomRequestDto.getId()).orElseThrow(GameGetException::new);
+        System.out.println(roomRequestDto);
+
+        if(roomRequestDto == null || roomRequestDto.getId() == null) throw new GameGetException();
+
+        Room room = roomRepository.findById(roomRequestDto.getId()).orElseThrow(() -> new GameGetException());
         List<String> playerIdList = new ArrayList<>();
         for (Player p : room.getPlayers()) {
             playerIdList.add(p.getId());

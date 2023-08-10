@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styles from "@/styles/SpellGame.module.css";
+import axios from 'axios'
+import SockJS from 'sockjs-client'
+import { Stomp } from '@stomp/stompjs'
+import { useSelector } from "react-redux";
 
 function getConsonant() {
   const [showModal, setShowModal] = useState(true);
   const [randomConsonant, setRandomConsonant] = useState("ㄱ ㅅ");
   const [inputWords, setInputWords] = useState([]);  // 입력한 단어들 저장
   const [inputValue, setInputValue] = useState("");  // 유저 입력값 저장
+  const roomId = useSelector(state => state.room.currentRoomId );
+  const [client, setClient] = useState({});
 
 
   // 두루마리에 단어 표시하기
@@ -20,12 +26,60 @@ function getConsonant() {
 
   const handleSubmit = () => {
     if (inputValue.trim() !== "") {
+      if(client.current) {
+        let sendData = {
+          "word" : inputValue,
+          
+        }
+        client.current.send(`/mini/spell/confirm/${roomId}`, {}, JSON.stringify(sendData));
+      } else {
+        alert("소켓이 연결되지 않았습니다.");
+      }
       setInputWords((prevWords) => [...prevWords, inputValue]);
       setInputValue("");
     }
   };
 
+  const setConsonant = () => {
+    axios({
+      url: "http://localhost:80/game/mini/spell",
+      header: {
+        "Accept": "application/json",
+        "Content-type": "application/json;charset=UTF-8"
+      },
+      method: "POST",
+      data: {
+        "id" : roomId
+      }
+    }).then((response) => {
+      let data = response.data;
+      setRandomConsonant(data.firstWord + data.secondWord);
+    }
+    ).catch(e => console.log(e));
+  }
+
+  // const client = {};
+  const connectSocket = () => {
+    client.current = Stomp.over(() => {
+      const sock = new SockJS("http://localhost:80/ws");
+      return sock;
+    });
+    // client.current.debug = () => {};
+  }
+  
+  const subscribeSocket = () => {
+    client.current.connect({}, () => {
+      client.current.subscribe(`/topic/game/${roomId}`, (response) => {
+        var data = JSON.parse(response.body);
+        console.log(data);
+      })  // 채팅 구독
+    })
+  }
+
   useEffect(() => {
+    connectSocket();
+    subscribeSocket();
+    setConsonant();
     const timeout = setTimeout(() => {
       setShowModal(false);
     }, 7000);
