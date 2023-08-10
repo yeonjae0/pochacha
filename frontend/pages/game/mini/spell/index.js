@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "@/styles/SpellGame.module.css";
-import axios from "axios";
-import SockJS from 'sockjs-client';
+import axios from 'axios'
+import SockJS from 'sockjs-client'
+import { Stomp } from '@stomp/stompjs'
+import { useSelector } from "react-redux";
 
 // let randomConsonant = 'ㄱ ㅅ
 
@@ -13,26 +15,8 @@ const getConsonant = () => {
   const [randomConsonant, setRandomConsonant] = useState("");
   const [inputWords, setInputWords] = useState([]);  // 입력한 단어들 저장
   const [inputValue, setInputValue] = useState("");  // 유저 입력값 저장
-  const roomInfo = useSelector(state => state.room.currentRoomId);
-  
-  //랜덤 초성 가져오기
-  axios({
-    url: `http://localhost:80/game/mini/spell`,  // 여기 변경해야함!
-    header: {
-      "Accept": "application/json",
-      "Content-type": "application/json;charset=UTF-8"
-    },
-    method: "POST",
-    data: {
-      "id" : roomInfo
-    }
-  }).then(response => {
-    setRandomConsonant(response.data);
-    })
-    .catch(error => {
-      console.error("에러났당", error);
-      console.error(roomInfo);
-    });
+  const roomId = useSelector(state => state.room.currentRoomId );
+  const [client, setClient] = useState({});
 
   // Input창 단어 관련
   const handleInput = (e) => {
@@ -46,12 +30,60 @@ const getConsonant = () => {
 
   const handleSubmit = () => {
     if (inputValue.trim() !== "") {
+      if(client.current) {
+        let sendData = {
+          "word" : inputValue,
+          
+        }
+        client.current.send(`/mini/spell/confirm/${roomId}`, {}, JSON.stringify(sendData));
+      } else {
+        alert("소켓이 연결되지 않았습니다.");
+      }
       setInputWords((prevWords) => [...prevWords, inputValue]);
       setInputValue("");
     }
   };
 
+  const setConsonant = () => {
+    axios({
+      url: "http://localhost:80/game/mini/spell",
+      header: {
+        "Accept": "application/json",
+        "Content-type": "application/json;charset=UTF-8"
+      },
+      method: "POST",
+      data: {
+        "id" : roomId
+      }
+    }).then((response) => {
+      let data = response.data;
+      setRandomConsonant(data.firstWord + data.secondWord);
+    }
+    ).catch(e => console.log(e));
+  }
+
+  // const client = {};
+  const connectSocket = () => {
+    client.current = Stomp.over(() => {
+      const sock = new SockJS("http://localhost:80/ws");
+      return sock;
+    });
+    // client.current.debug = () => {};
+  }
+  
+  const subscribeSocket = () => {
+    client.current.connect({}, () => {
+      client.current.subscribe(`/topic/game/${roomId}`, (response) => {
+        var data = JSON.parse(response.body);
+        console.log(data);
+      })  // 채팅 구독
+    })
+  }
+
   useEffect(() => {
+    connectSocket();
+    subscribeSocket();
+    setConsonant();
     const timeout = setTimeout(() => {
       setShowModal(false);
     }, 7000);
