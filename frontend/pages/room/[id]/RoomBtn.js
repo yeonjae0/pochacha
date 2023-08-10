@@ -47,14 +47,22 @@ export default function RoomBtn(props) {
   `;
 
   const info = props.info;
-  
+
+  //console.log(`Room Button Info: ${info.roomId}`);
+
+  /*
+    TO DO :: 현재 한 컴퓨터에서 다중 접속할 때, ready를 공유하는 문제 발생. MyPlayerData를 통해 ready api를 호출하도록 변경 필요.
+  */
   const [client] = useState(props.client);
   let [ready, setReady] = useState(info.ready);
   let [setting, setSetting] = useState(true);
   
   /* 희진 : JS 클립보드 API 시작 */
   const roomId= useSelector(state => state.room.currentRoomId); //오픈비두 세션
-  let urls = process.env.NEXT_PUBLIC_PAGE + `/enter/`+roomId;
+  let urls = process.env.NEXT_PUBLIC_PAGE + `/enter/room/?`+`roomId=`+roomId;
+
+  console.log("생성 url");
+  console.log(urls);
   
   const clipBoard = () => {
     navigator.clipboard.writeText(urls);

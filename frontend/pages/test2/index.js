@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 function OtherPage() {
   const fruits = useSelector(state => state.fruit.fruits);
-  const playerInfo = useSelector(state => state.player.players);
+  const playerInfo = useSelector(state => state.players.players);
   const roomInfo = useSelector(state => state.room.currentRoomId);
 
   return (

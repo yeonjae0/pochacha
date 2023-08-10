@@ -19,6 +19,10 @@ export default function EnterRoomPage() {
   const router = useRouter();
   const dispatch = useDispatch();
 
+  const roomId=router.query.roomId;
+  console.log("쿼리 스트링 파싱");
+  console.log(roomId);
+
 /* 유영 : 소켓 간단 연결 작업 시작 */
 useEffect(() => {
     const socket = new SockJS(process.env.NEXT_PUBLIC_WS + "/ws");
@@ -32,8 +36,6 @@ useEffect(() => {
 
   /* 유영 : axios를 통한 닉네임 생성 및 방 생성 시작 */
   /* 희진 : axios 렌더링 타이밍 변경 시작 (페이지 로딩 시 최초 1회) */
-
-  const room=router.query.id;//url에서 받은 roomId
   /*
     TO DO :: progress와 secret 정보 api 통해 받아올 수 있게 처리
   */
@@ -89,14 +91,14 @@ useEffect(() => {
       method: "POST",
       data: {
         nickname: text,
-        roomId: room,
+        roomId: roomId,
       }
     }).then((response) => {
       console.log("GAME START");
       console.log('response.data' , response.data);
 
       obj = 
-      { 'roomId': room,//오픈비두 세션
+      { 'roomId': roomId,//오픈비두 세션
       
       /* 혜지 : setPlayer API에서는 Room 값을 받아오지 않으므로, progress와 secret 임시로 false 부여 */
         'progress': false, 
@@ -116,7 +118,7 @@ useEffect(() => {
          /* 연재 : obj 정보 저장 */
          dispatch(
           enterRoom({
-            roomId: room,
+            roomId: roomId,
 
             /* 혜지 : setPlayer API에서는 Room 값을 받아오지 않으므로, progress와 secret 임시로 false 부여 */
             progress: false, 
@@ -129,7 +131,7 @@ useEffect(() => {
 
           router.push(
           {
-            pathname: `/room/${room}`,
+            pathname: `/room/${roomId}`,
             query: { currentName: JSON.stringify(obj) },
           },
         )
