@@ -13,8 +13,10 @@ export default function ActiveBoard({ pin }) {
     const targetElement = targetRef.current;
     if (targetElement) {
       const rect = targetElement.getBoundingClientRect();
-      setTop(rect.top - 320) // 위치 값 조정
-      setLeft(rect.left - 50) // 위치 값 조정
+      // setTop(rect.top - 320) // 위치 값 조정
+      // setLeft(rect.left - 50) // 위치 값 조정
+      setTop(rect.top-80) // 위치 값 조정
+      setLeft(rect.left-40) // 위치 값 조정
   }}, [pin]);
 
   return (
@@ -78,10 +80,9 @@ export default function ActiveBoard({ pin }) {
         width: '100px',
         position: 'absolute',
         top: `${top}px`,
-        left: `${left}px`,
-        // marginLeft: '-50px', /* width의 50% */
-        // marginTop: '180px', /* height의 50% */
-        zIndex: '1'}}
+        left: `${left}px`
+        }}
+        // zIndex: '1'}}
       />
     </div>
   )
