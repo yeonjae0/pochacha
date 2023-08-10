@@ -31,7 +31,7 @@
 }
 
 /* 버튼 */
-/* #btnRolling {
+#btnRolling {
   display: block;
   width: 160px;
   height: 40px;
@@ -62,4 +62,4 @@
 
 #btnRolling:hover::before {
   transform: skewX(-45deg) translateX(280px);
-} */
+}
