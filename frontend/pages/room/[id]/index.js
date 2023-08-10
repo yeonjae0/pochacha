@@ -99,10 +99,6 @@ export default function RoomPage() {
       <div className={styles.room}>
         <div className={styles.camList}>
           <RoomCam className={styles.cam} info={info} />
-          {/* <div className={styles.cam}></div> */}
-          <div className={styles.cam}></div>
-          <div className={styles.cam}></div>
-          <div className={styles.cam}></div>
         </div>
         <RoomChat info={info} client={client} chatHistory={chatHistory} />
         {/* <div className={classNames({[styles.chatContainer]: true, [styles.outerChat]: true})}>
