@@ -7,10 +7,8 @@ import styles from '@/styles/UserVideo.module.css'
     기존의 클래스 형식을 변경함!
 */
 const UserVideoComponent = ({
-  streamManager,//방장
+  streamManager,//해당 비디오 스트리머
   nickname,
-  //turn,//차례
-  //setTurn,//모두의 차례를 false로 초기화
 }) => {
   
   /* 
@@ -32,7 +30,7 @@ const UserVideoComponent = ({
                 CONFIRM :: ADD GAME SETTING
             */
           }
-          <div className={styles.nickname}>{nickname}</div>
+        <div className={styles.nickname}>{nickname}</div>
         </div>
       ) : null}
     </div>
