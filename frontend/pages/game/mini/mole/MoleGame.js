@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import Ready from './MoleReady.js'
 import Go from './MoleGo.js'
 import styles from '@/styles/MoleGame.module.css';
@@ -167,12 +168,14 @@ function WinorLose({ score }) {
 /* 희진 : [승패 여부] Game Over 컴포넌트 시작 */
 function Gameover({ score }) {
 
+  const router = useRouter()
+
   let margin = 30 - score
 
   return (
     <div style={{ textAlign: 'center' }}>
       <h1>시간 초과</h1>
-      <h2>{margin}마리만 더 잡으면 되는데... ㄲㅂ</h2>
+      <h2>{margin}마리가 부족해요 ~^^~</h2>
       <div
         className={styles.end}
         style={{
@@ -186,6 +189,9 @@ function Gameover({ score }) {
       >
         <img className={styles.slideInEllipticBottomFwd} src="/두더지_X.png" />
       </div>
+      <button type="button" onClick={() => router.back()}>
+        Click here to go back
+      </button>
     </div>
   )
 }
@@ -210,6 +216,9 @@ function MissionCompleted({ score }) {
       >
         <img className={styles.bounceInBottom} src="/두더지_O.png" />
       </div>
+      <button type="button" onClick={() => router.back()}>
+        Click here to go back
+      </button>
     </div>
   )
 }
