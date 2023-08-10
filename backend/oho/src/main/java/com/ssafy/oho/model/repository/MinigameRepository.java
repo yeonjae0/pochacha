@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface MinigameRepository extends JpaRepository<Minigame, Integer> {
-    @Query(value="SELECT * FROM Minigame ORDER BY RAND() LIMIT 4", nativeQuery = true)
+    @Query(value="SELECT * FROM minigame ORDER BY RAND() LIMIT 4", nativeQuery = true)
     List<Minigame> findTop4Random();
 }
