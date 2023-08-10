@@ -7,10 +7,10 @@ export default function RoomChat(props) {
   const client = props.client;
 
   /* 유영 : Socket 함수 최초 호출 시작 */
-  useEffect(() => {
-    connectSocket()
-    subscribeChat()
-  }, [])
+  //useEffect(() => {
+  //  connectSocket()
+  //  subscribeChat()
+  //}, [])
   /* 유영 : Socket 함수 최초 호출 끝 */
 
   /* 유영 : Socket을 이용한 채팅 함수 시작 */

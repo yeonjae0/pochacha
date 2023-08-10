@@ -10,7 +10,7 @@ import { Stomp } from '@stomp/stompjs'
 import axios from 'axios'
 import { useDispatch, useSelector } from "react-redux";
 import { enterRoom } from "@/store/reducers/room.js";
-import { addPlayer } from '@/store/reducers/player.js'
+import { addPlayers } from '@/store/reducers/players.js'
 
 export default function EnterPage() {
 
@@ -112,7 +112,7 @@ export default function EnterPage() {
             // ready: response.data.player.ready,
           })
          );
-         dispatch(addPlayer(playerInfo))
+         dispatch(addPlayers(playerInfo))
         //  dispatch(
         //   playerInRoom({
         //     nick: text || response.data.player.nickname,
