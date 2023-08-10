@@ -36,7 +36,6 @@ public class GameController {
 
             return ResponseEntity.ok(cellStatusList);
         } catch(GameGetException e) {
-            System.out.println(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
