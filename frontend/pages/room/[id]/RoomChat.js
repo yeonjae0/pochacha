@@ -87,7 +87,7 @@ export default function RoomChat(props) {
   const sendIntroMessage = () => {
     if (message === '') {
       var sendData = {
-        "playerId": '알림봇',
+        "playerId": '입장 알림봇',
         "message": `${info.nick}님이 입장하셨습니다.`,
       }
       client.current.send("/chat/" + info.roomId, {}, JSON.stringify(sendData))
