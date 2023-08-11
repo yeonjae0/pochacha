@@ -18,7 +18,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import java.io.BufferedReader;
@@ -188,7 +187,7 @@ public class MinigameService extends RedisService {
             URL url = new URL(urlStr);
             System.out.println("url: " + url);
 
-            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             System.out.println("conn: " + conn.toString());
 
             // 만약 SSLContext를 사용하여 커스텀 SSL 설정을 하려면 아래와 같이 설정 가능
