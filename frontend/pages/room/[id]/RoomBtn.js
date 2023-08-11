@@ -3,38 +3,40 @@
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import SockJS from 'sockjs-client';
-import { Stomp } from '@stomp/stompjs';
+import { changeMini } from "@/store/reducers/room.js";
 
 // Room 입장시 받은 router.query를 props로 활용
 export default function RoomBtn(props) {
 
   const router = useRouter();
-  const [includeMini, setIncludeMini] = useState(true);
-
-  /* 희진 : 미니 게임 모드 ON/OFF 기능 구현 후 주석 해제 예정 */
-  // let ModeBtn = styled.button`
-  // margin: 10px;
-  // padding: 5px;
-  // background-color: black;
-  // border-radius: 10px;
-  // color: white;
-  // width: 80px;
-  // height: 50px;
-  // `;
-  /* 희진 : 미니 게임 모드 ON/OFF 기능 구현 후 주석 해제 예정 */
-  
-  let CopyBtn2 = styled.button`
-  margin: 10px;
-  width: 150px;
-  height: 50px;
-  background: #CED4DA;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-  `;
+  const dispatch = useDispatch();
   
   // 추가
+  let ModeBtn = styled.button`
+  font-family: 'LeeSeoyun';
+
+  position:absolute;
+  bottom: 16px;
+  left: 220px;
+
+  background: url("/room/bowl.png") no-repeat center/cover !important; 
+  width: 160px;
+  height: 120px;
+  cursor: pointer;
+
+  font-weight: bold;
+  font-size: 24px;
+  color: #000; /* 텍스트 색상 */
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: rotate(10deg); /* X축으로 20도만큼 기울임 */
+    font-size: 26px;
+  }
+  `;
   let CopyBtn = styled.button`
   font-family: 'LeeSeoyun';
 
@@ -106,24 +108,6 @@ let StartBtn = styled.button `
   }
 `;
 
-  let ReadyBtn2 = styled.button`
-  margin: 10px;
-  width: 200px;
-  height: 50px;
-  background: #43BEF2;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-  `;
-
-  let StartBtn2 = styled.button`
-  margin: 10px;
-  width: 200px;
-  height: 50px;
-  background: #FF285C;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-  `;
-
   const info = props.info;
 
   /*
@@ -131,7 +115,7 @@ let StartBtn = styled.button `
   */
   const [client] = useState(props.client);
   let [ready, setReady] = useState(info.ready);
-  let [setting, setSetting] = useState(true);
+  const includeMini = useSelector(state => state.room.currentIncludeMini);
   
   /* 희진 : JS 클립보드 API 시작 */
   const roomId= useSelector(state => state.room.currentRoomId); //오픈비두 세션
@@ -152,7 +136,6 @@ let StartBtn = styled.button `
       1. players가 4명 미만일 경우 alert 후 return
       2. players 중 하나라도 ready가 false면 alert 후 return
     */
-    info["includeMini"] = includeMini;
     router.push(
       {
         pathname: `/game/${info.roomId}`,
@@ -184,11 +167,13 @@ let StartBtn = styled.button `
   return (
     <div style={{ marginTop: "20px" }}>
       {/* 희진 : 모드 기능 설정 후 주석 해제 예정 */}
-      {/* <ModeBtn onClick={() => { setSetting(!setting) }}>{ setting == true ? ('기본 모드 ON') : '미니게임 ON' }</ModeBtn> */}
+      <ModeBtn onClick={() => {dispatch(changeMini())}}>{ includeMini == true ? "미니게임 모드" : "기본 모드" }</ModeBtn>
       {/* 희진 : 모드 기능 설정 후 주석 해제 예정 */}
       <CopyBtn onClick={() => { clipBoard() }}>초대하기</CopyBtn>
-      <ReadyBtn onClick={() => { readyGame() }}>준 비</ReadyBtn> { /* 비방장일 경우로 변경 필요, 본인 ready true일 경우 문구를 준비완료로 */ }
-      <StartBtn onClick={sendData}>시 작</StartBtn> { /* 방장일 경우로 변경 필요 */ }
-    </div>
+      
+      {props.head===true?
+      <StartBtn onClick={sendData}>시 작</StartBtn>
+      :<ReadyBtn onClick={() => { readyGame() }}>준 비</ReadyBtn>}
+      </div>
   )
 }

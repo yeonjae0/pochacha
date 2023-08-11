@@ -70,6 +70,13 @@ public class GameService extends RedisService {
                 cellList[i] = super.getCell(roomId, i);
             }
 
+            roomRepository.save(Room.builder()
+                            .id(roomId)
+                            .players(room.getPlayers())
+                            .progress(true)
+                            .secret(room.isSecret())
+                    .build());
+
             return cellList;
         } catch(Exception e) {
             throw new GameGetException();

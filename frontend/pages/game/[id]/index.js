@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/router'
-import BoardMap from './BoardMap.js'
 import DiceBox from './DiceBox.js'
 import ActiveBoard from './ActiveBoard.js'
 import styles from '@/styles/GamePage.module.css'
@@ -10,8 +9,7 @@ import { styled } from 'styled-components'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import axios from 'axios'
-import { Transition } from 'react-transition-group'
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 /* 연재 : 모달 시작 */
 // 해야할 것: 모달 창 꾸미기
@@ -37,12 +35,9 @@ const ModalContent = styled.div`
 export default function GamePage() {
 
   const router = useRouter()
-  const dispatch = useDispatch();
-  let info = JSON.parse(router.query.currentName)
 
   let roomId = useSelector(state => state.room.currentRoomId)
-  // let [roomId, setRoomId] = useState(info.roomId); // 현재 방 ID (임의 삽입)
-  let [includeMini, setIncludeMini] = useState(true); // 미니게임 진행 여부
+  let includeMini = useSelector(state => state.room.currentIncludeMini) // 미니게임 진행 여부
   let [dice, setDice] = useState(0); // 주사위
   let [pin, setPin] = useState(0); // 현재 위치
   let [lab, setLab] = useState(0); // 바퀴 수
@@ -82,7 +77,7 @@ export default function GamePage() {
       method: "POST",
       data: {
         "id": roomId, // RoomRequestDto에 id 삽입
-        "includeMini": includeMini // 미니게임 여부
+        includeMini  // 미니게임 여부
       }
     }).then((response) => {
       setCellObj(
