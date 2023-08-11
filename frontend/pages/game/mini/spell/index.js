@@ -33,22 +33,22 @@ const getConsonant = () => {
 
   const handleSubmit = () => {
     if (inputValue.trim() && client.current) {
-        let sendData = {
-          "word": inputValue,
-        }
-        // setInputValue(sendData)
-        dispatch(saveWord({input: inputValue}))
-        console.log('currentword111', currentword)
-        console.log('inputValue', inputValue)
-        console.log('sendData', sendData)
-        // console.log('여기까지..?', data.correct) 
-        client.current.send(`/mini/spell/confirm/${roomId}`, {}, JSON.stringify(sendData));
-      } else {
-        alert("소켓이 연결되지 않았습니다.");
+      let sendData = {
+        "word": inputValue,
       }
-      // setInputWords((prevWords) => [...prevWords, inputValue]);
-      // setInputValue("");
+      // setInputValue(sendData)
+      dispatch(saveWord({ input: inputValue }))
+      console.log('currentword111', currentword)
+      console.log('inputValue', inputValue)
+      console.log('sendData', sendData)
+      // console.log('여기까지..?', data.correct) 
+      client.current.send(`/mini/spell/confirm/${roomId}`, {}, JSON.stringify(sendData));
+    } else {
+      alert("소켓이 연결되지 않았습니다.");
     }
+    // setInputWords((prevWords) => [...prevWords, inputValue]);
+    // setInputValue("");
+  }
 
   const setConsonant = () => {
     axios({
@@ -93,7 +93,7 @@ const getConsonant = () => {
           console.log('inputWords', inputWords)
           console.log('currentword', currentword)
         }
-        else{
+        else {
           console.log('data.correct', data.correct)
           alert(data.msg)
         }
@@ -143,23 +143,21 @@ const getConsonant = () => {
       <ModalPage />
 
       <div className={styles.wrapper}>
-        <div className={styles.text}>
-
-        {/* 뒤로 가기 버튼 (임시) */}
-        <button type="button" onClick={() => router.back()}>
-          Click here to go back
-        </button>
-        {/* 뒤로 가기 버튼 (임시) */}
-
-          <h1>초성 게임</h1>
-          <label>
-            단어를 입력하세요:
-            <input type="text" value={inputValue} onChange={handleInput} onKeyDown={handleKeyDown} />
-          </label>
-          <button type="button" onClick={handleSubmit} >
-            제출
-          </button>
+        
+        <div className={styles.upperContainer}>
+          {/* 뒤로 가기 버튼 */}
+          {/* <button type="button" onClick={() => router.back()}>Click here to go back</button> */}
+          <input
+            type="text"
+            placeholder="단어를 입력하세요"
+            value={inputValue}
+            onChange={handleInput}
+            onKeyDown={handleKeyDown}
+            className={styles.inputContainer} />
+          <button type="button" onClick={handleSubmit} style={{ marginLeft: '20px' }}>제출</button>
+          <div><img src="/초성_로고.png" style={{ width: '450px' }} /></div>
         </div>
+
         <br />
         <div className={styles.redBlock}>
           <img
@@ -173,16 +171,7 @@ const getConsonant = () => {
           />
           <div className={styles.miniBlock1}></div>
           <div className={styles.miniBlock2}></div>
-          <h3
-            style={{
-              position: "absolute",
-              backgroundColor: "Yellow",
-              left: "250px",
-              zIndex: "1",
-            }}
-          >
-            초성: {randomConsonant}
-          </h3>
+          <h3 style={{ fontFamily: 'ChosunCentennial', position: "absolute", left: "250px", zIndex: "1" }}>초성은 {randomConsonant}</h3>
           <img
             src="/초성_두루마리.png"
             style={{
