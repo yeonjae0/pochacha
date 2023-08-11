@@ -3,6 +3,8 @@
 import { useEffect, useState, useRef } from 'react'
 import styles from '@/styles/RoomPage.module.css'
 export default function RoomChat(props) {
+  console.log("룸챗 렌더링")
+
   const info = props.info;
   const [client] = useState(props.client);
 

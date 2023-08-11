@@ -1,46 +1,72 @@
 'use client'
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router'
-import RoomCam from './RoomCam.js'
-import RoomChat from './RoomChat.js'
-import RoomBtn from './RoomBtn.js'
-import styles from '@/styles/RoomPage.module.css'
-import classNames from 'classnames'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react'; /* 리액트 관련 */
+import { useRouter} from 'next/router';
+import RoomCam from './RoomCam.js'; /* 사용 컴포넌트 */
+import RoomChat from './RoomChat.js';
+import RoomBtn from './RoomBtn.js';
+import axios from 'axios'; /* 통신 관련 */
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux"; /* 저장소 관련 */
 import { addPlayers } from '@/store/reducers/players.js';
+import { setPublisherData, addParticipants,resetParticipants } from '@/store/reducers/openvidu.js';
+import { OpenVidu } from 'openvidu-browser'; /* OpenVidu 관련 */
+//import UserVideoComponent from './UserVideoComponent';
+import styles from '@/styles/RoomPage.module.css'; /* 스타일 관련 */
+import classNames from 'classnames';
 
 export default function RoomPage() {
+  console.log("렌더링")
 
   const router = useRouter();
   const dispatch = useDispatch();
 
   let info = JSON.parse(router.query.currentName);
-  const [chatHistory, setChatHistory] = useState(`${info.nick}님이 입장하셨습니다.` + '\n')
+
+  /* 혜지 : OpenVidu 관련 초기화 시작 */
+  let OV = new OpenVidu();
+  let session = OV.initSession();
+
+  const roomId=useSelector(state=> state.room.currentRoomId);
+  const token = useSelector(state => state.player.currentPlayerId); //오픈비두 토큰
+  const nickname = useSelector(state => state.player.currentNick);
+
+  const [publisher, setPublisher] = useState(undefined); //비디오, 오디오 송신자
+  const [participants, setParticipants] = useState([]);//참여자들
+  /* 혜지 : OpenVidu 관련 데이터 초기화 완료 */
+
+  const [chatHistory, setChatHistory] = useState(`${nickname}님이 입장하셨습니다.` + '\n')
+
+  useEffect(() => {
+    console.log("유즈이펙트 렌더링")
+    getPlayerList();
+    connectSocket();
+    subscribeSocket();
+    window.addEventListener('beforeunload', onbeforeunload);
+    joinSession(token);
+    return () => {
+      window.removeEventListener('beforeunload', onbeforeunload);
+    }
+  }, []);
 
   /* 유영 : 최초 한 번 사용자 목록 불러오기 시작 */
   const getPlayerList = () => {
     axios({
-      url: `http://localhost:80/player/${info.roomId}`,
+      url: `http://localhost:80/player/${roomId}`,
       header: {
         "Accept": "application/json",
         "Content-type": "application/json;charset=UTF-8",
       },
       method: "POST",
       data: {
-        "id": info.playerId,
+        "id": token,
       }
     }).then((response) => {
-      console.log("GET PLAYERLIST");
-      console.log(response.data);
-      /*
-        TO DO :: 사용자 리스트를 players 저장소에 저장
-      */
-      const arrayLength = response.data.length;
+      console.log(response);
 
+      /* 혜지 : 접속 플레이어들 정보를 저장 시작 */
+      const arrayLength = response.data.length;
       for (let i = 0; i < arrayLength; i++) {
         let head = response.data[i].head;
         let id = response.data[i].id;
@@ -56,13 +82,12 @@ export default function RoomPage() {
 
         dispatch(addPlayers(obj));
       }
-
-
+      /* 혜지 : 접속 플레이어들 정보를 저장 완료 */
     }).catch(
       error => console.log(error)
     );
-  }; /* 유영 : 최초 한 번 사용자 목록 불러오기 끝 */
-
+  };
+  /* 유영 : 최초 한 번 사용자 목록 불러오기 끝 */
 
   /* 유영 : Socket 함수 시작 */
   let client = {};
@@ -76,29 +101,103 @@ export default function RoomPage() {
 
   const subscribeSocket = () => {
     client.current.connect({}, () => {
-      client.current.subscribe(`/topic/chat/${info.roomId}`, (response) => {
+      client.current.subscribe(`/topic/chat/${roomId}`, (response) => {
         var data = JSON.parse(response.body);
-        setChatHistory((prevHistory) => prevHistory + data.playerId + ': ' + data.message + '\n')
+        setChatHistory((prevHistory) => prevHistory + data.playerId + ': ' + data.message + '\n');
       })  // 채팅 구독
-      client.current.subscribe(`/topic/player/${info.roomId}`, (response) => {
+      client.current.subscribe(`/topic/player/${roomId}`, (response) => {
         var data = JSON.parse(response.body);
         console.log(data);
       })  // 플레이어 정보 구독
     })
   }
 
-  useEffect(() => {
-    connectSocket();
-    subscribeSocket();
-    getPlayerList();
-  }, []);
+  /* 혜지 : OpenVidu 연결 관련 메소드 시작 */
+  const onbeforeunload = (e) => {
+    leaveSession();
+  }
+
+  const deleteParticipant = (streamManager) => {
+    let tempParticipants = participants;
+    let index = tempParticipants.indexOf(streamManager, 0);
+    if (index > -1) {
+      tempParticipants.splice(index, 1);
+      setParticipants(tempParticipants);
+      
+      /*
+        TO DO :: 참여자 삭제 시 REDUX 삭제 필요
+      */
+      //dispatch(resetParticipants(tempParticipants));
+    }
+  }
+
+  const joinSession = async (token) => {
+    try {
+      session.on('streamCreated', async (event) => {
+        let participant = session.subscribe(event.stream, undefined);
+        let tempParticipants = participants;
+        tempParticipants.push(participant);
+        setParticipants(tempParticipants);
+        dispatch(addParticipants(tempParticipants));
+        
+        console.log(participants);
+      });
+
+      session.on('streamDestroyed', (event) => {
+        deleteParticipant(event.stream.streamManager);
+      });
+
+      session.on('exception', (exception) => {
+        console.warn(exception);
+      });
+
+      /* 혜지 : 모든 사용자 PUBLISHER 지정 필수 */
+      await session.connect(token, { clientData: nickname, publisher: true });
+      /* 카메라 세팅 */
+      let pub = await OV.initPublisherAsync(undefined, {
+        audioSource: undefined, // 오디오
+        videoSource: undefined, // 비디오
+        publishAudio: true, // 오디오 송출
+        publishVideo: true, // 비디오 송출
+        resolution: '640x480',
+        frameRate: 30,
+        insertMode: 'APPEND', // 비디오 컨테이너 적재 방식
+        mirror: false,
+      });
+
+      await session.publish(pub);
+      let deviceList = await OV.getDevices();
+      var videoDevices = deviceList.filter(device => device.kind === 'videoinput');
+      var currentVideoDeviceId = pub.stream.getMediaStream().getVideoTracks()[0].getSettings().deviceId;
+      var currentVideoDevice = videoDevices.find(device => device.deviceId === currentVideoDeviceId);
+
+      setPublisher(pub);
+      dispatch(setPublisherData(pub));
+
+      console.log(publisher);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const leaveSession = () => {
+    if (session) {
+      session.disconnect();
+    }
+
+    OV = null;
+    setPublisher(undefined);
+    setParticipants([]);
+    dispatch(resetParticipants([]));
+  }
+  /* 혜지 : OpenVidu 연결 관련 메소드 완료 */
 
   return (
     <div className={styles.container}>
       <div className="roof2"></div>
       <div className={styles.room}>
         <div className={styles.camList}>
-          <RoomCam className={styles.cam} info={info} />
+          <RoomCam publisher={publisher} participants={participants}/>
         </div>
         <RoomChat info={info} client={client} chatHistory={chatHistory} />
         {/* <div className={classNames({[styles.chatContainer]: true, [styles.outerChat]: true})}>

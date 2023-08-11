@@ -9,6 +9,7 @@ import { Stomp } from '@stomp/stompjs';
 
 // Room 입장시 받은 router.query를 props로 활용
 export default function RoomBtn(props) {
+  console.log("룸버튼 렌더링")
 
   const router = useRouter();
 

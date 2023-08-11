@@ -10,6 +10,9 @@ const UserVideoComponent = ({
   streamManager,//해당 비디오 스트리머
   nickname,
 }) => {
+
+  console.log(streamManager);
+  console.log(nickname);
   
   /* 
    CONFIRM :: useState() 활용해 FACE FILTER API 적용 여부 저장
