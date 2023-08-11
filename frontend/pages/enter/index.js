@@ -32,7 +32,6 @@ export default function EnterPage() {
 
   /* 유영 : axios를 통한 닉네임 생성 및 방 생성 시작 */
   /* 희진 : axios 렌더링 타이밍 변경 시작 (페이지 로딩 시 최초 1회) */
-
   let roomId = '';
   let progress = false;
   let secret = false;
@@ -90,33 +89,35 @@ export default function EnterPage() {
       }
     }).then((response) => {
       console.log("GAME START");
-      console.log('response.data' , response.data);
+      console.log('response.data', response.data);
 
-      obj = 
-      { 'roomId': response.data.room.id,//오픈비두 세션
+      obj =
+      {
+        'roomId': response.data.room.id,//오픈비두 세션
         'progress': response.data.room.progress,
         'secret': response.data.room.secret, // 비밀 방인지, 아닌지
         'nick': text || response.data.player.nickname,
         'playerId': response.data.player.id,//오픈비두 토큰
         'ready': response.data.player.ready,
-       }
-       let playerInfo =  {
+      }
+      let playerInfo = {
         playerId: response.data.player.id,
         nick: text || response.data.player.nickname,
         ready: response.data.player.ready,
+        head: true,//방을 연 사람이므로 방장 true
       }
       console.log(playerInfo);
       const sendData = () => {
-         /* 연재 : obj 정보 저장 */
-         dispatch(
+        /* 연재 : obj 정보 저장 */
+        dispatch(
           enterRoom({
             roomId: response.data.room.id,//오픈비두 세션
             progress: response.data.room.progress,
             secret: response.data.room.secret,
           })
-         );
-         //dispatch(addPlayers(playerInfo));
-         dispatch(MyPlayerData(playerInfo));
+        );
+        //dispatch(addPlayers(playerInfo));
+        dispatch(MyPlayerData(playerInfo));
 
         router.push(
           {
@@ -127,7 +128,14 @@ export default function EnterPage() {
         )
       }
       sendData();
-    }).catch(error => console.log(error));
+    }).catch((error) => {
+      if (error.response) {
+        router.push({
+          pathname: "/exception",
+          query: { msg: error.response.data },
+        })
+      } else { console.log(error) }
+    });
   }
   /* 유영 : axios를 통한 닉네임 생성 및 방 생성 끝 */
   /* 희진 : axios 렌더링 타이밍 변경 끝 */
@@ -171,15 +179,15 @@ export default function EnterPage() {
 
   return (
     <div className={styles.container}>
-      
+
       {/* 타이틀 화면 */}
-      <div className={styles.roof}>
+      <div className="roof">
         <img className={styles.title} src="/main/title.png" />
       </div>
 
       <div className={styles.boxContainer}>
         {/* 닉네임 입력 상자 */}
-        <div className={classNames({[styles.box]: true, [styles.leftBox]: true})}>
+        <div className={classNames({ [styles.box]: true, [styles.leftBox]: true })}>
           <video className={styles.cam} ref={videoRef} /> {/* 임시 화상화면 상자 */}
           <div className={styles.inputContainer}>
             <input className={styles.nickname} spellCheck="false"

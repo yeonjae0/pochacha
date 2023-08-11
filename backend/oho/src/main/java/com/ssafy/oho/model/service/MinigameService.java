@@ -102,10 +102,9 @@ public class MinigameService extends RedisService {
             "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ",
             "ㅋ", "ㅌ", "ㅍ", "ㅎ"
     };
-    String[] randWordUnit = {
-            "ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ",
-            "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ",
-            "ㅋ", "ㅌ", "ㅍ", "ㅎ"
+    String[] randWord = {
+            "ㅅㄱ", "ㄱㄱ", "ㄱㅂ", "ㅂㅅ", "ㅇㅇ",
+            "ㅂㅂ", "ㅌㄱ", "ㅇㅊ", "ㅅㅂ", "ㄱㅈ"
     };
 
     @Value("${SPELL_KEY}")
@@ -115,8 +114,9 @@ public class MinigameService extends RedisService {
     private String SPELL_URL;
 
     public HashMap<String, Object> setSpell(@RequestBody RoomRequestDto roomRequestDto) throws GameGetException {
-        String firstWord = randWordUnit[(int) Math.floor(Math.random() * randWordUnit.length)];
-        String secondWord = randWordUnit[(int) Math.floor(Math.random() * randWordUnit.length)];
+        String correctWord = randWord[(int) Math.floor(Math.random() * randWord.length)];
+        String firstWord = Character.toString(correctWord.charAt(0));
+        String secondWord = Character.toString(correctWord.charAt(1));
 
         if(roomRequestDto == null || roomRequestDto.getId() == null) throw new GameGetException();
         Room room = roomRepository.findById(roomRequestDto.getId()).orElseThrow(() -> new GameGetException());
@@ -151,6 +151,8 @@ public class MinigameService extends RedisService {
             String secondWord = super.getSpellInfo(roomId, "secondWord");
 
             String word = ((String) payload.getOrDefault("word", "")).trim();
+            confirmMap.put("inputWord", word);  // Input word
+            
             if (word.length() != 2) {  // 단어를 받지 못했을 경우, 단어 길이가 다를 경우
                 confirmMap.put("msg", "단어의 길이를 확인해 주세요.");
                 return confirmMap;
