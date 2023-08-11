@@ -14,7 +14,8 @@ function ResetPage() {
     dispatch(resetPlayers([]));
     dispatch(MyPlayerData({  currentPlayerId: null,
     currentNick: null,
-    currentReady: false,}))
+    currentReady: false,
+    currentHead: false,}))
    
   };
 

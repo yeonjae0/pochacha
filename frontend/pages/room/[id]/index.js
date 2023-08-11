@@ -1,28 +1,40 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'; /* 리액트 관련 */
+import React, { useEffect, useState } from 'react'; /* React 관련 */
 import { useRouter} from 'next/router';
-import RoomCam from './RoomCam.js'; /* 사용 컴포넌트 */
+import RoomCam from './RoomCam.js'; /* Component */
 import RoomChat from './RoomChat.js';
 import RoomBtn from './RoomBtn.js';
-import axios from 'axios'; /* 통신 관련 */
+import axios from 'axios'; /* API 관련 */
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
-import { useDispatch, useSelector } from "react-redux"; /* 저장소 관련 */
+import { useDispatch, useSelector } from "react-redux"; /* Store 관련 */
 import { addPlayers } from '@/store/reducers/players.js';
 import { setPublisherData, addParticipants,resetParticipants } from '@/store/reducers/openvidu.js';
 import { OpenVidu } from 'openvidu-browser'; /* OpenVidu 관련 */
 //import UserVideoComponent from './UserVideoComponent';
-import styles from '@/styles/RoomPage.module.css'; /* 스타일 관련 */
+import styles from '@/styles/RoomPage.module.css'; /* Style 관련 */
 import classNames from 'classnames';
 
 export default function RoomPage() {
-  console.log("렌더링")
 
   const router = useRouter();
   const dispatch = useDispatch();
 
   let info = JSON.parse(router.query.currentName);
+
+  /* 혜지 : 첫 렌더링 시에 OV, session 세팅 */
+  let OV = new OpenVidu();
+  let session = OV.initSession();
+
+  const roomId=useSelector(state=>state.room.currentRoomId);
+  const token=useSelector(state => state.player.currentPlayerId); //오픈비두 토큰
+  const nickname=useSelector(state => state.player.currentNick);
+  const head=useSelector(state => state.player.currentHead);
+
+  const [publisher, setPublisher] = useState({}); //비디오, 오디오 송신자
+  const [participants, setParticipants] = useState([]);//참여자들
+
   const [chatHistory, setChatHistory] = useState(`${info.nick}님이 입장하셨습니다.` + '\n')
 
   /* 유영 : 최초 한 번 사용자 목록 불러오기 시작 */
@@ -168,6 +180,17 @@ export default function RoomPage() {
   }
   /* 혜지 : OpenVidu 연결 관련 메소드 완료 */
 
+  useEffect(() => {
+    getPlayerList();
+    connectSocket();
+    subscribeSocket();
+    window.addEventListener('beforeunload', onbeforeunload);
+    joinSession(token);
+    return () => {
+      window.removeEventListener('beforeunload', onbeforeunload);
+    }
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className="roof2"></div>
@@ -180,7 +203,7 @@ export default function RoomPage() {
           <div className={classNames({[styles.chatContainer]: true, [styles.innerChat]: true})}>
           </div>
         </div> */}
-        <RoomBtn info={info} client={client} />
+        <RoomBtn info={info} client={client} head={head}/>
       </div>
     </div>
   )

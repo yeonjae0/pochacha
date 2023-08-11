@@ -110,7 +110,9 @@ export default function RoomBtn(props) {
       {/* 희진 : 모드 기능 설정 후 주석 해제 예정 */}
       <CopyBtn onClick={() => { clipBoard() }}>초대하기</CopyBtn>
       <ReadyBtn onClick={() => { readyGame() }}>Ready</ReadyBtn>
+      {props.head===true?
       <StartBtn onClick={sendData}>Go</StartBtn>
-    </div>
+      :null}
+      </div>
   )
 }

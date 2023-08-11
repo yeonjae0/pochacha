@@ -104,6 +104,7 @@ export default function EnterPage() {
         playerId: response.data.player.id,
         nick: text || response.data.player.nickname,
         ready: response.data.player.ready,
+        head:true,//방을 연 사람이므로 방장 true
       }
       console.log(playerInfo);
       const sendData = () => {

@@ -112,6 +112,7 @@ useEffect(() => {
         playerId: response.data.id,
         nick: text || response.data.nickname,
         ready: response.data.ready,
+        head:false,//초대받은 플레이어이므로 방장 false
       }
 
       const sendData = () => {
