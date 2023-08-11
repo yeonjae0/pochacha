@@ -116,8 +116,11 @@ export default function GamePage() {
       console.log('RoomId', roomId)
       console.log('Cell Data', response.data)
     }).catch((error) => {
-      console.log(error)
-    });
+      router.push({
+          pathname: "/exception",
+          query: { msg: error.response.data },
+        })
+      });
     /*
       TO DO :: Cell 색에 맞춰 배합
     */

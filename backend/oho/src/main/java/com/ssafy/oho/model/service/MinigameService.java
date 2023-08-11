@@ -142,6 +142,8 @@ public class MinigameService extends RedisService {
             String secondWord = super.getSpellInfo(roomId, "secondWord");
 
             String word = ((String) payload.getOrDefault("word", "")).trim();
+            confirmMap.put("inputWord", word);  // Input word
+            
             if (word.length() != 2) {  // 단어를 받지 못했을 경우, 단어 길이가 다를 경우
                 confirmMap.put("msg", "단어의 길이를 확인해 주세요.");
                 return confirmMap;

@@ -47,9 +47,9 @@ public class GameService extends RedisService {
             if(super.getPlayer(roomId, p.getId()) == null) {
                 throw new GameGetException("해당 방에 존재하지 않는 플레이어입니다.");
             }
-//            if(!Boolean.parseBoolean(super.getPlayerInfo(roomId, p.getId(), "ready"))) {
-//                throw new GameGetException("모든 플레이어가 준비되지 않았습니다.");
-//            }
+            if(!Boolean.parseBoolean(super.getPlayerInfo(roomId, p.getId(), "ready"))) {
+                throw new GameGetException("모든 플레이어가 준비되지 않았습니다.");
+            }
         }
         /*** 유효성 검사 끝 ***/
         try {
@@ -121,7 +121,7 @@ public class GameService extends RedisService {
         hash.put("dice",Integer.toString(dice));
         hash.put("pin", Integer.toString((pin + dice) % 24));
         if(Integer.parseInt(hash.get("pin")) < 0) hash.put("pin", hash.get("pin") + 24);
-        if(pin < Integer.parseInt(hash.get("pin"))) hash.put("lab", Integer.toString(++lab));
+        if(pin > Integer.parseInt(hash.get("pin"))) hash.put("lab", Integer.toString(++lab));
 
         super.setGameInfo(roomId, hash);  // Redis에 저장
 
