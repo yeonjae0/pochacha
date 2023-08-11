@@ -5,15 +5,17 @@ import { useDispatch } from "react-redux";
 import { enterRoom } from "@/store/reducers/room.js";
 import { resetPlayers } from "@/store/reducers/players";
 import { MyPlayerData } from "@/store/reducers/player";
+
 function ResetPage() {
   const dispatch = useDispatch();
-
+  
   const doInitialize = () => {
     dispatch(enterRoom({ currentRoomId: null, currentProgress: null, currentSecret: null }));
     dispatch(resetPlayers([]));
     dispatch(MyPlayerData({  currentPlayerId: null,
     currentNick: null,
-    currentReady: false,}))
+    currentReady: false,
+    currentHead: false,}))
    
   };
 
