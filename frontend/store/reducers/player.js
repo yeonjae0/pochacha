@@ -18,10 +18,14 @@ const playerSlice = createSlice({
       state.currentReady = action.payload.ready;
       state.currentHead=action.payload.head;
     },
+    ready: (state, action) => {
+      if(action.payload.ready != null) state.currentReady = action.payload.ready;
+    }
   }
 });
 
 export default playerSlice;
 export const {
-    MyPlayerData
+    MyPlayerData,
+    ready
 } = playerSlice.actions

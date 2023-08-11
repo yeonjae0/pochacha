@@ -98,16 +98,16 @@ public class MinigameService extends RedisService {
             "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ",
             "ㅋ", "ㅌ", "ㅍ", "ㅎ"
     };
-    String[] randWordUnit = {
-            "ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ",
-            "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ",
-            "ㅋ", "ㅌ", "ㅍ", "ㅎ"
+    String[] randWord = {
+            "ㅅㄱ", "ㄱㄱ", "ㄱㅂ", "ㅂㅅ", "ㅇㅇ",
+            "ㅂㅂ", "ㅌㄱ", "ㅇㅊ", "ㅅㅂ", "ㄱㅈ"
     };
     private final String SPELL_KEY = "461267C04AE2F8FD88F1327EC3533DA7";
     private static final String SPELL_URL = "https://krdict.korean.go.kr/api/search";
     public HashMap<String, Object> setSpell(@RequestBody RoomRequestDto roomRequestDto) throws GameGetException {
-        String firstWord = randWordUnit[(int) Math.floor(Math.random() * randWordUnit.length)];
-        String secondWord = randWordUnit[(int) Math.floor(Math.random() * randWordUnit.length)];
+        String correctWord = randWord[(int) Math.floor(Math.random() * randWord.length)];
+        String firstWord = Character.toString(correctWord.charAt(0));
+        String secondWord = Character.toString(correctWord.charAt(1));
 
         if(roomRequestDto == null || roomRequestDto.getId() == null) throw new GameGetException();
         Room room = roomRepository.findById(roomRequestDto.getId()).orElseThrow(() -> new GameGetException());

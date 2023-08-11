@@ -65,7 +65,14 @@ const getConsonant = () => {
       let data = response.data;
       setRandomConsonant(data.firstWord + data.secondWord);
     }
-    ).catch(e => console.log(e));
+    ).catch((error) => {
+      if(error.response) {
+        router.push({
+            pathname: "/exception",
+            query: { msg: error.response.data },
+          })
+      } else { console.log(error) }
+    });
   }
 
   // 소켓 연결
