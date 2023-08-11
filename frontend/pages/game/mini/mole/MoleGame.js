@@ -106,24 +106,6 @@ function MoleGame({ sec }) {
                     width: '200px',
                     height: '200px',
                     cursor: 'pointer',
-
-            // {molePositions.map((molePosition, index) => (
-            //   molePosition && (
-            //     <img
-            //       key={index}
-            //       src={hoveredMoleIndex === index ? "/두더지_망치전.png" : "/두더지_업.png"}
-            //       onClick={() => handleMoleClick(index)}
-            //       onMouseEnter={() => handleMoleMouseEnter(index)}
-            //       onMouseLeave={handleMoleMouseLeave}
-            //       style={{
-            //         position: 'absolute',
-            //         top: `${molePosition.row * 33.33}%`,
-            //         left: `${molePosition.col * 33.33}%`,
-            //         width: '200px',
-            //         height: '200px',
-            //         cursor: 'pointer',
-
-
                   }}
                 />
               )
@@ -199,6 +181,9 @@ function Gameover({ score }) {
 
 /* 희진 : [승패 여부] Mission Completed 컴포넌트 시작 */
 function MissionCompleted({ score }) {
+
+  const router = useRouter()
+
   return (
     <div style={{ textAlign: 'center' }}>
       <h1>성공</h1>
