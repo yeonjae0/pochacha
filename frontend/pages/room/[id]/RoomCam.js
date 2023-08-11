@@ -19,6 +19,7 @@ export default function RoomCam() {
   const [mainStreamManager, setMainStreamManager] = useState(undefined);// 메인비디오
   const [publisher, setPublisher] = useState(undefined); //비디오, 오디오 송신자
   const [participants, setParticipants] = useState([]);//참여자들
+  const [introChat, setIntroChat] = useState(''); // 참여자 입장 메시지
   //const [devices, setDevices] = useState([]);
   //const [currentVideoDevice, setCurrentVideoDevice] = useState(undefined);//현재 비디오장치
 
@@ -69,8 +70,7 @@ export default function RoomCam() {
       tempParticipants.push(participant);
       setParticipants(tempParticipants);
     
-      console.log("참가자들");
-      console.log(participants);
+      console.log('참가자 정보 ========> ', participants);
     });
 
     session.on('streamDestroyed', (event) => {
@@ -161,8 +161,8 @@ export default function RoomCam() {
                 <span>{sub.id}</span>
                 {console.log(players[i])}
                 {
-
                 }
+                {/* 참가자 닉네임 */}
                 {console.log(JSON.parse(sub.stream.connection.data.split("%")[0]).clientData)}
                 <UserVideoComponent className={styles.cam} streamManager={sub} nickname={JSON.parse(sub.stream.connection.data.split("%")[0]).clientData} />
               </span>

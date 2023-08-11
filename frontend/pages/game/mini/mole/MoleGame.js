@@ -72,6 +72,7 @@ function MoleGame({ sec }) {
 
   return (
     <div style={{ marginTop: '20px' }}>
+      <div style={{ textAlign: 'center' }}><img src="/로고_두더지.png" /></div>
       {ready === 'ready' && (
         <Ready />
       )}

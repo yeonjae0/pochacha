@@ -156,10 +156,6 @@
 
 /* ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ Keyframes (삭제 금지) ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ */
 
-.customCursor {
-  cursor: url('/hammer.png'), auto;
-}
-
 .container {
   background-image: url("../public/두더지_기본배경.png");
   background-size: 600px;
