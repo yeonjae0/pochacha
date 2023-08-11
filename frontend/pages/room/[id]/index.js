@@ -6,7 +6,6 @@ import RoomCam from './RoomCam.js'
 import RoomChat from './RoomChat.js'
 import RoomBtn from './RoomBtn.js'
 import styles from '@/styles/RoomPage.module.css'
-import classNames from 'classnames'
 import axios from 'axios'
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
@@ -19,7 +18,8 @@ export default function RoomPage() {
   const dispatch = useDispatch();
 
   let info = JSON.parse(router.query.currentName);
-  const [chatHistory, setChatHistory] = useState(`${info.nick}님이 입장하셨습니다.` + '\n')
+  // const [chatHistory, setChatHistory] = useState(`${info.nick}님이 입장하셨습니다.` + '\n')
+  const [chatHistory, setChatHistory] = useState('채팅방에 입장하셨습니다.' + '\n')
 
   /* 유영 : 최초 한 번 사용자 목록 불러오기 시작 */
   const getPlayerList = () => {
@@ -56,13 +56,13 @@ export default function RoomPage() {
 
         dispatch(addPlayers(obj));
       }
-
-
-    }).catch(
-      error => console.log(error)
-    );
+    }).catch((error) => {
+      router.push({
+          pathname: "/exception",
+          query: { msg: error.response.data },
+        })
+      });
   }; /* 유영 : 최초 한 번 사용자 목록 불러오기 끝 */
-
 
   /* 유영 : Socket 함수 시작 */
   let client = {};

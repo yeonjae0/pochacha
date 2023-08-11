@@ -2,7 +2,9 @@
 
 import { useEffect, useState, useRef } from 'react'
 import styles from '@/styles/RoomPage.module.css'
+
 export default function RoomChat(props) {
+
   const info = props.info;
   const [client] = useState(props.client);
 
@@ -11,16 +13,6 @@ export default function RoomChat(props) {
   const [spam, setSpam] = useState('') // 도배 메시지
   const [count, setCount] = useState(0) // 도배 횟수 카운트
   const [inputVisible, setInputVisible] = useState(true) // 입력란 보이기/숨기기 상태
-
-  /* 희진 : 도배 유저 15초 차단 시작 */
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setInputVisible(true);
-    }, 15000);
-
-    return () => clearTimeout(timer);
-  }, [inputVisible]);
-  /* 희진 : 도배 유저 15초 차단 끝 */
 
   const handleOnChange = (e) => {
     setMessage(e.target.value)
@@ -35,6 +27,7 @@ export default function RoomChat(props) {
   }
 
   const sendMessage = () => {
+
     let spamMsg = spam;
     setSpam(message) // 도배 메시지 저장
     if (spamMsg === message) {
@@ -62,8 +55,15 @@ export default function RoomChat(props) {
     }
     setMessage('');
   };
-  /* 희진 : 도배 유저 일시 차단 끝 */
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setInputVisible(true);
+    }, 15000);
+
+    return () => clearTimeout(timer);
+  }, [inputVisible]);
+  /* 희진 : 도배 유저 일시 차단 끝 */
 
   /* 희진 : 채팅창 자동 스크롤 시작 */
   const chatTextAreaRef = useRef(null);
@@ -73,6 +73,26 @@ export default function RoomChat(props) {
       chatTextAreaRef.current.scrollTop = chatTextAreaRef.current.scrollHeight;
     }
   }, [props.chatHistory]);
+  /* 희진 : 채팅창 자동 스크롤 끝 */
+
+  /* 희진 : 입장 시 입장 메시지 자동 채팅 전송 (Cam On) 시작 */
+  const sendIntroMessage = () => {
+    if (message === '') {
+      var sendData = {
+        "playerId": '알림봇',
+        "message": `${info.nick}님이 입장하셨습니다.`,
+      }
+      client.current.send("/chat/" + info.roomId, {}, JSON.stringify(sendData))
+    }
+    setMessage('');
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      sendIntroMessage();
+    }, 500)
+  }, []);
+  /* 희진 : 입장 시 입장 메시지 자동 채팅 전송 끝 */
 
   return (
     <div>
