@@ -56,11 +56,13 @@ export default function RoomPage() {
 
         dispatch(addPlayers(obj));
       }
-    }).catch(
-      error => console.log(error)
-    );
-  };
-  /* 유영 : 최초 한 번 사용자 목록 불러오기 끝 */
+    }).catch((error) => {
+      router.push({
+          pathname: "/exception",
+          query: { msg: error.response.data },
+        })
+      });
+  }; /* 유영 : 최초 한 번 사용자 목록 불러오기 끝 */
 
   /* 유영 : Socket 함수 시작 */
   let client = {};

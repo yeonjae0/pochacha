@@ -137,7 +137,12 @@ useEffect(() => {
         )
       }
       sendData();
-    }).catch(error => console.log(error));
+    }).catch((error) => {
+      router.push({
+          pathname: "/exception",
+          query: { msg: error.response.data },
+        })
+      });
   }
 
   return (
