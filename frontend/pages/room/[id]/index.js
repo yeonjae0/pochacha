@@ -10,11 +10,11 @@ import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { useDispatch, useSelector } from "react-redux"; /* Store 관련 */
 import { addPlayers } from '@/store/reducers/players.js';
+import { ready } from '@/store/reducers/player.js';
 import { setPublisherData, addParticipants,resetParticipants } from '@/store/reducers/openvidu.js';
 import { OpenVidu } from 'openvidu-browser'; /* OpenVidu 관련 */
 //import UserVideoComponent from './UserVideoComponent';
 import styles from '@/styles/RoomPage.module.css'; /* Style 관련 */
-import classNames from 'classnames';
 
 export default function RoomPage() {
 
@@ -31,6 +31,7 @@ export default function RoomPage() {
   const token=useSelector(state => state.player.currentPlayerId); //오픈비두 토큰
   const nickname=useSelector(state => state.player.currentNick);
   const head=useSelector(state => state.player.currentHead);
+  const playerReady = useSelector(state => state.player.currentReady);
 
   const [publisher, setPublisher] = useState({}); //비디오, 오디오 송신자
   const [participants, setParticipants] = useState([]);//참여자들
@@ -69,13 +70,15 @@ export default function RoomPage() {
 
         dispatch(addPlayers(obj));
       }
-
-
-    }).catch(
-      error => console.log(error)
-    );
+    }).catch((error) => {
+      if(error.response) {
+        router.push({
+            pathname: "/exception",
+            query: { msg: error.response.data },
+          })
+      } else { console.log("error ::: ", error) }
+    });
   }; /* 유영 : 최초 한 번 사용자 목록 불러오기 끝 */
-
 
   /* 유영 : Socket 함수 시작 */
   let client = {};
@@ -96,6 +99,10 @@ export default function RoomPage() {
       client.current.subscribe(`/topic/player/${roomId}`, (response) => {
         var data = JSON.parse(response.body);
         console.log(data);
+
+        if(data.id == token) {
+          dispatch(ready(data));
+        }
       })  // 플레이어 정보 구독
     })
   }
@@ -203,7 +210,7 @@ export default function RoomPage() {
           <div className={classNames({[styles.chatContainer]: true, [styles.innerChat]: true})}>
           </div>
         </div> */}
-        <RoomBtn info={info} client={client} head={head}/>
+        <RoomBtn info={info} client={client} head={head} ready={playerReady} />
       </div>
     </div>
   )

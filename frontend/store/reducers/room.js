@@ -5,6 +5,7 @@ const initialState= {
   currentRoomId: "",
   currentProgress: false,
   currentSecret: false,
+  currentIncludeMini: true,
 };
 
 const roomSlice = createSlice({
@@ -16,11 +17,15 @@ const roomSlice = createSlice({
       state.currentProgress = action.payload.progress;
       state.currentSecret = action.payload.secret;
     },
+    changeMini: (state) => {
+      state.currentIncludeMini = !state.currentIncludeMini;
+    }
   }
 });
 
 
 export default roomSlice;
 export const {
-  enterRoom
+  enterRoom,
+  changeMini
 } = roomSlice.actions
