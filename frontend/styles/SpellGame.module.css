@@ -5,17 +5,16 @@
   background-color: gainsboro;
 }
 
-.text {
+.upperContainer {
   text-align: center;
   margin-top: 20px;
 }
 
 .inputContainer {
-  width: 30%;
+  width: 40%;
   height: 50px;
-  text-align: 'center';
-  margin-top: 20px;
   text-align: center;
+  margin-top: 20px;
   font-family: 'ChosunCentennial';
   font-size: 1em;
 }

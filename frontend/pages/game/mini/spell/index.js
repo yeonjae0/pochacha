@@ -144,7 +144,7 @@ const getConsonant = () => {
 
       <div className={styles.wrapper}>
         
-        <div className={styles.text}>
+        <div className={styles.upperContainer}>
           {/* 뒤로 가기 버튼 */}
           {/* <button type="button" onClick={() => router.back()}>Click here to go back</button> */}
           <input
