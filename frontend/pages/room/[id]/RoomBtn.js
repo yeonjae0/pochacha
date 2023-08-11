@@ -12,43 +12,46 @@ export default function RoomBtn(props) {
 
   const router = useRouter();
 
-  let ModeBtn = styled.button`
-  margin: 10px;
-  padding: 5px;
-  background-color: black;
-  border-radius: 10px;
-  color: white;
-  width: 80px;
-  height: 50px;
-  `;
-
+  /* 희진 : 미니 게임 모드 ON/OFF 기능 구현 후 주석 해제 예정 */
+  // let ModeBtn = styled.button`
+  // margin: 10px;
+  // padding: 5px;
+  // background-color: black;
+  // border-radius: 10px;
+  // color: white;
+  // width: 80px;
+  // height: 50px;
+  // `;
+  /* 희진 : 미니 게임 모드 ON/OFF 기능 구현 후 주석 해제 예정 */
+  
   let CopyBtn = styled.button`
-  width: 219px;
-  height: 158px;
-  background: #43BEF2;
+  margin: 10px;
+  width: 150px;
+  height: 50px;
+  background: #CED4DA;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   `;
 
   let ReadyBtn = styled.button`
-  width: 325px;
-  height: 158px;
-  background: #FF285C;
+  margin: 10px;
+  width: 200px;
+  height: 50px;
+  background: #43BEF2;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   `;
 
   let StartBtn = styled.button`
-  width: 325px;
-  height: 158px;
+  margin: 10px;
+  width: 200px;
+  height: 50px;
   background: #FF285C;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   `;
 
   const info = props.info;
-
-  //console.log(`Room Button Info: ${info.roomId}`);
 
   /*
     TO DO :: 현재 한 컴퓨터에서 다중 접속할 때, ready를 공유하는 문제 발생. MyPlayerData를 통해 ready api를 호출하도록 변경 필요.
@@ -101,10 +104,12 @@ export default function RoomBtn(props) {
 
   return (
     <div>
-      <ModeBtn onClick={() => { setSetting(!setting) }}>{ setting == true ? ('기본 모드 ON') : '미니게임 ON' }</ModeBtn>
-      <CopyBtn onClick={() => { clipBoard() }}>친구 초대</CopyBtn>
-      <ReadyBtn onClick={() => { readyGame() }}>준비</ReadyBtn>
-      <StartBtn onClick={sendData}>시작</StartBtn>
+      {/* 희진 : 모드 기능 설정 후 주석 해제 예정 */}
+      {/* <ModeBtn onClick={() => { setSetting(!setting) }}>{ setting == true ? ('기본 모드 ON') : '미니게임 ON' }</ModeBtn> */}
+      {/* 희진 : 모드 기능 설정 후 주석 해제 예정 */}
+      <CopyBtn onClick={() => { clipBoard() }}>초대하기</CopyBtn>
+      <ReadyBtn onClick={() => { readyGame() }}>Ready</ReadyBtn>
+      <StartBtn onClick={sendData}>Go</StartBtn>
     </div>
   )
 }

@@ -31,7 +31,7 @@ export default function RoomPage() {
       },
       method: "POST",
       data: {
-        "id" : info.playerId,
+        "id": info.playerId,
       }
     }).then((response) => {
       console.log("GET PLAYERLIST");
@@ -39,24 +39,25 @@ export default function RoomPage() {
       /*
         TO DO :: 사용자 리스트를 players 저장소에 저장
       */
-     const arrayLength=response.data.length;
+      const arrayLength = response.data.length;
 
-     for(let i=0;i<arrayLength;i++){
-      let head=response.data[i].head;
-      let id=response.data[i].id;
-      let nickname=response.data[i].nickname;
-      let ready=response.data[i].ready;
+      for (let i = 0; i < arrayLength; i++) {
+        let head = response.data[i].head;
+        let id = response.data[i].id;
+        let nickname = response.data[i].nickname;
+        let ready = response.data[i].ready;
 
-      let obj={
-        head:head,
-        playerId:id,
-        nick:nickname,
-        ready:ready,
-      };
+        let obj = {
+          head: head,
+          playerId: id,
+          nick: nickname,
+          ready: ready,
+        };
 
-      dispatch(addPlayers(obj));
-     }
-      
+        dispatch(addPlayers(obj));
+      }
+
+
     }).catch(
       error => console.log(error)
     );
@@ -72,7 +73,7 @@ export default function RoomPage() {
     });
     // client.current.debug = () => {};
   }
-  
+
   const subscribeSocket = () => {
     client.current.connect({}, () => {
       client.current.subscribe(`/topic/chat/${info.roomId}`, (response) => {
@@ -94,16 +95,16 @@ export default function RoomPage() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.roof}></div>
+      <div className="roof2"></div>
       <div className={styles.room}>
-        <div>
-          <RoomCam info={info}/>
+        <div className={styles.camList}>
+          <RoomCam className={styles.cam} info={info} />
         </div>
-        <div className={classNames({[styles.chatContainer]: true, [styles.outerChat]: true})}>
+        <RoomChat info={info} client={client} chatHistory={chatHistory} />
+        {/* <div className={classNames({[styles.chatContainer]: true, [styles.outerChat]: true})}>
           <div className={classNames({[styles.chatContainer]: true, [styles.innerChat]: true})}>
-          <RoomChat info={info} client={client} chatHistory={chatHistory} />
           </div>
-        </div>
+        </div> */}
         <RoomBtn info={info} client={client} />
       </div>
     </div>
