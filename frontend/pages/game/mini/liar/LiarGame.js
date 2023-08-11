@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from "react-redux";
+import SockJS from 'sockjs-client'
+import { Stomp } from '@stomp/stompjs'
+import axios from "axios";
 import styles from '@/styles/LiarGame.module.css';
+import WordComponent from './WordComponent';
 
 
 export default function Main() {
@@ -13,18 +18,17 @@ export default function Main() {
 
 function LiarGame() {
   const [status, setStatus] = useState('ready')
-  const [word, setWord] = useState('abc')
-
+  
   useEffect(() =>{
     setStatus('ready')
-    console.log('picktopic')
+    // console.log('picktopic')
   },[])
-
+  
   // useEffect(() => {
-  //   setStatus('playing')
-  //   console.log('word change?')
-  // }, [word])
-
+    //   setStatus('playing')
+    //   console.log('word change?')
+    // }, [word])
+    
   return (
     <div>
       {
@@ -32,13 +36,71 @@ function LiarGame() {
           <Picktopic />
         )
       }
+      {
+        status === 'checkWord' && (
+          <Checkword />  
+        )
+      }
     </div>
   )
 }
 
 function Picktopic() {
+  const [word, setWord] = useState('abc')
+  const [status, setStatus] = useState('ready')
 
-  // const handleTopicClick = ()
+  let [client, setClient] = useState({});
+  
+  const roomId = useSelector(state => state.room.currentRoomId );
+  
+  const handleTopicClick = (topic) => {
+    console.log('topic', topic)
+    axios({
+      url: `http://localhost:80/game/mini/liar/set/${roomId}`,
+      header: {
+        "Accept": "application/json",
+        "Content-type": "application/json;charset=UTF-8"
+      },
+      method: "POST",
+      data: {
+        "subject": topic
+      }
+    })
+    .then((response) => {
+      let data = response.data;
+      console.log(data)
+      setWord(data.word)
+      setStatus('checkWord')
+    })
+    .catch(e => console.log('error!!!!!!!!!!', e));
+  }
+  
+  console.log("setWord 성공?", word)
+  
+  // const connectSocket = () => {
+  //   client.current = Stomp.over(() => {
+  //     const sock = new SockJS("http://localhost:80/ws")
+  //     return sock;
+  //   });
+  //   client.current.debug = () => { };
+  // }
+  
+  // const subscribeSocket = (topic) => {
+  //   client.current.connect({}, () => {
+  //     // callback 함수 설정, 대부분 여기에 sub 함수 씀
+  //     client.current.subscribe(`/mini/liar/set/${roomId}`, {topic}, (response) => {
+  //       let data = JSON.parse(response.body)
+  //       console.log(data)
+  //     })
+  //   })
+  // }
+
+
+
+  // useEffect(() => {
+  //   connectSocket()
+  //   subscribeSocket()
+  // }, [])
 
   return (
     <div style={{ textAlign: 'center' }}>
@@ -84,4 +146,10 @@ function Picktopic() {
       </div>
     </div>
   )
+}
+
+function Checkword() {
+    return (
+      <div>asldjaslkdjlasdjaklsjd</div>
+    )
 }
