@@ -18,6 +18,9 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -172,18 +175,24 @@ public class MinigameService extends RedisService {
                 return confirmMap;
             }
 
+//            System.setProperty("https.protocols", "TLSv1.2");
+
+            SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
+            sslContext.init(null, null, null);
+            SSLSocketFactory socketFactory = sslContext.getSocketFactory();
+
             /*** 사전 등재 단어 찾기 시작 ***/
             String urlStr = SPELL_URL + "?key=" + SPELL_KEY + "&type_search=search&part=word&q=" + URLEncoder.encode(word);
-
             System.out.println("urlStr: " + urlStr);
 
             URL url = new URL(urlStr);
-
             System.out.println("url: " + url);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
             System.out.println("conn: " + conn.toString());
+
+            // 만약 SSLContext를 사용하여 커스텀 SSL 설정을 하려면 아래와 같이 설정 가능
+             ((HttpsURLConnection) conn).setSSLSocketFactory(socketFactory);
 
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-type", "application/json");
