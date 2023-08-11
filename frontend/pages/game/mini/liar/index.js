@@ -85,7 +85,7 @@ export default function Liar() {
       }
       {
         rule === null && (
-          <LiarGame/>
+          <LiarGame />
       )
       }
     </div>
