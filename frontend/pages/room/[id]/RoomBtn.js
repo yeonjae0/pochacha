@@ -89,7 +89,7 @@ let StartBtn = styled.button `
 
   position:absolute;
   bottom: 16px;
-  right: 80px;
+  right: 260px;
 
   background: url("/room/pot.png") no-repeat center/cover !important; 
   width: 180px;
@@ -114,7 +114,8 @@ let StartBtn = styled.button `
     TO DO :: 현재 한 컴퓨터에서 다중 접속할 때, ready를 공유하는 문제 발생. MyPlayerData를 통해 ready api를 호출하도록 변경 필요.
   */
   const [client] = useState(props.client);
-  let [ready, setReady] = useState(info.ready);
+  const ready = useState(props.ready);
+  console.log("ready ::: ", ready);
   const includeMini = useSelector(state => state.room.currentIncludeMini);
   
   /* 희진 : JS 클립보드 API 시작 */
@@ -156,7 +157,6 @@ let StartBtn = styled.button `
 
   // 비방장 ready socket 전송
   const readyGame = () => {
-    setReady(!ready);
     let sendData = {
       "playerId" : info.playerId,
       "ready" : ready
@@ -166,14 +166,12 @@ let StartBtn = styled.button `
 
   return (
     <div style={{ marginTop: "20px" }}>
-      {/* 희진 : 모드 기능 설정 후 주석 해제 예정 */}
       <ModeBtn onClick={() => {dispatch(changeMini())}}>{ includeMini == true ? "미니게임 모드" : "기본 모드" }</ModeBtn>
-      {/* 희진 : 모드 기능 설정 후 주석 해제 예정 */}
       <CopyBtn onClick={() => { clipBoard() }}>초대하기</CopyBtn>
       
       {props.head===true?
       <StartBtn onClick={sendData}>시 작</StartBtn>
-      :<ReadyBtn onClick={() => { readyGame() }}>준 비</ReadyBtn>}
+      :<ReadyBtn onClick={() => { readyGame() }}> {(props.ready === false)? "준 비":"준비완료"}</ReadyBtn>}
       </div>
   )
 }

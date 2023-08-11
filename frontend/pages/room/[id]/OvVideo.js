@@ -11,9 +11,13 @@ export default function OpenViduVideoComponent(props) {
     .then((stream) => {
       let video = videoRef.current;
       video.srcObject = stream;
-    })
-    .catch((error) => {
-      console.log(error);
+    }).catch((error) => {
+      if(error.response) {
+        router.push({
+            pathname: "/exception",
+            query: { msg: error.response.data },
+          })
+      } else { console.log(error) }
     });
 
   /*
