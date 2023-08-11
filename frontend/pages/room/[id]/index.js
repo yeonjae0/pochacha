@@ -18,7 +18,8 @@ export default function RoomPage() {
   const dispatch = useDispatch();
 
   let info = JSON.parse(router.query.currentName);
-  const [chatHistory, setChatHistory] = useState(`${info.nick}님이 입장하셨습니다.` + '\n')
+  // const [chatHistory, setChatHistory] = useState(`${info.nick}님이 입장하셨습니다.` + '\n')
+  const [chatHistory, setChatHistory] = useState('채팅방에 입장하셨습니다.' + '\n')
 
   /* 유영 : 최초 한 번 사용자 목록 불러오기 시작 */
   const getPlayerList = () => {
