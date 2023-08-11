@@ -11,6 +11,7 @@ import { Stomp } from '@stomp/stompjs';
 export default function RoomBtn(props) {
 
   const router = useRouter();
+  const [includeMini, setIncludeMini] = useState(true);
 
   /* 희진 : 미니 게임 모드 ON/OFF 기능 구현 후 주석 해제 예정 */
   // let ModeBtn = styled.button`
@@ -24,7 +25,7 @@ export default function RoomBtn(props) {
   // `;
   /* 희진 : 미니 게임 모드 ON/OFF 기능 구현 후 주석 해제 예정 */
   
-  let CopyBtn = styled.button`
+  let CopyBtn2 = styled.button`
   margin: 10px;
   width: 150px;
   height: 50px;
@@ -32,8 +33,80 @@ export default function RoomBtn(props) {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   `;
+  
+  // 추가
+  let CopyBtn = styled.button`
+  font-family: 'LeeSeoyun';
 
-  let ReadyBtn = styled.button`
+  position:absolute;
+  bottom: 16px;
+  right: 450px;
+
+  background: url("/room/chapstick.png") no-repeat center/cover !important; 
+  width: 180px;
+  height: 40px;
+  cursor: pointer;
+
+  font-weight: bold;
+  font-size: 24px;
+  color: #000; /* 텍스트 색상 */
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: rotate(-10deg); /* X축으로 20도만큼 기울임 */
+    font-size: 26px;
+  }
+  `;
+
+  let ReadyBtn = styled.button `
+  font-family: 'LeeSeoyun';
+
+  position:absolute;
+  bottom: 16px;
+  right: 260px;
+
+  background: url("/room/pot.png") no-repeat center/cover !important; 
+  width: 180px;
+  height: 120px;
+  cursor: pointer;
+
+  font-weight: bold;
+  font-size: 36px;
+  color: #000; /* 텍스트 색상 */
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: rotate(-10deg); /* X축으로 20도만큼 기울임 */
+    font-size: 40px;
+  }
+`;
+let StartBtn = styled.button `
+  font-family: 'LeeSeoyun';
+
+  position:absolute;
+  bottom: 16px;
+  right: 80px;
+
+  background: url("/room/pot.png") no-repeat center/cover !important; 
+  width: 180px;
+  height: 120px;
+  cursor: pointer;
+
+  font-weight: bold;
+  font-size: 36px;
+  color: #000; /* 텍스트 색상 */
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: rotate(-10deg); /* X축으로 20도만큼 기울임 */
+    font-size: 40px;
+  }
+`;
+
+  let ReadyBtn2 = styled.button`
   margin: 10px;
   width: 200px;
   height: 50px;
@@ -42,7 +115,7 @@ export default function RoomBtn(props) {
   border-radius: 10px;
   `;
 
-  let StartBtn = styled.button`
+  let StartBtn2 = styled.button`
   margin: 10px;
   width: 200px;
   height: 50px;
@@ -73,7 +146,13 @@ export default function RoomBtn(props) {
   }
   /* 희진 : JS 클립보드 API 끝 */
 
+  // 방장 game start (유효성 필요)
   const sendData = () => {
+    /*
+      1. players가 4명 미만일 경우 alert 후 return
+      2. players 중 하나라도 ready가 false면 alert 후 return
+    */
+    info["includeMini"] = includeMini;
     router.push(
       {
         pathname: `/game/${info.roomId}`,
@@ -92,24 +171,24 @@ export default function RoomBtn(props) {
   // }
   /* 제정 : 시작 버튼 클릭 시 메인 게임 이동 끝 */
 
-  /* 유영 : 플레이어 ready 정보 socket 전송 시작 */
+  // 비방장 ready socket 전송
   const readyGame = () => {
     setReady(!ready);
     let sendData = {
       "playerId" : info.playerId,
-      "ready" : ready,
+      "ready" : ready
     };
     client.current.send(`/ready/${info.roomId}`, {}, JSON.stringify(sendData));
-  } /* 유영 : 플레이어 ready 정보 socket 전송 끝 */
+  }
 
   return (
-    <div>
+    <div style={{ marginTop: "20px" }}>
       {/* 희진 : 모드 기능 설정 후 주석 해제 예정 */}
       {/* <ModeBtn onClick={() => { setSetting(!setting) }}>{ setting == true ? ('기본 모드 ON') : '미니게임 ON' }</ModeBtn> */}
       {/* 희진 : 모드 기능 설정 후 주석 해제 예정 */}
       <CopyBtn onClick={() => { clipBoard() }}>초대하기</CopyBtn>
-      <ReadyBtn onClick={() => { readyGame() }}>Ready</ReadyBtn>
-      <StartBtn onClick={sendData}>Go</StartBtn>
+      <ReadyBtn onClick={() => { readyGame() }}>준 비</ReadyBtn> { /* 비방장일 경우로 변경 필요, 본인 ready true일 경우 문구를 준비완료로 */ }
+      <StartBtn onClick={sendData}>시 작</StartBtn> { /* 방장일 경우로 변경 필요 */ }
     </div>
   )
 }
