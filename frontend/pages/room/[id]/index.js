@@ -23,32 +23,7 @@ export default function RoomPage() {
   const dispatch = useDispatch();
 
   let info = JSON.parse(router.query.currentName);
-
-  /* 혜지 : OpenVidu 관련 초기화 시작 */
-  let OV = new OpenVidu();
-  let session = OV.initSession();
-
-  const roomId=useSelector(state=> state.room.currentRoomId);
-  const token = useSelector(state => state.player.currentPlayerId); //오픈비두 토큰
-  const nickname = useSelector(state => state.player.currentNick);
-
-  const [publisher, setPublisher] = useState(undefined); //비디오, 오디오 송신자
-  const [participants, setParticipants] = useState([]);//참여자들
-  /* 혜지 : OpenVidu 관련 데이터 초기화 완료 */
-
-  const [chatHistory, setChatHistory] = useState(`${nickname}님이 입장하셨습니다.` + '\n')
-
-  useEffect(() => {
-    console.log("유즈이펙트 렌더링")
-    getPlayerList();
-    connectSocket();
-    subscribeSocket();
-    window.addEventListener('beforeunload', onbeforeunload);
-    joinSession(token);
-    return () => {
-      window.removeEventListener('beforeunload', onbeforeunload);
-    }
-  }, []);
+  const [chatHistory, setChatHistory] = useState(`${info.nick}님이 입장하셨습니다.` + '\n')
 
   /* 유영 : 최초 한 번 사용자 목록 불러오기 시작 */
   const getPlayerList = () => {
@@ -82,12 +57,13 @@ export default function RoomPage() {
 
         dispatch(addPlayers(obj));
       }
-      /* 혜지 : 접속 플레이어들 정보를 저장 완료 */
+
+
     }).catch(
       error => console.log(error)
     );
-  };
-  /* 유영 : 최초 한 번 사용자 목록 불러오기 끝 */
+  }; /* 유영 : 최초 한 번 사용자 목록 불러오기 끝 */
+
 
   /* 유영 : Socket 함수 시작 */
   let client = {};

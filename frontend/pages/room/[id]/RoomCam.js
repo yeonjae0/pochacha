@@ -3,20 +3,23 @@ import { useSelector } from "react-redux"; /* 저장소 관련 */
 import styles from '@/styles/RoomPage.module.css'; /* 스타일 관련 */
 
 export default function RoomCam(props) {
+
+  const [introChat, setIntroChat] = useState(''); // 참여자 입장 메시지
+
   console.log("룸캠 렌더링")
 
-    const session=useSelector(state=>state.room.roomId);
-    const nickname=useSelector(state=>state.player.currentNick);
-    /*
-      TO DO :: 현재 props로 받아오는 정보. 자연스러운 로직을 위해 저장소 검토.
-    */
-    // const publisher=useSelector(state=>state.openvidu.publisher);
-    // const participants=useSelector(state=>state.openvidu.participants);
-    const publisher=props.publisher;
-    const participants=props.participants;
+  const session=useSelector(state=>state.room.roomId);
+  const nickname=useSelector(state=>state.player.currentNick);
+  /*
+    TO DO :: 현재 props로 받아오는 정보. 자연스러운 로직을 위해 저장소 검토.
+  */
+  // const publisher=useSelector(state=>state.openvidu.publisher);
+  // const participants=useSelector(state=>state.openvidu.participants);
+  const publisher=props.publisher;
+  const participants=props.participants;
 
-    console.log(publisher);
-    console.log(participants);
+  console.log(publisher);
+  console.log(participants);
 
   return (
     <div className="container">
