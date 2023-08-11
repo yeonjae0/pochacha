@@ -13,11 +13,13 @@ import com.ssafy.oho.util.exception.GameGetException;
 import com.ssafy.oho.util.exception.GameSetException;
 import com.ssafy.oho.util.exception.RoomGetException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -103,8 +105,13 @@ public class MinigameService extends RedisService {
             "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ",
             "ㅋ", "ㅌ", "ㅍ", "ㅎ"
     };
-    private final String SPELL_KEY = "461267C04AE2F8FD88F1327EC3533DA7";
-    private static final String SPELL_URL = "http://krdict.korean.go.kr/api/search";
+
+    @Value("${SPELL_KEY}")
+    private String SPELL_KEY;
+
+    @Value("${SPELL_URL}")
+    private static String SPELL_URL;
+
     public HashMap<String, Object> setSpell(@RequestBody RoomRequestDto roomRequestDto) throws GameGetException {
         String firstWord = randWordUnit[(int) Math.floor(Math.random() * randWordUnit.length)];
         String secondWord = randWordUnit[(int) Math.floor(Math.random() * randWordUnit.length)];
@@ -167,17 +174,31 @@ public class MinigameService extends RedisService {
 
             /*** 사전 등재 단어 찾기 시작 ***/
             String urlStr = SPELL_URL + "?key=" + SPELL_KEY + "&type_search=search&part=word&q=" + URLEncoder.encode(word);
+
+            System.out.println("urlStr: " + urlStr);
+
             URL url = new URL(urlStr);
+
+            System.out.println("url: " + url);
+
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            System.out.println("conn: " + conn.toString());
+
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-type", "application/json");
             conn.setDoOutput(true);
 
             // 서버로부터 데이터 읽어오기
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            InputStream inputStream = conn.getInputStream();
+
+            System.out.println("inputStream: " + inputStream.toString());
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
             String line = null;
             for (int i = 0; i <= 8; i++) {
                 line = br.readLine();
+                System.out.println("iter " + i + " line: " + line);
             }
             int wordNum = line.substring(8).charAt(0) - '0';
             if(wordNum == 0) {
