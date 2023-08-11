@@ -5,8 +5,8 @@
   background-color: gainsboro;
 }
 
-  .upperContainer {
-  display: flex;
+.upperContainer {
+  /* display: flex; */
   text-align: center;
   margin-top: 20px;
 }
@@ -90,5 +90,12 @@
 
 .logoImg {
   width: 100px;
-
 }
+
+/* 
+.sejongImg {
+  position: "absolute";
+  left: 125px;
+  width: 350px;
+  margin-top: -350px;
+} */

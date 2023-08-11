@@ -5,7 +5,7 @@ import styles from "@/styles/SpellGame.module.css";
 import axios from 'axios'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
-import { saveWord } from '@/store/reducers/spell'
+import { startGame } from '@/store/reducers/spell'
 
 const getConsonant = () => {
 
@@ -15,8 +15,9 @@ const getConsonant = () => {
   const [inputWords, setInputWords] = useState([]);  // 입력한 단어들 저장
   const [inputValue, setInputValue] = useState("");  // 유저 입력값 저장
   const [client, setClient] = useState({});
+  // const [sejong, setSejong] = usestate<string>("/초성_세종대왕_기본.png")
   const roomId = useSelector(state => state.room.currentRoomId);
-  const currentword = useSelector(state => state.spell.currentWord);
+  const currentRandomConsonant = useSelector(state => state.spell.currentConsonant)
 
   const router = useRouter()
 
@@ -37,8 +38,6 @@ const getConsonant = () => {
         "word": inputValue,
       }
       // setInputValue(sendData)
-      dispatch(saveWord({ input: inputValue }))
-      console.log('currentword111', currentword)
       console.log('inputValue', inputValue)
       console.log('sendData', sendData)
       // console.log('여기까지..?', data.correct) 
@@ -64,6 +63,8 @@ const getConsonant = () => {
     }).then((response) => {
       let data = response.data;
       setRandomConsonant(data.firstWord + data.secondWord);
+      dispatch(startGame(randomConsonant))
+      console.log('store저장1---------->', currentRandomConsonant)
     }
     ).catch(e => console.log(e));
   }
@@ -81,7 +82,7 @@ const getConsonant = () => {
   const subscribeSocket = () => {
     client.current.connect({}, () => {
       client.current.subscribe(`/topic/game/${roomId}`, (response) => {
-        console.log('inputValues------------->', inputValue)
+        // console.log('inputValues------------->', inputValue)
         var data = JSON.parse(response.body);
         console.log(data);
         console.log('틀렸or맞았', data.correct);
@@ -91,14 +92,13 @@ const getConsonant = () => {
           console.log('data.correct', data.correct)
           console.log('data.inputWord', data.inputWord)
           console.log('inputWords', inputWords)
-          console.log('currentword', currentword)
         }
         else {
           console.log('data.correct', data.correct)
           alert(data.msg)
         }
         setInputValue(""); 
-        dispatch(saveWord({input: ''}))
+        console.log('store저장2---------->', currentRandomConsonant)
       })  // 채팅 구독
     })
   }
@@ -190,6 +190,7 @@ const getConsonant = () => {
                   position: "absolute",
                   marginLeft: '100px',
                   marginTop: '250px',
+                  fontFamily: 'ChosunCentennial',
                   left: `${(index % 8 ) * 50}px`,
                   top: `${Math.floor(index / 8) * 30}px`,
                 }}
