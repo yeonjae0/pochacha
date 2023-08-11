@@ -110,7 +110,7 @@ public class MinigameService extends RedisService {
     private String SPELL_KEY;
 
     @Value("${SPELL_URL}")
-    private static String SPELL_URL;
+    private String SPELL_URL;
 
     public HashMap<String, Object> setSpell(@RequestBody RoomRequestDto roomRequestDto) throws GameGetException {
         String firstWord = randWordUnit[(int) Math.floor(Math.random() * randWordUnit.length)];

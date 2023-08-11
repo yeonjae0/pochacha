@@ -39,3 +39,5 @@ out/
 
 ### Korean Chosung Cacert ###
 src/main/resources/_.korean.go.kr.crt
+src/main/resources/koreanapi.pem
+src/main/resources/temporary_keystore.jks
