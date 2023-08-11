@@ -4,9 +4,13 @@ import { useEffect, useState, useRef } from 'react'
 import styles from '@/styles/RoomPage.module.css'
 
 export default function RoomChat(props) {
-
+  
   const info = props.info;
   const [client] = useState(props.client);
+
+  console.log("룸챗 컴포넌트")
+  console.log(info)
+  console.log(client)
 
   /* 유영 : Socket을 이용한 채팅 함수 시작 */
   const [message, setMessage] = useState('')
@@ -23,6 +27,7 @@ export default function RoomChat(props) {
     if (e.key === 'Enter') {
       e.preventDefault();
       sendMessage();
+      setMessage(''); //메시지 입력 시 input창 비우기
     }
   }
 
@@ -70,6 +75,9 @@ export default function RoomChat(props) {
 
   useEffect(() => {
     if (chatTextAreaRef.current) {
+      /*
+        TO DO :: 자동 스크롤 시 채팅창도 아래로 내려가게 하기
+      */
       chatTextAreaRef.current.scrollTop = chatTextAreaRef.current.scrollHeight;
     }
   }, [props.chatHistory]);

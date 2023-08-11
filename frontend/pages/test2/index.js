@@ -1,29 +1,26 @@
 'use client'
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 
 
 
 function OtherPage() {
-  const fruits = useSelector(state => state.fruit.fruits);
-  const playerInfo = useSelector(state => state.players.players);
+  const playersInfo = useSelector(state => state.players.players);
   const roomInfo = useSelector(state => state.room.currentRoomId);
+  const playerInfo = useSelector(state=>state.player.currentNick);
 
   return (
     <div>
-      {/* <h2>Fruit List</h2>
-      {fruits} */}
-      <hr />
-      <h2>플레이어 정보</h2>
-      {playerInfo && playerInfo.length > 0 ? (
+      <h2>플레이어들 정보</h2>
+      {playersInfo && playersInfo.length > 0 ? (
         <ul>
-          {playerInfo.map(player => (
-            <li key={player.playerId}>
+          {playersInfo.map(player => (
+            <div key={player.playerId}>
               <p>Player ID: {player.playerId}</p>
+              <p>Head: {player.head}</p>
               <p>Nick: {player.nick}</p>
               <p>Ready: {player.ready ? "Ready" : "Not Ready"}</p>
-              {/* Display other player properties as needed */}
-            </li>
+            </div>
           ))}
         </ul>
       ) : (
@@ -32,6 +29,9 @@ function OtherPage() {
       <hr />
       <h2>방정보</h2>
       <h3>{roomInfo}</h3>
+      <hr/>
+      <h2>내정보</h2>
+      <h3>{playerInfo}</h3>
     </div>
   );
 }

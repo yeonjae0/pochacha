@@ -9,6 +9,7 @@ import { Stomp } from '@stomp/stompjs';
 
 // Room 입장시 받은 router.query를 props로 활용
 export default function RoomBtn(props) {
+  console.log("룸버튼 렌더링")
 
   const router = useRouter();
 
@@ -109,7 +110,9 @@ export default function RoomBtn(props) {
       {/* 희진 : 모드 기능 설정 후 주석 해제 예정 */}
       <CopyBtn onClick={() => { clipBoard() }}>초대하기</CopyBtn>
       <ReadyBtn onClick={() => { readyGame() }}>Ready</ReadyBtn>
+      {props.head===true?
       <StartBtn onClick={sendData}>Go</StartBtn>
-    </div>
+      :null}
+      </div>
   )
 }

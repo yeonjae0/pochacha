@@ -5,6 +5,7 @@ const initialState= {
   currentPlayerId: "",
   currentNick: "",
   currentReady: false,
+  currentHead: false,
 };
 
 const playerSlice = createSlice({
@@ -15,6 +16,7 @@ const playerSlice = createSlice({
       state.currentPlayerId = action.payload.playerId;
       state.currentNick = action.payload.nick;
       state.currentReady = action.payload.ready;
+      state.currentHead=action.payload.head;
     },
   }
 });
