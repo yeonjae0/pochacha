@@ -58,11 +58,14 @@ useEffect(() => {
         let video = videoRef.current;
         video.srcObject = stream;
         video.play();
-      })
-      .catch((error) => {
-        console.log("WEBCAM ERROR");
-        console.log(error);
-      })
+      }).catch((error) => {
+      if(error.response) {
+        router.push({
+            pathname: "/exception",
+            query: { msg: error.response.data },
+          })
+      } else { console.log(error) }
+    });
   }
 
   useEffect(() => {
@@ -139,11 +142,13 @@ useEffect(() => {
       }
       sendData();
     }).catch((error) => {
-      router.push({
-          pathname: "/exception",
-          query: { msg: error.response.data },
-        })
-      });
+      if(error.response) {
+        router.push({
+            pathname: "/exception",
+            query: { msg: error.response.data },
+          })
+      } else { (error) => console.log(error); }
+    });
   }
 
   return (
