@@ -160,12 +160,22 @@
   background-image: url("../public/두더지_기본배경.png");
   background-size: 600px;
   background-repeat: no-repeat;
+  position: relative;
+  width: 600px;
+  height: 600px;
+  margin: 0 auto;
+  overflow: hidden;
 }
 
 .end {
   background-image: url("../public/두더지_실패배경.png");
   background-size: 600px;
   background-repeat: no-repeat;
+  position: relative;
+  width: 600px;
+  height: 600px;
+  margin: 0 auto;
+  overflow: hidden;
 }
 
 .slideInEllipticBottomFwd {

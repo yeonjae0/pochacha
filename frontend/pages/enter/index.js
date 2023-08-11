@@ -32,7 +32,6 @@ export default function EnterPage() {
 
   /* 유영 : axios를 통한 닉네임 생성 및 방 생성 시작 */
   /* 희진 : axios 렌더링 타이밍 변경 시작 (페이지 로딩 시 최초 1회) */
-
   let roomId = '';
   let progress = false;
   let secret = false;

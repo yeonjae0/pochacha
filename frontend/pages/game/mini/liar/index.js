@@ -51,7 +51,7 @@ export default function Liar() {
   return (
     <>
     <div className={styles.title_container}>
-    <img src='' alt='Liar game Title' width={300} height={100} />
+    <img src='/라이어_로고.png' alt='Liar game Title' width={300} height={100} />
     </div>
     <div className={styles.game_container}>
       {
