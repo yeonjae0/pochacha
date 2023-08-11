@@ -39,7 +39,7 @@ export default function Home() {
       <br />
       <Link href={'/test2'}><h3>데이터 확인</h3></Link>
       <Link href={'/test3'}><h3>데이터 초기화</h3></Link>
-      
+      <Link href={'/game/penalty/facefilter'}><h3>페이스 필터</h3></Link>
     </div>
   )
 }
