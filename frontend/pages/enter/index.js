@@ -127,7 +127,12 @@ export default function EnterPage() {
         )
       }
       sendData();
-    }).catch(error => console.log(error));
+    }).catch((error) => {
+      router.push({
+          pathname: "/exception",
+          query: { msg: error.response.data },
+        })
+      });
   }
   /* 유영 : axios를 통한 닉네임 생성 및 방 생성 끝 */
   /* 희진 : axios 렌더링 타이밍 변경 끝 */
