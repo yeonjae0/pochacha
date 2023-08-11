@@ -87,9 +87,9 @@ const getConsonant = () => {
         console.log('틀렸or맞았', data.correct);
         // {data.correct ? setInputWords((prevWords) => [...prevWords, inputValue]): alert(data.msg)}
         if (data.correct) {
-          setInputWords((prevWords) => [...prevWords, inputValue])
+          setInputWords((prevWords) => [...prevWords, data.inputWord])
           console.log('data.correct', data.correct)
-          console.log('inputValue', inputValue)
+          console.log('data.inputWord', data.inputWord)
           console.log('inputWords', inputWords)
           console.log('currentword', currentword)
         }
@@ -97,7 +97,7 @@ const getConsonant = () => {
           console.log('data.correct', data.correct)
           alert(data.msg)
         }
-        // setInputValue(""); 
+        setInputValue(""); 
         dispatch(saveWord({input: ''}))
       })  // 채팅 구독
     })
@@ -202,8 +202,8 @@ const getConsonant = () => {
                   position: "absolute",
                   marginLeft: '100px',
                   marginTop: '250px',
-                  left: `${(index % 7) * 50}px`,
-                  top: `${Math.floor(index / 7) * 30}px`,
+                  left: `${(index % 8 ) * 50}px`,
+                  top: `${Math.floor(index / 8) * 30}px`,
                 }}
               >
                 {word}
