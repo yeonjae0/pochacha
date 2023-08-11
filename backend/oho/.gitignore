@@ -36,3 +36,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Korean Chosung Cacert ###
+src/main/resources/_.korean.go.kr.crt
