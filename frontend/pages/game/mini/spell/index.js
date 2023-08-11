@@ -125,6 +125,7 @@ const getConsonant = () => {
       return (
         <div className={styles.modalContainer}>
           <div className={styles.modalContent}>
+            {/* <img className="logoImg" src="/로고_훈민정음.png" /> */}
             <p>10초 안에 제시된 초성과 일치하는 단어를 입력하세요.</p>
             <p>*두 글자의 단어만 입력 가능합니다.*</p>
 
@@ -151,14 +152,8 @@ const getConsonant = () => {
         </button>
         {/* 뒤로 가기 버튼 (임시) */}
 
-          <h1>초성 게임</h1>
-          <label>
-            단어를 입력하세요:
-            <input type="text" value={inputValue} onChange={handleInput} onKeyDown={handleKeyDown} />
-          </label>
-          <button type="button" onClick={handleSubmit} >
-            제출
-          </button>
+          {/* <h1>초성 게임</h1> */}
+          <img className="logoImg" src="/로고_훈민정음.png" />
         </div>
         <br />
         <div className={styles.redBlock}>
@@ -191,8 +186,7 @@ const getConsonant = () => {
               left: "-50px",
               marginBottom: "-200px",
               zIndex: "0",
-            }}
-          />
+            }} />
           <div className={styles.wordsContainer}>
             {inputWords.map((word, index) => (
               <div
@@ -210,6 +204,13 @@ const getConsonant = () => {
               </div>
             ))}
           </div>
+          <label>
+            단어를 입력하세요:
+            <input type="text" value={inputValue} onChange={handleInput} onKeyDown={handleKeyDown} />
+          </label>
+          <button type="button" onClick={handleSubmit} >
+            제출
+          </button>
         </div>
       </div>
     </>
