@@ -8,7 +8,7 @@ stages:
 react-build:
   stage: build
   tags:
-    - test
+    - deploy
   image: node:18.16.1-alpine
   script: 
     - cd frontend
@@ -22,7 +22,7 @@ react-build:
 docker-react-nextjs-openvidu-deploy:
   stage: docker-rno-deploy
   tags:
-  - test
+  - deploy
   image: docker:latest
   services: 
     - docker:19.03.8-dind
@@ -41,7 +41,7 @@ docker-spring-api-mariadb-redis-deploy:
   image: docker:latest
   stage: docker-samr-deploy
   tags:
-    - test
+    - deploy
   services:
     - docker:19.03.8-dind
   before_script:
