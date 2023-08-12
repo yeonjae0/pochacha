@@ -2,8 +2,6 @@ FROM openjdk:17-jdk-alpine
 
 ARG JAR_FILE=oho-0.0.1-SNAPSHOT.jar
 
-RUN ./gradlew clean build
-
 COPY /build/libs/${JAR_FILE} /app.jar
 
 COPY _.korean.go.kr.crt _.korean.go.kr.crt
