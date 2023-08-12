@@ -1,7 +1,9 @@
 stages:
   - build
-  - docker-nr-deploy
+  - docker-rno-deploy
   - docker-sa-deploy
+
+image: creatiwww/docker-compose:latest
 
 react-build:
   stage: build
@@ -11,34 +13,18 @@ react-build:
   script: 
     - echo "Start building App"
     - cd frontend
+    - npm install next
     - npm install .
     - npm run build
     - echo "Build successfully!"
   artifacts:
-    #expire_in: 1 hour
     paths:
       - frontend/out
 
-spring-build:
-  image: gradle:jdk17
-  stage: build
-  tags:
-    - test
-  script:
-    - java -version
-    - cd backend/oho
-    - .\gradlew build
-  artifacts:
-    paths:
-      - backend/oho/build/libs/*.jar
-    #expire_in: 10 min
-
-docker-nginx-react-deploy:
-  stage: docker-nr-deploy
+docker-react-nextjs-openvidu-deploy:
+  stage: docker-rno-deploy
   tags:
   - test
-  variables:
-    IMAGE_NAME: zaqxsw1397/nginx-react
   image: docker:latest
   services: 
     - docker:19.03.8-dind
@@ -46,27 +32,23 @@ docker-nginx-react-deploy:
     - echo "$DOCKER_HUB_PW" | docker login -u "$DOCKER_HUB_USER" --password-stdin
   script:
     - cd frontend
-    - docker build -t $IMAGE_NAME .
-    - docker push $IMAGE_NAME
-    - docker run -d --restart always -p 443:443 -p 80:80 --name NGINXREACT $IMAGE_NAME
+    - cp -r ./out /home/ubuntu/S09P12A602/openvidu
+    - cd ../openvidu
+    - ./openvidu start
   after_script:
     - docker logout
 
-docker-spring-api-deploy:
+docker-spring-api-mariadb-redis-deploy:
   image: docker:latest
   stage: docker-sa-deploy
   tags:
     - test
-  variables:
-    IMAGE_NAME: zaqxsw1397/spring-api
   services:
     - docker:19.03.8-dind
   before_script:
     - echo "$DOCKER_HUB_PW" | docker login -u "$DOCKER_HUB_USER" --password-stdin
   script:
-    - cd backend/oho
-    - docker build -t $IMAGE_NAME .
-    - docker push $IMAGE_NAME
-    - docker run -d --restart always -p 8080:8080 --name SPRINGAPI $IMAGE_NAME
+    - docker-compose down
+    - docker-compose up -d
   after_script:
     - docker logout
