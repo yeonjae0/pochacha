@@ -3,53 +3,110 @@
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import SockJS from 'sockjs-client';
-import { Stomp } from '@stomp/stompjs';
+import { changeMini } from "@/store/reducers/room.js";
 
 // Room 입장시 받은 router.query를 props로 활용
 export default function RoomBtn(props) {
 
   const router = useRouter();
-
-  /* 희진 : 미니 게임 모드 ON/OFF 기능 구현 후 주석 해제 예정 */
-  // let ModeBtn = styled.button`
-  // margin: 10px;
-  // padding: 5px;
-  // background-color: black;
-  // border-radius: 10px;
-  // color: white;
-  // width: 80px;
-  // height: 50px;
-  // `;
-  /* 희진 : 미니 게임 모드 ON/OFF 기능 구현 후 주석 해제 예정 */
+  const dispatch = useDispatch();
   
+  // 추가
+  let ModeBtn = styled.button`
+  font-family: 'LeeSeoyun';
+
+  position:absolute;
+  bottom: 16px;
+  left: 220px;
+
+  background: url("/room/bowl.png") no-repeat center/cover !important; 
+  width: 160px;
+  height: 120px;
+  cursor: pointer;
+
+  font-weight: bold;
+  font-size: 24px;
+  color: #000; /* 텍스트 색상 */
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: rotate(10deg); /* X축으로 20도만큼 기울임 */
+    font-size: 26px;
+  }
+  `;
   let CopyBtn = styled.button`
-  margin: 10px;
-  width: 150px;
-  height: 50px;
-  background: #CED4DA;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
+  font-family: 'LeeSeoyun';
+
+  position:absolute;
+  bottom: 16px;
+  right: 450px;
+
+  background: url("/room/chapstick.png") no-repeat center/cover !important; 
+  width: 180px;
+  height: 40px;
+  cursor: pointer;
+
+  font-weight: bold;
+  font-size: 24px;
+  color: #000; /* 텍스트 색상 */
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: rotate(-10deg); /* X축으로 20도만큼 기울임 */
+    font-size: 26px;
+  }
   `;
 
-  let ReadyBtn = styled.button`
-  margin: 10px;
-  width: 200px;
-  height: 50px;
-  background: #43BEF2;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-  `;
+  let ReadyBtn = styled.button `
+  font-family: 'LeeSeoyun';
 
-  let StartBtn = styled.button`
-  margin: 10px;
-  width: 200px;
-  height: 50px;
-  background: #FF285C;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-  `;
+  position:absolute;
+  bottom: 16px;
+  right: 260px;
+
+  background: url("/room/pot.png") no-repeat center/cover !important; 
+  width: 180px;
+  height: 120px;
+  cursor: pointer;
+
+  font-weight: bold;
+  font-size: 36px;
+  color: #000; /* 텍스트 색상 */
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: rotate(-10deg); /* X축으로 20도만큼 기울임 */
+    font-size: 40px;
+  }
+`;
+let StartBtn = styled.button `
+  font-family: 'LeeSeoyun';
+
+  position:absolute;
+  bottom: 16px;
+  right: 260px;
+
+  background: url("/room/pot.png") no-repeat center/cover !important; 
+  width: 180px;
+  height: 120px;
+  cursor: pointer;
+
+  font-weight: bold;
+  font-size: 36px;
+  color: #000; /* 텍스트 색상 */
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: rotate(-10deg); /* X축으로 20도만큼 기울임 */
+    font-size: 40px;
+  }
+`;
 
   const info = props.info;
 
@@ -57,8 +114,9 @@ export default function RoomBtn(props) {
     TO DO :: 현재 한 컴퓨터에서 다중 접속할 때, ready를 공유하는 문제 발생. MyPlayerData를 통해 ready api를 호출하도록 변경 필요.
   */
   const [client] = useState(props.client);
-  let [ready, setReady] = useState(info.ready);
-  let [setting, setSetting] = useState(true);
+  const ready = useState(props.ready);
+  console.log("ready ::: ", ready);
+  const includeMini = useSelector(state => state.room.currentIncludeMini);
   
   /* 희진 : JS 클립보드 API 시작 */
   const roomId= useSelector(state => state.room.currentRoomId); //오픈비두 세션
@@ -73,7 +131,12 @@ export default function RoomBtn(props) {
   }
   /* 희진 : JS 클립보드 API 끝 */
 
+  // 방장 game start (유효성 필요)
   const sendData = () => {
+    /*
+      1. players가 4명 미만일 경우 alert 후 return
+      2. players 중 하나라도 ready가 false면 alert 후 return
+    */
     router.push(
       {
         pathname: `/game/${info.roomId}`,
@@ -92,24 +155,23 @@ export default function RoomBtn(props) {
   // }
   /* 제정 : 시작 버튼 클릭 시 메인 게임 이동 끝 */
 
-  /* 유영 : 플레이어 ready 정보 socket 전송 시작 */
+  // 비방장 ready socket 전송
   const readyGame = () => {
-    setReady(!ready);
     let sendData = {
       "playerId" : info.playerId,
-      "ready" : ready,
+      "ready" : ready
     };
     client.current.send(`/ready/${info.roomId}`, {}, JSON.stringify(sendData));
-  } /* 유영 : 플레이어 ready 정보 socket 전송 끝 */
+  }
 
   return (
-    <div>
-      {/* 희진 : 모드 기능 설정 후 주석 해제 예정 */}
-      {/* <ModeBtn onClick={() => { setSetting(!setting) }}>{ setting == true ? ('기본 모드 ON') : '미니게임 ON' }</ModeBtn> */}
-      {/* 희진 : 모드 기능 설정 후 주석 해제 예정 */}
+    <div style={{ marginTop: "20px" }}>
+      <ModeBtn onClick={() => {dispatch(changeMini())}}>{ includeMini == true ? "미니게임 모드" : "기본 모드" }</ModeBtn>
       <CopyBtn onClick={() => { clipBoard() }}>초대하기</CopyBtn>
-      <ReadyBtn onClick={() => { readyGame() }}>Ready</ReadyBtn>
-      <StartBtn onClick={sendData}>Go</StartBtn>
-    </div>
+      
+      {props.head===true?
+      <StartBtn onClick={sendData}>시 작</StartBtn>
+      :<ReadyBtn onClick={() => { readyGame() }}> {(props.ready === false)? "준 비":"준비완료"}</ReadyBtn>}
+      </div>
   )
 }

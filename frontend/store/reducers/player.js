@@ -5,6 +5,7 @@ const initialState= {
   currentPlayerId: "",
   currentNick: "",
   currentReady: false,
+  currentHead: false,
 };
 
 const playerSlice = createSlice({
@@ -15,11 +16,16 @@ const playerSlice = createSlice({
       state.currentPlayerId = action.payload.playerId;
       state.currentNick = action.payload.nick;
       state.currentReady = action.payload.ready;
+      state.currentHead=action.payload.head;
     },
+    ready: (state, action) => {
+      if(action.payload.ready != null) state.currentReady = action.payload.ready;
+    }
   }
 });
 
 export default playerSlice;
 export const {
-    MyPlayerData
+    MyPlayerData,
+    ready
 } = playerSlice.actions

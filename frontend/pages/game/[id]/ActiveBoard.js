@@ -8,8 +8,9 @@ import styles from '@/styles/BoardMap.module.css'
 export default function ActiveBoard({ pin, cellObj }) {
 
   const targetRef = useRef(null);
-  const [left, setLeft] = useState(0)
-  const [top, setTop] = useState(0)
+  // const [left, setLeft] = useState(0)
+  // const [top, setTop] = useState(0)
+  const [positionStyle, setPositionStyle] = useState({ top: 0, left: 0 });
 
   /* 희진 : 보드 색 지정 시작 */
   const numMatch = {
@@ -20,15 +21,15 @@ export default function ActiveBoard({ pin, cellObj }) {
 
   for (const key in numMatch) {
     if (cellObj[key] === 'E') { // 이동 이벤트
-      cellObj[key] = 'red';
+      cellObj[key] = '#454545';
     } else if (cellObj[key] === 'G') { // 긍정 이벤트
-      cellObj[key] = 'purple';
+      cellObj[key] = '#FFE6C7';
     } else if (cellObj[key] === 'B') { // 팀/개인 벌칙
-      cellObj[key] = 'green';
+      cellObj[key] = '#FF6000';
     } else if (cellObj[key] === 'P') { // 필터 벌칙
-      cellObj[key] = 'pink';
+      cellObj[key] = '#FFFFFF';
     } else if (cellObj[key] === 'M') { // 미니게임
-      cellObj[key] = 'yellow';
+      cellObj[key] = '#FFA559';
     }
   }
   /* 희진 : 보드 색 지정 끝 */
@@ -37,10 +38,12 @@ export default function ActiveBoard({ pin, cellObj }) {
     const targetElement = targetRef.current;
     if (targetElement) {
       const rect = targetElement.getBoundingClientRect();
-      // setTop(rect.top - 320) // 위치 값 조정
-      // setLeft(rect.left - 50) // 위치 값 조정
-      setTop(rect.top - 80) // 위치 값 조정
-      setLeft(rect.left - 40) // 위치 값 조정
+      // setTop(rect.top - 80) // 위치 값 조정
+      // setLeft(rect.left - 40) // 위치 값 조정
+      setPositionStyle({
+        top: rect.top - 80, // 위치 값 조정
+        left: rect.left - 40 // 위치 값 조정
+      });
     }
   }, [pin]);
 
@@ -104,9 +107,15 @@ export default function ActiveBoard({ pin, cellObj }) {
         style={{
           width: '100px',
           position: 'absolute',
-          top: `${top}px`,
-          left: `${left}px`
+          transition: 'top 0.3s ease, left 0.3s ease',
+          ...positionStyle
         }}
+      // style={{
+      //   width: '100px',
+      //   position: 'absolute',
+      //   top: `${top}px`,
+      //   left: `${left}px`
+      // }}
       />
     </div>
   )

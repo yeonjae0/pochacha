@@ -4,10 +4,10 @@ import Carousel from "./carousel.js";
 // Log the version. Just in case.
 console.log("Deepar version: " + deepar.version);
 
-// Top-level await is not supported.
-// So we wrap the whole code in an async function that is called immediatly.
-(async function () {
-  // Resize the canvas according to screen size and pixel ratio.
+export default function FaceFilterComponent(){
+
+  const loadFilter=async()=>{
+       // Resize the canvas according to screen size and pixel ratio.
   const canvas = document.getElementById("deepar-canvas");
   const dpr = window.devicePixelRatio || 1;
   canvas.width = Math.floor(window.innerWidth * dpr);
@@ -83,4 +83,93 @@ console.log("Deepar version: " + deepar.version);
     }
     loadingSpinner.style.display = "none";
   };
-})();
+    }
+
+    return(
+      <div>
+    {/* <!-- permission denied screen --> */}
+    <div
+      class="fixed-fullscreen screen"
+      id="permission-denied-screen"
+      style="display: none"
+    >
+      <div class="permission-denied-text-container">
+        <div class="permission-denied-text" id="camera_denied">
+          <p>Please reload and allow camera access to use this app.</p>
+          <a
+            class="permission-denied-button"
+            href="https://www.deepar.ai/projects"
+            target="__blank"
+          >
+            Discover more
+          </a>
+        </div>
+      </div>
+    </div>
+
+    {/* <!-- AR screen --> */}
+    <div id="ar-screen" style="display: none">
+      <canvas class="deepar" id="deepar-canvas"></canvas>
+
+      <div class="carousel" id="carousel">
+        <div class="carousel-center" id="carousel-center">
+          <div class="lds-ring" id="loading-spinner" style="display: none">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+        <div class="carousel-slider">
+          <div class="slide">
+            <img class="responsive-img" src="thumbs/ray-ban-wayfarer.png" />
+          </div>
+          <div class="slide">
+            <img class="responsive-img" src="thumbs/viking.png" />
+          </div>
+          <div class="slide">
+            <img class="responsive-img" src="thumbs/makeup.png" />
+          </div>
+          <div class="slide">
+            <img class="responsive-img" src="thumbs/makeup-split.png" />
+          </div>
+          <div class="slide">
+            <img class="responsive-img" src="thumbs/flower_face.png" />
+          </div>
+          <div class="slide">
+            <img class="responsive-img" src="thumbs/stallone.png" />
+          </div>
+          <div class="slide">
+            <img class="responsive-img" src="thumbs/galaxy.png" />
+          </div>
+          <div class="slide">
+            <img class="responsive-img" src="thumbs/humanoid.png" />
+          </div>
+          <div class="slide">
+            <img class="responsive-img" src="thumbs/devil_horns.png" />
+          </div>
+          <div class="slide">
+            <img class="responsive-img" src="thumbs/ping_pong.png" />
+          </div>
+          <div class="slide">
+            <img class="responsive-img" src="thumbs/pixel_hearts.png" />
+          </div>
+          <div class="slide">
+            <img class="responsive-img" src="thumbs/snail.png" />
+          </div>
+          <div class="slide">
+            <img class="responsive-img" src="thumbs/hope.png" />
+          </div>
+          <div class="slide">
+            <img class="responsive-img" src="thumbs/vendetta.png" />
+          </div>
+          <div class="slide">
+            <img class="responsive-img" src="thumbs/fire.png" />
+          </div>
+        </div>
+      </div>
+    </div>
+      </div>
+    )
+
+}
