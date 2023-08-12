@@ -1,28 +1,26 @@
 'use client'
+
 import React, { useState, useEffect, useRef } from 'react';
 import LiarGame from './LiarGame';
 import styles from '@/styles/LiarGame.module.css';
 
-
 export default function Liar() {
   const [sec, setSec] = useState(0);
-  const time = useRef(14);
+  const time = useRef(100); // 게임 진행 시간
   const timerId = useRef(null);
   const [rule, setRule] = useState(1)
-
 
   useEffect(() => {
     timerId.current = setInterval(() => {
       setSec(time.current % 60);
       time.current -= 1;
     }, 1000);
-    
     return () => clearInterval(timerId.current);
   }, []);
 
   useEffect(() => {
     if (time.current <= -1) {
-      console.log('시간 초과')
+      // console.log('시간 초과')
       clearInterval(timerId.current);
       setRule(null)
     }
@@ -46,12 +44,16 @@ export default function Liar() {
       setRule(5)
     }, 12000)
 
+    setTimeout(() => {
+      setRule(null)
+    }, 14000)
+
   }, [])
 
   return (
     <>
     <div className={styles.title_container}>
-    <img src='' alt='Liar game Title' width={300} height={100} />
+    <img src='/라이어_로고.png' alt='Liar game Title' width={300} height={100} />
     </div>
     <div className={styles.game_container}>
       {

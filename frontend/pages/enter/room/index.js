@@ -58,11 +58,14 @@ useEffect(() => {
         let video = videoRef.current;
         video.srcObject = stream;
         video.play();
-      })
-      .catch((error) => {
-        console.log("WEBCAM ERROR");
-        console.log(error);
-      })
+      }).catch((error) => {
+      if(error.response) {
+        router.push({
+            pathname: "/exception",
+            query: { msg: error.response.data },
+          })
+      } else { console.log(error) }
+    });
   }
 
   useEffect(() => {
@@ -112,6 +115,7 @@ useEffect(() => {
         playerId: response.data.id,
         nick: text || response.data.nickname,
         ready: response.data.ready,
+        head:false,//초대받은 플레이어이므로 방장 false
       }
 
       const sendData = () => {
@@ -138,11 +142,13 @@ useEffect(() => {
       }
       sendData();
     }).catch((error) => {
-      router.push({
-          pathname: "/exception",
-          query: { msg: error.response.data },
-        })
-      });
+      if(error.response) {
+        router.push({
+            pathname: "/exception",
+            query: { msg: error.response.data },
+          })
+      } else { (error) => console.log(error); }
+    });
   }
 
   return (

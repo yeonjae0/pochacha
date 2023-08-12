@@ -24,8 +24,9 @@ export default function Timer() {
       clearInterval(timerId.current);
     }
   })
+  
   return (
-    <div>
+    <div style={{ backgroundColor: '#9DE551', height: '100vh' }}>
       <MoleGame sec={sec} />
     </div>
   )
