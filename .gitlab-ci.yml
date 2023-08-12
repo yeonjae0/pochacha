@@ -5,7 +5,7 @@ stages:
 
 # image: creatiwww/docker-compose:latest
 
-react-build:
+react-nextjs-build:
   stage: build
   tags:
     - deploy
