@@ -46,6 +46,7 @@ docker-spring-api-mariadb-redis-deploy:
   before_script:
     - echo "$DOCKER_HUB_PW" | docker login -u "$DOCKER_HUB_USER" --password-stdin
   script:
+    - cd backend/oho
     - docker-compose down
     - docker-compose up -d
   after_script:
