@@ -32,7 +32,8 @@ docker-react-nextjs-openvidu-deploy:
     - RD openvidu/out -Force -Recurse
     - Move-Item -Path ".\frontend\out" -Destination ".\openvidu"
     - cd openvidu
-    - ./openvidu restart
+    - docker-compose down
+    - docker-compose up -d
   after_script:
     - docker logout
 
@@ -48,6 +49,7 @@ docker-spring-api-mariadb-redis-deploy:
   script:
     - cd backend/oho
     - docker-compose down
+    - docker-compose build --no-cache
     - docker-compose up -d
   after_script:
     - docker logout
