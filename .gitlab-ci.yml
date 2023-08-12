@@ -48,8 +48,8 @@ docker-spring-api-mariadb-redis-deploy:
     - echo "$DOCKER_HUB_PW" | docker login -u "$DOCKER_HUB_USER" --password-stdin
   script:
     - cd backend/oho
+    - ./gradlew clean build
     - docker-compose down
-    - docker-compose build --no-cache
     - docker-compose up -d
   after_script:
     - docker logout
