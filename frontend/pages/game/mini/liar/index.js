@@ -6,7 +6,7 @@ import styles from '@/styles/LiarGame.module.css';
 
 export default function Liar() {
   const [sec, setSec] = useState(0);
-  const time = useRef(100); // 게임 진행 시간
+  const time = useRef(14); // 총 룰 설명 시간
   const timerId = useRef(null);
   const [rule, setRule] = useState(1)
 
@@ -63,20 +63,20 @@ export default function Liar() {
       }
       {
         rule === 2 && (
-          <h2>제시어를 확인한 뒤,<br/>
+          <h2 style={{textAlign: 'center'}}>제시어를 확인한 뒤,<br/>
           정해진 순서로 한 명씩 제시어를 설명합니다.</h2>
         )
       }
       {
         rule === 3 && (
-          <h2>라이어가 아닌 사람은<br/>
+          <h2 style={{textAlign: 'center'}}>라이어가 아닌 사람은<br/>
             라이어에게 제시어가 들키지 않도록<br/>
             선을 지켜가면서 설명해야 합니다.</h2>
         )
       }
       {
         rule === 4 && (
-          <h2>그리고 라이어는 정체가 들키지 않도록<br/>
+          <h2 style={{textAlign: 'center'}}>그리고 라이어는 정체가 들키지 않도록<br/>
           거짓말을 하면 됩니다.</h2>
         )
       }
