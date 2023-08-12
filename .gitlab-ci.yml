@@ -30,7 +30,7 @@ docker-react-nextjs-openvidu-deploy:
     - echo "$DOCKER_HUB_PW" | docker login -u "$DOCKER_HUB_USER" --password-stdin
   script:
     - RD openvidu/out -Force -Recurse
-    - Move-Item -Path ".\frontend\out" -Destination ".\openvidu" -Recurse
+    - Move-Item -Path ".\frontend\out" -Destination ".\openvidu"
     - cd openvidu
     - ./openvidu restart
   after_script:
