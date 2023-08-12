@@ -4,7 +4,7 @@ import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import axios from "axios";
 import styles from '@/styles/LiarGame.module.css';
-import WordComponent from './WordComponent';
+import Phase2 from './Phase2';
 
 export default function Picktopic() {
   const [word, setWord] = useState('abc')
@@ -35,9 +35,7 @@ export default function Picktopic() {
     })
     .catch(e => console.log('error', e));
   }
-  
-  console.log("setWord 성공, 다음 페이지로 이동")
-  
+    
   // const connectSocket = () => {
   //   client.current = Stomp.over(() => {
   //     const sock = new SockJS("http://localhost:80/ws")
@@ -66,7 +64,6 @@ export default function Picktopic() {
       {
         status == 'ready' ?
         <div>
-        <h1>주제를 골라주세요</h1>
         <div
           className="pickTopic"
           style={{
@@ -81,6 +78,8 @@ export default function Picktopic() {
             justifyContent: 'center',
           }}
         >
+          <h1>주제를 골라주세요</h1>
+          <br/>
           <div className={styles.buttonContainer}>
             <button
               className={styles.button}
@@ -107,20 +106,20 @@ export default function Picktopic() {
           </div>  
         </div>
         </div>
-        : <ShowWord />
+        : <ShowWord word = {word} />
       }
     </div>
   )
 }
 
-function ShowWord() {
-
+function ShowWord(props) {
+  let word = props.word
   const [liar, setLiar] = useState(false) // false면 일반인, true면 라이어
   const [invisible, setInvisible] = useState(false)
 
   setTimeout(() => {
     setInvisible(true)
-  }, 10000); // 일반인 & 라이어 단어 확인 시간
+  }, 7000); // 일반인 & 라이어 단어 확인 시간
 
   // 일반인/라이어를 구분하는 기준을 정하기
   // random.math --> 0 1 2 3 (혜지 제정 토의)
@@ -130,14 +129,10 @@ function ShowWord() {
     return (
       <div>
       {
-        liar == false && invisible == false ?
-        <div>일반인에게 보여질 단어</div>
-        : <div>라이어에게 보여질 단어</div>
-      }
-      {
-        invisible == true ?
-        <div>토론창</div>
-        : null
+        invisible == false ? 
+        (liar == false ? <><h1>단어를 확인하세요.</h1><div>주어진 단어는 { word }입니다. 라이어에게 들기키 않게 설명하세요.</div></>
+        : <div>당신은 라이어입니다.</div>)
+        : <Phase2 />
       }
       </div>
   )
