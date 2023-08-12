@@ -1,9 +1,9 @@
 stages:
   - build
   - docker-rno-deploy
-  - docker-sa-deploy
+  - docker-samr-deploy
 
-image: creatiwww/docker-compose:latest
+# image: creatiwww/docker-compose:latest
 
 react-build:
   stage: build
@@ -11,12 +11,10 @@ react-build:
     - test
   image: node:18.16.1-alpine
   script: 
-    - echo "Start building App"
     - cd frontend
     - npm install next
     - npm install .
     - npm run build
-    - echo "Build successfully!"
   artifacts:
     paths:
       - frontend/out
@@ -32,15 +30,16 @@ docker-react-nextjs-openvidu-deploy:
     - echo "$DOCKER_HUB_PW" | docker login -u "$DOCKER_HUB_USER" --password-stdin
   script:
     - cd frontend
+    - rm -r /home/ubuntu/S09P12A602/openvidu/out
     - cp -r ./out /home/ubuntu/S09P12A602/openvidu
     - cd ../openvidu
-    - ./openvidu start
+    - ./openvidu restart
   after_script:
     - docker logout
 
 docker-spring-api-mariadb-redis-deploy:
   image: docker:latest
-  stage: docker-sa-deploy
+  stage: docker-samr-deploy
   tags:
     - test
   services:
