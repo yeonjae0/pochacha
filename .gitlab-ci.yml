@@ -3,8 +3,6 @@ stages:
   - docker-rno-deploy
   - docker-samr-deploy
 
-# image: creatiwww/docker-compose:latest
-
 react-nextjs-build:
   stage: build
   tags:
