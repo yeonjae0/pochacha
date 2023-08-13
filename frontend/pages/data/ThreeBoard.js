@@ -1,13 +1,13 @@
 // 18번 블록 위에 모델 위치
 import React, { useRef, useEffect } from 'react';
-// import * as THREE from 'three';
-// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import styles from '@/styles/Three.module.css';
 
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+// import { OrbitControls } from '@react-three/drei';
+// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { useSpring, a } from '@react-spring/three';
 
 const ThreeBoard = () => {
@@ -69,7 +69,7 @@ const ThreeBoard = () => {
 
             const materials = [
               new THREE.MeshPhongMaterial({ color: 0xCCCCCC }), // Front
-              new THREE.MeshPhongMaterial({ color: 0x00ff00 }), // Back
+              new THREE.MeshPhongMaterial({ color: 0xCCCCCC }), // Back
               new THREE.MeshPhongMaterial({ color: 0xffffff }), // Top
               new THREE.MeshPhongMaterial({ color: 0xffff00 }), // Bottom
               new THREE.MeshPhongMaterial({ color: 0x999999 }), // Left
