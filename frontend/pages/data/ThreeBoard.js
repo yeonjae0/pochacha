@@ -1,150 +1,132 @@
+// 18번 블록 위에 모델 위치
 import React, { useRef, useEffect } from 'react';
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+// import * as THREE from 'three';
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import styles from '@/styles/Three.module.css';
 
-const getRandomColor = () => {
-  return Math.random() * 0xffffff;
-};
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { useSpring, a } from '@react-spring/three';
 
 const ThreeBoard = () => {
   const boardRef = useRef(null);
 
   useEffect(() => {
-    // Scene
     const scene = new THREE.Scene();
 
-    // Camera
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 10, 10);
     camera.lookAt(0, 0, 0);
 
-    // Renderer
-    const renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.gammaOutput = true;
     renderer.gammaFactor = 2.2;
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 0);
     boardRef.current.appendChild(renderer.domElement);
 
-    // Controls
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.target.set(0, 0, 0);
     controls.update();
 
-    // Add Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
-    const pointLight = new THREE.PointLight(0xffffff, 2.5);
-    pointLight.position.set(5, 10, 5);
-    scene.add(ambientLight, pointLight);
+    const color = 0xFFFFFF;
+    const intensity = 3;
+    const light = new THREE.AmbientLight(color, intensity);
+    scene.add(light);
 
+    const gltfLoader = new GLTFLoader();
+    let gltfModel;
+    let mixer;
 
+    gltfLoader.load('/src/scene.gltf', (gltf) => {
+      gltfModel = gltf.scene;
+      gltfModel.scale.set(0.5, 0.5, 0.5);
 
+      mixer = new THREE.AnimationMixer(gltfModel);
+      gltf.animations.forEach((clip) => {
+        mixer.clipAction(clip).play();
+      });
 
+      scene.add(gltfModel);
 
+      const blocks = [];
+      const numRows = 7;
+      const centerX = (numRows - 1) / 2;
+      const centerZ = (numRows - 1) / 2;
 
+      const blockSpacing = 1.2;
+      const blockHeight = 0;
 
+      let blockNumber = 1;
+      let targetBlock = null; // 숫자 18이 적힌 블록
 
+      for (let i = 0; i < numRows; i++) {
+        for (let j = 0; j < numRows; j++) {
+          if (i === 0 || i === numRows - 1 || j === 0 || j === numRows - 1) {
+            const geometry = new THREE.BoxGeometry(1, 0.1, 1);
 
+            const materials = [
+              new THREE.MeshPhongMaterial({ color: 0xCCCCCC }), // Front
+              new THREE.MeshPhongMaterial({ color: 0x00ff00 }), // Back
+              new THREE.MeshPhongMaterial({ color: 0xffffff }), // Top
+              new THREE.MeshPhongMaterial({ color: 0xffff00 }), // Bottom
+              new THREE.MeshPhongMaterial({ color: 0x999999 }), // Left
+              new THREE.MeshPhongMaterial({ color: 0x00ffff })  // Right
+            ];
 
+            const block = new THREE.Mesh(geometry, materials);
+            block.position.x = j - centerX;
+            block.position.z = i - centerZ;
 
+            block.position.y = blockHeight / 2;
+            block.position.x *= blockSpacing;
+            block.position.z *= blockSpacing;
 
+            if (blockNumber === 18) {
+              targetBlock = block;
+            }
 
-    ////////////////////////////////////
-// Load GLTF model with animations
-const gltfLoader = new GLTFLoader();
-let gltfModel;
-let mixer;
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = 64;
+            canvas.height = 64;
+            context.fillStyle = 'black';
+            context.font = 'Bold 10px Arial';
+            context.fillText(blockNumber.toString(), canvas.width / 2, canvas.height / 2);
 
-gltfLoader.load('/src/scene.gltf', (gltf) => {
-  gltfModel = gltf.scene;
+            const texture = new THREE.CanvasTexture(canvas);
+            const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
+            const sprite = new THREE.Sprite(spriteMaterial);
+            sprite.position.set(block.position.x, block.position.y + 0.2, block.position.z);
+            sprite.scale.set(1.0, 1.0, 1.0);
 
-  // Adjust model scale and position
-  gltfModel.scale.set(0.01, 0.01, 0.01); // Adjust the scale
-  gltfModel.position.y = 0.25; // Adjust the vertical position
+            scene.add(block);
+            scene.add(sprite);
 
-  // Create an animation mixer
-  mixer = new THREE.AnimationMixer(gltfModel);
-
-  // Add animations to the mixer
-  gltf.animations.forEach((clip) => {
-    mixer.clipAction(clip).play();
-  });
-
-  scene.add(gltfModel);
-});
-
-// Inside the animate function
-// const animate = () => {
-//   requestAnimationFrame(animate);
-
-//   // Update the animation mixer
-//   if (mixer) {
-//     mixer.update(0.01); // You can adjust the time step as needed
-//   }
-
-//   renderer.render(scene, camera);
-// };
-
-// animate();
-
-    ////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // Create Blocks
-    const blocks = [];
-    const numRows = 7;
-    const centerX = (numRows - 1) / 2;
-    const centerZ = (numRows - 1) / 2;
-
-    for (let i = 0; i < numRows; i++) {
-      for (let j = 0; j < numRows; j++) {
-        if (i === 0 || i === numRows - 1 || j === 0 || j === numRows - 1) {
-          const geometry = new THREE.BoxGeometry(1, 1, 1);
-
-          const materials = [
-            new THREE.MeshPhongMaterial({ color: 0xff0000 }), // Front
-            new THREE.MeshPhongMaterial({ color: 0x00ff00 }), // Back
-            new THREE.MeshPhongMaterial({ color: getRandomColor() }), // Top
-            new THREE.MeshPhongMaterial({ color: 0xffff00 }), // Bottom
-            new THREE.MeshPhongMaterial({ color: 0xff00ff }), // Left
-            new THREE.MeshPhongMaterial({ color: 0x00ffff })  // Right
-          ];
-
-          const block = new THREE.Mesh(geometry, materials);
-          block.position.x = j - centerX;
-          block.position.z = i - centerZ;
-          scene.add(block);
-
-          // Check if the block should have the GLTF model on top
-          if (Math.random() < 0.04 && gltfModel) {
-            const modelClone = gltfModel.clone();
-            modelClone.position.copy(block.position);
-            modelClone.position.y += 0.5; // Adjust the model position on top of the block
-            scene.add(modelClone);
+            blocks.push(block);
+            blockNumber++;
           }
         }
       }
-    }
 
-    // Animate
-    const animate = () => {
-      requestAnimationFrame(animate);
-      renderer.render(scene, camera);
-    };
+      if (targetBlock) {
+        gltfModel.position.set(targetBlock.position.x, targetBlock.position.y + blockHeight, targetBlock.position.z);
+      }
 
-    animate();
+      const animate = () => {
+        requestAnimationFrame(animate);
+        if (mixer) {
+          mixer.update(0.01);
+        }
+
+        renderer.render(scene, camera);
+      };
+
+      animate();
+    });
+
   }, []);
 
   return <div className={styles.board} ref={boardRef} />;
