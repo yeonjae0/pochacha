@@ -4,7 +4,8 @@ import React, { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import DiceBox from './DiceBox.js'
-import ActiveBoard from './ActiveBoard.js'
+// import ActiveBoard from './ActiveBoard.js'
+import ThreeBoard from '../../data/ThreeBoard.js'
 import styles from '@/styles/GamePage.module.css'
 import { styled } from 'styled-components'
 import SockJS from 'sockjs-client'
@@ -13,9 +14,9 @@ import axios from 'axios'
 import { useSelector } from "react-redux";
 
 /* 희진 : Board Component */
-const DynamicThreeBoard = dynamic(() => import('../../data/ThreeBoard.js'), {
-  ssr: false,
-});
+// const DynamicThreeBoard = dynamic(() => import('../../data/ThreeBoard.js'), {
+//   ssr: false,
+// });
 
 /* 연재 : 모달 시작 */
 // 해야할 것: 모달 창 꾸미기
@@ -242,8 +243,8 @@ export default function GamePage() {
         {/* <div style={{ position: "relative" }}> */}
         <div>
           <DiceBox dice={dice} />
-          <ActiveBoard pin={pin} cellObj={cellObj} />
-          <DynamicThreeBoard pin={pin}/>
+          {/* <ActiveBoard pin={pin} cellObj={cellObj} /> */}
+          <ThreeBoard pin={pin}/>
           {/* <div style={{ display: "flex", justifyContent: "center" }}>
           </div> */}
 

@@ -5,12 +5,10 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import styles from '@/styles/Three.module.css';
 
-import { Canvas } from '@react-three/fiber';
-// import { OrbitControls } from '@react-three/drei';
-// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { useSpring, a } from '@react-spring/three';
-
-const ThreeBoard = () => {
+const ThreeBoard = ({pin}) => {
+  
+  console.log(pin)
+  
   const boardRef = useRef(null);
 
   useEffect(() => {
@@ -84,7 +82,11 @@ const ThreeBoard = () => {
             block.position.x *= blockSpacing;
             block.position.z *= blockSpacing;
 
-            if (blockNumber === 18) {
+            // if (blockNumber === 18) {
+            //   targetBlock = block;
+            // }
+
+            if (blockNumber === pin) {
               targetBlock = block;
             }
 
