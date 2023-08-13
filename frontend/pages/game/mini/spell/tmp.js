@@ -18,7 +18,7 @@ const getConsonant = () => {
   // const [sejong, setSejong] = usestate<string>("/초성_세종대왕_기본.png")
   const roomId = useSelector(state => state.room.currentRoomId);
   const currentRandomConsonant = useSelector(state => state.spell.currentConsonant)
-  let updatedWords = []
+
   const router = useRouter()
 
   // Input창 단어 관련
@@ -95,31 +95,30 @@ const getConsonant = () => {
         console.log(data);
         console.log('틀렸or맞았', data.correct);
         // {data.correct ? setInputWords((prevWords) => [...prevWords, inputValue]): alert(data.msg)}
-        if (data.correct) {   // 전달받은 값이 true면
+        if (data.correct) {
           let newInputWord = data.inputWord;
-          // let inList = false;
-          // console.log('!!!!!!!!!!!!!!!!!')
-          // console.log('updatedWords:', typeof(updatedWords));
-          // console.log('inputWords:', typeof(inputWords));
-          // console.log('!!!!!!!!!!!!!!!!!')
-          setInputWords((prevWords) => {
-            let inList = false;
-            console.log('updatedWords:', updatedWords);
-            console.log('inputWords:', inputWords)
-            console.log(prevWords)
-            for(let i = 0; i < updatedWords.length; i++) {  // 중복 단어를 걸러서 리스트 업뎃
-              // console.log('!!!!!!!!!!!!', updatedWords[i])
-              if(newInputWord == updatedWords[i]){
-                alert('이미 입력된 단어입니다.')
-                inList = true;
-                break }};
-            if (!inList) {
-              updatedWords = [...prevWords, data.inputWord];
+          let inList = false;
+          console.log('!!!!!!!!!!!!!!!!!')
+          console.log('updatedWords:', typeof(updatedWords));
+          console.log('inputWords:', typeof(inputWords));
+          // console.log(...updatedWords)
+          console.log('!!!!!!!!!!!!!!!!!')
+          for(let i = 0; i < inputWords.length; i++) {
+            console.log('!!!!!!!!!!!!', inputWords[i])
+            if(newInputWord == inputWords[i]){
+              alert('이미 입력된 단어입니다.')
+              inList = true;
+              break }
             }
-              
-            return updatedWords;
-            
-          });
+          if (!inList) {
+            setInputWords((prevWords) => {
+              let updatedWords = [...prevWords, data.inputWord];
+              console.log('updatedWords:', updatedWords);
+              console.log('inputWords:', inputWords)
+              console.log(prevWords)
+              return updatedWords;
+            });
+          }
         } else {
           console.log('data.correct', data.correct);
           alert(data.msg);
