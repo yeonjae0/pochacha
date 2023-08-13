@@ -4,8 +4,9 @@ import React, { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import DiceBox from './DiceBox.js'
-// import ActiveBoard from './ActiveBoard.js'
-import ThreeBoard from '../../data/ThreeBoard.js'
+import ActiveBoard from './ActiveBoard.js'
+// import BoardMap from './BoardMap.js'
+// import ThreeBoard from './ThreeBoard.js'
 import styles from '@/styles/GamePage.module.css'
 import { styled } from 'styled-components'
 import SockJS from 'sockjs-client'
@@ -243,8 +244,8 @@ export default function GamePage() {
         {/* <div style={{ position: "relative" }}> */}
         <div>
           <DiceBox dice={dice} />
-          {/* <ActiveBoard pin={pin} cellObj={cellObj} /> */}
-          <ThreeBoard pin={pin}/>
+          <ActiveBoard pin={pin} cellObj={cellObj} />
+          {/* <ThreeBoard className={styles.board} pin={pin}/> */}
           {/* <div style={{ display: "flex", justifyContent: "center" }}>
           </div> */}
 

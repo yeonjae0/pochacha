@@ -6,9 +6,9 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import styles from '@/styles/Three.module.css';
 
 const ThreeBoard = ({pin}) => {
-  
+
   console.log(pin)
-  
+
   const boardRef = useRef(null);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const ThreeBoard = ({pin}) => {
       const blockSpacing = 1.2;
       const blockHeight = 0;
 
-      let blockNumber = 1;
+      let blockNumber = pin;
       let targetBlock = null; // 숫자 18이 적힌 블록
 
       for (let i = 0; i < numRows; i++) {
@@ -129,7 +129,7 @@ const ThreeBoard = ({pin}) => {
       animate();
     });
 
-  }, []);
+  }, [pin]);
 
   return <div className={styles.board} ref={boardRef} />;
 };
