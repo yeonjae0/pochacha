@@ -6,6 +6,7 @@ import com.ssafy.oho.model.dto.response.PlayerResponseDto;
 import com.ssafy.oho.model.dto.response.RoomResponseDto;
 import com.ssafy.oho.model.service.PlayerService;
 import com.ssafy.oho.model.service.RoomService;
+import com.ssafy.oho.util.exception.ChatException;
 import com.ssafy.oho.util.exception.PlayerSetException;
 import com.ssafy.oho.util.exception.RoomSetException;
 import com.ssafy.oho.util.exception.RoomUpdateException;
@@ -13,6 +14,10 @@ import io.openvidu.java.client.OpenVidu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,11 +31,13 @@ public class RoomController {
 
     /* 혜지 : OpenViduController RoomController 통합 작업 */
 
+    private final SimpMessagingTemplate webSocket;
     private final RoomService roomService;
     private final PlayerService playerService;
     private final OpenVidu openVidu;
     @Autowired
-    private RoomController(RoomService roomService, PlayerService playerService, OpenVidu openVidu){
+    private RoomController(SimpMessagingTemplate webSocket, RoomService roomService, PlayerService playerService, OpenVidu openVidu){
+        this.webSocket = webSocket;
         this.roomService=roomService;
         this.playerService = playerService;
         this.openVidu=openVidu;
@@ -75,6 +82,20 @@ public class RoomController {
             return ResponseEntity.ok(roomService.updateRoom(roomRequestDto));
         } catch(RoomUpdateException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @MessageMapping("/chat/{roomId}")
+    public void chat(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
+        try {
+            webSocket.convertAndSend("/topic/chat/" + roomId, new HashMap<>() {{ put("message", roomService.chat(payload, roomId)); }});
+        } catch(ChatException e) {
+            HashMap<String, String> errorMsg = new HashMap<>();
+            errorMsg.put("error", e.getMessage());
+            webSocket.convertAndSend("/queue/" + payload.get("playerId"), payload/* 임시 값 저장 */);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return;
         }
     }
 

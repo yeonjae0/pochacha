@@ -8,7 +8,6 @@ export default function RoomChat(props) {
   const info = props.info;
   const [client] = useState(props.client);
 
-  console.log("룸챗 컴포넌트")
   console.log(info)
   console.log(client)
 

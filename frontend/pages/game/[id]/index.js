@@ -14,6 +14,8 @@ import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import axios from 'axios'
 import { useSelector } from "react-redux";
+import { OpenVidu } from 'openvidu-browser'; /* OpenVidu 관련 */
+import RoomCam from '@/pages/room/[id]/RoomCam.js'
 
 /* 희진 : Board Component (속도 이슈 보류) */
 // const DynamicThreeBoard = dynamic(() => import('../../data/ThreeBoard.js'), {
@@ -43,37 +45,20 @@ const ModalContent = styled.div`
 
 export default function GamePage() {
 
-  const router = useRouter()
+  const router = useRouter();
 
-  const roomId = useSelector(state => state.room.currentRoomId)
-  const includeMini = useSelector(state => state.room.currentIncludeMini) // 미니게임 진행 여부
-  const [dice, setDice] = useState(0); // 주사위
-  const [pin, setPin] = useState(0); // 현재 위치
-  const [lab, setLab] = useState(0); // 바퀴 수
-  const [client, setClient] = useState({});
-  const [currentCell, setCurrentCell] = useState('')
-  const [showModal, setShowModal] = useState(false);
-  const [cellObj, setCellObj] = useState({});
+  /* 혜지 : OpenVidu 관련 데이터 */
+  const token = useSelector(state => state.player.currentPlayerId);
+  const roomId = useSelector(state => state.room.currentRoomId);
+  let includeMini = useSelector(state => state.room.currentIncludeMini) // 미니게임 진행 여부
 
-  const videoRef = useRef(null);
-
-  const getUserCamera = () => {
-    navigator.mediaDevices.getUserMedia({
-      video: true
-    })
-      .then((stream) => {
-        let video = videoRef.current;
-        video.srcObject = stream;
-        video.play();
-      })
-      .catch((error) => {
-        console.log("WEBCAM ERROR");
-      })
-  }
-
-  useEffect(() => {
-    getUserCamera();
-  }, [videoRef])
+  let [dice, setDice] = useState(0); // 주사위
+  let [pin, setPin] = useState(0); // 현재 위치
+  let [lab, setLab] = useState(0); // 바퀴 수
+  let [client, setClient] = useState({});
+  let [currentCell, setCurrentCell] = useState('')
+  let [showModal, setShowModal] = useState(false);
+  let [cellObj, setCellObj] = useState({});
 
   // 현재 방의 맵 불러오는 함수
   const createMap = async () => {
@@ -117,15 +102,15 @@ export default function GamePage() {
           'twentyfour': response.data[23].status,
         }
       )
-      console.log('RoomId', roomId)
-      console.log('Cell Data', response.data)
+      console.log('RoomId', roomId);
+      console.log('Cell Data', response.data);
     }).catch((error) => {
       if (error.response) {
         router.push({
           pathname: "/exception",
           query: { msg: error.response.data },
         })
-      } else { console.log(error) }
+      } else { console.log(error); }
     });
     /*
       TO DO :: Cell 색에 맞춰 배합
@@ -134,7 +119,7 @@ export default function GamePage() {
 
   const connectSocket = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS("http://localhost:80/ws")
+      const sock = new SockJS("http://localhost:80/ws");
       return sock;
     });
     client.current.debug = () => { };
@@ -150,25 +135,25 @@ export default function GamePage() {
         setDice(data.game.dice)
         setPin(data.game.pin)
         setLab(data.game.lab)
-        setCurrentCell(data.cell.name) 원본 코드
+        setCurrentCell(data.cell.name)
       })
     })
   }
 
   useEffect(() => {
     // 최초 한 번 CellList 불러오기
-    createMap()
-    connectSocket()
-    subscribeSocket()
-  }, [])
+    createMap();
+    connectSocket();
+    subscribeSocket();
+  }, []);
 
   let handleRollDiceClick = () => {
     setTimeout(() => {
-      setShowModal(true)
-    }, 1000)
+      setShowModal(true);
+    }, 1000);
     setTimeout(() => {
-      setShowModal(false)
-    }, 2500)
+      setShowModal(false);
+    }, 2500);
     // setShowModal(false)
   }
 
