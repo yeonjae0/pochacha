@@ -126,8 +126,8 @@ export default function GamePage() {
         setDice(data.game.dice);
         setPin(data.game.pin);
         setLab(data.game.lab);
-        // setCurrentCell(data.cell.name);
-        setCurrentCell('훈민정음');
+        setCurrentCell(data.cell.name);
+        // setCurrentCell('훈민정음');
         { currentCell == '두더지 게임' ? (window.location.href = 'http://localhost:3000/game/mini/mole') : null }
         { currentCell == '훈민정음' ? (window.location.href = 'http://localhost:3000/game/mini/spell') : null }
         { currentCell == '라이어 게임' ? (window.location.href = 'http://localhost:3000/game/mini/liar') : null }
