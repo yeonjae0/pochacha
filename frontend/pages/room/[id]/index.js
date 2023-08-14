@@ -94,7 +94,7 @@ export default function RoomPage() {
     client.current.connect({}, () => {
       client.current.subscribe(`/topic/chat/${roomId}`, (response) => {
         var data = JSON.parse(response.body);
-        setChatHistory((prevHistory) => prevHistory + data.playerId + ': ' + data.message + '\n');
+        setChatHistory((prevHistory) => prevHistory + /*data.playerId + ': ' + */ data.message + '\n');
       })  // 채팅 구독
       client.current.subscribe(`/topic/player/${roomId}`, (response) => {
         var data = JSON.parse(response.body);

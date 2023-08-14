@@ -7,25 +7,25 @@ import com.ssafy.oho.model.entity.Room;
 import com.ssafy.oho.model.repository.CellRepository;
 import com.ssafy.oho.model.repository.MinigameRepository;
 import com.ssafy.oho.model.repository.RoomRepository;
-import com.ssafy.oho.util.exception.RoomDeleteException;
-import com.ssafy.oho.util.exception.RoomGetException;
-import com.ssafy.oho.util.exception.RoomSetException;
-import com.ssafy.oho.util.exception.RoomUpdateException;
+import com.ssafy.oho.util.exception.*;
 import io.openvidu.java.client.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Map;
 
 @Service
-public class RoomService {
+public class RoomService extends RedisService {
 
     private final RoomRepository roomRepository;
     private final CellRepository cellRepository;
     private final MinigameRepository minigameRepository;
 
     @Autowired
-    private RoomService(RoomRepository roomRepository, CellRepository cellRepository, MinigameRepository minigameRepository){
+    private RoomService(StringRedisTemplate redisTemplate, RoomRepository roomRepository, CellRepository cellRepository, MinigameRepository minigameRepository){
+        super(redisTemplate);
         this.roomRepository=roomRepository;
         this.cellRepository = cellRepository;
         this.minigameRepository = minigameRepository;
@@ -146,5 +146,27 @@ public class RoomService {
             throw new RoomDeleteException();
         }
 
+    }
+
+    public String chat(Map<String, Object> payload, String roomId) throws ChatException {
+        if(!payload.containsKey("playerId") || !payload.containsKey("message")) {
+            throw new ChatException();
+        }
+
+        String playerId = (String) payload.get("playerId");
+        String message = ((String) payload.get("message")).trim();
+        Date nowdate = new Date();
+
+        if(message.equals("")) {
+            throw new ChatException("입력된 메시지가 없습니다.");
+        }
+
+        /*
+            TO DO :: 욕설 처리 API 적용
+         */
+        String wholeMsg = "[" + nowdate.getHours() + ":" + nowdate.getMinutes() + "] " + playerId + ": " + message;
+        super.setChat(roomId, wholeMsg);
+
+        return wholeMsg;
     }
 }
