@@ -3,10 +3,10 @@
 import { useEffect, useState, useRef } from 'react'
 import styles from '@/styles/RoomPage.module.css'
 
-export default function RoomChat(props) {
+export default function RoomChat({ info, client, chatHistory }) {
   
-  const info = props.info;
-  const [client] = useState(props.client);
+  // const info = props.info;
+  // const [client] = useState(props.client);
 
   console.log(info)
   console.log(client)
@@ -79,7 +79,7 @@ export default function RoomChat(props) {
       */
       chatTextAreaRef.current.scrollTop = chatTextAreaRef.current.scrollHeight;
     }
-  }, [props.chatHistory]);
+  }, [chatHistory]);
   /* 희진 : 채팅창 자동 스크롤 끝 */
 
   /* 희진 : 입장 시 입장 메시지 자동 채팅 전송 (Cam On) 시작 */
@@ -108,11 +108,12 @@ export default function RoomChat(props) {
           <textarea ref={chatTextAreaRef}
             className={styles.chatArea}
             readOnly
-            value={props.chatHistory} />
+            value={chatHistory} />
         </div>
       </div>
       {inputVisible ? (
-        <input type="text" className={styles.chatInput}
+        <input type="text"
+          className={styles.chatInput}
           value={message}
           onChange={handleOnChange}
           onKeyDown={enterDown}
@@ -120,7 +121,8 @@ export default function RoomChat(props) {
       ) : null}
 
       {!inputVisible ? (
-        <input type="text" className={styles.chatInput}
+        <input type="text"
+          className={styles.chatInput}
           placeholder='15초 후에 채팅이 가능합니다.'
           value={message}
           onChange={handleOnChange}

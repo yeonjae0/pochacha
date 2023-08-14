@@ -135,7 +135,8 @@ export default function GamePage() {
         setDice(data.game.dice)
         setPin(data.game.pin)
         setLab(data.game.lab)
-        setCurrentCell(data.cell.name)
+        // setCurrentCell(data.cell.name)
+        setCurrentCell('라이어 게임')
       })
     })
   }
@@ -191,10 +192,14 @@ export default function GamePage() {
         }}>주사위 굴리기</button>
         <div>
 
-          <div className={styles.upper_container}>
-            <video className={styles.cam} ref={videoRef} /> {/* WEBCAM 화면 */}
-            <video className={styles.cam} style={{ float: 'right' }} ref={videoRef} /> {/* WEBCAM 화면 */}
-          </div>
+        <div className={styles.camList}>
+          <RoomCam />
+        </div>
+        
+          {/* <div className={styles.upper_container}>
+            <video className={styles.cam} ref={videoRef} />
+            <video className={styles.cam}  ref={videoRef} />
+          </div> */}
 
           <div>
             {/* 메인 보드 (미니게임 컴포넌트 상호작용 확인차 잠시 주석 처리) */}
@@ -218,10 +223,10 @@ export default function GamePage() {
             {/* <div style={{ position: "absolute" }}><BoardMap pin={pin} style={{ bottom: "0" }} /></div> */}
 
           </div>
-          <div className={styles.lower_container}>
-            <video className={styles.cam} ref={videoRef} /> {/* WEBCAM 화면 */}
-            <video className={styles.cam} style={{ float: 'right' }} ref={videoRef} /> {/* WEBCAM 화면 */}
-          </div>
+          {/* <div className={styles.lower_container}>
+            <video className={styles.cam} ref={videoRef} />
+            <video className={styles.cam} ref={videoRef} />
+          </div> */}
         </div>
         <>
           <ModalPage currentCell={currentCell} pin={pin} />
