@@ -73,6 +73,8 @@ function SpellGame({ sec, time, resetSec }) {
       }
     }).then((response) => {
       let data = response.data;
+      console.log('response.data', data)
+      console.log('순서!!!!!', data.playerIdList)
       const randomConsonant = data.firstWord + data.secondWord;
       setRandomConsonant(data.firstWord + data.secondWord);
       dispatch(startGame(randomConsonant))

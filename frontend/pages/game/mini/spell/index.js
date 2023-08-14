@@ -42,9 +42,7 @@ function GameOver() {
     <>
       <div>
         <h1>Game Over ㅜㅅㅜ</h1>
-        <button type="button" onClick={() => router.back()}>
-        Click here to go back
-      </button>
+        <h2>한글 공부를 더 해야겠네요</h2>
       </div>
     </>
   )
