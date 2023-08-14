@@ -11,9 +11,8 @@ import { Stomp } from '@stomp/stompjs';
 import { useDispatch, useSelector } from "react-redux"; /* Store 관련 */
 import { addPlayers } from '@/store/reducers/players.js';
 import { ready } from '@/store/reducers/player.js';
-import { setPublisherData, addParticipants,resetParticipants } from '@/store/reducers/openvidu.js';
+import { setPublisherData, setSessionData } from '@/store/reducers/openvidu.js';
 import { OpenVidu } from 'openvidu-browser'; /* OpenVidu 관련 */
-//import UserVideoComponent from './UserVideoComponent';
 import styles from '@/styles/RoomPage.module.css'; /* Style 관련 */
 
 export default function RoomPage() {
@@ -26,6 +25,7 @@ export default function RoomPage() {
   /* 혜지 : 첫 렌더링 시에 OV, session 세팅 */
   let OV = new OpenVidu();
   let session = OV.initSession();
+  dispatch(setSessionData(session));
 
   const roomId=useSelector(state=>state.room.currentRoomId);
   const token=useSelector(state => state.player.currentPlayerId); //오픈비두 토큰
@@ -118,11 +118,6 @@ export default function RoomPage() {
     if (index > -1) {
       tempParticipants.splice(index, 1);
       setParticipants(tempParticipants);
-      
-      /*
-        TO DO :: 참여자 삭제 시 REDUX 삭제 필요
-      */
-      //dispatch(resetParticipants(tempParticipants));
     }
   }
 
@@ -133,7 +128,6 @@ export default function RoomPage() {
         let tempParticipants = participants;
         tempParticipants.push(participant);
         setParticipants(tempParticipants);
-        dispatch(addParticipants(tempParticipants));
         
         console.log(participants);
       });
@@ -183,7 +177,6 @@ export default function RoomPage() {
     OV = null;
     setPublisher(undefined);
     setParticipants([]);
-    dispatch(resetParticipants([]));
   }
   /* 혜지 : OpenVidu 연결 관련 메소드 완료 */
 

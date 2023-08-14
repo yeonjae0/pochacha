@@ -5,7 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 */
 const initialState = {
   publisher: {},
-  participants:[],
+  session: {},
 };
 
 const openViduSlice = createSlice({
@@ -15,25 +15,11 @@ const openViduSlice = createSlice({
     setPublisherData: (state, action) => {
         state.publisher = action.payload;
       },
-    addParticipants: (state, action) => {
-      state.participants.push(action.payload); 
-    },
-    // updatePlayers: (state, action) => {
-    //   const { playerId, updates } = action.payload;
-    //   const playerIndex = state.players.findIndex(player => player.playerId === playerId);
-    //   if (playerIndex !== -1) {
-    //     state.players[playerIndex] = { ...state.players[playerIndex], ...updates }; 
-    //   }
-    // },
-    // removeParticipants: (state, action) => {
-    //   const playerId = action.payload;
-    //   state.participants = state.participants.filter(participant => participant.playerId !== playerId); 
-    // },
-    resetParticipants: (state, action) => {
-      state.participants =  action.payload
-    }
+      setSessionData: (state, action) => {
+        state.session = action.payload;
+      },
   },
 });
 
 export default openViduSlice;
-export const { setPublisherData, addParticipants, resetParticipants } = openViduSlice.actions;
+export const { setPublisherData, setSessionData } = openViduSlice.actions;

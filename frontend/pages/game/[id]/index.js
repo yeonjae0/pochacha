@@ -10,6 +10,8 @@ import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import axios from 'axios'
 import { useSelector } from "react-redux";
+import { OpenVidu } from 'openvidu-browser'; /* OpenVidu 관련 */
+import RoomCam from '@/pages/room/[id]/RoomCam.js'
 
 /* 연재 : 모달 시작 */
 // 해야할 것: 모달 창 꾸미기
@@ -36,6 +38,86 @@ export default function GamePage() {
 
   const router = useRouter()
 
+  /* 혜지 : OpenVidu 관련 데이터 시작 */
+  const publisher=useSelector(state=>state.openvidu.publisher);
+  const [participants, setParticipants] = useState([]);//참여자들
+  //let participants=useSelector(state=>state.openvidu.participants);
+  const deleteParticipant = (streamManager) => {
+    let tempParticipants = participants;
+    let index = tempParticipants.indexOf(streamManager, 0);
+    if (index > -1) {
+      tempParticipants.splice(index, 1);
+      setParticipants(tempParticipants);
+    }
+  }
+
+  const onbeforeunload = (e) => {
+    leaveSession();
+  }
+
+  const session=useSelector(state=>state.openvidu.session);
+  console.log("세션")
+  console.log(session)
+
+  const joinSession = async (token) => {
+    try {
+      session.on('streamCreated', async (event) => {
+        let participant = session.subscribe(event.stream, undefined);
+        let tempParticipants = participants;
+        tempParticipants.push(participant);
+        setParticipants(tempParticipants);
+        
+        console.log(participants);
+      });
+
+      session.on('streamDestroyed', (event) => {
+        deleteParticipant(event.stream.streamManager);
+      });
+
+      session.on('exception', (exception) => {
+        console.warn(exception);
+      });
+
+      /* 혜지 : 모든 사용자 PUBLISHER 지정 필수 */
+      await session.connect(token, { clientData: nickname, publisher: true });
+      /* 카메라 세팅 */
+      let pub = await OV.initPublisherAsync(undefined, {
+        audioSource: undefined, // 오디오
+        videoSource: undefined, // 비디오
+        publishAudio: true, // 오디오 송출
+        publishVideo: true, // 비디오 송출
+        resolution: '640x480',
+        frameRate: 30,
+        insertMode: 'APPEND', // 비디오 컨테이너 적재 방식
+        mirror: false,
+      });
+
+      await session.publish(pub);
+      let deviceList = await OV.getDevices();
+      var videoDevices = deviceList.filter(device => device.kind === 'videoinput');
+      var currentVideoDeviceId = pub.stream.getMediaStream().getVideoTracks()[0].getSettings().deviceId;
+      var currentVideoDevice = videoDevices.find(device => device.deviceId === currentVideoDeviceId);
+
+      setPublisher(pub);
+      dispatch(setPublisherData(pub));
+
+      console.log(publisher);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const leaveSession = () => {
+    if (session) {
+      session.disconnect();
+    }
+
+    OV = null;
+    setPublisher(undefined);
+    setParticipants([]);
+  }
+ /* 혜지 : OpenVidu 관련 데이터 끝 */
+
   let roomId = useSelector(state => state.room.currentRoomId)
   let includeMini = useSelector(state => state.room.currentIncludeMini) // 미니게임 진행 여부
   let [dice, setDice] = useState(0); // 주사위
@@ -45,26 +127,6 @@ export default function GamePage() {
   let [currentCell, setCurrentCell] = useState('')
   let [showModal, setShowModal] = useState(false);
   let [cellObj, setCellObj] = useState({});
-
-  let videoRef = useRef(null);
-
-  const getUserCamera = () => {
-    navigator.mediaDevices.getUserMedia({
-      video: true
-    })
-      .then((stream) => {
-        let video = videoRef.current;
-        video.srcObject = stream;
-        video.play();
-      })
-      .catch((error) => {
-        console.log("WEBCAM ERROR");
-      })
-  }
-
-  useEffect(() => {
-    getUserCamera();
-  }, [videoRef])
 
   // 현재 방의 맵 불러오는 함수
   const createMap = async () => {
@@ -157,6 +219,11 @@ export default function GamePage() {
     createMap()
     connectSocket()
     subscribeSocket()
+
+    joinSession(token);
+    return()=>{
+      window.removeEventListener('beforeunload', onbeforeunload);
+    }
   }, [])
 
   let handleRollDiceClick = () => {
@@ -228,9 +295,13 @@ export default function GamePage() {
       <div>
         {/* <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}> */}
 
-        <div className={styles.upper_container}>
-          <video className={styles.cam} style={{ float: 'left' }} ref={videoRef} /> {/* WEBCAM 화면 */}
-          <video className={styles.cam} style={{ float: 'right' }} ref={videoRef} /> {/* WEBCAM 화면 */}
+        {/* <div className={styles.upper_container}>
+          <video className={styles.cam} style={{ float: 'left' }} ref={videoRef} /> 
+          <video className={styles.cam} style={{ float: 'right' }} ref={videoRef} /> 
+        </div> */}
+
+        <div className={styles.camList}>
+          <RoomCam publisher={publisher} participants={participants}/>
         </div>
 
         {/* <div style={{ position: "relative" }}> */}
@@ -244,10 +315,10 @@ export default function GamePage() {
             <BoardMap pin={pin} style={{ bottom: "0" }} />
           </div> */}
         </div>
-        <div className={styles.lower_container}>
-          <video className={styles.cam} style={{ float: 'left' }} ref={videoRef} /> {/* WEBCAM 화면 */}
-          <video className={styles.cam} style={{ float: 'right' }} ref={videoRef} /> {/* WEBCAM 화면 */}
-        </div>
+        {/* <div className={styles.lower_container}>
+          <video className={styles.cam} style={{ float: 'left' }} ref={videoRef} />
+          <video className={styles.cam} style={{ float: 'right' }} ref={videoRef} />
+        </div> */}
       </div>
       <>
         <ModalPage currentCell={currentCell} pin={pin} />
