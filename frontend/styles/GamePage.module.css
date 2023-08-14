@@ -77,3 +77,31 @@
 .btnRolling:hover::before {
   transform: skewX(-45deg) translateX(280px);
 }
+
+.modalContent {
+  animation: fadeIn 1s;
+  /* animation: fadeOut 1s; */
+}
+
+/* #modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 308px;
+  background-color: #F2F4F6;
+  border-radius: 20px;
+  padding: 20px;
+  z-index: 1;
+} */
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

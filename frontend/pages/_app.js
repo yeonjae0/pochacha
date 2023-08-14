@@ -1,4 +1,4 @@
-import '../styles/globals.css'
+import '../styles/globals.css';
 import React from "react";
 import App, { Container } from "next/app";
 import { Provider } from "react-redux";

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import styles from "@/styles/SpellGame.module.css";
-import axios from 'axios'
-import SockJS from 'sockjs-client'
-import { Stomp } from '@stomp/stompjs'
-import { startGame } from '@/store/reducers/spell'
+import axios from 'axios';
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
+import { startGame } from '@/store/reducers/spell';
 
 const getConsonant = () => {
 

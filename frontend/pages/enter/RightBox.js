@@ -1,8 +1,8 @@
 'use client'
 
-import React, { useState } from 'react'
-import tip from '../data/tip.js'
-import styles from '@/styles/EnterPage.module.css'
+import React, { useState } from 'react';
+import tip from '../data/tip';
+import styles from '@/styles/EnterPage.module.css';
 
 export default function RightBox() {
 

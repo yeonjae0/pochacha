@@ -1,11 +1,11 @@
 'use client'
 
 import React,{ useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import RightBox from '../RightBox';
-import styles from '@/styles/EnterPage.module.css'
-import classNames from 'classnames'
-import axios from 'axios'
+import styles from '@/styles/EnterPage.module.css';
+import classNames from 'classnames';
+import axios from 'axios';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { useDispatch } from "react-redux";
