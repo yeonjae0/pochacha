@@ -1,104 +1,83 @@
-.container {
-    margin: 0;
-    padding: 0;
-  
-    width: 100vw;
-    height: 100vh;
-  
-    background-image: url("../public/main/background2.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
+.game_container {
+  background-color: lightsalmon;
+  /* width: 600px; */
+  /* position: relative; */
+  width: 450px;
+  height: 450px;
+  /* margin: 0 auto; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* overflow: visible; */
+}
 
-  .title_container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.buttonContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
 
-  .game_container {
-    background-color: lightsalmon;
-    /* background-image: url("../public/main/woodbox.png");
-    background-size: cover; */
-    width: 600px;
-    position: relative;
-    height: 600px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: visible;
-  }
+.button {
+  margin: 10px;
+  width: 110px;
+  height: 50px;
+  background: #fc9f36;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
+  font-size: 25px;
+  font-weight: 600;
+  text-align: center;
+  color: #FFFFFF;
+}
 
-  .buttonContainer {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  }
+.roof {
+  /* 로고 담겨있는 DIV */
+  height: 160px;
 
-  .button {
-    margin: 10px;
-    width: 110px;
-    height: 50px;
-    background: #fc9f36;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 50px;
-    font-size: 25px;
-    font-weight: 600;
-    text-align: center;
-    color: #FFFFFF;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 
-  .roof {
-    /* 로고 담겨있는 DIV */
-    height: 160px;
-  
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-  
-    background-image: url("../public/main/roof.png");
-    background-size: cover;
-  }
+  background-image: url("../public/main/roof.png");
+  background-size: cover;
+}
 
-  .title {
-    /* 로고 이미지 */
-    width: 350px;
-  }
-  
-  .boxContainer {
-    padding-top: 160px;
-    display: flex;
-    justify-content: center;
-  }
+.title {
+  /* 로고 이미지 */
+  width: 350px;
+}
 
-  .box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  
-    min-width: 500px;
-    min-height: 500px;
-  
-    background-image: url("../public/main/woodbox.png");
-    background-size: cover;
-  }
+.boxContainer {
+  padding-top: 160px;
+  display: flex;
+  justify-content: center;
+}
 
-  .cam {
-    background-color: black;
-    width: 100%;
-    height: 260px;
-    object-fit: cover;
-    transform: rotateY(180deg);
-    -webkit-transform: rotateY(180deg);
-    /* Safari and Chrome */
-    -moz-transform: rotateY(180deg);
-    /* Firefox */
-  }
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-  .nickname {
+  min-width: 500px;
+  min-height: 500px;
+
+  background-image: url("../public/main/woodbox.png");
+  background-size: cover;
+}
+
+.cam {
+  background-color: black;
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  /* Safari and Chrome */
+  -moz-transform: rotateY(180deg);
+  /* Firefox */
+}
+
+.nickname {
   font-family: 'LeeSeoyun';
   position: relative;
   z-index: 1;
@@ -142,29 +121,29 @@
 
 
 .camComponent1 {
-  position:fixed;
-  top:180px;
-  left:20px;
+  position: fixed;
+  top: 180px;
+  left: 20px;
   border-radius: 20px;
 }
 
 .camComponent2 {
-  position:fixed;
-  top:180px;
-  right:20px;
+  position: fixed;
+  top: 180px;
+  right: 20px;
   border-radius: 20px;
 }
 
 .camComponent3 {
-  position:fixed;
-  bottom:20px;
-  left:20px;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
   border-radius: 20px;
 }
 
 .camComponent4 {
-  position:fixed;
-  bottom:20px;
-  right:20px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
   border-radius: 20px;
 }

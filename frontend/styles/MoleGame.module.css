@@ -158,29 +158,29 @@
 
 .container {
   background-image: url("../public/두더지_기본배경.png");
-  background-size: 600px;
+  background-size: 450px;
   background-repeat: no-repeat;
   position: relative;
-  width: 600px;
-  height: 600px;
+  width: 450px;
+  height: 450px;
   margin: 0 auto;
   overflow: hidden;
 }
 
 .end {
   background-image: url("../public/두더지_실패배경.png");
-  background-size: 600px;
+  background-size: 450px;
   background-repeat: no-repeat;
   position: relative;
-  width: 600px;
-  height: 600px;
+  width: 450px;
+  height: 450px;
   margin: 0 auto;
   overflow: hidden;
 }
 
 .slideInEllipticBottomFwd {
-  width: 300px;
-  height: 300px;
+  width: 150px;
+  height: 150px;
   margin-top: 150px;
   -webkit-animation: slide-in-elliptic-bottom-fwd 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
   animation: slide-in-elliptic-bottom-fwd 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;

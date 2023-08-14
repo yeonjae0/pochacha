@@ -1,15 +1,28 @@
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 .wrapper {
+  height: 600px;
   display: flex;
-  height: 100vh;
   justify-content: center;
-  background-color: gainsboro;
+  /* background-color: gainsboro; */
+  background-color: pink; /* 배경 확인을 위해 */
 }
 
 .upperContainer {
+  /* display: flex; */
   text-align: center;
   margin-top: 20px;
 }
 
+/* 입력창 */
 .inputContainer {
   width: 40%;
   height: 50px;
@@ -21,8 +34,8 @@
 
 .redBlock {
   position: absolute;
-  width: 600px;
-  height: 450px;
+  width: 450px;
+  height: 300px;
   background: hsl(0, 71%, 51%);
   display: flex;
   align-items: center;
@@ -66,7 +79,6 @@
   z-index: 3;
 }
 
-
 .modalContent {
   animation: fadeIn 6s;
   background: #beaf7b;
@@ -77,12 +89,14 @@
   /* animation: fadeOut 1s; */
 }
 
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
+.logoImg {
+  width: 100px;
 }
+
+/* 
+.sejongImg {
+  position: "absolute";
+  left: 125px;
+  width: 350px;
+  margin-top: -350px;
+} */

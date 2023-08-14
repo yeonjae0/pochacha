@@ -1,9 +1,13 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/router'
 import DiceBox from './DiceBox.js'
 import ActiveBoard from './ActiveBoard.js'
+import GameSelect from './GameSelect.js'
+// import dynamic from 'next/dynamic'
+// import BoardMap from './BoardMap.js'
+// import ThreeBoard from './ThreeBoard.js'
 import styles from '@/styles/GamePage.module.css'
 import { styled } from 'styled-components'
 import SockJS from 'sockjs-client'
@@ -12,6 +16,11 @@ import axios from 'axios'
 import { useSelector } from "react-redux";
 import { OpenVidu } from 'openvidu-browser'; /* OpenVidu 관련 */
 import RoomCam from '@/pages/room/[id]/RoomCam.js'
+
+/* 희진 : Board Component (속도 이슈 보류) */
+// const DynamicThreeBoard = dynamic(() => import('../../data/ThreeBoard.js'), {
+//   ssr: false,
+// });
 
 /* 연재 : 모달 시작 */
 // 해야할 것: 모달 창 꾸미기
@@ -120,19 +129,13 @@ export default function GamePage() {
     client.current.connect({}, () => {
       // callback 함수 설정, 대부분 여기에 sub 함수 씀
       client.current.subscribe(`/topic/move/${roomId}`, (response) => {
-        let data = JSON.parse(response.body);
-        let currentCell = data.cell.name;
+        let data = JSON.parse(response.body)
+        let currentCell = data.cell.name
 
-        setDice(data.game.dice);
-        setPin(data.game.pin);
-        setLab(data.game.lab);
-        setCurrentCell(data.cell.name);
-        { currentCell == '두더지 게임' ? (window.location.href = 'http://localhost:3000/game/mini/mole') : null }
-        { currentCell == '훈민정음' ? (window.location.href = 'http://localhost:3000/game/mini/spell') : null }
-        { currentCell == '라이어 게임' ? (window.location.href = 'http://localhost:3000/game/mini/liar') : null }
-        // console.log(data.game)
-        // console.log(data.cell)
-        // console.log(data.game.pin)
+        setDice(data.game.dice)
+        setPin(data.game.pin)
+        setLab(data.game.lab)
+        setCurrentCell(data.cell.name)
       })
     })
   }
@@ -155,86 +158,75 @@ export default function GamePage() {
   }
 
   const ModalPage = ({ currentCell, pin }) => {
-
-    useEffect(() => {
-      if (showModal) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = 'initial';
-      }
-    }, [showModal]);
-
     return (
       <>
         {showModal && (
           <ModalContainer id='modalContainer'>
             <ModalContent className={styles.modalContent} style={{ zIndex: '1' }}>
               <p>{currentCell}</p>
-              {/* {
-                currentCell == '두더지 게임' ?
-                (window.location.href = 'http://localhost:3000/game/mini/mole')
-                : null
-              }
-              {
-                currentCell == '훈민정음' ?
-                (window.location.href = 'http://localhost:3000/game/mini/spell')
-                : null
-              }
-              {
-                currentCell == '라이어 게임' ?
-                (window.location.href = 'http://localhost:3000/game/mini/liar')
-                : null
-              } */}
-              {/* <button onClick={onCloseModal}>Close</button> */}
             </ModalContent>
           </ModalContainer>
         )}
       </>
     )
   }
-
   /* 연재 : 모달 끝 */
 
   return (
-    <div className={styles.container}>
-      <nav className={styles.infobar}>
-        <h5>주사위 눈 : {dice}, 현재 {pin}번 블록에 위치, {lab}바퀴</h5>
-      </nav>
-      <button className={styles.btnRolling} value="innerHTML" onClick={() => {
-        var sendData = {
-          "dice": dice,
-          "pin": pin,
-          "lab": lab,
-        };
+    <div>
+      <div className={styles.container}>
+        <nav className={styles.infobar}>
 
-        client.current.send("/move/" + roomId, {}, JSON.stringify(sendData));
-        handleRollDiceClick();
-      }}>주사위 굴리기</button>
-      <div>
-        {/* <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}> */}
+          <h5>주사위 눈 : {dice}, 현재 {pin}번 블록에 위치, {lab}바퀴</h5>
+        </nav>
+        <button className={styles.btnRolling} value="innerHTML" onClick={() => {
+          var sendData = {
+            "dice": dice,
+            "pin": pin,
+            "lab": lab,
+          };
 
-        <div className={styles.camList}>
-          <RoomCam />
-        </div>
-
-        {/* <div style={{ position: "relative" }}> */}
-
+          client.current.send("/move/" + roomId, {}, JSON.stringify(sendData));
+          handleRollDiceClick();
+        }}>주사위 굴리기</button>
         <div>
-          <DiceBox dice={dice} />
-          <ActiveBoard pin={pin} cellObj={cellObj} />
 
-          {/* <div style={{ display: "flex", justifyContent: "center" }}>
-          </div> */}
+          <div className={styles.upper_container}>
+            <video className={styles.cam} ref={videoRef} /> {/* WEBCAM 화면 */}
+            <video className={styles.cam} style={{ float: 'right' }} ref={videoRef} /> {/* WEBCAM 화면 */}
+          </div>
 
-          {/* <div style={{ position: "absolute" }}>
-            <BoardMap pin={pin} style={{ bottom: "0" }} />
-          </div> */}
+          <div>
+            {/* 메인 보드 (미니게임 컴포넌트 상호작용 확인차 잠시 주석 처리) */}
+            {/* <ActiveBoard pin={pin} cellObj={cellObj} /> */}
+            {/* 메인 보드 (미니게임 컴포넌트 상호작용 확인차 잠시 주석 처리) */}
+
+            {currentCell == '두더지 게임' || currentCell == '라이어 게임' || currentCell == '훈민정음'? (
+              <GameSelect currentCell={currentCell} />
+            ) : (
+              <div>
+              <DiceBox dice={dice} />
+              <ActiveBoard pin={pin} cellObj={cellObj} />
+              </div>
+            )}
+
+            {/* 희진 : Three.js 보드 시도 (속도 이슈로 보류) */}
+            {/* <ThreeBoard className={styles.board} pin={pin}/> */}
+            {/* <div style={{ display: "flex", justifyContent: "center" }}></div> */}
+
+            {/* 희진 : Temporary Board (추후 삭제 예정) */}
+            {/* <div style={{ position: "absolute" }}><BoardMap pin={pin} style={{ bottom: "0" }} /></div> */}
+
+          </div>
+          <div className={styles.lower_container}>
+            <video className={styles.cam} ref={videoRef} /> {/* WEBCAM 화면 */}
+            <video className={styles.cam} style={{ float: 'right' }} ref={videoRef} /> {/* WEBCAM 화면 */}
+          </div>
         </div>
-
+        <>
+          <ModalPage currentCell={currentCell} pin={pin} />
+        </>
       </div>
-      <>
-        <ModalPage currentCell={currentCell} pin={pin} />
-      </>
     </div>
   )
 }
