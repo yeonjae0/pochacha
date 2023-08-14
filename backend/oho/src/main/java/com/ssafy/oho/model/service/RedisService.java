@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -17,13 +18,21 @@ import java.util.concurrent.TimeUnit;
 public class RedisService {
     protected final StringRedisTemplate redisTemplate;
     protected HashOperations<String, Object, Object> hashOperations = null;  // Redis 데이터 담을 변수
-    private final long TTL = 600;  // 임의 TTL 시간
+    private final long TTL = 120;  // 임의 TTL 시간
+    private final Map<String, Integer> SERVICE_TTL;
 
     public RedisService(StringRedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
 
         // Redis 데이터와 연결
         this.hashOperations = this.redisTemplate.opsForHash();
+        SERVICE_TTL = new HashMap<>() {{
+            put("player", 10800);
+            put("game", 10800);
+            put("cell", 3600);
+            put("minigmae", 1200);
+            put("chat", 10800);
+        }};
     }
 
     /*** 플레이어 정보 ***/
@@ -35,16 +44,17 @@ public class RedisService {
             @Override
             public <K, V> Object execute(RedisOperations<K, V> operations) throws DataAccessException {
                 operations.multi();  // 트랜잭션 시작
+                hashOperations.put(getPlayerKey(roomId, player.getId()), "nickname", player.getNickname());
                 hashOperations.put(getPlayerKey(roomId, player.getId()), "head", Boolean.toString(player.isHead()));
                 hashOperations.put(getPlayerKey(roomId, player.getId()), "ready", Boolean.toString(false));
 
                 List<Object> result = operations.exec();  // 트랜잭션 실행
-                if(result == null) System.out.println("SPELL :: REDIS TRANSACTION ERROR");
+                if(result == null) System.out.println("PLAYER :: REDIS TRANSACTION ERROR");
 
                 return null;
             }
         });
-        redisTemplate.expire(getPlayerKey(roomId, player.getId()), TTL, TimeUnit.SECONDS);
+        redisTemplate.expire(getPlayerKey(roomId, player.getId()), SERVICE_TTL.get("player"), TimeUnit.SECONDS);
     }
     protected Map<Object, Object> getPlayer(String roomId, String playerId) {
         if(hashOperations.entries(getPlayerKey(roomId, playerId)).size() == 0) return null;
@@ -55,11 +65,12 @@ public class RedisService {
             @Override
             public <K, V> Object execute(RedisOperations<K, V> operations) throws DataAccessException {
                 operations.multi();  // 트랜잭션 시작
+                hashOperations.delete(getPlayerKey(roomId, playerId), "nickname");
                 hashOperations.delete(getPlayerKey(roomId, playerId), "head");
                 hashOperations.delete(getPlayerKey(roomId, playerId), "ready");
 
                 List<Object> result = operations.exec();  // 트랜잭션 실행
-                if(result == null) System.out.println("SPELL :: REDIS TRANSACTION ERROR");
+                if(result == null) System.out.println("PLAYER :: REDIS TRANSACTION ERROR");
 
                 return null;
             }
@@ -76,12 +87,11 @@ public class RedisService {
                 }
 
                 List<Object> result = operations.exec();  // 트랜잭션 실행
-                if(result == null) System.out.println("SPELL :: REDIS TRANSACTION ERROR");
+                if(result == null) System.out.println("PLAYER :: REDIS TRANSACTION ERROR");
 
                 return null;
             }
         });
-        redisTemplate.expire(getPlayerKey(roomId, playerId), TTL, TimeUnit.SECONDS);
     }
     protected String getPlayerInfo(String roomId, String playerId, String hashKey) {
         return (String) hashOperations.get(getPlayerKey(roomId, playerId), hashKey);
@@ -100,12 +110,12 @@ public class RedisService {
                 hashOperations.put(getGameKey(roomId), "lab", Integer.toString(lab));
 
                 List<Object> result = operations.exec();  // 트랜잭션 실행
-                if(result == null) System.out.println("SPELL :: REDIS TRANSACTION ERROR");
+                if(result == null) System.out.println("GAME :: REDIS TRANSACTION ERROR");
 
                 return null;
             }
         });
-        redisTemplate.expire(getGameKey(roomId), TTL, TimeUnit.SECONDS);
+        redisTemplate.expire(getGameKey(roomId), SERVICE_TTL.get("game"), TimeUnit.SECONDS);
     }
     protected Map<Object, Object> getGame(String roomId) {
         if(hashOperations.entries(getGameKey(roomId)).size() == 0) return null;
@@ -113,8 +123,6 @@ public class RedisService {
     }
 
     protected void setGameInfo(String roomId, Map<String, String> hash) {
-        System.out.println("REDIS SERVICE: SET GAME INFO");
-        System.out.println("ROOMID: "+roomId);
         redisTemplate.execute(new SessionCallback<>() {
             @Override
             public Object execute(RedisOperations operations) throws DataAccessException {
@@ -124,17 +132,13 @@ public class RedisService {
                 }
 
                 List<Object> result = operations.exec();  // 트랜잭션 실행
-                if(result == null) System.out.println("SPELL :: REDIS TRANSACTION ERROR");
+                if(result == null) System.out.println("GAME :: REDIS TRANSACTION ERROR");
 
                 return null;
             }
         });
-        redisTemplate.expire(getGameKey(roomId), TTL, TimeUnit.SECONDS);
     }
     protected String getGameInfo(String roomId, String hashKey) {
-        System.out.println("REDIS SERVICE: GET GAME INFO");
-        System.out.println("ROOMID: "+roomId);
-        System.out.println("HASHKEY: "+hashKey);
         return (String) hashOperations.get(getGameKey(roomId), hashKey);
     }
 
@@ -170,12 +174,12 @@ public class RedisService {
                 hashOperations.put(getCellKey(roomId, index), "time", Integer.toString(cell.getTime()));
 
                 List<Object> result = operations.exec();  // 트랜잭션 실행
-                if(result == null) System.out.println("SPELL :: REDIS TRANSACTION ERROR");
+                if(result == null) System.out.println("CELL :: REDIS TRANSACTION ERROR");
 
                 return null;
             }
         });
-        redisTemplate.expire(getCellKey(roomId, index), TTL, TimeUnit.SECONDS);
+        redisTemplate.expire(getCellKey(roomId, index), SERVICE_TTL.get("cell"), TimeUnit.SECONDS);
     }
     protected void setMinigame(String roomId, Minigame minigame, int index) {
         redisTemplate.execute(new SessionCallback<>() {
@@ -187,12 +191,12 @@ public class RedisService {
                 hashOperations.put(getCellKey(roomId, index), "time", Integer.toString(minigame.getTime()));
 
                 List<Object> result = operations.exec();  // 트랜잭션 실행
-                if(result == null) System.out.println("SPELL :: REDIS TRANSACTION ERROR");
+                if(result == null) System.out.println("MINIGAME :: REDIS TRANSACTION ERROR");
 
                 return null;
             }
         });
-        redisTemplate.expire(getCellKey(roomId, index), TTL, TimeUnit.SECONDS);
+        redisTemplate.expire(getCellKey(roomId, index), SERVICE_TTL.get("cell"), TimeUnit.SECONDS);
     }
     protected Map<Object, Object> getCell(String roomId, int index) {
         if(hashOperations.entries(getCellKey(roomId, index)).size() == 0) return null;
@@ -219,7 +223,7 @@ public class RedisService {
                 return null;
             }
         });
-        redisTemplate.expire(getSpellKey(roomId), TTL, TimeUnit.SECONDS);
+        redisTemplate.expire(getSpellKey(roomId), SERVICE_TTL.get("minigame"), TimeUnit.SECONDS);
     }
     protected Map<Object, Object> getSpell(String roomId) {
         if(hashOperations.entries(getSpellKey(roomId)).size() == 0) return null;
@@ -241,7 +245,6 @@ public class RedisService {
                 return null;
             }
         });
-        redisTemplate.expire(getSpellKey(roomId), TTL, TimeUnit.SECONDS);
     }
     protected String getSpellInfo(String roomId, String hashKey) {
         return (String) hashOperations.get(getSpellKey(roomId), hashKey);
@@ -261,12 +264,12 @@ public class RedisService {
                 hashOperations.put(getChatKey(roomId), new Date().toString(), wholeMsg);
 
                 List<Object> result = operations.exec();  // 트랜잭션 실행
-                if(result == null) System.out.println("SPELL :: REDIS TRANSACTION ERROR");
+                if(result == null) System.out.println("CHAT :: REDIS TRANSACTION ERROR");
 
                 return null;
             }
         });
-        redisTemplate.expire(getSpellKey(roomId), TTL, TimeUnit.SECONDS);
+        redisTemplate.expire(getChatKey(roomId), SERVICE_TTL.get("chat"), TimeUnit.SECONDS);
     }
     protected Map<Object, Object> getChat(String roomId) {
         if(hashOperations.entries(getChatKey(roomId)).size() == 0) return null;
