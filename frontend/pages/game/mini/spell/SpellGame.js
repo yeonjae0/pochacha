@@ -160,26 +160,6 @@ function SpellGame({ sec }) {
     }, 5000);  // 설명 모달 시간 설정! 5초 정도? 임시로 1초
   })
 
-  // const ModalPage = () => {
-  //   if (showModal == false) {
-  //     document.body.style.overflow = "hidden";
-  //     return (
-  //       <div className={styles.modalContainer}>
-  //         <div className={styles.modalContent}>
-  //           {/* <img className="logoImg" src="/로고_훈민정음.png" /> */}
-  //           <p>10초 안에 제시된 초성과 일치하는 단어를 입력하세요.</p>
-  //           <p>*두 글자의 단어만 입력 가능합니다.*</p>
-
-  //           <h4>제시된 초성: {randomConsonant}</h4>
-  //         </div>
-  //       </div>
-  //     );
-  //   } else if (showModal == true) {
-  //     document.body.style.overflow = "initial";
-  //     return null;
-  //   }
-  // };
-
   return (
     <>
       { (showModal == false) ?
@@ -194,11 +174,17 @@ function SpellGame({ sec }) {
         </div>
     : null }
 
-      <div style={{ fontSize: '50px' }}>{sec}</div>
-      <div className={styles.wrapper}>
+      {/* <div style={{ fontSize: '50px', height: '100px' }}>{sec}</div> */}
+      <div className={styles.wrapper}
+      style={{
+        textAlign: 'center',
+        position: 'absolute',
+        top: '-5%',
+        left: '50%',
+        transform: 'translate(-50%, -5%)'
+       }}>
+
         <div className={styles.upperContainer}>
-          {/* 뒤로 가기 버튼 */}
-          {/* <button type="button" onClick={() => router.back()}>Click here to go back</button> */}
           <input
             type="text"
             placeholder="단어를 입력하세요"
@@ -216,13 +202,13 @@ function SpellGame({ sec }) {
             src="/초성_세종대왕_기본.png"
             style={{
               position: "absolute",
-              left: "125px",
+              left: "50px",
               width: "350px",
               marginTop: "-350px",
             }}
           />
-          <div className={styles.miniBlock1}></div>
-          <div className={styles.miniBlock2}></div>
+          {/* <div className={styles.miniBlock1}></div>
+          <div className={styles.miniBlock2}></div> */}
           <h3 style={{ fontFamily: 'ChosunCentennial', position: "absolute", left: "250px", zIndex: "1" }}>초성은 {randomConsonant}</h3>
           <img
             src="/초성_두루마리.png"
@@ -251,14 +237,14 @@ function SpellGame({ sec }) {
               </div>
             ))}
           </div>
-          <h1>{sec}</h1>
-          <label>
+          {/* <h1>{sec}</h1> */}
+          {/* <label>
             단어를 입력하세요:
             <input type="text" value={inputValue} onChange={handleInput} onKeyDown={handleKeyDown} />
           </label>
           <button type="button" onClick={handleSubmit} >
             제출
-          </button>
+          </button> */}
         </div>
       </div>
     </>

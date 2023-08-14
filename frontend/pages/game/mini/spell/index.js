@@ -27,7 +27,8 @@ export default function SpellTimer() {
   })
 
   return (
-    <div style={{ backgroundColor: 'blue', height: '100vh' }}>
+    <div>
+    {/* <div style={{ backgroundColor: 'blue', height: '100vh' }}> */}
       <SpellGame sec={sec} />
     </div>
   )

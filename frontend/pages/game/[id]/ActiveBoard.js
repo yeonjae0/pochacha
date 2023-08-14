@@ -8,8 +8,6 @@ import styles from '@/styles/BoardMap.module.css'
 export default function ActiveBoard({ pin, cellObj }) {
 
   const targetRef = useRef(null);
-  // const [left, setLeft] = useState(0)
-  // const [top, setTop] = useState(0)
   const [positionStyle, setPositionStyle] = useState({ top: 0, left: 0 });
 
   /* 희진 : 보드 색 지정 시작 */
@@ -38,8 +36,6 @@ export default function ActiveBoard({ pin, cellObj }) {
     const targetElement = targetRef.current;
     if (targetElement) {
       const rect = targetElement.getBoundingClientRect();
-      // setTop(rect.top - 80) // 위치 값 조정
-      // setLeft(rect.left - 40) // 위치 값 조정
       setPositionStyle({
         top: rect.top - 80, // 위치 값 조정
         left: rect.left - 40 // 위치 값 조정
@@ -112,12 +108,6 @@ export default function ActiveBoard({ pin, cellObj }) {
           transition: 'top 0.3s ease, left 0.3s ease',
           ...positionStyle
         }}
-      // style={{
-      //   width: '100px',
-      //   position: 'absolute',
-      //   top: `${top}px`,
-      //   left: `${left}px`
-      // }}
       />
     </div>
   )

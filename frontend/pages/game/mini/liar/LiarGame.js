@@ -68,11 +68,9 @@ export default function Picktopic() {
           className="pickTopic"
           style={{
             position: 'relative',
-            width: '600px',
-            height: '600px',
-            border: '2px solid #000',
-            margin: '0 auto',
-            overflow: 'hidden',
+            width: '450px',
+            height: '450px',
+            // overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',

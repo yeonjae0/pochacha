@@ -2,9 +2,10 @@
 
 import React, { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/router'
-import dynamic from 'next/dynamic'
 import DiceBox from './DiceBox.js'
 import ActiveBoard from './ActiveBoard.js'
+import GameSelect from './GameSelect.js'
+// import dynamic from 'next/dynamic'
 // import BoardMap from './BoardMap.js'
 // import ThreeBoard from './ThreeBoard.js'
 import styles from '@/styles/GamePage.module.css'
@@ -14,7 +15,7 @@ import { Stomp } from '@stomp/stompjs'
 import axios from 'axios'
 import { useSelector } from "react-redux";
 
-/* 희진 : Board Component */
+/* 희진 : Board Component (속도 이슈 보류) */
 // const DynamicThreeBoard = dynamic(() => import('../../data/ThreeBoard.js'), {
 //   ssr: false,
 // });
@@ -44,17 +45,17 @@ export default function GamePage() {
 
   const router = useRouter()
 
-  let roomId = useSelector(state => state.room.currentRoomId)
-  let includeMini = useSelector(state => state.room.currentIncludeMini) // 미니게임 진행 여부
-  let [dice, setDice] = useState(0); // 주사위
-  let [pin, setPin] = useState(0); // 현재 위치
-  let [lab, setLab] = useState(0); // 바퀴 수
-  let [client, setClient] = useState({});
-  let [currentCell, setCurrentCell] = useState('')
-  let [showModal, setShowModal] = useState(false);
-  let [cellObj, setCellObj] = useState({});
+  const roomId = useSelector(state => state.room.currentRoomId)
+  const includeMini = useSelector(state => state.room.currentIncludeMini) // 미니게임 진행 여부
+  const [dice, setDice] = useState(0); // 주사위
+  const [pin, setPin] = useState(0); // 현재 위치
+  const [lab, setLab] = useState(0); // 바퀴 수
+  const [client, setClient] = useState({});
+  const [currentCell, setCurrentCell] = useState('')
+  const [showModal, setShowModal] = useState(false);
+  const [cellObj, setCellObj] = useState({});
 
-  let videoRef = useRef(null);
+  const videoRef = useRef(null);
 
   const getUserCamera = () => {
     navigator.mediaDevices.getUserMedia({
@@ -149,10 +150,7 @@ export default function GamePage() {
         setDice(data.game.dice)
         setPin(data.game.pin)
         setLab(data.game.lab)
-        setCurrentCell(data.cell.name)
-        { currentCell == '두더지 게임' ? (window.location.href = 'http://localhost:3000/game/mini/mole') : null }
-        { currentCell == '훈민정음' ? (window.location.href = 'http://localhost:3000/game/mini/spell') : null }
-        { currentCell == '라이어 게임' ? (window.location.href = 'http://localhost:3000/game/mini/liar') : null }
+        setCurrentCell(data.cell.name) 원본 코드
       })
     })
   }
@@ -175,15 +173,6 @@ export default function GamePage() {
   }
 
   const ModalPage = ({ currentCell, pin }) => {
-
-    useEffect(() => {
-      if (showModal) {
-        document.body.style.overflow = 'hidden'
-      } else {
-        document.body.style.overflow = 'initial'
-      }
-    }, [showModal])
-
     return (
       <>
         {showModal && (
@@ -216,27 +205,36 @@ export default function GamePage() {
           handleRollDiceClick();
         }}>주사위 굴리기</button>
         <div>
-          {/* <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}> */}
 
           <div className={styles.upper_container}>
-            <video className={styles.cam} style={{ float: 'left' }} ref={videoRef} /> {/* WEBCAM 화면 */}
+            <video className={styles.cam} ref={videoRef} /> {/* WEBCAM 화면 */}
             <video className={styles.cam} style={{ float: 'right' }} ref={videoRef} /> {/* WEBCAM 화면 */}
           </div>
 
-          {/* <div style={{ position: "relative" }}> */}
           <div>
-            <DiceBox dice={dice} />
-            <ActiveBoard pin={pin} cellObj={cellObj} />
-            {/* <ThreeBoard className={styles.board} pin={pin}/> */}
-            {/* <div style={{ display: "flex", justifyContent: "center" }}>
-          </div> */}
+            {/* 메인 보드 (미니게임 컴포넌트 상호작용 확인차 잠시 주석 처리) */}
+            {/* <ActiveBoard pin={pin} cellObj={cellObj} /> */}
+            {/* 메인 보드 (미니게임 컴포넌트 상호작용 확인차 잠시 주석 처리) */}
 
-            {/* <div style={{ position: "absolute" }}>
-            <BoardMap pin={pin} style={{ bottom: "0" }} />
-          </div> */}
+            {currentCell == '두더지 게임' || currentCell == '라이어 게임' || currentCell == '훈민정음'? (
+              <GameSelect currentCell={currentCell} />
+            ) : (
+              <div>
+              <DiceBox dice={dice} />
+              <ActiveBoard pin={pin} cellObj={cellObj} />
+              </div>
+            )}
+
+            {/* 희진 : Three.js 보드 시도 (속도 이슈로 보류) */}
+            {/* <ThreeBoard className={styles.board} pin={pin}/> */}
+            {/* <div style={{ display: "flex", justifyContent: "center" }}></div> */}
+
+            {/* 희진 : Temporary Board (추후 삭제 예정) */}
+            {/* <div style={{ position: "absolute" }}><BoardMap pin={pin} style={{ bottom: "0" }} /></div> */}
+
           </div>
           <div className={styles.lower_container}>
-            <video className={styles.cam} style={{ float: 'left' }} ref={videoRef} /> {/* WEBCAM 화면 */}
+            <video className={styles.cam} ref={videoRef} /> {/* WEBCAM 화면 */}
             <video className={styles.cam} style={{ float: 'right' }} ref={videoRef} /> {/* WEBCAM 화면 */}
           </div>
         </div>

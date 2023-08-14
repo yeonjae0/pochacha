@@ -52,10 +52,27 @@ export default function Liar() {
 
   return (
     <>
-    <div className={styles.title_container}>
-    <img src='/라이어_로고.png' alt='Liar game Title' width={300} height={100} />
+    {/* <div className={styles.title_container}> */}
+    <div
+    style={{
+      textAlign: 'center',
+      position: 'absolute',
+      top: '10%',
+      left: '50%',
+      transform: 'translate(-50%, -10%)'
+    }}>
+    <img src='/라이어_로고.png' alt='Liar game Title' style={{ width: '300px', height: '100px' }} />
     </div>
-    <div className={styles.game_container}>
+    
+    {/* <div className={styles.game_container}> */}
+    <div
+    style={{
+      textAlign: 'center',
+      position: 'absolute',
+      top: '25%',
+      left: '50%',
+      transform: 'translate(-50%, 0%)'}} className={styles.game_container}
+    >
       {
         rule === 1 && (
           <h2>주제를 고르고 한 명씩 제시어를 확인합니다.</h2>
