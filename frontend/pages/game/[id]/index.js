@@ -130,12 +130,13 @@ export default function GamePage() {
       // callback 함수 설정, 대부분 여기에 sub 함수 씀
       client.current.subscribe(`/topic/move/${roomId}`, (response) => {
         let data = JSON.parse(response.body)
-        let currentCell = data.cell.name
 
         setDice(data.game.dice)
         setPin(data.game.pin)
         setLab(data.game.lab)
         setCurrentCell(data.cell.name)
+
+        console.log("pause data ::: ", data);
       })
     })
   }
@@ -145,6 +146,10 @@ export default function GamePage() {
     createMap();
     connectSocket();
     subscribeSocket();
+
+    setTimeout(() => {
+      client.current.send("/move/" + roomId, {}, JSON.stringify({ "reload": true }));
+    }, 30);
   }, []);
 
   let handleRollDiceClick = () => {
@@ -180,36 +185,27 @@ export default function GamePage() {
           <h5>주사위 눈 : {dice}, 현재 {pin}번 블록에 위치, {lab}바퀴</h5>
         </nav>
         <button className={styles.btnRolling} value="innerHTML" onClick={() => {
-          var sendData = {
-            "dice": dice,
-            "pin": pin,
-            "lab": lab,
-          };
-
-          client.current.send("/move/" + roomId, {}, JSON.stringify(sendData));
+          client.current.send("/move/" + roomId, {}, JSON.stringify({}));
           handleRollDiceClick();
         }}>주사위 굴리기</button>
         <div>
-
-          <div className={styles.upper_container}>
-            <video className={styles.cam} ref={videoRef} /> {/* WEBCAM 화면 */}
-            <video className={styles.cam} style={{ float: 'right' }} ref={videoRef} /> {/* WEBCAM 화면 */}
-          </div>
 
           <div>
             {/* 메인 보드 (미니게임 컴포넌트 상호작용 확인차 잠시 주석 처리) */}
             {/* <ActiveBoard pin={pin} cellObj={cellObj} /> */}
             {/* 메인 보드 (미니게임 컴포넌트 상호작용 확인차 잠시 주석 처리) */}
 
-            {currentCell == '두더지 게임' || currentCell == '라이어 게임' || currentCell == '훈민정음'? (
+            {currentCell == '두더지 게임' || currentCell == '라이어 게임' || currentCell == '훈민정음' ? (
               <GameSelect currentCell={currentCell} />
             ) : (
               <div>
-              <DiceBox dice={dice} />
-              <ActiveBoard pin={pin} cellObj={cellObj} />
+                <DiceBox dice={dice} />
+                <ActiveBoard pin={pin} cellObj={cellObj} />
               </div>
             )}
-
+            <div className={styles.camList}>
+              <RoomCam />
+            </div>
             {/* 희진 : Three.js 보드 시도 (속도 이슈로 보류) */}
             {/* <ThreeBoard className={styles.board} pin={pin}/> */}
             {/* <div style={{ display: "flex", justifyContent: "center" }}></div> */}
@@ -218,10 +214,7 @@ export default function GamePage() {
             {/* <div style={{ position: "absolute" }}><BoardMap pin={pin} style={{ bottom: "0" }} /></div> */}
 
           </div>
-          <div className={styles.lower_container}>
-            <video className={styles.cam} ref={videoRef} /> {/* WEBCAM 화면 */}
-            <video className={styles.cam} style={{ float: 'right' }} ref={videoRef} /> {/* WEBCAM 화면 */}
-          </div>
+
         </div>
         <>
           <ModalPage currentCell={currentCell} pin={pin} />
