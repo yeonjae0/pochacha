@@ -1,19 +1,18 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
-import { useRouter } from 'next/router'
-import RightBox from './RightBox.js'
-import styles from '@/styles/EnterPage.module.css'
-import classNames from 'classnames'
-import SockJS from 'sockjs-client'
-import { Stomp } from '@stomp/stompjs'
-import axios from 'axios'
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect, useRef } from 'react'; /* React 관련 */
+import { useRouter } from 'next/router';
+import RightBox from './RightBox.js';
+import SockJS from 'sockjs-client'; /* API 관련 */
+import { Stomp } from '@stomp/stompjs';
+import axios from 'axios';
+import { useDispatch } from "react-redux"; /* Store 관련 */
 import { enterRoom } from "@/store/reducers/room.js";
-//import { addPlayers } from '@/store/reducers/players.js'
-import { MyPlayerData } from '@/store/reducers/player.js'
+import { MyPlayerData } from '@/store/reducers/player.js';
+import styles from '@/styles/EnterPage.module.css'; /* Style 관련 */
+import classNames from 'classnames';
 
-//방장 입장 페이지
+/* 방장 입장 페이지 */
 export default function EnterPage() {
 
   const router = useRouter();
