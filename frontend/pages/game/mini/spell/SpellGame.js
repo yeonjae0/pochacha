@@ -163,26 +163,6 @@ function SpellGame({ sec, time, resetSec }) {
     }, 5000);  // 설명 모달 시간 설정! 5초 정도? 임시로 1초
   })
 
-  // const ModalPage = () => {
-  //   if (showModal == false) {
-  //     document.body.style.overflow = "hidden";
-  //     return (
-  //       <div className={styles.modalContainer}>
-  //         <div className={styles.modalContent}>
-  //           {/* <img className="logoImg" src="/로고_훈민정음.png" /> */}
-  //           <p>10초 안에 제시된 초성과 일치하는 단어를 입력하세요.</p>
-  //           <p>*두 글자의 단어만 입력 가능합니다.*</p>
-
-  //           <h4>제시된 초성: {randomConsonant}</h4>
-  //         </div>
-  //       </div>
-  //     );
-  //   } else if (showModal == true) {
-  //     document.body.style.overflow = "initial";
-  //     return null;
-  //   }
-  // };
-
   return (
     <>
       { (showModal == false) ?
@@ -198,11 +178,11 @@ function SpellGame({ sec, time, resetSec }) {
     : null }
 
       {/* <h2>{currentPlayer}님의 차례입니다.</h2> */}
-      <div style={{ fontSize: '40px' }}>{sec}초 남았습니다.</div>
       <div className={styles.wrapper}>
         <div className={styles.upperContainer}>
           {/* 뒤로 가기 버튼 */}
           {/* <button type="button" onClick={() => router.back()}>Click here to go back</button> */}
+      <div style={{ fontSize: '25px' }}>{sec}초 남았습니다.</div>
           <input
             type="text"
             placeholder="단어를 입력하세요"
@@ -220,21 +200,21 @@ function SpellGame({ sec, time, resetSec }) {
             src="/초성_세종대왕_기본.png"
             style={{
               position: "absolute",
-              left: "125px",
+              left: "60px",
               width: "350px",
-              marginTop: "-350px",
+              marginTop: "-300px",
             }}
           />
           <div className={styles.miniBlock1}></div>
           <div className={styles.miniBlock2}></div>
-          <h3 style={{ fontFamily: 'ChosunCentennial', position: "absolute", left: "250px", zIndex: "1" }}>초성은 {randomConsonant}</h3>
+          <h3 style={{ fontFamily: 'ChosunCentennial', position: "absolute", left: "170px", zIndex: "1" }}>초성은 {randomConsonant}</h3>
           <img
             src="/초성_두루마리.png"
             style={{
               position: "absolute",
               width: "700px",
-              left: "-50px",
-              marginBottom: "-200px",
+              left: "-130px",
+              marginBottom: "-210px",
               zIndex: "0",
             }} />
           <div className={styles.wordsContainer}>
@@ -244,8 +224,8 @@ function SpellGame({ sec, time, resetSec }) {
                 className={styles.word}
                 style={{
                   position: "absolute",
-                  marginLeft: '100px',
-                  marginTop: '250px',
+                  marginLeft: '20px',
+                  marginTop: '195px',
                   fontFamily: 'ChosunCentennial',
                   left: `${(index % 8) * 50}px`,
                   top: `${Math.floor(index / 8) * 30}px`,
