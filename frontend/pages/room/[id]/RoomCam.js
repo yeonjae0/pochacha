@@ -13,7 +13,7 @@ export default function RoomCam() {
   const publisher = useSelector(state => state.openvidu.publisher);
   const participants = useSelector(state => state.openvidu.participants);
 
-  console.log("룸캠")
+  console.log("Room Cam")
   console.log(publisher);
   console.log(participants);
 

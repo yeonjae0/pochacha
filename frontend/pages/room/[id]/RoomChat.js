@@ -3,13 +3,15 @@
 import { useEffect, useState, useRef } from 'react'
 import styles from '@/styles/RoomPage.module.css'
 
-export default function RoomChat({ info, client, chatHistory }) {
+export default function RoomChat(props) {
   
-  // const info = props.info;
-  // const [client] = useState(props.client);
+  const info = props.info;
+  const [client] = useState(props.client);
 
-  console.log(info)
-  console.log(client)
+  useEffect(()=>{
+    console.log(info)
+    console.log(client)
+  }, [])
 
   /* 유영 : Socket을 이용한 채팅 함수 시작 */
   const [message, setMessage] = useState('')
@@ -79,7 +81,7 @@ export default function RoomChat({ info, client, chatHistory }) {
       */
       chatTextAreaRef.current.scrollTop = chatTextAreaRef.current.scrollHeight;
     }
-  }, [chatHistory]);
+  }, [props.chatHistory]);
   /* 희진 : 채팅창 자동 스크롤 끝 */
 
   /* 희진 : 입장 시 입장 메시지 자동 채팅 전송 (Cam On) 시작 */
@@ -98,6 +100,7 @@ export default function RoomChat({ info, client, chatHistory }) {
     setTimeout(() => {
       sendIntroMessage();
     }, 1000)
+    return
   }, []);
   /* 희진 : 입장 시 입장 메시지 자동 채팅 전송 끝 */
 
@@ -108,7 +111,7 @@ export default function RoomChat({ info, client, chatHistory }) {
           <textarea ref={chatTextAreaRef}
             className={styles.chatArea}
             readOnly
-            value={chatHistory} />
+            value={props.chatHistory} />
         </div>
       </div>
       {inputVisible ? (
