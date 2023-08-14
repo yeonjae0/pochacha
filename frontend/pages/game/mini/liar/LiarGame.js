@@ -17,7 +17,7 @@ export default function Picktopic() {
   const handleTopicClick = (topic) => {
     console.log('topic', topic)
     axios({
-      url: `http://localhost:80/game/mini/liar/set/${roomId}`,
+      url: process.env.NEXT_PUBLIC_API + `/game/mini/liar/set/${roomId}`,
       header: {
         "Accept": "application/json",
         "Content-type": "application/json;charset=UTF-8"
