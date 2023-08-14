@@ -126,8 +126,8 @@ export default function GamePage() {
         setDice(data.game.dice)
         setPin(data.game.pin)
         setLab(data.game.lab)
-        // setCurrentCell(data.cell.name)
-        setCurrentCell('훈민정음')
+        setCurrentCell(data.cell.name)
+        // setCurrentCell('훈민정음')
       })
     })
   }

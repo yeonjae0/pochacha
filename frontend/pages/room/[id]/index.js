@@ -197,6 +197,7 @@ export default function RoomPage() {
   /* 혜지 : OpenVidu 연결 관련 메소드 완료 */
 
   useEffect(() => {
+    // console.log('!!!!!!!!!!!!!!', playerReady)
     getPlayerList();
     connectSocket();
     subscribeSocket();

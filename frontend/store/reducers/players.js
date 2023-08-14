@@ -12,6 +12,7 @@ const playersSlice = createSlice({
     addPlayers: (state, action) => {
       state.players.push(action.payload); 
     },
+
     updatePlayers: (state, action) => {
       const { playerId, updates } = action.payload;
       const playerIndex = state.players.findIndex(player => player.playerId === playerId);
@@ -19,6 +20,7 @@ const playersSlice = createSlice({
         state.players[playerIndex] = { ...state.players[playerIndex], ...updates }; 
       }
     },
+    
     removePlayers: (state, action) => {
       const playerId = action.payload;
       state.players = state.players.filter(player => player.playerId !== playerId); 
