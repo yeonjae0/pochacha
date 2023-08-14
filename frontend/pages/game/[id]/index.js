@@ -17,11 +17,6 @@ import { useSelector } from "react-redux";
 import { OpenVidu } from 'openvidu-browser'; /* OpenVidu 관련 */
 import RoomCam from '@/pages/room/[id]/RoomCam.js'
 
-/* 희진 : Board Component (속도 이슈 보류) */
-// const DynamicThreeBoard = dynamic(() => import('../../data/ThreeBoard.js'), {
-//   ssr: false,
-// });
-
 /* 연재 : 모달 시작 */
 // 해야할 것: 모달 창 꾸미기
 const ModalContainer = styled.div`
@@ -202,9 +197,8 @@ export default function GamePage() {
           </div> */}
 
           <div>
-            {/* 메인 보드 (미니게임 컴포넌트 상호작용 확인차 잠시 주석 처리) */}
+            {/* 이전 메인 보드 */}
             {/* <ActiveBoard pin={pin} cellObj={cellObj} /> */}
-            {/* 메인 보드 (미니게임 컴포넌트 상호작용 확인차 잠시 주석 처리) */}
 
             {currentCell == '두더지 게임' || currentCell == '라이어 게임' || currentCell == '훈민정음'? (
               <GameSelect currentCell={currentCell} />
@@ -214,10 +208,6 @@ export default function GamePage() {
               <ActiveBoard pin={pin} cellObj={cellObj} />
               </div>
             )}
-
-            {/* 희진 : Three.js 보드 시도 (속도 이슈로 보류) */}
-            {/* <ThreeBoard className={styles.board} pin={pin}/> */}
-            {/* <div style={{ display: "flex", justifyContent: "center" }}></div> */}
 
             {/* 희진 : Temporary Board (추후 삭제 예정) */}
             {/* <div style={{ position: "absolute" }}><BoardMap pin={pin} style={{ bottom: "0" }} /></div> */}
