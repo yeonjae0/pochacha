@@ -53,8 +53,16 @@ export default function Liar() {
 
   return (
     <>
-    <div className={styles.title_container}>
-    <img src='/라이어_로고.png' alt='Liar game Title' width={300} height={100} />
+    {/* <div className={styles.title_container}> */}
+    <div
+    style={{
+      textAlign: 'center',
+      position: 'absolute',
+      top: '10%',
+      left: '50%',
+      transform: 'translate(-50%, -10%)'
+    }}>
+    <img src='/라이어_로고.png' alt='Liar game Title' style={{ width: '300px', height: '100px' }} />
     </div>
     <div className={styles.game_container}>
       {/* 제정 : 빠른 테스트를 위한 룰 설명 주석 처리 시작 */}

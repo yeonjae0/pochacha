@@ -1,4 +1,4 @@
-/* 기존 보드 */
+/* Temporary Board */
 
 import styles from '@/styles/Map.module.css'
 

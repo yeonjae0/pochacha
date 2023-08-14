@@ -169,8 +169,6 @@ public class RoomService extends RedisService implements BadWords, GoodWords {
             i = new Random().nextInt(goodWords.length);
             message = message.replaceAll(b, goodWords[i]);
         }
-        System.out.println(message);
-
         String wholeMsg = "[" + nowdate.getHours() + ":" + nowdate.getMinutes() + "] " + playerId + ": " + message;
         super.setChat(roomId, wholeMsg);
 

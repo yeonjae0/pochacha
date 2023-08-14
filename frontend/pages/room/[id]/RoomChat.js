@@ -97,7 +97,7 @@ export default function RoomChat(props) {
   useEffect(() => {
     setTimeout(() => {
       sendIntroMessage();
-    }, 500)
+    }, 1000)
   }, []);
   /* 희진 : 입장 시 입장 메시지 자동 채팅 전송 끝 */
 

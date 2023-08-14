@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
 import Ready from './MoleReady.js'
 import Go from './MoleGo.js'
 import styles from '@/styles/MoleGame.module.css';
@@ -67,13 +66,18 @@ function MoleGame({ sec }) {
     setTimeout(() => {
       setReady('game')
     }, 5000)
-
   }, [])
 
   return (
-    <div style={{ textAlign: 'center' }}>
-      <div><img src="/두더지_로고.png" style={{ marginTop: '30px' }} /></div>
-      
+    <div style={{
+      textAlign: 'center',
+      position: 'absolute',
+      top: '20%',
+      left: '50%',
+      transform: 'translate(-50%, -20%)'
+    }}>
+      <div><img src="/두더지_로고.png" style={{ marginTop: '30px', width: '400px' }} /></div>
+
       {ready === 'ready' && (
         <Ready />
       )}
@@ -84,7 +88,7 @@ function MoleGame({ sec }) {
 
       {ready === 'game' && sec > 0 && score < 30 && (
         <div style={{ textAlign: 'center' }}>
-          <h1 style={{ marginBottom: '20px' }}>{30 - score}마리만 더 잡아주세요! {sec}초 남았습니다!</h1>
+          <h3 style={{ marginBottom: '20px' }}>{30 - score}마리만 더 잡아주세요! {sec}초 남았습니다!</h3>
           <div className={styles.container}>
             {molePositions.map((molePosition, index) => (
               molePosition && (
@@ -96,8 +100,8 @@ function MoleGame({ sec }) {
                     position: 'absolute',
                     top: `${molePosition.row * 33.33}%`,
                     left: `${molePosition.col * 33.33}%`,
-                    width: '200px',
-                    height: '200px',
+                    width: '150px',
+                    height: '150px',
                     cursor: 'pointer',
                   }}
                 />
@@ -110,8 +114,8 @@ function MoleGame({ sec }) {
                   position: 'absolute',
                   top: `${hitMolePosition.row * 33.33}%`,
                   left: `${hitMolePosition.col * 33.33}%`,
-                  width: '200px',
-                  height: '200px',
+                  width: '150px',
+                  height: '150px',
                 }}
               />
             )}
@@ -145,19 +149,14 @@ function WinorLose({ score, sec }) {
 /* 희진 : [승패 여부] Game Over 컴포넌트 시작 */
 function Gameover({ score }) {
 
-  const router = useRouter()
-
   let margin = 30 - score
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <h1 style={{ marginBottom: '20px' }}>{margin}마리가 부족해요 ~^^~</h1>
+      <h3 style={{ marginBottom: '20px' }}>{margin}마리가 부족해요 ~^^~</h3>
       <div className={styles.end}>
         <img className={styles.slideInEllipticBottomFwd} src="/두더지_X.png" />
       </div>
-      <button type="button" onClick={() => router.back()}>
-        Click here to go back
-      </button>
     </div>
   )
 }
@@ -166,17 +165,12 @@ function Gameover({ score }) {
 /* 희진 : [승패 여부] Mission Completed 컴포넌트 시작 */
 function MissionCompleted({ score, sec }) {
 
-  const router = useRouter()
-
   return (
     <div style={{ textAlign: 'center' }}>
-      <h1 style={{ marginBottom: '20px' }}>성공 (추후 순위 추가 여부 결정)</h1>
+      <h3 style={{ marginBottom: '20px' }}>성공 (추후 순위 추가 여부 결정)</h3>
       <div className={styles.end}>
         <img className={styles.bounceInBottom} src="/두더지_O.png" />
       </div>
-      <button type="button" onClick={() => router.back()}>
-        Click here to go back
-      </button>
     </div>
   )
 }
