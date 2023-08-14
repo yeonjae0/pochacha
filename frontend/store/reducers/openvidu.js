@@ -5,7 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 */
 const initialState = {
   publisher: {},
-  session: {},
+  participants:[],
 };
 
 const openViduSlice = createSlice({
@@ -15,11 +15,14 @@ const openViduSlice = createSlice({
     setPublisherData: (state, action) => {
         state.publisher = action.payload;
       },
-      setSessionData: (state, action) => {
-        state.session = action.payload;
+      setParticipantsData(state,action){
+        state.participants.push(action.payload); 
       },
+      resetParticipantsData: (state, action) => {
+        state.participants =  action.payload
+      }
   },
 });
 
 export default openViduSlice;
-export const { setPublisherData, setSessionData } = openViduSlice.actions;
+export const { setPublisherData, setParticipantsData, resetParticipantsData } = openViduSlice.actions;

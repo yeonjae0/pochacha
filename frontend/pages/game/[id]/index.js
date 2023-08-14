@@ -36,90 +36,13 @@ const ModalContent = styled.div`
 
 export default function GamePage() {
 
-  const router = useRouter()
+  const router = useRouter();
 
-  /* 혜지 : OpenVidu 관련 데이터 시작 */
-  const publisher=useSelector(state=>state.openvidu.publisher);
-  const [participants, setParticipants] = useState([]);//참여자들
-  //let participants=useSelector(state=>state.openvidu.participants);
-  const deleteParticipant = (streamManager) => {
-    let tempParticipants = participants;
-    let index = tempParticipants.indexOf(streamManager, 0);
-    if (index > -1) {
-      tempParticipants.splice(index, 1);
-      setParticipants(tempParticipants);
-    }
-  }
-
-  const onbeforeunload = (e) => {
-    leaveSession();
-  }
-
-  const session=useSelector(state=>state.openvidu.session);
-  console.log("세션")
-  console.log(session)
-
-  const joinSession = async (token) => {
-    try {
-      session.on('streamCreated', async (event) => {
-        let participant = session.subscribe(event.stream, undefined);
-        let tempParticipants = participants;
-        tempParticipants.push(participant);
-        setParticipants(tempParticipants);
-        
-        console.log(participants);
-      });
-
-      session.on('streamDestroyed', (event) => {
-        deleteParticipant(event.stream.streamManager);
-      });
-
-      session.on('exception', (exception) => {
-        console.warn(exception);
-      });
-
-      /* 혜지 : 모든 사용자 PUBLISHER 지정 필수 */
-      await session.connect(token, { clientData: nickname, publisher: true });
-      /* 카메라 세팅 */
-      let pub = await OV.initPublisherAsync(undefined, {
-        audioSource: undefined, // 오디오
-        videoSource: undefined, // 비디오
-        publishAudio: true, // 오디오 송출
-        publishVideo: true, // 비디오 송출
-        resolution: '640x480',
-        frameRate: 30,
-        insertMode: 'APPEND', // 비디오 컨테이너 적재 방식
-        mirror: false,
-      });
-
-      await session.publish(pub);
-      let deviceList = await OV.getDevices();
-      var videoDevices = deviceList.filter(device => device.kind === 'videoinput');
-      var currentVideoDeviceId = pub.stream.getMediaStream().getVideoTracks()[0].getSettings().deviceId;
-      var currentVideoDevice = videoDevices.find(device => device.deviceId === currentVideoDeviceId);
-
-      setPublisher(pub);
-      dispatch(setPublisherData(pub));
-
-      console.log(publisher);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  const leaveSession = () => {
-    if (session) {
-      session.disconnect();
-    }
-
-    OV = null;
-    setPublisher(undefined);
-    setParticipants([]);
-  }
- /* 혜지 : OpenVidu 관련 데이터 끝 */
-
-  let roomId = useSelector(state => state.room.currentRoomId)
+  /* 혜지 : OpenVidu 관련 데이터 */
+  const token = useSelector(state => state.player.currentPlayerId);
+  const roomId = useSelector(state => state.room.currentRoomId);
   let includeMini = useSelector(state => state.room.currentIncludeMini) // 미니게임 진행 여부
+
   let [dice, setDice] = useState(0); // 주사위
   let [pin, setPin] = useState(0); // 현재 위치
   let [lab, setLab] = useState(0); // 바퀴 수
@@ -170,15 +93,15 @@ export default function GamePage() {
           'twentyfour': response.data[23].status,
         }
       )
-      console.log('RoomId', roomId)
-      console.log('Cell Data', response.data)
+      console.log('RoomId', roomId);
+      console.log('Cell Data', response.data);
     }).catch((error) => {
-      if(error.response) {
+      if (error.response) {
         router.push({
-            pathname: "/exception",
-            query: { msg: error.response.data },
-          })
-      } else { console.log(error) }
+          pathname: "/exception",
+          query: { msg: error.response.data },
+        })
+      } else { console.log(error); }
     });
     /*
       TO DO :: Cell 색에 맞춰 배합
@@ -187,7 +110,7 @@ export default function GamePage() {
 
   const connectSocket = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS("http://localhost:80/ws")
+      const sock = new SockJS("http://localhost:80/ws");
       return sock;
     });
     client.current.debug = () => { };
@@ -197,16 +120,16 @@ export default function GamePage() {
     client.current.connect({}, () => {
       // callback 함수 설정, 대부분 여기에 sub 함수 씀
       client.current.subscribe(`/topic/move/${roomId}`, (response) => {
-        let data = JSON.parse(response.body)
-        let currentCell = data.cell.name
+        let data = JSON.parse(response.body);
+        let currentCell = data.cell.name;
 
-        setDice(data.game.dice)
-        setPin(data.game.pin)
-        setLab(data.game.lab)
-        setCurrentCell(data.cell.name)
-        {currentCell == '두더지 게임' ? (window.location.href = 'http://localhost:3000/game/mini/mole') : null}
-        {currentCell == '훈민정음' ? (window.location.href = 'http://localhost:3000/game/mini/spell') : null}
-        {currentCell == '라이어 게임' ? (window.location.href = 'http://localhost:3000/game/mini/liar') : null}
+        setDice(data.game.dice);
+        setPin(data.game.pin);
+        setLab(data.game.lab);
+        setCurrentCell(data.cell.name);
+        { currentCell == '두더지 게임' ? (window.location.href = 'http://localhost:3000/game/mini/mole') : null }
+        { currentCell == '훈민정음' ? (window.location.href = 'http://localhost:3000/game/mini/spell') : null }
+        { currentCell == '라이어 게임' ? (window.location.href = 'http://localhost:3000/game/mini/liar') : null }
         // console.log(data.game)
         // console.log(data.cell)
         // console.log(data.game.pin)
@@ -216,23 +139,18 @@ export default function GamePage() {
 
   useEffect(() => {
     // 최초 한 번 CellList 불러오기
-    createMap()
-    connectSocket()
-    subscribeSocket()
-
-    joinSession(token);
-    return()=>{
-      window.removeEventListener('beforeunload', onbeforeunload);
-    }
-  }, [])
+    createMap();
+    connectSocket();
+    subscribeSocket();
+  }, []);
 
   let handleRollDiceClick = () => {
     setTimeout(() => {
-      setShowModal(true)
-    }, 1000)
+      setShowModal(true);
+    }, 1000);
     setTimeout(() => {
-      setShowModal(false)
-    }, 2500)
+      setShowModal(false);
+    }, 2500);
     // setShowModal(false)
   }
 
@@ -240,11 +158,11 @@ export default function GamePage() {
 
     useEffect(() => {
       if (showModal) {
-        document.body.style.overflow = 'hidden'
+        document.body.style.overflow = 'hidden';
       } else {
-        document.body.style.overflow = 'initial'
+        document.body.style.overflow = 'initial';
       }
-    }, [showModal])
+    }, [showModal]);
 
     return (
       <>
@@ -295,19 +213,16 @@ export default function GamePage() {
       <div>
         {/* <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}> */}
 
-        {/* <div className={styles.upper_container}>
-          <video className={styles.cam} style={{ float: 'left' }} ref={videoRef} /> 
-          <video className={styles.cam} style={{ float: 'right' }} ref={videoRef} /> 
-        </div> */}
-
         <div className={styles.camList}>
-          <RoomCam publisher={publisher} participants={participants}/>
+          <RoomCam />
         </div>
 
         {/* <div style={{ position: "relative" }}> */}
+
         <div>
           <DiceBox dice={dice} />
           <ActiveBoard pin={pin} cellObj={cellObj} />
+
           {/* <div style={{ display: "flex", justifyContent: "center" }}>
           </div> */}
 
@@ -315,10 +230,7 @@ export default function GamePage() {
             <BoardMap pin={pin} style={{ bottom: "0" }} />
           </div> */}
         </div>
-        {/* <div className={styles.lower_container}>
-          <video className={styles.cam} style={{ float: 'left' }} ref={videoRef} />
-          <video className={styles.cam} style={{ float: 'right' }} ref={videoRef} />
-        </div> */}
+
       </div>
       <>
         <ModalPage currentCell={currentCell} pin={pin} />
