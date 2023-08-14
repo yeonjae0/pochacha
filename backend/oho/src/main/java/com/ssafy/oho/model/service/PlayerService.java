@@ -141,8 +141,7 @@ public class PlayerService extends RedisService {
         try {
             Player player;
             String playerId = playerRequestDto.getId();
-            System.out.println(playerRequestDto);
-            System.out.println(super.getPlayer(roomId, playerId));
+
             /*** 유효성 검사 ***/
             // 현재 방의 플레이어 존재 확인
             if(!playerRepository.existsById(playerId) && super.getPlayer(roomId, playerId) != null) {

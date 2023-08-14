@@ -107,7 +107,6 @@ public class PlayerController {
     public void deletePlayer(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
         try {
             PlayerResponseDto playerResponseDto = playerService.deletePlayer(payload, roomId);
-            System.out.println("deletePlayer 실행 :::");
 
             // id만 가지고 있는 값 전송
             webSocket.convertAndSend("/topic/player/" + roomId, playerResponseDto);

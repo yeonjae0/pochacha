@@ -49,7 +49,7 @@ public class RedisService {
                 hashOperations.put(getPlayerKey(roomId, player.getId()), "ready", Boolean.toString(false));
 
                 List<Object> result = operations.exec();  // 트랜잭션 실행
-                if(result == null) System.out.println("SPELL :: REDIS TRANSACTION ERROR");
+                if(result == null) System.out.println("PLAYER :: REDIS TRANSACTION ERROR");
 
                 return null;
             }
@@ -70,7 +70,7 @@ public class RedisService {
                 hashOperations.delete(getPlayerKey(roomId, playerId), "ready");
 
                 List<Object> result = operations.exec();  // 트랜잭션 실행
-                if(result == null) System.out.println("SPELL :: REDIS TRANSACTION ERROR");
+                if(result == null) System.out.println("PLAYER :: REDIS TRANSACTION ERROR");
 
                 return null;
             }
@@ -87,7 +87,7 @@ public class RedisService {
                 }
 
                 List<Object> result = operations.exec();  // 트랜잭션 실행
-                if(result == null) System.out.println("SPELL :: REDIS TRANSACTION ERROR");
+                if(result == null) System.out.println("PLAYER :: REDIS TRANSACTION ERROR");
 
                 return null;
             }
@@ -110,7 +110,7 @@ public class RedisService {
                 hashOperations.put(getGameKey(roomId), "lab", Integer.toString(lab));
 
                 List<Object> result = operations.exec();  // 트랜잭션 실행
-                if(result == null) System.out.println("SPELL :: REDIS TRANSACTION ERROR");
+                if(result == null) System.out.println("GAME :: REDIS TRANSACTION ERROR");
 
                 return null;
             }
@@ -123,8 +123,6 @@ public class RedisService {
     }
 
     protected void setGameInfo(String roomId, Map<String, String> hash) {
-        System.out.println("REDIS SERVICE: SET GAME INFO");
-        System.out.println("ROOMID: "+roomId);
         redisTemplate.execute(new SessionCallback<>() {
             @Override
             public Object execute(RedisOperations operations) throws DataAccessException {
@@ -134,16 +132,13 @@ public class RedisService {
                 }
 
                 List<Object> result = operations.exec();  // 트랜잭션 실행
-                if(result == null) System.out.println("SPELL :: REDIS TRANSACTION ERROR");
+                if(result == null) System.out.println("GAME :: REDIS TRANSACTION ERROR");
 
                 return null;
             }
         });
     }
     protected String getGameInfo(String roomId, String hashKey) {
-        System.out.println("REDIS SERVICE: GET GAME INFO");
-        System.out.println("ROOMID: "+roomId);
-        System.out.println("HASHKEY: "+hashKey);
         return (String) hashOperations.get(getGameKey(roomId), hashKey);
     }
 
@@ -179,7 +174,7 @@ public class RedisService {
                 hashOperations.put(getCellKey(roomId, index), "time", Integer.toString(cell.getTime()));
 
                 List<Object> result = operations.exec();  // 트랜잭션 실행
-                if(result == null) System.out.println("SPELL :: REDIS TRANSACTION ERROR");
+                if(result == null) System.out.println("CELL :: REDIS TRANSACTION ERROR");
 
                 return null;
             }
@@ -196,7 +191,7 @@ public class RedisService {
                 hashOperations.put(getCellKey(roomId, index), "time", Integer.toString(minigame.getTime()));
 
                 List<Object> result = operations.exec();  // 트랜잭션 실행
-                if(result == null) System.out.println("SPELL :: REDIS TRANSACTION ERROR");
+                if(result == null) System.out.println("MINIGAME :: REDIS TRANSACTION ERROR");
 
                 return null;
             }
@@ -269,7 +264,7 @@ public class RedisService {
                 hashOperations.put(getChatKey(roomId), new Date().toString(), wholeMsg);
 
                 List<Object> result = operations.exec();  // 트랜잭션 실행
-                if(result == null) System.out.println("SPELL :: REDIS TRANSACTION ERROR");
+                if(result == null) System.out.println("CHAT :: REDIS TRANSACTION ERROR");
 
                 return null;
             }
