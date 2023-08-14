@@ -7,21 +7,23 @@ import com.ssafy.oho.model.entity.Room;
 import com.ssafy.oho.model.repository.CellRepository;
 import com.ssafy.oho.model.repository.MinigameRepository;
 import com.ssafy.oho.model.repository.RoomRepository;
+import com.ssafy.oho.util.data.chat.words.BadWords;
+import com.ssafy.oho.util.data.chat.words.GoodWords;
 import com.ssafy.oho.util.exception.*;
 import io.openvidu.java.client.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 @Service
-public class RoomService extends RedisService {
+public class RoomService extends RedisService implements BadWords, GoodWords {
 
     private final RoomRepository roomRepository;
     private final CellRepository cellRepository;
     private final MinigameRepository minigameRepository;
+    private final Set<String> badWords = new HashSet<>(List.of(BadWords.badWords));
 
     @Autowired
     private RoomService(StringRedisTemplate redisTemplate, RoomRepository roomRepository, CellRepository cellRepository, MinigameRepository minigameRepository){
@@ -161,9 +163,14 @@ public class RoomService extends RedisService {
             throw new ChatException("입력된 메시지가 없습니다.");
         }
 
-        /*
-            TO DO :: 욕설 처리 API 적용
-         */
+        // 욕설 처리
+        int i = 0;
+        for (String b : badWords) {
+            i = new Random().nextInt(goodWords.length);
+            message = message.replaceAll(b, goodWords[i]);
+        }
+        System.out.println(message);
+
         String wholeMsg = "[" + nowdate.getHours() + ":" + nowdate.getMinutes() + "] " + playerId + ": " + message;
         super.setChat(roomId, wholeMsg);
 
