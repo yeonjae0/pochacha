@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-three/drei": "^9.80.2",
+    "@react-three/fiber": "^8.13.6",
     "@redux-devtools/extension": "^3.2.5",
     "@reduxjs/toolkit": "^1.9.5",
     "@stomp/stompjs": "^7.0.0",
@@ -29,6 +31,7 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.2",
     "sockjs-client": "^1.6.1",
-    "styled-components": "^6.0.6"
+    "styled-components": "^6.0.6",
+    "three": "^0.155.0"
   }
 }
