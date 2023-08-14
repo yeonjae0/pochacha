@@ -1,5 +1,6 @@
 package com.ssafy.oho.controller;
 
+import com.ssafy.oho.model.dto.request.LiarGameRequestDto;
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.LiarGameResponseDto;
 import com.ssafy.oho.model.service.MinigameService;
@@ -13,10 +14,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -39,10 +37,15 @@ public class MinigameController {
         /*
         TO DO :: 소켓 예외 처리 고려 (임의로 throws)
      */
-    @MessageMapping("/mini/liar/set/{roomId}")
-    public void setLiarGame(@Payload Map<String,Object> payload, @DestinationVariable String roomId) throws GameSetException {
-        LiarGameResponseDto liarGameResponseDto = minigameService.setLiarGame(payload, roomId);
-        webSocket.convertAndSend("/topic/game/" + roomId, liarGameResponseDto);
+    @PostMapping("/mini/liar/set/{roomId}")
+    public ResponseEntity<?> setLiarGame(@RequestBody LiarGameRequestDto liarGameRequestDto, @PathVariable String roomId){
+        System.out.println(liarGameRequestDto);
+        try {
+            //webSocket.convertAndSend("/topic/game/" + roomId, liarGameResponseDto);
+            return ResponseEntity.ok(minigameService.setLiarGame(liarGameRequestDto, roomId));
+        }catch(GameSetException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @MessageMapping("/mini/liar/vote/{roomId}")
