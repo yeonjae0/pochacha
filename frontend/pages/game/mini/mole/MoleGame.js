@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
-import Ready from './MoleReady.js'
-import Go from './MoleGo.js'
+import { useState, useEffect } from 'react';
+import Ready from './MoleReady';
+import Go from './MoleGo';
 import styles from '@/styles/MoleGame.module.css';
 
 const getRandomGridPosition = () => ({

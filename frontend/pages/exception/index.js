@@ -1,5 +1,6 @@
 'use client'
-import { useRouter } from 'next/router'
+
+import { useRouter } from 'next/router';
 
 export default function Exception(props) {
     const router = useRouter();

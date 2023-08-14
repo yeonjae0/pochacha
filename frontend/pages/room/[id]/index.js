@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState, useMemo } from 'react'; /* React 관련 */
 import { useRouter} from 'next/router';
-import RoomCam from './RoomCam.js'; /* Component */
-import RoomChat from './RoomChat.js';
-import RoomBtn from './RoomBtn.js';
+import RoomCam from './RoomCam'; /* Component */
+import RoomChat from './RoomChat';
+import RoomBtn from './RoomBtn';
 import axios from 'axios'; /* API 관련 */
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';

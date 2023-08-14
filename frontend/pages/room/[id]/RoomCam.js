@@ -1,5 +1,5 @@
 import React, { useState } from 'react'; /* React 관련 */
-import OpenViduVideoComponent from './OvVideo.js'; /* OpenVidu 관련 */
+import OpenViduVideoComponent from './OvVideo'; /* OpenVidu 관련 */
 import { useSelector } from "react-redux"; /* Store 관련 */
 import Roomstyles from '@/styles/RoomPage.module.css'; /* Style 관련 */
 import Videostyles from '@/styles/UserVideo.module.css';

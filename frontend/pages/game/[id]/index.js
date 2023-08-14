@@ -1,21 +1,18 @@
 'use client'
 
-import React, { useEffect, useState, useRef } from 'react'
-import { useRouter } from 'next/router'
-import DiceBox from './DiceBox.js'
-import ActiveBoard from './ActiveBoard.js'
-import GameSelect from './GameSelect.js'
-// import dynamic from 'next/dynamic'
-// import BoardMap from './BoardMap.js'
-// import ThreeBoard from './ThreeBoard.js'
-import styles from '@/styles/GamePage.module.css'
-import { styled } from 'styled-components'
-import SockJS from 'sockjs-client'
-import { Stomp } from '@stomp/stompjs'
-import axios from 'axios'
+import React, { useEffect, useState, useRef } from 'react';
+import { useRouter } from 'next/router';
+import DiceBox from './DiceBox';
+import ActiveBoard from './ActiveBoard';
+import GameSelect from './GameSelect';
+import styles from '@/styles/GamePage.module.css';
+import { styled } from 'styled-components';
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
+import axios from 'axios';
 import { useSelector } from "react-redux";
 import { OpenVidu } from 'openvidu-browser'; /* OpenVidu 관련 */
-import RoomCam from '@/pages/room/[id]/RoomCam.js'
+import RoomCam from '@/pages/room/[id]/RoomCam';
 
 /* 연재 : 모달 시작 */
 // 해야할 것: 모달 창 꾸미기
@@ -130,8 +127,7 @@ export default function GamePage() {
         setDice(data.game.dice)
         setPin(data.game.pin)
         setLab(data.game.lab)
-        // setCurrentCell(data.cell.name)
-        setCurrentCell('라이어 게임')
+        setCurrentCell(data.cell.name)
       })
     })
   }

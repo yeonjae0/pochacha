@@ -1,6 +1,6 @@
 /* Temporary Board */
 
-// import styles from '@/styles/BoardMap.module.css'
+// import styles from '@/styles/BoardMap.module.css';
 
 // export default function BoardMap({ pin }) {
 
