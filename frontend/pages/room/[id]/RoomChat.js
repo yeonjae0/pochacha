@@ -1,15 +1,17 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
-import styles from '@/styles/RoomPage.module.css'
+import { useEffect, useState, useRef } from 'react';
+import styles from '@/styles/RoomPage.module.css';
 
 export default function RoomChat(props) {
   
   const info = props.info;
   const [client] = useState(props.client);
 
-  console.log(info)
-  console.log(client)
+  useEffect(()=>{
+    console.log(info)
+    console.log(client)
+  }, [])
 
   /* 유영 : Socket을 이용한 채팅 함수 시작 */
   const [message, setMessage] = useState('')
@@ -98,6 +100,7 @@ export default function RoomChat(props) {
     setTimeout(() => {
       sendIntroMessage();
     }, 1000)
+    return
   }, []);
   /* 희진 : 입장 시 입장 메시지 자동 채팅 전송 끝 */
 
@@ -112,7 +115,8 @@ export default function RoomChat(props) {
         </div>
       </div>
       {inputVisible ? (
-        <input type="text" className={styles.chatInput}
+        <input type="text"
+          className={styles.chatInput}
           value={message}
           onChange={handleOnChange}
           onKeyDown={enterDown}
@@ -120,7 +124,8 @@ export default function RoomChat(props) {
       ) : null}
 
       {!inputVisible ? (
-        <input type="text" className={styles.chatInput}
+        <input type="text"
+          className={styles.chatInput}
           placeholder='15초 후에 채팅이 가능합니다.'
           value={message}
           onChange={handleOnChange}

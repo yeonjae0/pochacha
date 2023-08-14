@@ -1,8 +1,7 @@
 'use client'
+
 import React from "react";
 import { useSelector } from "react-redux";
-
-
 
 function OtherPage() {
   const playersInfo = useSelector(state => state.players.players);

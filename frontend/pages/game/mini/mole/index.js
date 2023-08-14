@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef } from "react";
 import MoleGame from "./MoleGame";
 
 export default function Timer() {
