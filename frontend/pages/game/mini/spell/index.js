@@ -6,9 +6,14 @@ import SpellGame from "./SpellGame.js";
 
 export default function SpellTimer() {
 
-const [sec, setSec] = useState(0);
-const time = useRef(15);
+let [sec, setSec] = useState(0);
+let time = useRef(15);
 const timerId = useRef(null);
+
+const resetSec = () => {
+  time.current = 15
+  setSec(15)
+}
 
 useEffect(() => {
   timerId.current = setInterval(() => {
@@ -28,7 +33,7 @@ useEffect(() => {
 
 return (
   <div style={{ backgroundColor: 'blue', height: '100vh' }}>
-    <SpellGame sec={sec} />
+    <SpellGame sec={sec} resetSec={resetSec} />
   </div>
 )
 }
