@@ -12,6 +12,8 @@ let time = useRef(15);
 const timerId = useRef(null);
 
 const resetSec = () => {
+  // time.current = 10
+  // setSec(10)
   time.current = 10
   setSec(10)
 }
@@ -50,10 +52,11 @@ function GameOver() {
 
 
 return (
-  <div>
+  <div className={styles.topSpellCompo}>
     {
       keepGoing ?
-      <div style={{ backgroundColor: 'blue', height: '100vh' }}>
+      <div>
+      {/* <div style={{ height: '100vh' }}> */}
       <SpellGame sec={sec} resetSec={resetSec}  />
       </div>
       : <GameOver />
