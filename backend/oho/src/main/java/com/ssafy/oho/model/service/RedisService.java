@@ -30,7 +30,7 @@ public class RedisService {
             put("player", 10800);
             put("game", 10800);
             put("cell", 3600);
-            put("minigmae", 1200);
+            put("mini", 1200);
             put("chat", 10800);
         }};
     }
@@ -223,7 +223,7 @@ public class RedisService {
                 return null;
             }
         });
-        redisTemplate.expire(getSpellKey(roomId), SERVICE_TTL.get("minigame"), TimeUnit.SECONDS);
+        redisTemplate.expire(getSpellKey(roomId), SERVICE_TTL.get("mini"), TimeUnit.SECONDS);
     }
     protected Map<Object, Object> getSpell(String roomId) {
         if(hashOperations.entries(getSpellKey(roomId)).size() == 0) return null;
