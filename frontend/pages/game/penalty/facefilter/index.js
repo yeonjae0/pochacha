@@ -1,5 +1,5 @@
 import * as deepar from "deepar";
-import Carousel from "./carousel.js";
+import Carousel from "./carousel";
 
 // Log the version. Just in case.
 console.log("Deepar version: " + deepar.version);

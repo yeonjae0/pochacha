@@ -1,26 +1,18 @@
 'use client'
 
-import React, { useEffect, useState, useRef } from 'react'
-import { useRouter } from 'next/router'
-import DiceBox from './DiceBox.js'
-import ActiveBoard from './ActiveBoard.js'
-import GameSelect from './GameSelect.js'
-// import dynamic from 'next/dynamic'
-// import BoardMap from './BoardMap.js'
-// import ThreeBoard from './ThreeBoard.js'
-import styles from '@/styles/GamePage.module.css'
-import { styled } from 'styled-components'
-import SockJS from 'sockjs-client'
-import { Stomp } from '@stomp/stompjs'
-import axios from 'axios'
+import React, { useEffect, useState, useRef } from 'react';
+import { useRouter } from 'next/router';
+import DiceBox from './DiceBox';
+import ActiveBoard from './ActiveBoard';
+import GameSelect from './GameSelect';
+import styles from '@/styles/GamePage.module.css';
+import { styled } from 'styled-components';
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
+import axios from 'axios';
 import { useSelector } from "react-redux";
 import { OpenVidu } from 'openvidu-browser'; /* OpenVidu 관련 */
-import RoomCam from '@/pages/room/[id]/RoomCam.js'
-
-/* 희진 : Board Component (속도 이슈 보류) */
-// const DynamicThreeBoard = dynamic(() => import('../../data/ThreeBoard.js'), {
-//   ssr: false,
-// });
+import RoomCam from '@/pages/room/[id]/RoomCam';
 
 /* 연재 : 모달 시작 */
 // 해야할 것: 모달 창 꾸미기
@@ -189,10 +181,18 @@ export default function GamePage() {
         }}>주사위 굴리기</button>
         <div>
 
+        <div className={styles.camList}>
+          <RoomCam />
+        </div>
+        
+          {/* <div className={styles.upper_container}>
+            <video className={styles.cam} ref={videoRef} />
+            <video className={styles.cam}  ref={videoRef} />
+          </div> */}
+
           <div>
-            {/* 메인 보드 (미니게임 컴포넌트 상호작용 확인차 잠시 주석 처리) */}
+            {/* 이전 메인 보드 */}
             {/* <ActiveBoard pin={pin} cellObj={cellObj} /> */}
-            {/* 메인 보드 (미니게임 컴포넌트 상호작용 확인차 잠시 주석 처리) */}
 
             {currentCell == '두더지 게임' || currentCell == '라이어 게임' || currentCell == '훈민정음' ? (
               <GameSelect currentCell={currentCell} />
@@ -202,18 +202,15 @@ export default function GamePage() {
                 <ActiveBoard pin={pin} cellObj={cellObj} />
               </div>
             )}
-            <div className={styles.camList}>
-              <RoomCam />
-            </div>
-            {/* 희진 : Three.js 보드 시도 (속도 이슈로 보류) */}
-            {/* <ThreeBoard className={styles.board} pin={pin}/> */}
-            {/* <div style={{ display: "flex", justifyContent: "center" }}></div> */}
 
             {/* 희진 : Temporary Board (추후 삭제 예정) */}
             {/* <div style={{ position: "absolute" }}><BoardMap pin={pin} style={{ bottom: "0" }} /></div> */}
 
           </div>
-
+          {/* <div className={styles.lower_container}>
+            <video className={styles.cam} ref={videoRef} />
+            <video className={styles.cam} ref={videoRef} />
+          </div> */}
         </div>
         <>
           <ModalPage currentCell={currentCell} pin={pin} />

@@ -1,8 +1,8 @@
 'use client'
 
-import styled from 'styled-components'
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { changeMini } from "@/store/reducers/room.js";

@@ -2,7 +2,7 @@
 
 // 여기서 연습한다!
 import { useDispatch, useSelector } from "react-redux";
-import { makeFruitList } from '@/store/reducers/fruit'
+import { makeFruitList } from '@/store/reducers/fruit';
 import React, { useState } from 'react';
 
 

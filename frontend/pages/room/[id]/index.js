@@ -1,10 +1,10 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'; /* React 관련 */
+import React, { useEffect, useState, useMemo } from 'react'; /* React 관련 */
 import { useRouter} from 'next/router';
-import RoomCam from './RoomCam.js'; /* Component */
-import RoomChat from './RoomChat.js';
-import RoomBtn from './RoomBtn.js';
+import RoomCam from './RoomCam'; /* Component */
+import RoomChat from './RoomChat';
+import RoomBtn from './RoomBtn';
 import axios from 'axios'; /* API 관련 */
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
@@ -208,19 +208,38 @@ export default function RoomPage() {
     }
   }, []);
 
+  /* 희진 : 리랜더링 방지 시작 */
+  const memoRoomCam = useMemo(() => {
+    return <RoomCam />
+  }, []);
+
+  const memoRoomChat = useMemo(() => {
+    return <RoomChat info={info} client={client} chatHistory={chatHistory} />
+  }, [chatHistory]);
+
+  const memoRoonBtn = useMemo(() => {
+    return <RoomBtn info={info} client={client} head={head} ready={playerReady} />
+  }, [playerReady])
+  /* 희진 : 리랜더링 방지 끝 */
+
   return (
     <div className={styles.container}>
       <div className="roof2"></div>
       <div className={styles.room}>
         <div className={styles.camList}>
-          <RoomCam/>
+          {memoRoomCam}
+          {/* <RoomCam/> */}
         </div>
-        <RoomChat info={info} client={client} chatHistory={chatHistory} />
+        {memoRoomChat}
+        {/* <RoomChat info={info} client={client} chatHistory={chatHistory} /> */}
+
         {/* <div className={classNames({[styles.chatContainer]: true, [styles.outerChat]: true})}>
           <div className={classNames({[styles.chatContainer]: true, [styles.innerChat]: true})}>
           </div>
         </div> */}
-        <RoomBtn info={info} client={client} head={head} ready={playerReady} />
+        {memoRoonBtn}
+        {/* <RoomBtn info={info} client={client} head={head} ready={playerReady} /> */}
+
       </div>
     </div>
   )
