@@ -7,10 +7,17 @@
     opacity: 1;
   }
 }
+.topSpellCompo {
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, 10%);
+}
 
 .wrapper {
   /* height: 600px; */
-  height: 100vh;
+  height: 450px;
+  width: 650px;
   display: flex;
   justify-content: center;
   background-color: gainsboro;

@@ -52,7 +52,7 @@ function GameOver() {
 
 
 return (
-  <div>
+  <div className={styles.topSpellCompo}>
     {
       keepGoing ?
       <div>
