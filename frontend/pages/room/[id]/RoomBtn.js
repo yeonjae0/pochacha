@@ -162,6 +162,7 @@ let StartBtn = styled.button `
       "ready" : ready
     };
     client.current.send(`/ready/${info.roomId}`, {}, JSON.stringify(sendData));
+    console.log(props.ready)
   }
 
   return (
