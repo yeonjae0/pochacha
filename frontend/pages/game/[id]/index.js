@@ -130,8 +130,7 @@ export default function GamePage() {
         setDice(data.game.dice)
         setPin(data.game.pin)
         setLab(data.game.lab)
-        // setCurrentCell(data.cell.name)
-        setCurrentCell('라이어 게임')
+        setCurrentCell(data.cell.name)
       })
     })
   }
