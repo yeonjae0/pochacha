@@ -11,9 +11,8 @@ import { Stomp } from '@stomp/stompjs';
 import { useDispatch, useSelector } from "react-redux"; /* Store 관련 */
 import { addPlayers } from '@/store/reducers/players.js';
 import { ready } from '@/store/reducers/player.js';
-import { setPublisherData, addParticipants,resetParticipants } from '@/store/reducers/openvidu.js';
+import { setPublisherData, setParticipantsData, resetParticipantsData } from '@/store/reducers/openvidu.js';
 import { OpenVidu } from 'openvidu-browser'; /* OpenVidu 관련 */
-//import UserVideoComponent from './UserVideoComponent';
 import styles from '@/styles/RoomPage.module.css'; /* Style 관련 */
 
 export default function RoomPage() {
@@ -35,7 +34,6 @@ export default function RoomPage() {
 
   const [publisher, setPublisher] = useState({}); //비디오, 오디오 송신자
   const [participants, setParticipants] = useState([]);//참여자들
-
   const [chatHistory, setChatHistory] = useState(`${info.nick}님이 입장하셨습니다.` + '\n')
 
   /* 유영 : 최초 한 번 사용자 목록 불러오기 시작 */
@@ -94,7 +92,7 @@ export default function RoomPage() {
     client.current.connect({}, () => {
       client.current.subscribe(`/topic/chat/${roomId}`, (response) => {
         var data = JSON.parse(response.body);
-        setChatHistory((prevHistory) => prevHistory + data.playerId + ': ' + data.message + '\n');
+        setChatHistory((prevHistory) => prevHistory + /*data.playerId + ': ' + */ data.message + '\n');
       })  // 채팅 구독
       client.current.subscribe(`/topic/player/${roomId}`, (response) => {
         var data = JSON.parse(response.body);
@@ -118,11 +116,9 @@ export default function RoomPage() {
     if (index > -1) {
       tempParticipants.splice(index, 1);
       setParticipants(tempParticipants);
-      
-      /*
-        TO DO :: 참여자 삭제 시 REDUX 삭제 필요
-      */
-      //dispatch(resetParticipants(tempParticipants));
+
+      dispatch(resetParticipantsData([]));  
+      dispatch(setParticipantsData(tempParticipants));   
     }
   }
 
@@ -130,12 +126,21 @@ export default function RoomPage() {
     try {
       session.on('streamCreated', async (event) => {
         let participant = session.subscribe(event.stream, undefined);
-        let tempParticipants = participants;
-        tempParticipants.push(participant);
+        let tempParticipants=[];
+        participants.map(par=>{
+          console.log("for문 이내의 참가자")
+          tempParticipants.push({par});
+          dispatch(setParticipantsData(par));
+        })
+        console.log("조인세션")
+        console.log(JSON.parse(participant.stream.connection.data.split("%")[0]).clientData)
+        const nick=JSON.parse(participant.stream.connection.data.split("%")[0]).clientData;
+        console.log("닉")
+        console.log(nick)
+        dispatch(setParticipantsData({nick:nick,participant:participant}));
+        tempParticipants.push({nick:nick,
+                          participant:participant});
         setParticipants(tempParticipants);
-        dispatch(addParticipants(tempParticipants));
-        
-        console.log(participants);
       });
 
       session.on('streamDestroyed', (event) => {
@@ -168,8 +173,6 @@ export default function RoomPage() {
 
       setPublisher(pub);
       dispatch(setPublisherData(pub));
-
-      console.log(publisher);
     } catch (error) {
       console.log(error);
     }
@@ -183,7 +186,6 @@ export default function RoomPage() {
     OV = null;
     setPublisher(undefined);
     setParticipants([]);
-    dispatch(resetParticipants([]));
   }
   /* 혜지 : OpenVidu 연결 관련 메소드 완료 */
 
@@ -203,7 +205,7 @@ export default function RoomPage() {
       <div className="roof2"></div>
       <div className={styles.room}>
         <div className={styles.camList}>
-          <RoomCam publisher={publisher} participants={participants}/>
+          <RoomCam/>
         </div>
         <RoomChat info={info} client={client} chatHistory={chatHistory} />
         {/* <div className={classNames({[styles.chatContainer]: true, [styles.outerChat]: true})}>

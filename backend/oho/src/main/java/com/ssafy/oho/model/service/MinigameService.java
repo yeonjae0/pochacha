@@ -1,6 +1,7 @@
 package com.ssafy.oho.model.service;
 
 import com.google.gson.JsonObject;
+import com.ssafy.oho.model.dto.request.LiarGameRequestDto;
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.LiarGameResponseDto;
 import com.ssafy.oho.model.entity.Player;
@@ -42,26 +43,32 @@ public class MinigameService extends RedisService {
         this.roomRepository = roomRepository;
     }
 
-    public LiarGameResponseDto setLiarGame(Map<String, Object> payload, String roomId) throws GameSetException {
-        Map<String, Object> responsePayload = new HashMap<>();
-
+    public LiarGameResponseDto setLiarGame(LiarGameRequestDto liarGameRequestDto, String roomId) throws GameSetException {
+        //Map<String, Object> responsePayload = new HashMap<>();
+        System.out.println("미니게임 서비스");
+        System.out.println(roomId);
+        System.out.println(liarGameRequestDto);
         try {
-            Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomGetException());
+            Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomGetException("방이 없습니다"));
+            System.out.println("방이 있어요");
             List<String> playerIdList=new ArrayList<>();
 
             for(Player player:room.getPlayers()){
                 playerIdList.add(player.getId());
+                System.out.println(player.getId());
             }
 
             //멀티 게임이므로 2명 미만의 상태에서는 진행 불가
-            if(playerIdList.size()<2){
-                throw new GameSetException();
-            }
+//            if(playerIdList.size()<2){
+//                throw new GameSetException();
+//            }
 
             //게임 진행 턴(순서) 임의로 배정
             Collections.shuffle(playerIdList);
+            System.out.println("셔플됨");
 
-            String subject = ((String) payload.getOrDefault("subject", "")).trim();
+           // String subject = ((String) payload.getOrDefault("subject", "")).trim();
+            String subject=liarGameRequestDto.getSubject();
 
             /*
                 CONFIRM :: 조건문을 바꿀 방법 찾기 (enum 데이터 저장 방식 변경)
@@ -75,10 +82,10 @@ public class MinigameService extends RedisService {
             else if(subject.equals("objects")){ word= Objects.getRandomValue(); }
             else if(subject.equals("singer")){ word= Singer.getRandomValue(); }
             else if(subject.equals("sports")) { word = Sports.getRandomValue(); }
-            else{ throw new GameSetException(); }
-
+            else{ throw new GameSetException("word 안 생김"); }
+            System.out.println(word);
             /*** Response DTO Build ***/
-            LiarGameResponseDto.builder()
+            LiarGameResponseDto liarGameResponseDto= LiarGameResponseDto.builder()
                     .liar(playerIdList.get(0))
                     .word(word)
                     .turns(playerIdList)
@@ -86,7 +93,7 @@ public class MinigameService extends RedisService {
         /*
             TO DO :: Redis에 roomId, liar, room, turns 저장
          */
-            return new LiarGameResponseDto();
+            return liarGameResponseDto;
         }
         catch(Exception e){
             throw new GameSetException();
