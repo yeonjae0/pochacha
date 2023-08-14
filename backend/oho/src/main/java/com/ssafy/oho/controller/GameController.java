@@ -33,7 +33,6 @@ public class GameController {
     private ResponseEntity<?> startGame(@RequestBody RoomRequestDto roomRequestDto) {
         try {
             Object[] cellStatusList = gameService.startGame(roomRequestDto);
-
             return ResponseEntity.ok(cellStatusList);
         } catch(GameGetException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

@@ -117,7 +117,7 @@ public class GameService extends RedisService {
     public Map<String, Object> movePin(Map<String, Object> payload, String roomId) {
         Map<String, Object> responsePayload = new HashMap<>();
 
-        int dice = (int) (Math.random() * 6) +1;
+        int dice = (!payload.containsKey("reload"))?(int) (Math.random() * 6) +1 : 0;
 
         int pin = Integer.parseInt(super.getGameInfo(roomId, "pin"));
         int lab = Integer.parseInt(super.getGameInfo(roomId, "lab"));
