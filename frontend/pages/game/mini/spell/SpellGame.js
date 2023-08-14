@@ -7,16 +7,16 @@ import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { startGame } from '@/store/reducers/spell';
 
-export default function MainSpell({ sec }) {
+export default function MainSpell({ sec, time, resetSec }) {
 
   return (
     <div>
-      <SpellGame sec={sec} />
+      <SpellGame sec={sec} resetSec={resetSec} />
     </div>
   )
 }
 
-function SpellGame({ sec }) {
+function SpellGame({ sec, time, resetSec }) {
 
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
@@ -24,7 +24,8 @@ function SpellGame({ sec }) {
   const [inputWords, setInputWords] = useState([]);  // 입력한 단어들 저장
   const [inputValue, setInputValue] = useState("");  // 유저 입력값 저장
   const [client, setClient] = useState({});
-  const [expression, setExpression] = useState(null)
+
+  // const [expression, setExpression] = useState(null)
   // const [sejong, setSejong] = usestate<string>("/초성_세종대왕_기본.png")
   const roomId = useSelector(state => state.room.currentRoomId);
   const currentRandomConsonant = useSelector(state => state.spell.currentConsonant)
@@ -120,8 +121,10 @@ function SpellGame({ sec }) {
                 break
               }
             };
+            // 유효성 검사 최종 통과
             if (!inList) {
               updatedWords = [...prevWords, data.inputWord];
+              resetSec()
               // setExpression(true)
               // console.log(expression)
             }
@@ -174,17 +177,12 @@ function SpellGame({ sec }) {
         </div>
     : null }
 
-      {/* <div style={{ fontSize: '50px', height: '100px' }}>{sec}</div> */}
-      <div className={styles.wrapper}
-      style={{
-        textAlign: 'center',
-        position: 'absolute',
-        top: '-5%',
-        left: '50%',
-        transform: 'translate(-50%, -5%)'
-       }}>
-
+      {/* <h2>{currentPlayer}님의 차례입니다.</h2> */}
+      <div className={styles.wrapper}>
         <div className={styles.upperContainer}>
+          {/* 뒤로 가기 버튼 */}
+          {/* <button type="button" onClick={() => router.back()}>Click here to go back</button> */}
+      <div style={{ fontSize: '25px' }}>{sec}초 남았습니다.</div>
           <input
             type="text"
             placeholder="단어를 입력하세요"
@@ -202,21 +200,21 @@ function SpellGame({ sec }) {
             src="/초성_세종대왕_기본.png"
             style={{
               position: "absolute",
-              left: "50px",
+              left: "60px",
               width: "350px",
-              marginTop: "-350px",
+              marginTop: "-300px",
             }}
           />
-          {/* <div className={styles.miniBlock1}></div>
-          <div className={styles.miniBlock2}></div> */}
-          <h3 style={{ fontFamily: 'ChosunCentennial', position: "absolute", left: "250px", zIndex: "1" }}>초성은 {randomConsonant}</h3>
+          <div className={styles.miniBlock1}></div>
+          <div className={styles.miniBlock2}></div>
+          <h3 style={{ fontFamily: 'ChosunCentennial', position: "absolute", left: "170px", zIndex: "1" }}>초성은 {randomConsonant}</h3>
           <img
             src="/초성_두루마리.png"
             style={{
               position: "absolute",
               width: "700px",
-              left: "-50px",
-              marginBottom: "-200px",
+              left: "-130px",
+              marginBottom: "-210px",
               zIndex: "0",
             }} />
           <div className={styles.wordsContainer}>
@@ -226,8 +224,8 @@ function SpellGame({ sec }) {
                 className={styles.word}
                 style={{
                   position: "absolute",
-                  marginLeft: '100px',
-                  marginTop: '250px',
+                  marginLeft: '20px',
+                  marginTop: '195px',
                   fontFamily: 'ChosunCentennial',
                   left: `${(index % 8) * 50}px`,
                   top: `${Math.floor(index / 8) * 30}px`,
@@ -237,14 +235,14 @@ function SpellGame({ sec }) {
               </div>
             ))}
           </div>
-          {/* <h1>{sec}</h1> */}
-          {/* <label>
+          <h1>{sec}</h1>
+          <label>
             단어를 입력하세요:
             <input type="text" value={inputValue} onChange={handleInput} onKeyDown={handleKeyDown} />
           </label>
           <button type="button" onClick={handleSubmit} >
             제출
-          </button> */}
+          </button>
         </div>
       </div>
     </>

@@ -6,30 +6,61 @@ import SpellGame from "./SpellGame";
 
 export default function SpellTimer() {
 
-  const [sec, setSec] = useState(0);
-  const time = useRef(30);
-  const timerId = useRef(null);
+let [keepGoing, SetKeepGoing] = useState(true);
+let [sec, setSec] = useState(0);
+let time = useRef(15);
+const timerId = useRef(null);
 
-  useEffect(() => {
-    timerId.current = setInterval(() => {
-      setSec(time.current % 60);
-      time.current -= 1;
-    }, 1000);
+const resetSec = () => {
+  // time.current = 10
+  // setSec(10)
+  time.current = 10
+  setSec(10)
+}
+
+useEffect(() => {
+  timerId.current = setInterval(() => {
+    setSec(time.current % 60);
+    time.current -= 1;
+  }, 1000);
+
 
     return () => clearInterval(timerId.current);
   }, []);
 
-  useEffect(() => {
-    if (time.current <= -1) {
-      console.log('시간 초과')
-      clearInterval(timerId.current);
-    }
-  })
+useEffect(() => {
+  if (time.current <= -1) {
+    console.log('시간 초과')
+    SetKeepGoing(false)
+    clearInterval(timerId.current);
+  }
+})
 
+function GameOver() {
+  const router = useRouter()
   return (
-    <div>
-    {/* <div style={{ backgroundColor: 'blue', height: '100vh' }}> */}
-      <SpellGame sec={sec} />
-    </div>
+    <>
+      <div>
+        <h1>Game Over ㅜㅅㅜ</h1>
+        <button type="button" onClick={() => router.back()}>
+        Click here to go back
+      </button>
+      </div>
+    </>
   )
+}
+
+
+return (
+  <div className={styles.topSpellCompo}>
+    {
+      keepGoing ?
+      <div>
+      {/* <div style={{ height: '100vh' }}> */}
+      <SpellGame sec={sec} resetSec={resetSec}  />
+      </div>
+      : <GameOver />
+    }
+  </div>
+)
 }

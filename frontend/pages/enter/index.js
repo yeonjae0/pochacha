@@ -101,8 +101,8 @@ export default function EnterPage() {
         'ready': response.data.player.ready,
       }
       let playerInfo = {
-        playerId: response.data.player.id,
-        nick: text || response.data.player.nickname,
+        playerId: response.data.player.id,  // -> room에서 주기
+        nick: text || response.data.player.nickname,  // -> room에서 주기
         ready: response.data.player.ready,
         head: true,//방을 연 사람이므로 방장 true
       }

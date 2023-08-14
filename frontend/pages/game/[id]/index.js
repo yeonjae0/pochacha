@@ -122,12 +122,12 @@ export default function GamePage() {
       // callback 함수 설정, 대부분 여기에 sub 함수 씀
       client.current.subscribe(`/topic/move/${roomId}`, (response) => {
         let data = JSON.parse(response.body)
-        let currentCell = data.cell.name
 
         setDice(data.game.dice)
         setPin(data.game.pin)
         setLab(data.game.lab)
-        setCurrentCell(data.cell.name)
+        // setCurrentCell(data.cell.name)
+        setCurrentCell('훈민정음')
       })
     })
   }
@@ -137,6 +137,10 @@ export default function GamePage() {
     createMap();
     connectSocket();
     subscribeSocket();
+
+    setTimeout(() => {
+      client.current.send("/move/" + roomId, {}, JSON.stringify({ "reload": true }));
+    }, 30);
   }, []);
 
   let handleRollDiceClick = () => {
@@ -172,13 +176,7 @@ export default function GamePage() {
           <h5>주사위 눈 : {dice}, 현재 {pin}번 블록에 위치, {lab}바퀴</h5>
         </nav>
         <button className={styles.btnRolling} value="innerHTML" onClick={() => {
-          var sendData = {
-            "dice": dice,
-            "pin": pin,
-            "lab": lab,
-          };
-
-          client.current.send("/move/" + roomId, {}, JSON.stringify(sendData));
+          client.current.send("/move/" + roomId, {}, JSON.stringify({}));
           handleRollDiceClick();
         }}>주사위 굴리기</button>
         <div>
@@ -196,12 +194,12 @@ export default function GamePage() {
             {/* 이전 메인 보드 */}
             {/* <ActiveBoard pin={pin} cellObj={cellObj} /> */}
 
-            {currentCell == '두더지 게임' || currentCell == '라이어 게임' || currentCell == '훈민정음'? (
+            {currentCell == '두더지 게임' || currentCell == '라이어 게임' || currentCell == '훈민정음' ? (
               <GameSelect currentCell={currentCell} />
             ) : (
               <div>
-              <DiceBox dice={dice} />
-              <ActiveBoard pin={pin} cellObj={cellObj} />
+                <DiceBox dice={dice} />
+                <ActiveBoard pin={pin} cellObj={cellObj} />
               </div>
             )}
 
