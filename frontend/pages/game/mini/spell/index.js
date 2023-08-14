@@ -22,8 +22,9 @@ useEffect(() => {
     time.current -= 1;
   }, 1000);
 
-  return () => clearInterval(timerId.current);
-}, []);
+
+    return () => clearInterval(timerId.current);
+  }, []);
 
 useEffect(() => {
   if (time.current <= -1) {

@@ -14,7 +14,6 @@ export default function DiceBox({ dice }) {
     const updateDiceWidth = () => {
       if (diceRef.current) {
         setDiceWidth(diceRef.current.clientWidth);
-        console.log(diceWidth);
       }
     };
 

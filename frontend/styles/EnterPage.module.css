@@ -79,6 +79,7 @@
   margin: auto;
   position: absolute;
   left: 50%;
+  cursor: pointer;
   transform: translateX(-50%);
 }
 
