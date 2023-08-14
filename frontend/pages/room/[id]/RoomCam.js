@@ -4,34 +4,18 @@ import { useSelector } from "react-redux"; /* Store 관련 */
 import Roomstyles from '@/styles/RoomPage.module.css'; /* Style 관련 */
 import Videostyles from '@/styles/UserVideo.module.css';
 
-export default function RoomCam(props) {
+export default function RoomCam() {
 
-  const [introChat, setIntroChat] = useState(''); // 참여자 입장 메시지
+  //const [introChat, setIntroChat] = useState(''); // 참여자 입장 메시지
 
-  console.log("룸캠 렌더링")
-
-  /*
-    TO DO :: 현재 props로 받아오는 정보. 자연스러운 로직을 위해 저장소 검토.
-  */
   const session = useSelector(state => state.room.currentRoomId);
   const nickname = useSelector(state => state.player.currentNick);
-  // const publisher=useSelector(state=>state.openvidu.publisher);
-  // const participants=useSelector(state=>state.openvidu.participants);
-  const publisher = props.publisher;
-  const participants = props.participants;
+  const publisher = useSelector(state => state.openvidu.publisher);
+  const participants = useSelector(state => state.openvidu.participants);
 
+  console.log("룸캠")
   console.log(publisher);
   console.log(participants);
-
-  /* 
- CONFIRM :: useState() 활용해 FACE FILTER API 적용 여부 저장
- */
-
-  // useEffect(() => {
-  //   /*
-  //   CONFIRM :: CALL AXIOS API
-  //   */
-  // })
 
   return (
     <div className="container">
@@ -45,13 +29,13 @@ export default function RoomCam(props) {
                 <div className={Videostyles.nickname}>{nickname}</div>
               </span>
             ) : null}
-            {participants.map((par, i) => (
+            {participants != null ? participants.map((par, i) => (
               <span key={par.id} className={Videostyles.streamcomponent}>
-                {console.log(JSON.parse(par.stream.connection.data.split("%")[0]).clientData)}
                 <OpenViduVideoComponent className={Roomstyles.cam} streamManager={par} />
-                <div className={Videostyles.nickname}>{JSON.parse(par.stream.connection.data.split("%")[0]).clientData}</div>
+                {console.log(par.nick)}
+                <div className={Videostyles.nickname}>{par.nick}</div>
               </span>
-            ))}
+            )) : null}
           </div>
         </div>
       ) : null}
