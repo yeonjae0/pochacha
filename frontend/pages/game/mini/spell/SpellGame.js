@@ -92,7 +92,7 @@ function SpellGame({ sec, time, resetSec }) {
   // const client = {};
   const connectSocket = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS(process.env.NEXT_PUBLIC_API + "/ws");
+      const sock = new SockJS(process.env.NEXT_PUBLIC_WS + "/ws");
       return sock;
     });
     // client.current.debug = () => {};
