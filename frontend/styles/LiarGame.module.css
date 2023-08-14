@@ -18,8 +18,9 @@
   }
 
   .game_container {
-    background-image: url("../public/main/woodbox.png");
-    background-size: cover;
+    background-color: lightsalmon;
+    /* background-image: url("../public/main/woodbox.png");
+    background-size: cover; */
     width: 600px;
     position: relative;
     height: 600px;
