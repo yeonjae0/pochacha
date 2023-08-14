@@ -77,6 +77,12 @@ export default function RoomPage() {
       } else { console.log("error ::: ", error) }
     });
   }; /* 유영 : 최초 한 번 사용자 목록 불러오기 끝 */
+  
+  /* 유영 : 사용자 삭제 시작 */
+  const deletePlayer = async() => {
+    await client.current.send(`/leave/${roomId}`, {}, JSON.stringify({ "playerId": token }));
+  }
+  /* 유영 : 사용자 삭제 끝 */
 
   /* 유영 : Socket 함수 시작 */
   let client = {};
@@ -106,8 +112,9 @@ export default function RoomPage() {
   }
 
   /* 혜지 : OpenVidu 연결 관련 메소드 시작 */
-  const onbeforeunload = (e) => {
+  const onbeforeunload = async(e) => {
     leaveSession();
+    await deletePlayer();
   }
 
   const deleteParticipant = (streamManager) => {
