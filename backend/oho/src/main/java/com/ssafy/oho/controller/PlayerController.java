@@ -31,17 +31,17 @@ public class PlayerController {
     /* 혜지 : OpenViduController RoomController 통합 작업 */
 
     private final SimpMessagingTemplate webSocket;
-    private final OpenVidu openVidu;
 
     private final PlayerService playerService;
     private final RoomService roomService;
+    private final OpenVidu openVidu;
 
     @Autowired
-    private PlayerController(SimpMessagingTemplate webSocket, OpenVidu openVidu, PlayerService playerService, RoomService roomService) {
+    private PlayerController(SimpMessagingTemplate webSocket, PlayerService playerService, RoomService roomService, OpenVidu openVidu) {
         this.webSocket = webSocket;
-        this.openVidu = openVidu;
         this.playerService = playerService;
         this.roomService = roomService;
+        this.openVidu=openVidu;
     }
 
     /**
