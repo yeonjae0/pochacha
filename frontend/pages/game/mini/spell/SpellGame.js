@@ -7,7 +7,16 @@ import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import { startGame } from '@/store/reducers/spell'
 
-const getConsonant = () => {
+export default function MainSpell({sec}){
+  
+  return (
+    <div>
+      <SpellGame sec={sec} />
+    </div>
+  )
+}
+
+function SpellGame({sec}) {
 
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(true);
@@ -15,7 +24,7 @@ const getConsonant = () => {
   const [inputWords, setInputWords] = useState([]);  // 입력한 단어들 저장
   const [inputValue, setInputValue] = useState("");  // 유저 입력값 저장
   const [client, setClient] = useState({});
-
+  const [expression,setExpression] = useState(null)
   // const [sejong, setSejong] = usestate<string>("/초성_세종대왕_기본.png")
   const roomId = useSelector(state => state.room.currentRoomId);
   const currentRandomConsonant = useSelector(state => state.spell.currentConsonant)
@@ -111,6 +120,8 @@ const getConsonant = () => {
                 break }};
             if (!inList) {
               updatedWords = [...prevWords, data.inputWord];
+              // setExpression(true)
+              // console.log(expression)
             }
               
             return updatedWords;
@@ -136,14 +147,16 @@ const getConsonant = () => {
     subscribeSocket();
     setConsonant();
     // let updatedWords = null
-    const timeout = setTimeout(() => {
-      setShowModal(false);
-    }, 1000);  // 설명 모달 시간 설정! 7초 정도? 임시로 1초
-
-    return () => {
-      clearTimeout(timeout);
-    };
   }, []);
+
+  // const timeout = setTimeout(() => {
+  //   setShowModal(false);
+
+  //   return () => {
+  //     clearTimeout(timeout);
+  //   };
+
+  // }, 5000);  // 설명 모달 시간 설정! 5초 정도? 임시로 1초
 
   const ModalPage = () => {
     if (showModal) {
@@ -225,6 +238,7 @@ const getConsonant = () => {
               </div>
             ))}
           </div>
+          <h1>{sec}</h1>
           <label>
             단어를 입력하세요:
             <input type="text" value={inputValue} onChange={handleInput} onKeyDown={handleKeyDown} />
@@ -238,4 +252,4 @@ const getConsonant = () => {
   );
 }
 
-export default getConsonant;
+// export default SpellGame;
