@@ -135,8 +135,6 @@ export default function GamePage() {
         setPin(data.game.pin)
         setLab(data.game.lab)
         setCurrentCell(data.cell.name)
-
-        console.log("pause data ::: ", data);
       })
     })
   }
