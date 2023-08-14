@@ -201,10 +201,6 @@ export default function GamePage() {
             {/* <ActiveBoard pin={pin} cellObj={cellObj} /> */}
             {/* 메인 보드 (미니게임 컴포넌트 상호작용 확인차 잠시 주석 처리) */}
 
-            <div className={styles.camList}>
-      <RoomCam />
-    </div>
-
             {currentCell == '두더지 게임' || currentCell == '라이어 게임' || currentCell == '훈민정음'? (
               <GameSelect currentCell={currentCell} />
             ) : (

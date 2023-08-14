@@ -62,7 +62,7 @@ function SpellGame({ sec, time, resetSec }) {
 
   const setConsonant = () => {
     axios({
-      url: "http://localhost:80/game/mini/spell",
+      url: process.env.NEXT_PUBLIC_API + "/game/mini/spell",
       headers: {
         "Accept": "application/json",
         "Content-type": "application/json;charset=UTF-8"
@@ -92,7 +92,7 @@ function SpellGame({ sec, time, resetSec }) {
   // const client = {};
   const connectSocket = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS("http://localhost:80/ws");
+      const sock = new SockJS(process.env.NEXT_PUBLIC_API + "/ws");
       return sock;
     });
     // client.current.debug = () => {};
