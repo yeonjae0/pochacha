@@ -7,7 +7,7 @@ import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import { startGame } from '@/store/reducers/spell'
 
-export default function MainSpell({ sec, resetSec }) {
+export default function MainSpell({ sec, time, resetSec }) {
 
   return (
     <div>
@@ -16,7 +16,7 @@ export default function MainSpell({ sec, resetSec }) {
   )
 }
 
-function SpellGame({ sec, time }) {
+function SpellGame({ sec, time, resetSec }) {
 
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
@@ -124,7 +124,7 @@ function SpellGame({ sec, time }) {
             // 유효성 검사 최종 통과
             if (!inList) {
               updatedWords = [...prevWords, data.inputWord];
-              // resetSec(15)
+              resetSec()
               // setExpression(true)
               // console.log(expression)
             }
