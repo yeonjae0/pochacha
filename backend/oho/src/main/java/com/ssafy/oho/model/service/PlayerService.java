@@ -18,6 +18,7 @@ import java.util.*;
 
 @Service
 public class PlayerService extends RedisService {
+    private final OpenVidu openVidu;
     private final PlayerRepository playerRepository;
     private final RoomRepository roomRepository;
     private final String[] randAdj = {"풍부한", "어지러운", "미세한", "혁신적인", "진실의", "통통한", "믿을만한", "혼란스러운",
@@ -25,8 +26,9 @@ public class PlayerService extends RedisService {
             "자신있는", "정확한", "미끄러운", "흠뻑젖은", "감염된", "공감하는", "다가오는", "생각없는", "불합리한"}; // 형용사 모음
     private final String[] randNoun = {"연제정", "김태훈", "배희진", "김연재", "유영", "임혜지"/*, "이현석", "성유지", "최웅렬"*/}; // 명사 모음
 
-    private PlayerService(StringRedisTemplate redisTemplate, PlayerRepository playerRepository, RoomRepository roomRepository) {
+    private PlayerService(StringRedisTemplate redisTemplate, OpenVidu openVidu, PlayerRepository playerRepository, RoomRepository roomRepository) {
         super(redisTemplate);
+        this.openVidu = openVidu;
         this.playerRepository = playerRepository;
         this.roomRepository = roomRepository;
     }
@@ -115,6 +117,7 @@ public class PlayerService extends RedisService {
                     .ready(Boolean.parseBoolean(super.getPlayerInfo(roomId, player.getId(), "ready")))
                     .build();
         } catch (Exception e) {  // OpenViduJavaClientException, OpenViduHttpException, ...
+            e.printStackTrace();
             throw new PlayerSetException();
         }
     }
@@ -138,23 +141,43 @@ public class PlayerService extends RedisService {
     public List<PlayerResponseDto> getPlayersByRoomId(PlayerRequestDto playerRequestDto, String roomId) throws PlayerGetException {
 
         try {
+            Player player;
+            String playerId = playerRequestDto.getId();
+            System.out.println(playerRequestDto);
+            System.out.println(super.getPlayer(roomId, playerId));
             /*** 유효성 검사 ***/
             // 현재 방의 플레이어 존재 확인
-            Player player = playerRepository.findById(playerRequestDto.getId()).orElseThrow(PlayerGetException::new);
-            if(player == null || !player.getRoom().getId().equals(roomId)){
-                throw new PlayerGetException();
+            if(!playerRepository.existsById(playerId) && super.getPlayer(roomId, playerId) != null) {
+                player = Player.builder()
+                        .id(playerId)
+                        .nickname(super.getPlayerInfo(roomId, playerId, "nickname"))
+                        .room(roomRepository.findById(roomId).orElseThrow(PlayerGetException::new))
+                        .head(playerRequestDto.isHead())
+                        .build();
+                playerRepository.save(player);
+            } else {
+                player = playerRepository.findById(playerId).orElseThrow(PlayerGetException::new);
+            }
+            System.out.println(player);
+
+            if(player == null || !player.getRoom().getId().equals(roomId)) {
+                throw new PlayerGetException("플레이어가 존재하지 않습니다.");
             }
 
             // 방 유효성 확인
             Room room = roomRepository.findById(roomId).orElseThrow(PlayerGetException::new);
             if(room == null || room.getId().trim().equals("")){
-                throw new PlayerGetException();
+                throw new PlayerGetException("해당 방이 존재하지 않습니다.");
             }
 
             List<Player> playerList = room.getPlayers();
             List<PlayerResponseDto> playerResponseDtoList = new ArrayList<>();
 
             for(Player p : playerList) {
+                if(super.getPlayer(roomId, p.getId()) == null) {
+                    super.setPlayer(roomId, p);
+                }
+
                 /*** Response DTO Builder ***/
                 playerResponseDtoList.add(PlayerResponseDto.builder()
                         .id(p.getId())
@@ -215,20 +238,16 @@ public class PlayerService extends RedisService {
     }
 
     public PlayerResponseDto deletePlayer(Map<String, Object> payload, String roomId) throws PlayerDeleteException {
-        try {
-            // 플레이어 존재 확인
-            if(!payload.containsKey("playerId")) {
-                throw new PlayerDeleteException();
-            }
-            String playerId = (String) payload.get("id");
-            if (super.getPlayer(roomId, playerId) == null) {
-                // Redis에도 DB에도 없을 시 Exception
-                if(!playerRepository.existsById(playerId)) {
-                    throw new PlayerDeleteException();
-                }
-            }
+        // 플레이어 존재 확인
+        if(!payload.containsKey("playerId")) {
+            throw new PlayerDeleteException("플레이어 아이디가 존재하지 않습니다.");
+        }
 
-            super.deletePlayer(roomId, playerId);  // Redis 삭제
+        String playerId = (String) payload.get("playerId");
+        if(!playerRepository.existsById(playerId)) {  // DB에 플레이어 없을 시 Exception
+            throw new PlayerDeleteException();
+        }
+        try {
             playerRepository.deleteById(playerId);  // DB 삭제
 
             return PlayerResponseDto.builder()

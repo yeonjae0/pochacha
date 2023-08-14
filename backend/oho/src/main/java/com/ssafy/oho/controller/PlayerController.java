@@ -31,17 +31,17 @@ public class PlayerController {
     /* 혜지 : OpenViduController RoomController 통합 작업 */
 
     private final SimpMessagingTemplate webSocket;
+    private final OpenVidu openVidu;
 
     private final PlayerService playerService;
     private final RoomService roomService;
-    private final OpenVidu openVidu;
 
     @Autowired
-    private PlayerController(SimpMessagingTemplate webSocket, PlayerService playerService, RoomService roomService, OpenVidu openVidu) {
+    private PlayerController(SimpMessagingTemplate webSocket, OpenVidu openVidu, PlayerService playerService, RoomService roomService) {
         this.webSocket = webSocket;
+        this.openVidu = openVidu;
         this.playerService = playerService;
         this.roomService = roomService;
-        this.openVidu=openVidu;
     }
 
     /**
@@ -107,6 +107,7 @@ public class PlayerController {
     public void deletePlayer(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
         try {
             PlayerResponseDto playerResponseDto = playerService.deletePlayer(payload, roomId);
+            System.out.println("deletePlayer 실행 :::");
 
             // id만 가지고 있는 값 전송
             webSocket.convertAndSend("/topic/player/" + roomId, playerResponseDto);

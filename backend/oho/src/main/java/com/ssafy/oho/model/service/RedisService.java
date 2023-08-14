@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisService {
     protected final StringRedisTemplate redisTemplate;
     protected HashOperations<String, Object, Object> hashOperations = null;  // Redis 데이터 담을 변수
-    private final long TTL = 600;  // 임의 TTL 시간
+    private final long TTL = 120;  // 임의 TTL 시간
 
     public RedisService(StringRedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
@@ -35,6 +35,7 @@ public class RedisService {
             @Override
             public <K, V> Object execute(RedisOperations<K, V> operations) throws DataAccessException {
                 operations.multi();  // 트랜잭션 시작
+                hashOperations.put(getPlayerKey(roomId, player.getId()), "nickname", player.getNickname());
                 hashOperations.put(getPlayerKey(roomId, player.getId()), "head", Boolean.toString(player.isHead()));
                 hashOperations.put(getPlayerKey(roomId, player.getId()), "ready", Boolean.toString(false));
 
@@ -55,6 +56,7 @@ public class RedisService {
             @Override
             public <K, V> Object execute(RedisOperations<K, V> operations) throws DataAccessException {
                 operations.multi();  // 트랜잭션 시작
+                hashOperations.delete(getPlayerKey(roomId, playerId), "nickname");
                 hashOperations.delete(getPlayerKey(roomId, playerId), "head");
                 hashOperations.delete(getPlayerKey(roomId, playerId), "ready");
 
@@ -266,7 +268,7 @@ public class RedisService {
                 return null;
             }
         });
-        redisTemplate.expire(getSpellKey(roomId), TTL, TimeUnit.SECONDS);
+        redisTemplate.expire(getChatKey(roomId), TTL, TimeUnit.SECONDS);
     }
     protected Map<Object, Object> getChat(String roomId) {
         if(hashOperations.entries(getChatKey(roomId)).size() == 0) return null;
