@@ -7,8 +7,8 @@ import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import { startGame } from '@/store/reducers/spell'
 
-export default function MainSpell({sec}){
-  
+export default function MainSpell({ sec }) {
+
   return (
     <div>
       <SpellGame sec={sec} />
@@ -16,15 +16,15 @@ export default function MainSpell({sec}){
   )
 }
 
-function SpellGame({sec}) {
+function SpellGame({ sec }) {
 
   const dispatch = useDispatch();
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const [randomConsonant, setRandomConsonant] = useState("");
   const [inputWords, setInputWords] = useState([]);  // 입력한 단어들 저장
   const [inputValue, setInputValue] = useState("");  // 유저 입력값 저장
   const [client, setClient] = useState({});
-  const [expression,setExpression] = useState(null)
+  const [expression, setExpression] = useState(null)
   // const [sejong, setSejong] = usestate<string>("/초성_세종대왕_기본.png")
   const roomId = useSelector(state => state.room.currentRoomId);
   const currentRandomConsonant = useSelector(state => state.spell.currentConsonant)
@@ -78,11 +78,11 @@ function SpellGame({sec}) {
       // console.log('store저장1---------->', currentRandomConsonant)
     }
     ).catch((error) => {
-      if(error.response) {
+      if (error.response) {
         router.push({
-            pathname: "/exception",
-            query: { msg: error.response.data },
-          })
+          pathname: "/exception",
+          query: { msg: error.response.data },
+        })
       } else { console.log(error) }
     });
   }
@@ -112,26 +112,28 @@ function SpellGame({sec}) {
             console.log('updatedWords:', updatedWords);
             console.log('inputWords:', inputWords)
             console.log(prevWords)
-            for(let i = 0; i < updatedWords.length; i++) {  // 중복 단어를 걸러서 리스트 업뎃
+            for (let i = 0; i < updatedWords.length; i++) {  // 중복 단어를 걸러서 리스트 업뎃
               // console.log('!!!!!!!!!!!!', updatedWords[i])
-              if(newInputWord == updatedWords[i]){
+              if (newInputWord == updatedWords[i]) {
                 alert('이미 입력된 단어입니다.')
                 inList = true;
-                break }};
+                break
+              }
+            };
             if (!inList) {
               updatedWords = [...prevWords, data.inputWord];
               // setExpression(true)
               // console.log(expression)
             }
-              
+
             return updatedWords;
-            
+
           });
         } else {
           console.log('data.correct', data.correct);
           alert(data.msg);
         }
-        setInputValue(""); 
+        setInputValue("");
 
 
         // console.log('store저장2---------->', currentRandomConsonant)
@@ -149,19 +151,38 @@ function SpellGame({sec}) {
     // let updatedWords = null
   }, []);
 
-  // const timeout = setTimeout(() => {
-  //   setShowModal(false);
+  useEffect(()=>{
+    setTimeout(() => {
+      setShowModal(true);
+      // return () => {
+      //   clearTimeout(timeout);
+      // };
+    }, 5000);  // 설명 모달 시간 설정! 5초 정도? 임시로 1초
+  })
 
-  //   return () => {
-  //     clearTimeout(timeout);
-  //   };
+  // const ModalPage = () => {
+  //   if (showModal == false) {
+  //     document.body.style.overflow = "hidden";
+  //     return (
+  //       <div className={styles.modalContainer}>
+  //         <div className={styles.modalContent}>
+  //           {/* <img className="logoImg" src="/로고_훈민정음.png" /> */}
+  //           <p>10초 안에 제시된 초성과 일치하는 단어를 입력하세요.</p>
+  //           <p>*두 글자의 단어만 입력 가능합니다.*</p>
 
-  // }, 5000);  // 설명 모달 시간 설정! 5초 정도? 임시로 1초
+  //           <h4>제시된 초성: {randomConsonant}</h4>
+  //         </div>
+  //       </div>
+  //     );
+  //   } else if (showModal == true) {
+  //     document.body.style.overflow = "initial";
+  //     return null;
+  //   }
+  // };
 
-  const ModalPage = () => {
-    if (showModal) {
-      document.body.style.overflow = "hidden";
-      return (
+  return (
+    <>
+      { (showModal == false) ?
         <div className={styles.modalContainer}>
           <div className={styles.modalContent}>
             {/* <img className="logoImg" src="/로고_훈민정음.png" /> */}
@@ -171,17 +192,9 @@ function SpellGame({sec}) {
             <h4>제시된 초성: {randomConsonant}</h4>
           </div>
         </div>
-      );
-    } else {
-      document.body.style.overflow = "initial";
-      return null;
-    }
-  };
+    : null }
 
-  return (
-    <>
-      <ModalPage />
-
+      <div style={{ fontSize: '50px' }}>{sec}</div>
       <div className={styles.wrapper}>
         <div className={styles.upperContainer}>
           {/* 뒤로 가기 버튼 */}
@@ -230,7 +243,7 @@ function SpellGame({sec}) {
                   marginLeft: '100px',
                   marginTop: '250px',
                   fontFamily: 'ChosunCentennial',
-                  left: `${(index % 8 ) * 50}px`,
+                  left: `${(index % 8) * 50}px`,
                   top: `${Math.floor(index / 8) * 30}px`,
                 }}
               >

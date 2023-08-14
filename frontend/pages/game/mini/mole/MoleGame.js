@@ -67,7 +67,6 @@ function MoleGame({ sec }) {
     setTimeout(() => {
       setReady('game')
     }, 5000)
-
   }, [])
 
   return (
