@@ -49,6 +49,7 @@ export default function ActiveBoard({ pin, cellObj }) {
 
   return (
     <div>
+
       <div className={styles.board}>
         <div className={styles.board_wrapper}>
           <div style={{ backgroundColor: 'black' }}>{pin == 18 ? <div ref={targetRef}></div> : null}</div> {/* 19 */}
@@ -102,6 +103,7 @@ export default function ActiveBoard({ pin, cellObj }) {
           <div style={{ backgroundColor: 'black' }}>{pin == 6 ? <div ref={targetRef}></div> : null}</div> {/* 07 */}
         </div>
       </div>
+
       <img
         src="/character.png"
         style={{

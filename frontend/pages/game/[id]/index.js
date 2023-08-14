@@ -119,11 +119,11 @@ export default function GamePage() {
       console.log('RoomId', roomId)
       console.log('Cell Data', response.data)
     }).catch((error) => {
-      if(error.response) {
+      if (error.response) {
         router.push({
-            pathname: "/exception",
-            query: { msg: error.response.data },
-          })
+          pathname: "/exception",
+          query: { msg: error.response.data },
+        })
       } else { console.log(error) }
     });
     /*
@@ -150,12 +150,9 @@ export default function GamePage() {
         setPin(data.game.pin)
         setLab(data.game.lab)
         setCurrentCell(data.cell.name)
-        {currentCell == '두더지 게임' ? (window.location.href = 'http://localhost:3000/game/mini/mole') : null}
-        {currentCell == '훈민정음' ? (window.location.href = 'http://localhost:3000/game/mini/spell') : null}
-        {currentCell == '라이어 게임' ? (window.location.href = 'http://localhost:3000/game/mini/liar') : null}
-        // console.log(data.game)
-        // console.log(data.cell)
-        // console.log(data.game.pin)
+        { currentCell == '두더지 게임' ? (window.location.href = 'http://localhost:3000/game/mini/mole') : null }
+        { currentCell == '훈민정음' ? (window.location.href = 'http://localhost:3000/game/mini/spell') : null }
+        { currentCell == '라이어 게임' ? (window.location.href = 'http://localhost:3000/game/mini/liar') : null }
       })
     })
   }
@@ -193,22 +190,6 @@ export default function GamePage() {
           <ModalContainer id='modalContainer'>
             <ModalContent className={styles.modalContent} style={{ zIndex: '1' }}>
               <p>{currentCell}</p>
-              {/* {
-                currentCell == '두더지 게임' ?
-                (window.location.href = 'http://localhost:3000/game/mini/mole')
-                : null
-              }
-              {
-                currentCell == '훈민정음' ?
-                (window.location.href = 'http://localhost:3000/game/mini/spell')
-                : null
-              }
-              {
-                currentCell == '라이어 게임' ?
-                (window.location.href = 'http://localhost:3000/game/mini/liar')
-                : null
-              } */}
-              {/* <button onClick={onCloseModal}>Close</button> */}
             </ModalContent>
           </ModalContainer>
         )}
@@ -218,49 +199,51 @@ export default function GamePage() {
   /* 연재 : 모달 끝 */
 
   return (
-    <div className={styles.container}>
-      <nav className={styles.infobar}>
+    <div>
+      <div className={styles.container}>
+        <nav className={styles.infobar}>
 
-        <h5>주사위 눈 : {dice}, 현재 {pin}번 블록에 위치, {lab}바퀴</h5>
-      </nav>
-      <button className={styles.btnRolling} value="innerHTML" onClick={() => {
-        var sendData = {
-          "dice": dice,
-          "pin": pin,
-          "lab": lab,
-        };
+          <h5>주사위 눈 : {dice}, 현재 {pin}번 블록에 위치, {lab}바퀴</h5>
+        </nav>
+        <button className={styles.btnRolling} value="innerHTML" onClick={() => {
+          var sendData = {
+            "dice": dice,
+            "pin": pin,
+            "lab": lab,
+          };
 
-        client.current.send("/move/" + roomId, {}, JSON.stringify(sendData));
-        handleRollDiceClick();
-      }}>주사위 굴리기</button>
-      <div>
-        {/* <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}> */}
-
-        <div className={styles.upper_container}>
-          <video className={styles.cam} style={{ float: 'left' }} ref={videoRef} /> {/* WEBCAM 화면 */}
-          <video className={styles.cam} style={{ float: 'right' }} ref={videoRef} /> {/* WEBCAM 화면 */}
-        </div>
-
-        {/* <div style={{ position: "relative" }}> */}
+          client.current.send("/move/" + roomId, {}, JSON.stringify(sendData));
+          handleRollDiceClick();
+        }}>주사위 굴리기</button>
         <div>
-          <DiceBox dice={dice} />
-          <ActiveBoard pin={pin} cellObj={cellObj} />
-          {/* <ThreeBoard className={styles.board} pin={pin}/> */}
-          {/* <div style={{ display: "flex", justifyContent: "center" }}>
+          {/* <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}> */}
+
+          <div className={styles.upper_container}>
+            <video className={styles.cam} style={{ float: 'left' }} ref={videoRef} /> {/* WEBCAM 화면 */}
+            <video className={styles.cam} style={{ float: 'right' }} ref={videoRef} /> {/* WEBCAM 화면 */}
+          </div>
+
+          {/* <div style={{ position: "relative" }}> */}
+          <div>
+            <DiceBox dice={dice} />
+            <ActiveBoard pin={pin} cellObj={cellObj} />
+            {/* <ThreeBoard className={styles.board} pin={pin}/> */}
+            {/* <div style={{ display: "flex", justifyContent: "center" }}>
           </div> */}
 
-          {/* <div style={{ position: "absolute" }}>
+            {/* <div style={{ position: "absolute" }}>
             <BoardMap pin={pin} style={{ bottom: "0" }} />
           </div> */}
+          </div>
+          <div className={styles.lower_container}>
+            <video className={styles.cam} style={{ float: 'left' }} ref={videoRef} /> {/* WEBCAM 화면 */}
+            <video className={styles.cam} style={{ float: 'right' }} ref={videoRef} /> {/* WEBCAM 화면 */}
+          </div>
         </div>
-        <div className={styles.lower_container}>
-          <video className={styles.cam} style={{ float: 'left' }} ref={videoRef} /> {/* WEBCAM 화면 */}
-          <video className={styles.cam} style={{ float: 'right' }} ref={videoRef} /> {/* WEBCAM 화면 */}
-        </div>
+        <>
+          <ModalPage currentCell={currentCell} pin={pin} />
+        </>
       </div>
-      <>
-        <ModalPage currentCell={currentCell} pin={pin} />
-      </>
     </div>
   )
 }
