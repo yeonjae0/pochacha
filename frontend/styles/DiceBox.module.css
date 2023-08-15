@@ -1,7 +1,7 @@
 .diceBox {
-  top: 20%;
+  top: 40%;
   left: 50%;
-  transform: translate(-50%, -20%);
+  transform: translate(-50%, -40%);
   max-width: 600px;
   width: 90vw;
   height: 30vw;
