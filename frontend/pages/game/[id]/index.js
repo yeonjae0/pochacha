@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import DiceBox from './DiceBox';
 import ActiveBoard from './ActiveBoard';
 import GameSelect from './GameSelect';
-import BabyBoard from './BabyBoard'
 import styles from '@/styles/GamePage.module.css';
 import { styled } from 'styled-components';
 import SockJS from 'sockjs-client';
@@ -147,7 +146,7 @@ export default function GamePage() {
 
     setTimeout(() => {
       client.current.send("/move/" + roomId, {}, JSON.stringify({ "reload": true }));
-    }, 30);
+    }, 10); // 비동기화 문제
   }, []);
 
   let handleRollDiceClick = () => {
@@ -179,10 +178,6 @@ export default function GamePage() {
   const memoRoomCam = useMemo(() => {
     return <RoomCam />
   }, []);
-
-  const memoBabyBoard = useMemo(() => {
-    return <BabyBoard pin={pin} />
-  }, [pin]);
   /* 희진 : 리랜더링 방지 끝 */
 
   return (
@@ -192,21 +187,19 @@ export default function GamePage() {
 
           <h5>주사위 눈 : {dice}, 현재 {pin}번 블록에 위치, {lab}바퀴</h5>
         </nav>
-        <button className={styles.btnRolling} value="innerHTML" onClick={() => {
+        <div>
+
+        <div>
+        <button className={styles.btnRolling} style={{ zIndex: '0' }} value="innerHTML" onClick={() => {
           client.current.send("/move/" + roomId, {}, JSON.stringify({}));
           handleRollDiceClick();
         }}>주사위 굴리기</button>
-        <div>
-
-        <div className={styles.camList}>
-          {/* <RoomCam /> */}
-          {memoRoomCam}
         </div>
-        
-          {/* <div className={styles.upper_container}>
-            <video className={styles.cam} ref={videoRef} />
-            <video className={styles.cam}  ref={videoRef} />
-          </div> */}
+
+          <div className={styles.camList}>
+            {/* <RoomCam /> */}
+            {/* {memoRoomCam} */}
+          </div>
 
           <div>
             {/* 이전 메인 보드 */}
@@ -217,8 +210,6 @@ export default function GamePage() {
             ) : (
               <div>
                 <DiceBox dice={dice} />
-                {/* {memoBabyBoard} */}
-                <BabyBoard pin={pin} />
                 <ActiveBoard pin={pin} cellObj={cellObj} currentCellObj={currentCellObj} />
               </div>
             )}
@@ -227,10 +218,6 @@ export default function GamePage() {
             {/* <div style={{ position: "absolute" }}><BoardMap pin={pin} style={{ bottom: "0" }} /></div> */}
 
           </div>
-          {/* <div className={styles.lower_container}>
-            <video className={styles.cam} ref={videoRef} />
-            <video className={styles.cam} ref={videoRef} />
-          </div> */}
         </div>
         <>
           <ModalPage currentCell={currentCell} pin={pin} />

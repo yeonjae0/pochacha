@@ -47,35 +47,26 @@
 
 .btnRolling {
   display: block;
+  position: relative;
   width: 160px;
   height: 40px;
-  margin: 0 auto;
-  background-color: royalblue;
+  padding: 0;
+  /* margin: 0 auto; */
+  margin: 10px auto;
+  background: #FFAA40;
   border: none;
   border-radius: 4px;
   color: #fff;
   cursor: pointer;
-  position: relative;
   overflow: hidden;
+  transition: all 0.2s ;
+  box-shadow: 0px 5px 0px 0px #A66615;
 }
 
-.btnRolling::before {
-  display: block;
-  content: "";
-  width: 60px;
-  height: 100%;
-  background-color: #fff;
-  position: absolute;
-  top: 0;
-  left: -60px;
-  transition: all 0.5s;
-  transform: skewX(-45deg);
-  transform-origin: top left;
-  opacity: 0.3;
-}
-
-.btnRolling:hover::before {
-  transform: skewX(-45deg) translateX(280px);
+.btnRolling:hover {
+  margin-top: 15px;
+  margin-bottom: 5px;
+  box-shadow: 0px 0px 0px 0px #A66615;
 }
 
 .modalContent {

@@ -76,7 +76,7 @@ function MoleGame({ sec }) {
       left: '50%',
       transform: 'translate(-50%, -20%)'
     }}>
-      <div><img src="/두더지_로고.png" style={{ marginTop: '30px', width: '400px' }} /></div>
+      <div><img src="/두더지_로고.png" style={{ marginTop: '80px', width: '350px' }} /></div>
 
       {ready === 'ready' && (
         <Ready />
