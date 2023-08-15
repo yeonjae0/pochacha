@@ -20,7 +20,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("game")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class MinigameController {
 
     private MinigameService minigameService;
