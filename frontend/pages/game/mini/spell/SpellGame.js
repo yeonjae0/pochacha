@@ -7,7 +7,7 @@ import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { startGame } from '@/store/reducers/spell';
 
-export default function MainSpell({ sec, goToNextPlayer,time, resetSec, currentPlayerIndex }) {
+export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
 
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
@@ -129,7 +129,7 @@ export default function MainSpell({ sec, goToNextPlayer,time, resetSec, currentP
               console.log('players 정보', players)
               // tmpFn()
               resetSec();
-              goToNextPlayer()
+              // goToNextPlayer()
               // console.log('players 정보', players[0].nick)
               // goToNextPlayer()
               // console.log('현재 인덱스', currentPlayerIndex )

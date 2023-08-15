@@ -16,6 +16,7 @@ const players = useSelector(state => state.players.players);
 const resetSec = () => {
   // time.current = 10
   // setSec(10)
+  setCurrentPlayerIndex((currentPlayerIndex + 1) % 4);
   time.current = 10
   setSec(10)
 }
@@ -28,11 +29,11 @@ const resetSec = () => {
 // };
 
 
-const goToNextPlayer = () => {
-  const nextPlayerIndex = (currentPlayerIndex + 1) % 4;
-  setCurrentPlayerIndex(nextPlayerIndex);
-  console.log('currentPlayerIndex', currentPlayerIndex);
-};
+// const goToNextPlayer = () => {
+//   const nextPlayerIndex = (currentPlayerIndex + 1) % 4;
+//   setCurrentPlayerIndex(nextPlayerIndex);
+//   console.log('currentPlayerIndex', currentPlayerIndex);
+// };
 
 useEffect(() => {
   timerId.current = setInterval(() => {
@@ -70,7 +71,7 @@ return (
     {
       keepGoing ?
       <div>
-      <SpellGame sec={sec} resetSec={resetSec} goToNextPlayer={goToNextPlayer} currentPlayerIndex={currentPlayerIndex} />
+      <SpellGame sec={sec} resetSec={resetSec} currentPlayerIndex={currentPlayerIndex} />
       </div>
       : <GameOver />
     }
