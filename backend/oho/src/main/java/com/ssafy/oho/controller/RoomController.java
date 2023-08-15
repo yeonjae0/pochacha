@@ -29,12 +29,11 @@ import java.util.Map;
 @CrossOrigin(origins = "*")
 public class RoomController {
 
-    /* 혜지 : OpenViduController RoomController 통합 작업 */
-
     private final SimpMessagingTemplate webSocket;
     private final RoomService roomService;
     private final PlayerService playerService;
     private final OpenVidu openVidu;
+
     @Autowired
     private RoomController(SimpMessagingTemplate webSocket, RoomService roomService, PlayerService playerService, OpenVidu openVidu){
         this.webSocket = webSocket;
@@ -43,11 +42,6 @@ public class RoomController {
         this.openVidu=openVidu;
     }
 
-
-    /**
-     * @param playerRequestDto Nickname
-     * @return room(Session Id), player(Token)
-     */
     @PostMapping(value="/enter")
     private ResponseEntity<?> setRoom(@RequestBody PlayerRequestDto playerRequestDto) {
         try {
@@ -98,6 +92,4 @@ public class RoomController {
             return;
         }
     }
-
-
 }
