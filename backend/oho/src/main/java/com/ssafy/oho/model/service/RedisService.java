@@ -203,6 +203,30 @@ public class RedisService {
         return hashOperations.entries(getCellKey(roomId, index));
     }
 
+    protected String getLiarGameKey(String roomId){return roomId+".liarGame";}
+    protected void setLiarGame(String roomId, String liar, String word, List<String> playerIdList){
+        redisTemplate.execute(new SessionCallback<>() {
+            @Override
+            public Object execute(RedisOperations operations) throws DataAccessException{
+                operations.multi();//트랜잭션 시작
+                hashOperations.put(getLiarGameKey(roomId),"liar",liar);
+                hashOperations.put(getLiarGameKey(roomId),"word",word);
+                for (int i = 0; i < playerIdList.size(); i++) {
+                    hashOperations.put(getLiarGameKey(roomId), playerIdList.get(i), Boolean.toString(false));//boolean?
+                }
+
+                List<Object> result = operations.exec();  // 트랜잭션 실행
+                if(result == null) System.out.println("LIARGAME :: REDIS TRANSACTION ERROR");
+                return null;
+            }
+        });
+        redisTemplate.expire(getLiarGameKey(roomId), SERVICE_TTL.get("mini"), TimeUnit.SECONDS);
+    }
+    protected Map<Object, Object> getLiarGame(String roomId) {
+        if(hashOperations.entries(getLiarGameKey(roomId)).size() == 0) return null;
+        return hashOperations.entries(getLiarGameKey(roomId));
+    }
+
     protected String getSpellKey(String roomId) {
         return roomId + ".spell";
     }
