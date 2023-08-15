@@ -198,7 +198,7 @@ export default function GamePage() {
 
           <div className={styles.camList}>
             {/* <RoomCam /> */}
-            {/* {memoRoomCam} */}
+            {memoRoomCam}
           </div>
 
           <div>
