@@ -4,7 +4,9 @@ import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/router'
 import DiceBox from './DiceBox.js'
 import ActiveBoard from './ActiveBoard.js'
+import OpenViduVideoComponent from '@/pages/room/[id]/OvVideo.js'; /* OpenVidu 관련 */
 import styles from '@/styles/GamePage.module.css'
+import Videostyles from '@/styles/UserVideo.module.css';
 import { styled } from 'styled-components'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
@@ -39,6 +41,11 @@ export default function GamePage() {
   const router = useRouter();
 
   /* 혜지 : OpenVidu 관련 데이터 */
+  const session = useSelector(state => state.room.currentRoomId);
+  const nickname = useSelector(state => state.player.currentNick);
+  const publisher = useSelector(state => state.openvidu.publisher);
+  const participants = useSelector(state => state.openvidu.participants);
+
   const token = useSelector(state => state.player.currentPlayerId);
   const roomId = useSelector(state => state.room.currentRoomId);
   let includeMini = useSelector(state => state.room.currentIncludeMini) // 미니게임 진행 여부
@@ -212,10 +219,29 @@ export default function GamePage() {
       }}>주사위 굴리기</button>
       <div>
         {/* <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}> */}
-
-        <div className={styles.camList}>
-          <RoomCam />
+      
+      {/* 제정 :  */}
+      {session !== undefined ? (
+        <div id="session">
+          <div id="video-container" className={styles.grid_container}>
+            {publisher !== undefined ? (
+              <span className={Videostyles.streamcomponent} style={{gridArea: 'cam1'}}>
+                <OpenViduVideoComponent className={styles.cam}
+                  streamManager={publisher} />
+                <div className={Videostyles.nickname}>{nickname}</div>
+              </span>
+            ) : null}
+            {participants != null ? participants.map((par, i) => (
+              <span key={par.id} className={Videostyles.streamcomponent} style={{gridArea: `cam${i + 2}`}}>
+                <OpenViduVideoComponent className={styles.cam} streamManager={par} />
+                {console.log(par.nick)}
+                <div className={Videostyles.nickname}>{par.nick}</div>
+              </span>
+            )) : null}
+            
+          </div>
         </div>
+      ) : null}
 
         {/* <div style={{ position: "relative" }}> */}
 
