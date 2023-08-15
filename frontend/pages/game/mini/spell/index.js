@@ -6,10 +6,12 @@ import SpellGame from "./SpellGame";
 
 export default function SpellTimer() {
 
-let [keepGoing, SetKeepGoing] = useState(true);
+const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0); // 현재 차례 플레이어 인덱스
+let [keepGoing, SetKeepGoing] = useState(true);  // 게임이 진행중인지 멈췄는지
 let [sec, setSec] = useState(0);
 let time = useRef(15);
 const timerId = useRef(null);
+const players = useSelector(state => state.players.players);
 
 const resetSec = () => {
   // time.current = 10
@@ -17,6 +19,20 @@ const resetSec = () => {
   time.current = 10
   setSec(10)
 }
+
+// const tmpFn = () => {
+//   console.log('tmpFn called');
+//   goToNextPlayer();
+//   resetSec();
+//   // setKeepGoing(true); // Restart the timer
+// };
+
+
+const goToNextPlayer = () => {
+  const nextPlayerIndex = (currentPlayerIndex + 1) % 4;
+  setCurrentPlayerIndex(nextPlayerIndex);
+  console.log('currentPlayerIndex', currentPlayerIndex);
+};
 
 useEffect(() => {
   timerId.current = setInterval(() => {
@@ -54,8 +70,7 @@ return (
     {
       keepGoing ?
       <div>
-      {/* <div style={{ height: '100vh' }}> */}
-      <SpellGame sec={sec} resetSec={resetSec}  />
+      <SpellGame sec={sec} resetSec={resetSec} goToNextPlayer={goToNextPlayer} currentPlayerIndex={currentPlayerIndex} />
       </div>
       : <GameOver />
     }

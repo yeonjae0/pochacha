@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useInsertionEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from 'next/router';
 import styles from "@/styles/SpellGame.module.css";
@@ -7,20 +7,36 @@ import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { startGame } from '@/store/reducers/spell';
 
-const getConsonant = () => {
+export default function MainSpell({ sec, goToNextPlayer, resetSec, currentPlayerIndex }) {
+
+  return (
+    <div>
+      <SpellGame sec={sec} resetSec={resetSec} goToNextPlayer={goToNextPlayer} currentPlayerIndex={currentPlayerIndex} />
+    </div>
+  )
+}
+
+function SpellGame({ sec, goToNextPlayer, resetSec, currentPlayerIndex }) {
 
   const dispatch = useDispatch();
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const [randomConsonant, setRandomConsonant] = useState("");
   const [inputWords, setInputWords] = useState([]);  // 입력한 단어들 저장
   const [inputValue, setInputValue] = useState("");  // 유저 입력값 저장
   const [client, setClient] = useState({});
 
+
+  // const [expression, setExpression] = useState(null)
   // const [sejong, setSejong] = usestate<string>("/초성_세종대왕_기본.png")
   const roomId = useSelector(state => state.room.currentRoomId);
+  const players = useSelector(state => state.players.players);
   const currentRandomConsonant = useSelector(state => state.spell.currentConsonant)
+  const playersLength = useSelector(state => state.players.players.length);
+
   let updatedWords = []
   const router = useRouter()
+  // let currentPlayerIndex = 0
+
 
   // Input창 단어 관련
   const handleInput = (e) => {
@@ -48,6 +64,7 @@ const getConsonant = () => {
     }
     // setInputWords((prevWords) => [...prevWords, inputValue]);
     // setInputValue("");
+
   }
 
   const setConsonant = () => {
@@ -63,17 +80,18 @@ const getConsonant = () => {
       }
     }).then((response) => {
       let data = response.data;
+      console.log('response.data', data)
+      console.log('순서!!!!!', data.playerIdList)  // --> 정보가 들어오지 않음.
       const randomConsonant = data.firstWord + data.secondWord;
       setRandomConsonant(data.firstWord + data.secondWord);
       dispatch(startGame(randomConsonant))
-      // console.log('store저장1---------->', currentRandomConsonant)
     }
     ).catch((error) => {
-      if(error.response) {
+      if (error.response) {
         router.push({
-            pathname: "/exception",
-            query: { msg: error.response.data },
-          })
+          pathname: "/exception",
+          query: { msg: error.response.data },
+        })
       } else { console.log(error) }
     });
   }
@@ -103,24 +121,38 @@ const getConsonant = () => {
             console.log('updatedWords:', updatedWords);
             console.log('inputWords:', inputWords)
             console.log(prevWords)
-            for(let i = 0; i < updatedWords.length; i++) {  // 중복 단어를 걸러서 리스트 업뎃
+            for (let i = 0; i < updatedWords.length; i++) {  // 중복 단어를 걸러서 리스트 업뎃
               // console.log('!!!!!!!!!!!!', updatedWords[i])
-              if(newInputWord == updatedWords[i]){
+              if (newInputWord == updatedWords[i]) {
                 alert('이미 입력된 단어입니다.')
                 inList = true;
-                break }};
+                break
+              }
+            };
+            // 유효성 검사 최종 통과
             if (!inList) {
               updatedWords = [...prevWords, data.inputWord];
+              console.log('players 정보', players)
+              // console.log('players 정보', players[0].nick)
+              goToNextPlayer()
+              console.log('현재 인덱스', currentPlayerIndex )
+              resetSec()
+              // console.log('nextPlayerIndex:', nextPlayerIndex)
+              // setExpression(true)
+              // console.log(expression)
             }
-              
+            // if (!inList) {
+            //   goToNextPlayer()
+            // }
+
             return updatedWords;
-            
+
           });
         } else {
           console.log('data.correct', data.correct);
           alert(data.msg);
         }
-        setInputValue(""); 
+        setInputValue("");
 
 
         // console.log('store저장2---------->', currentRandomConsonant)
@@ -136,19 +168,24 @@ const getConsonant = () => {
     subscribeSocket();
     setConsonant();
     // let updatedWords = null
-    const timeout = setTimeout(() => {
-      setShowModal(false);
-    }, 1000);  // 설명 모달 시간 설정! 7초 정도? 임시로 1초
-
-    return () => {
-      clearTimeout(timeout);
-    };
   }, []);
 
-  const ModalPage = () => {
-    if (showModal) {
-      document.body.style.overflow = "hidden";
-      return (
+  useEffect(()=>{
+    setTimeout(() => {
+      setShowModal(true);
+      // return () => {
+      //   clearTimeout(timeout);
+      // };
+    }, 5000);  // 설명 모달 시간 설정! 5초 정도? 임시로 1초
+  })
+
+  useEffect(() => {
+
+  }, [goToNextPlayer])
+
+  return (
+    <>
+      { (showModal == false) ?
         <div className={styles.modalContainer}>
           <div className={styles.modalContent}>
             {/* <img className="logoImg" src="/로고_훈민정음.png" /> */}
@@ -158,21 +195,14 @@ const getConsonant = () => {
             <h4>제시된 초성: {randomConsonant}</h4>
           </div>
         </div>
-      );
-    } else {
-      document.body.style.overflow = "initial";
-      return null;
-    }
-  };
+    : null }
 
-  return (
-    <>
-      <ModalPage />
-
+      {/* <h2>{currentPlayer}님의 차례입니다.</h2> */}
       <div className={styles.wrapper}>
         <div className={styles.upperContainer}>
           {/* 뒤로 가기 버튼 */}
           {/* <button type="button" onClick={() => router.back()}>Click here to go back</button> */}
+      <div style={{ fontSize: '25px' }}>{players[currentPlayerIndex].nick}님의 차례입니다. {sec}초 남았습니다.</div>
           <input
             type="text"
             placeholder="단어를 입력하세요"
@@ -190,21 +220,21 @@ const getConsonant = () => {
             src="/초성_세종대왕_기본.png"
             style={{
               position: "absolute",
-              left: "125px",
+              left: "60px",
               width: "350px",
-              marginTop: "-350px",
+              marginTop: "-300px",
             }}
           />
           <div className={styles.miniBlock1}></div>
           <div className={styles.miniBlock2}></div>
-          <h3 style={{ fontFamily: 'ChosunCentennial', position: "absolute", left: "250px", zIndex: "1" }}>초성은 {randomConsonant}</h3>
+          <h3 style={{ fontFamily: 'ChosunCentennial', position: "absolute", left: "170px", zIndex: "1" }}>초성은 {randomConsonant}</h3>
           <img
             src="/초성_두루마리.png"
             style={{
               position: "absolute",
               width: "700px",
-              left: "-50px",
-              marginBottom: "-200px",
+              left: "-130px",
+              marginBottom: "-210px",
               zIndex: "0",
             }} />
           <div className={styles.wordsContainer}>
@@ -214,10 +244,10 @@ const getConsonant = () => {
                 className={styles.word}
                 style={{
                   position: "absolute",
-                  marginLeft: '100px',
-                  marginTop: '250px',
+                  marginLeft: '20px',
+                  marginTop: '195px',
                   fontFamily: 'ChosunCentennial',
-                  left: `${(index % 8 ) * 50}px`,
+                  left: `${(index % 8) * 50}px`,
                   top: `${Math.floor(index / 8) * 30}px`,
                 }}
               >
@@ -225,6 +255,7 @@ const getConsonant = () => {
               </div>
             ))}
           </div>
+          <h1>{sec}</h1>
           <label>
             단어를 입력하세요:
             <input type="text" value={inputValue} onChange={handleInput} onKeyDown={handleKeyDown} />
@@ -238,4 +269,4 @@ const getConsonant = () => {
   );
 }
 
-export default getConsonant;
+// export default SpellGame;

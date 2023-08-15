@@ -51,6 +51,7 @@ export default function GamePage() {
   let [currentCell, setCurrentCell] = useState('')
   let [showModal, setShowModal] = useState(false);
   let [cellObj, setCellObj] = useState({});
+  let [prevDice, setPrevDice] = useState(0);
 
   // 현재 방의 맵 불러오는 함수
   const createMap = async () => {
@@ -122,12 +123,25 @@ export default function GamePage() {
       // callback 함수 설정, 대부분 여기에 sub 함수 씀
       client.current.subscribe(`/topic/move/${roomId}`, (response) => {
         let data = JSON.parse(response.body)
+        // console.log('!data.game.dice!', data.game.dice)
+        // console.log('!data.game!', data.game)
+        // console.log('!dice!', dice)
 
-        setDice(data.game.dice)
-        setPin(data.game.pin)
-        setLab(data.game.lab)
-        setCurrentCell(data.cell.name)
-        // setCurrentCell('훈민정음')
+        // 중복값 제외 -ing
+        console.log('이전, 지금--------->', prevDice, data.game.dice )
+        if(data.game.dice !== prevDice) {
+          console.log('if문 안으로 들어왔음.')
+          setPrevDice(data.game.dice);
+          setDice(data.game.dice)
+          setPin(data.game.pin)
+          setLab(data.game.lab)
+          setCurrentCell(data.cell.name)
+          console.log('현재 들어간 값------->', prevDice, dice)
+          // setCurrentCell('훈민정음')
+        }
+        else{
+          // subscribeSocket()
+        }
       })
     })
   }
