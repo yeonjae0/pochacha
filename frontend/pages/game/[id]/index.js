@@ -1,10 +1,11 @@
 'use client'
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import DiceBox from './DiceBox';
 import ActiveBoard from './ActiveBoard';
 import GameSelect from './GameSelect';
+import BabyBoard from './BabyBoard'
 import styles from '@/styles/GamePage.module.css';
 import { styled } from 'styled-components';
 import SockJS from 'sockjs-client';
@@ -49,6 +50,7 @@ export default function GamePage() {
   let [lab, setLab] = useState(0); // 바퀴 수
   let [client, setClient] = useState({});
   let [currentCell, setCurrentCell] = useState('')
+  let [currentCellObj, setCurrentCellObj] = useState({})
   let [showModal, setShowModal] = useState(false);
   let [cellObj, setCellObj] = useState({});
 
@@ -123,11 +125,16 @@ export default function GamePage() {
       client.current.subscribe(`/topic/move/${roomId}`, (response) => {
         let data = JSON.parse(response.body)
 
+        console.log('현재 위치한 칸 정보 ===========> ', data.cell)
+
         setDice(data.game.dice)
         setPin(data.game.pin)
         setLab(data.game.lab)
+        setCurrentCellObj(data.cell)
         setCurrentCell(data.cell.name)
         // setCurrentCell('훈민정음')
+        // setCurrentCell('라이어 게임')
+        // setCurrentCell('두더지 게임')
       })
     })
   }
@@ -168,6 +175,16 @@ export default function GamePage() {
   }
   /* 연재 : 모달 끝 */
 
+  /* 희진 : 리랜더링 방지 시작 */
+  const memoRoomCam = useMemo(() => {
+    return <RoomCam />
+  }, []);
+
+  const memoBabyBoard = useMemo(() => {
+    return <BabyBoard pin={pin} />
+  }, [pin]);
+  /* 희진 : 리랜더링 방지 끝 */
+
   return (
     <div>
       <div className={styles.container}>
@@ -182,7 +199,8 @@ export default function GamePage() {
         <div>
 
         <div className={styles.camList}>
-          <RoomCam />
+          {/* <RoomCam /> */}
+          {memoRoomCam}
         </div>
         
           {/* <div className={styles.upper_container}>
@@ -199,7 +217,9 @@ export default function GamePage() {
             ) : (
               <div>
                 <DiceBox dice={dice} />
-                <ActiveBoard pin={pin} cellObj={cellObj} />
+                {/* {memoBabyBoard} */}
+                <BabyBoard pin={pin} />
+                <ActiveBoard pin={pin} cellObj={cellObj} currentCellObj={currentCellObj} />
               </div>
             )}
 

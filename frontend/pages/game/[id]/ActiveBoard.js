@@ -3,10 +3,11 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styles from '@/styles/ActiveMap.module.css';
 
-export default function ActiveBoard({ pin, cellObj }) {
+export default function ActiveBoard({ pin, cellObj, currentCellObj }) {
 
   const targetRef = useRef(null);
   const [positionStyle, setPositionStyle] = useState({ top: 0, left: 0 });
+  // const [boardPin, setBoardPin] = useState(pin)
 
   /* 희진 : 보드 색 지정 시작 */
   const numMatch = {
@@ -29,21 +30,38 @@ export default function ActiveBoard({ pin, cellObj }) {
     }
   }
   /* 희진 : 보드 색 지정 끝 */
+  // currentCellObj.move !== undefined
+
+  // useEffect(() => {
+  //   const targetElement = targetRef.current;
+  //   if (targetElement) {
+  //     const rect = targetElement.getBoundingClientRect();
+  //     setPositionStyle({
+  //       top: rect.top - 80,
+  //       left: rect.left - 40
+  //     });
+  //   }
+  // }, [boardPin]);
+
+  // useEffect(() => {
+  //   if (targetRef.current && (currentCellObj.move !== undefined)) {
+  //     setBoardPin(pin + currentCellObj.move)
+  //   }
+  // }, []);
 
   useEffect(() => {
     const targetElement = targetRef.current;
     if (targetElement) {
       const rect = targetElement.getBoundingClientRect();
       setPositionStyle({
-        top: rect.top - 80, // 위치 값 조정
-        left: rect.left - 40 // 위치 값 조정
+        top: rect.top - 80,
+        left: rect.left - 40
       });
     }
   }, [pin]);
 
   return (
     <div>
-
       <div className={styles.board}>
         <div className={styles.board_wrapper}>
           <div style={{ backgroundColor: 'black' }}>{pin == 18 ? <div ref={targetRef}></div> : null}</div> {/* 19 */}
