@@ -6,22 +6,25 @@ import SpellGame from "./SpellGame";
 
 export default function SpellTimer() {
 
-const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0); // 현재 차례 플레이어 인덱스
+// const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0); // 현재 차례 플레이어 인덱스
 let [keepGoing, SetKeepGoing] = useState(true);  // 게임이 진행중인지 멈췄는지
 let [sec, setSec] = useState(0);
 let time = useRef(15);
 const timerId = useRef(null);
 const players = useSelector(state => state.players.players);
+const currentIdx = useSelector(state => state.spell.currentIdx);
 
 const resetSec = () => {
   // time.current = 10
   // setSec(10)
-  setCurrentPlayerIndex((currentPlayerIndex + 1) % 4);
+  // console.log(currentPlayerIndex)
+  // setCurrentPlayerIndex((currentPlayerIndex + 1) % 4);
   time.current = 10
   setSec(10)
 }
 
-// const tmpFn = () => {
+// const tmpFn = () => {''\
+
 //   console.log('tmpFn called');
 //   goToNextPlayer();
 //   resetSec();
@@ -59,7 +62,7 @@ function GameOver() {
     <>
       <div>
         <h1>Game Over ㅜㅅㅜ</h1>
-        <h2>한글 공부를 더 해야겠네요</h2>
+        <h2>{players[currentIdx].nick}님의 패배입니다.</h2>
       </div>
     </>
   )
@@ -71,7 +74,7 @@ return (
     {
       keepGoing ?
       <div>
-      <SpellGame sec={sec} resetSec={resetSec} currentPlayerIndex={currentPlayerIndex} />
+      <SpellGame sec={sec} resetSec={resetSec} />
       </div>
       : <GameOver />
     }
