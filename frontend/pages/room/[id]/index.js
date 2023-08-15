@@ -26,6 +26,9 @@ export default function RoomPage() {
   let OV = new OpenVidu();
   let session = OV.initSession();
 
+  console.log("session")
+  console.log(session)
+
   const roomId=useSelector(state=>state.room.currentRoomId);
   const token=useSelector(state => state.player.currentPlayerId); //오픈비두 토큰
   const nickname=useSelector(state => state.player.currentNick);
@@ -172,10 +175,19 @@ export default function RoomPage() {
         mirror: false,
       });
 
+      console.log("pub")
+      console.log(pub)
+
       await session.publish(pub);
       let deviceList = await OV.getDevices();
+      console.log("deviceList")
+      console.log(deviceList)
       var videoDevices = deviceList.filter(device => device.kind === 'videoinput');
       var currentVideoDeviceId = pub.stream.getMediaStream().getVideoTracks()[0].getSettings().deviceId;
+
+      console.log("getAudioTracks")
+      console.log(pub.stream.getMediaStream().getAudioTracks())
+
       var currentVideoDevice = videoDevices.find(device => device.deviceId === currentVideoDeviceId);
 
       setPublisher(pub);
