@@ -57,6 +57,7 @@ export default function GamePage() {
   let [client, setClient] = useState({});
   let [currentCell, setCurrentCell] = useState("");
   let [showModal, setShowModal] = useState(false);
+  let [prevDice, setPrevDice] = useState(0); // 이전 주사위 값 저장
 
   const data = useSelector((state) => state.cell.currentBoard);
   const cellObj = {
@@ -158,12 +159,13 @@ export default function GamePage() {
       // callback 함수 설정, 대부분 여기에 sub 함수 씀
       client.current.subscribe(`/topic/move/${roomId}`, (response) => {
         let data = JSON.parse(response.body);
+        if(data.game.dice !== prevDice) {
+          setDice(data.game.dice);
+          setPin(data.game.pin);
+          setLab(data.game.lab);
+          setCurrentCell(data.cell.name);
+        }
 
-        setDice(data.game.dice);
-        setPin(data.game.pin);
-        setLab(data.game.lab);
-        setCurrentCell(data.cell.name);
-        // setCurrentCell('훈민정음')
       });
     });
   };
