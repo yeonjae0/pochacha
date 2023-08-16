@@ -204,10 +204,14 @@ export default function GamePage() {
   };
   /* 연재 : 모달 끝 */
 
-  /* 희진 : 리랜더링 방지 시작 */
-  // const memoRoomCam = useMemo(() => {
-  //   return <RoomCam />
+  /* 희진 : 리랜더링 방지 시작 (map으로 가져오는 props를 해결해야 함) */
+  // const memoRoomCamPar = useMemo(() => {
+  //   return <OpenViduVideoComponent className={styles.cam} streamManager={par} />
   // }, []);
+
+  // const MemoizedOpenViduVideoComponent = useMemo(({ className, streamManager }) => {
+  //   return <OpenViduVideoComponent className={className} streamManager={streamManager} />
+  // }, [className, streamManager])
   /* 희진 : 리랜더링 방지 끝 */
 
         return (
@@ -226,6 +230,7 @@ export default function GamePage() {
                   handleRollDiceClick();
                 }}>주사위 굴리기</button>
               </div>
+              
               {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 시작*/}
               {session !== undefined ? (
                 <div id="session">
@@ -239,6 +244,7 @@ export default function GamePage() {
                     ) : null}
                     {participants != null ? participants.map((par, i) => (
                       <span key={par.id} className={Videostyles.streamcomponent} style={{ gridArea: `cam${i + 2}` }}>
+                        {/* <MemoizedOpenViduVideoComponent className={styles.cam} streamManager={par} /> */}
                         <OpenViduVideoComponent className={styles.cam} streamManager={par} />
                         {console.log(par.nick)}
                         <div className={Videostyles.nickname}>{par.nick}</div>
@@ -250,10 +256,10 @@ export default function GamePage() {
               ) : null}
               {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 끝*/}
 
-              // <div className={styles.camList}>
-              //   {/* <RoomCam /> */}
-              //   {memoRoomCam}
-              // </div>
+              {/* <div className={styles.camList}>
+                <RoomCam />
+                {memoRoomCam}
+              </div> */}
 
               <div>
                 {/* 이전 메인 보드 */}
