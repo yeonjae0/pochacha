@@ -166,8 +166,8 @@ export default function GamePage() {
     subscribeSocket();
 
     setTimeout(() => {
-      client.current.send("/move/" + roomId, {}, JSON.stringify({ reload: true }));
-    }, 30);
+      client.current.send("/move/" + roomId, {}, JSON.stringify({ "reload": true }));
+    }, 10); // 비동기화 문제
   }, []);
 
   let handleRollDiceClick = () => {
@@ -195,6 +195,12 @@ export default function GamePage() {
   };
   /* 연재 : 모달 끝 */
 
+  /* 희진 : 리랜더링 방지 시작 */
+  const memoRoomCam = useMemo(() => {
+    return <RoomCam />
+  }, []);
+  /* 희진 : 리랜더링 방지 끝 */
+
   return (
     <div>
       <div className={styles.container}>
@@ -203,25 +209,19 @@ export default function GamePage() {
             주사위 눈 : {dice}, 현재 {pin}번 블록에 위치, {lab}바퀴
           </h5>
         </nav>
-        <button
-          className={styles.btnRolling}
-          value="innerHTML"
-          onClick={() => {
-            client.current.send("/move/" + roomId, {}, JSON.stringify({}));
-            handleRollDiceClick();
-          }}
-        >
-          주사위 굴리기
-        </button>
         <div>
-          <div className={styles.camList}>
-            <RoomCam />
-          </div>
 
-          {/* <div className={styles.upper_container}>
-            <video className={styles.cam} ref={videoRef} />
-            <video className={styles.cam}  ref={videoRef} />
-          </div> */}
+        <div>
+        <button className={styles.btnRolling} style={{ zIndex: '0' }} value="innerHTML" onClick={() => {
+          client.current.send("/move/" + roomId, {}, JSON.stringify({}));
+          handleRollDiceClick();
+        }}>주사위 굴리기</button>
+        </div>
+
+          <div className={styles.camList}>
+            {/* <RoomCam /> */}
+            {memoRoomCam}
+          </div>
 
           <div>
             {/* 이전 메인 보드 */}
@@ -234,17 +234,13 @@ export default function GamePage() {
             ) : (
               <div>
                 <DiceBox dice={dice} />
-                <ActiveBoard pin={pin} cellObj={cellObj} />
+                <ActiveBoard pin={pin} cellObj={cellObj} currentCellObj={currentCellObj} />
               </div>
             )}
 
             {/* 희진 : Temporary Board (추후 삭제 예정) */}
             {/* <div style={{ position: "absolute" }}><BoardMap pin={pin} style={{ bottom: "0" }} /></div> */}
           </div>
-          {/* <div className={styles.lower_container}>
-            <video className={styles.cam} ref={videoRef} />
-            <video className={styles.cam} ref={videoRef} />
-          </div> */}
         </div>
         <>
           <ModalPage currentCell={currentCell} pin={pin} />
