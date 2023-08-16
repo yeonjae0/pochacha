@@ -24,22 +24,21 @@ export default function RoomPage() {
   const router = useRouter();
   const dispatch = useDispatch();
 
-<<<<<<< HEAD
   let info = router.query.currentName ? JSON.parse(router.query.currentName) : '';
-=======
-  let info = JSON.parse(router.query.currentName);
   let startGame = false; //게임 시작 불가 상태
->>>>>>> develop
 
   /* 혜지 : 첫 렌더링 시에 OV, session 세팅 */
   let OV = new OpenVidu();
   let session = OV.initSession();
 
-  const roomId = useSelector((state) => state.room.currentRoomId);
-  const token = useSelector((state) => state.player.currentPlayerId); //오픈비두 토큰
-  const nickname = useSelector((state) => state.player.currentNick);
-  const head = useSelector((state) => state.player.currentHead);
-  const playerReady = useSelector((state) => state.player.currentReady);
+  console.log("session")
+  console.log(session)
+
+  const roomId=useSelector(state=>state.room.currentRoomId);
+  const token=useSelector(state => state.player.currentPlayerId); //오픈비두 토큰
+  const nickname=useSelector(state => state.player.currentNick);
+  const head=useSelector(state => state.player.currentHead);
+  const playerReady = useSelector(state => state.player.currentReady);
 
   const [publisher, setPublisher] = useState({}); //비디오, 오디오 송신자
   const [participants, setParticipants] = useState([]); //참여자들
@@ -215,16 +214,21 @@ export default function RoomPage() {
         mirror: false,
       });
 
+      console.log("pub")
+      console.log(pub)
+
       await session.publish(pub);
       let deviceList = await OV.getDevices();
-      var videoDevices = deviceList.filter((device) => device.kind === "videoinput");
-      var currentVideoDeviceId = pub.stream
-        .getMediaStream()
-        .getVideoTracks()[0]
-        .getSettings().deviceId;
-      var currentVideoDevice = videoDevices.find(
-        (device) => device.deviceId === currentVideoDeviceId
-      );
+
+      console.log("deviceList")
+      console.log(deviceList)
+      var videoDevices = deviceList.filter(device => device.kind === 'videoinput');
+      var currentVideoDeviceId = pub.stream.getMediaStream().getVideoTracks()[0].getSettings().deviceId;
+
+      console.log("getAudioTracks")
+      console.log(pub.stream.getMediaStream().getAudioTracks())
+
+      var currentVideoDevice = videoDevices.find(device => device.deviceId === currentVideoDeviceId);
 
       setPublisher(pub);
       dispatch(setPublisherData(pub));
@@ -294,9 +298,5 @@ export default function RoomPage() {
         {/* <RoomBtn info={info} client={client} head={head} ready={playerReady} /> */}
       </div>
     </div>
-<<<<<<< HEAD
-  )
-=======
   );
->>>>>>> develop
 }
