@@ -36,27 +36,27 @@ export default function Picktopic() {
     .catch(e => console.log('error', e));
   }
     
-  const connectSocket = () => {
-    client.current = Stomp.over(() => {
-      const sock = new SockJS("http://localhost:80/ws")
-      return sock;
-    });
-    // client.current.debug = () => { };
-  }
+  // const connectSocket = () => {
+  //   client.current = Stomp.over(() => {
+  //     const sock = new SockJS("http://localhost:80/ws")
+  //     return sock;
+  //   });
+  //   // client.current.debug = () => { };
+  // }
   
-  const subscribeSocket = () => {
-    client.current.connect({}, () => {
-      client.current.subscribe(`/mini/liar/set/${roomId}`, (response) => {
-        let data = JSON.parse(response.body)
-        console.log(data)
-      })
-    })
-  }
+  // const subscribeSocket = () => {
+  //   client.current.connect({}, () => {
+  //     client.current.subscribe(`/mini/liar/set/${roomId}`, (response) => {
+  //       let data = JSON.parse(response.body)
+  //       console.log(data)
+  //     })
+  //   })
+  // }
 
-  useEffect(() => {
-    connectSocket()
-    subscribeSocket()
-  }, [])
+  // useEffect(() => {
+  //   connectSocket()
+  //   subscribeSocket()
+  // }, [])
 
   return (
     <div style={{ textAlign: 'center' }}>
