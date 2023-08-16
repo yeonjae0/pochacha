@@ -290,16 +290,12 @@ export default function RoomPage() {
       <div className="roof2"></div>
       <div className={styles.room}>
         <div className={styles.camList} style={{ marginTop: '30px', marginLeft: '0px' }} >
-          {memoRoomCam}
+          {memoRoomCam} 
           {/* <RoomCam/> */}
         </div>
         {memoRoomChat}
         {/* <RoomChat info={info} client={client} chatHistory={chatHistory} /> */}
 
-        {/* <div className={classNames({[styles.chatContainer]: true, [styles.outerChat]: true})}>
-          <div className={classNames({[styles.chatContainer]: true, [styles.innerChat]: true})}>
-          </div>
-        </div> */}
         {memoRoonBtn}
         {/* <RoomBtn info={info} client={client} head={head} ready={playerReady} /> */}
       </div>
