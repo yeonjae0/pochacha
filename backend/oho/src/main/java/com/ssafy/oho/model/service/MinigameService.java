@@ -192,7 +192,6 @@ public class MinigameService extends RedisService {
             if(wordNum == 0) {
                 confirmMap.put("msg", "사전에 등재되지 않은 단어입니다.");
                 return confirmMap;
-
             }
             /*** 사전 등재 단어 찾기 종료 ***/
 
