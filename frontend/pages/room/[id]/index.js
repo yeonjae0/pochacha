@@ -142,17 +142,18 @@ export default function RoomPage() {
         }
       }); // 플레이어 정보 구독
       client.current.subscribe(`/topic/game/${roomId}`, (response) => {
-        console.log("게임 시작 소켓 수신");
-        console.log(response);
-        console.log(response.body);
         var data = JSON.parse(response.body);
 
+        if(data.error == undefined || data.error == null ) {
           dispatch(setCells(data));
 
-        router.push({
-          pathname: `/game/${roomId}`,
-          query: { currentName: JSON.stringify(info) },
-        });
+          router.push({
+            pathname: `/game/${roomId}`,
+            query: { currentName: JSON.stringify(info) },
+          });
+        } else {
+          alert("알림 : " + data.error);
+        }
       }); // 게임 시작 신호 수신
     });
   };

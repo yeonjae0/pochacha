@@ -5,11 +5,9 @@ import styles from "@/styles/SpellGame.module.css";
 import axios from 'axios';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
-import { startGame } from '@/store/reducers/spell';
+import { startGame, losingPlayer } from '@/store/reducers/spell';
 
 export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
-
-  console.log('현재 플레이어 순서 -------------> ', currentPlayerIndex)
 
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
@@ -17,15 +15,18 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
   const [inputWords, setInputWords] = useState([]);  // 입력한 단어들 저장
   const [inputValue, setInputValue] = useState("");  // 유저 입력값 저장
   const [client, setClient] = useState({});
-  const [shouldGoToNextPlayer, setShouldGoToNextPlayer] = useState(0);
+  // const [shouldGoToNextPlayer, setShouldGoToNextPlayer] = useState(0);
+  const [cnt, setCnt] = useState(0)
 
   // const [expression, setExpression] = useState(null)
   // const [sejong, setSejong] = usestate<string>("/초성_세종대왕_기본.png")
   const roomId = useSelector(state => state.room.currentRoomId);
   const players = useSelector(state => state.players.players);
-  const currentRandomConsonant = useSelector(state => state.spell.currentConsonant)
-  const playersLength = useSelector(state => state.players.players.length);
+  const currentIdx = useSelector(state => state.spell.currentIdx);
+  // const currentRandomConsonant = useSelector(state => state.spell.currentConsonant)
+  // const playersLength = useSelector(state => state.players.players.length);
 
+  // let cnt = 0
   let updatedWords = []
   const router = useRouter()
   // let currentPlayerIndex = 0
@@ -130,6 +131,7 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
               updatedWords = [...prevWords, data.inputWord];
               console.log('players 정보', players)
               // tmpFn()
+              console.log('updatedWords.length------>', updatedWords.length)
               resetSec();
               // goToNextPlayer()
               // console.log('players 정보', players[0].nick)
@@ -171,6 +173,12 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
     }, 5000);  // 설명 모달 시간 설정! 5초 정도? 임시로 1초
   })
 
+  useEffect(() => {   
+    setCnt((prevCnt) => (prevCnt + 1) % 4);
+    dispatch(losingPlayer((cnt+1)%4))
+    console.log('cnt!!!!!!!!!!!!!!!', (cnt+1)%4)
+  }, [inputWords]);
+
   // useEffect(() => {
   //   goToNextPlayer()
   //   resetSec()
@@ -196,14 +204,17 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
         <div className={styles.upperContainer}>
           {/* 뒤로 가기 버튼 */}
           {/* <button type="button" onClick={() => router.back()}>Click here to go back</button> */}
-      <div style={{ fontSize: '25px' }}>{players[currentPlayerIndex].nick}님의 차례입니다. {sec}초 남았습니다.</div>
+      <div style={{ fontSize: '25px' }}>{players[cnt].nick}님의 차례입니다. {sec}초 남았습니다.</div>
+      {/* <h4>{cnt}</h4> */}
           <input
             type="text"
             placeholder="단어를 입력하세요"
             value={inputValue}
             onChange={handleInput}
             onKeyDown={handleKeyDown}
-            className={styles.inputContainer} />
+            className={styles.inputContainer}
+            // disabled={cnt !== currentPlayerIndex} // -> 이 부분은 멀티플레이 실행 후 계산
+             />
           <button type="button" onClick={handleSubmit} style={{ marginLeft: '20px' }}>제출</button>
           <div><img src="/초성_로고.png" style={{ width: '450px' }} /></div>
         </div>

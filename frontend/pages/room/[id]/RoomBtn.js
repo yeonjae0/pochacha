@@ -127,7 +127,8 @@ export default function RoomBtn(props) {
   };
   /* 희진 : JS 클립보드 API 끝 */
 
-  const sendData = () => {
+  // 방장 start socket 전송
+  const startGame = () => {
     let sendData = {
       includeMini: includeMini,
     };
@@ -136,23 +137,19 @@ export default function RoomBtn(props) {
     /*
       CONFIRM :: 타입에러 임시 해결을 위해 PROPS로 받아옴
     */
-    client.current.send(`/game/${info.roomId}`, {}, JSON.stringify(sendData));
-    console.log("게임 시작 신호 전송");
-    // router.push(
-    //   {
-    //     pathname: `/game/${info.roomId}`,
-    //     query: { currentName: JSON.stringify(info) },
-    //   },
-    //   )
+    if(client.current) {
+      client.current.send(`/game/${info.roomId}`, {}, JSON.stringify(sendData));
+      console.log("게임 시작 신호 전송");
+      // router.push(
+      //   {
+      //     pathname: `/game/${info.roomId}`,
+      //     query: { currentName: JSON.stringify(info) },
+      //   },
+      //   )
+    } else {
+      alert("소켓 연결 실패!");
+    }
   };
-
-  /* 제정 : 시작 버튼 클릭 시 메인 게임 이동 시작 */
-  // const startGame = () => {
-  //   const pathname = `/game/${roomInfo.roomId}`
-  //   const query = { roomInfo: JSON.stringify(roomInfo) }
-  //   window.location.href = `${pathname}?${new URLSearchParams(query).toString()}`
-  // }
-  /* 제정 : 시작 버튼 클릭 시 메인 게임 이동 끝 */
 
   // 비방장 ready socket 전송
   const readyGame = (ready) => {
@@ -160,8 +157,11 @@ export default function RoomBtn(props) {
       playerId: info.playerId,
       ready: ready,
     };
-    client.current.send(`/ready/${info.roomId}`, {}, JSON.stringify(sendData));
-    console.log(ready);
+    if(client.current) {
+      client.current.send(`/ready/${info.roomId}`, {}, JSON.stringify(sendData));
+    } else {
+      alert("소켓 연결 실패!");
+    }
   };
 
   return (
@@ -187,7 +187,6 @@ export default function RoomBtn(props) {
         ) : (
         <StartBtn onClick={sendData}>시 작</StartBtn>
       )) :
-
         <ReadyBtn
           onClick={() => {
             readyGame(props.ready);
