@@ -1,9 +1,8 @@
 package com.ssafy.oho.model.service;
 
-import com.google.gson.JsonObject;
-import com.ssafy.oho.model.dto.request.LiarGameRequestDto;
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.LiarGameResponseDto;
+import com.ssafy.oho.model.dto.response.LiarGameVoteDto;
 import com.ssafy.oho.model.entity.Player;
 import com.ssafy.oho.model.entity.Room;
 import com.ssafy.oho.model.repository.MinigameRepository;
@@ -12,6 +11,7 @@ import com.ssafy.oho.util.data.liargame.words.*;
 import com.ssafy.oho.util.data.liargame.words.Objects;
 import com.ssafy.oho.util.exception.GameGetException;
 import com.ssafy.oho.util.exception.GameSetException;
+import com.ssafy.oho.util.exception.PlayerGetException;
 import com.ssafy.oho.util.exception.RoomGetException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -39,7 +39,7 @@ public class MinigameService extends RedisService {
         this.roomRepository = roomRepository;
     }
 
-    public LiarGameResponseDto setLiarGame(LiarGameRequestDto liarGameRequestDto, String roomId) throws GameSetException {
+    public LiarGameResponseDto setLiarGame(Map<String, Object> payload, String roomId) throws GameSetException {
         try {
             Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomGetException());
             List<String> playerIdList=new ArrayList<>();
@@ -49,19 +49,14 @@ public class MinigameService extends RedisService {
             }
 
             //멀티 게임이므로 2명 미만의 상태에서는 진행 불가
-//            if(playerIdList.size()<2){
-//                throw new GameSetException("라이어 게임은 두명 이상이어야 해요");
-//            }
+            if(playerIdList.size()<2){
+                throw new GameSetException("라이어 게임은 두명 이상이어야 해요");
+            }
 
             //게임 진행 턴(순서) 임의로 배정
             Collections.shuffle(playerIdList);
 
-            String subject=liarGameRequestDto.getSubject();
-
-            /*
-                CONFIRM :: 조건문을 바꿀 방법 찾기 (enum 데이터 저장 방식 변경)
-                            그러나 우아한 형제들 블로그에서는 enum과 함께 아래처럼 사용
-             */
+            String subject=((String) payload.getOrDefault("subject", "")).trim();
 
             String word="";
             if(subject.equals("animal")){ word= Animal.getRandomValue(); }
@@ -73,13 +68,13 @@ public class MinigameService extends RedisService {
             else{ throw new GameSetException("단어 생성에 문제가 있어요"); }
 
             /*** Redis Input ***/
-            super.setLiarGame(roomId, playerIdList.get(0), word, playerIdList);
+            super.setLiarGame(roomId, playerIdList.get(0), 0, playerIdList);
 
             /*** Response DTO Build ***/
             LiarGameResponseDto liarGameResponseDto= LiarGameResponseDto.builder()
                     .liar(playerIdList.get(0))
-                    .word(word)
-                    .turns(playerIdList)
+                    .word(word)//저장x
+                    .turns(playerIdList)//저장x
                     .build();
 
             return liarGameResponseDto;
@@ -89,9 +84,57 @@ public class MinigameService extends RedisService {
         }
     }
 
-    /*
-        TO DO :: 투표 득표수 집계 메소드 추가
-     */
+    public LiarGameResponseDto voteLiar(Map<String, Object> payload, String roomId) throws GameGetException {
+        try {
+            Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomGetException());
+
+            String playerId=((String) payload.getOrDefault("playerId", "")).trim();
+            String vote=((String) payload.getOrDefault("vote", "")).trim();
+
+            if(playerId==null||vote==null){
+                throw new PlayerGetException("접속 정보를 확인해주세요");
+            }
+
+            /*
+                TO DO :: 해당 방에 존재하는 player인지 유효성 검사 필요
+             */
+            System.out.println("유효성 검사 통과");
+
+            int total = Integer.parseInt(super.getLiarGameInfo(roomId, "total"));
+            total++;
+            System.out.println(total);
+            /*
+                TO DO :: total에 대한 유효성 검사 필요
+             */
+
+            List<LiarGameVoteDto> voteList=new ArrayList<>();
+            Map<Object, Object> currentVoteList=super.getLiarGameVoteList(roomId);
+            System.out.println("CURRENT VOTE LIST");
+            System.out.println(currentVoteList);
+//
+//            for(int i=0;i<4;i++){
+//                voteList.add(new LiarGameVoteDto())
+//            }
+
+
+            /*** Redis Input ***/
+            super.setLiarGameVoteList(roomId, total, voteList);
+
+            /*** Response DTO Build ***/
+            LiarGameResponseDto liarGameResponseDto=LiarGameResponseDto.builder()
+                    .total(total)
+                    .voteList(voteList)
+                    .tiebreak(false)
+                    .tiebreakerList(null)
+                    .build();
+
+            return liarGameResponseDto;
+        }
+        catch(Exception e){
+            throw new GameGetException();
+        }
+    }
+
     String[] wordUnit = {
             "ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ",
             "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ",

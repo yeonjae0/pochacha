@@ -1,8 +1,6 @@
 package com.ssafy.oho.controller;
 
-import com.ssafy.oho.model.dto.request.LiarGameRequestDto;
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
-import com.ssafy.oho.model.dto.response.LiarGameResponseDto;
 import com.ssafy.oho.model.service.MinigameService;
 import com.ssafy.oho.util.exception.GameGetException;
 import com.ssafy.oho.util.exception.GameSetException;
@@ -34,18 +32,22 @@ public class MinigameController {
 
 
     /* 라이어 게임 API */
-    @PostMapping("/mini/liar/set/{roomId}")
-    public ResponseEntity<?> setLiarGame(@RequestBody LiarGameRequestDto liarGameRequestDto, @PathVariable String roomId){
+    @MessageMapping("/mini/liar/set/{roomId}")
+    public void setLiarGame(@Payload Map<String,Object> payload, @DestinationVariable String roomId){
         try {
-            return ResponseEntity.ok(minigameService.setLiarGame(liarGameRequestDto, roomId));
+            webSocket.convertAndSend("/topic/mini/liar/set/" + roomId, minigameService.setLiarGame(payload, roomId));
         }catch(GameSetException e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            webSocket.convertAndSend("/topic/mini/liar/set/" + roomId, e.getMessage());
         }
     }
 
     @MessageMapping("/mini/liar/vote/{roomId}")
     public void voteLiar(@Payload Map<String,Object> payload, @DestinationVariable String roomId){
-
+        try {
+            webSocket.convertAndSend("/topic/mini/liar/vote/" + roomId, minigameService.voteLiar(payload, roomId));
+        }catch(GameGetException e){
+            webSocket.convertAndSend("/topic/mini/liar/vote/" + roomId, e.getMessage());
+        }
     }
 
     /* 훈민정음 게임 API */

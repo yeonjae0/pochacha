@@ -30,6 +30,8 @@ export default function RoomPage() {
   let OV = new OpenVidu();
   let session = OV.initSession();
 
+  let subGame=null;
+
   const roomId = useSelector((state) => state.room.currentRoomId);
   const token = useSelector((state) => state.player.currentPlayerId); //오픈비두 토큰
   const nickname = useSelector((state) => state.player.currentNick);
@@ -63,7 +65,9 @@ export default function RoomPage() {
 
         /* 혜지 : 접속 플레이어들 정보를 저장 시작 */
         const arrayLength = response.data.length;
-        if (arrayLength < 4) setStart(false); //[유효성 검사] 현재 접속 플레이어 수가 4명 이하일 때 게임 시작 불가
+
+        //[유효성 검사] 현재 접속 플레이어 수가 4명 이하일 때 게임 시작 불가
+        if (arrayLength < 4) setStart(false);
 
         for (let i = 0; i < arrayLength; i++) {
           let head = response.data[i].head;
@@ -71,7 +75,8 @@ export default function RoomPage() {
           let nickname = response.data[i].nickname;
           let ready = response.data[i].ready;
 
-          if (ready === false) setStart(false); //[유효성 검사] 현재 접속 플레이어 중 한 명이라도 ready 상태가 아닐 때 게임 시작 불가
+          //[유효성 검사] 현재 접속 플레이어 중 한 명이라도 ready 상태가 아닐 때 게임 시작 불가
+          if (ready === false) setStart(false);
 
           let obj = {
             head: head,
@@ -114,7 +119,6 @@ export default function RoomPage() {
       const sock = new SockJS("http://localhost:80/ws");
       return sock;
     });
-    // client.current.debug = () => {};
   };
 
   const subscribeSocket = () => {
@@ -140,22 +144,11 @@ export default function RoomPage() {
           dispatch(ready(data));
         }
       }); // 플레이어 정보 구독
-      client.current.subscribe(`/topic/game/${roomId}`, (response) => {
+      subGame=client.current.subscribe(`/topic/game/${roomId}`, (response) => {
         var data = JSON.parse(response.body);
 
-        if(data.error == undefined || data.error == null ) {
+        if (data.error == undefined || data.error == null) {
           dispatch(setCells(data));
-
-  //         router.push({
-  //           pathname: `/game/${roomId}`,
-  //           query: { currentName: JSON.stringify(info) },
-  //         });
-  //       } else {
-  //         alert("알림 : " + data.error);
-  //       }
-  //     }); // 게임 시작 신호 수신
-  //   });
-  // };
 
           router.push({
             pathname: `/game/${roomId}`,
@@ -266,6 +259,10 @@ export default function RoomPage() {
     joinSession(token);
     return () => {
       window.removeEventListener("beforeunload", onbeforeunload);
+      if (subGame) {
+        console.log("구독해제")
+        subGame.unsubscribe();
+      }
     };
   }, []);
 
@@ -289,15 +286,11 @@ export default function RoomPage() {
     <div className={styles.container}>
       <div className="roof2"></div>
       <div className={styles.room}>
-        <div className={styles.camList} style={{ marginTop: '30px', marginLeft: '0px' }} >
+      <div className={styles.camList} style={{ marginTop: '30px', marginLeft: '0px' }} >
           {memoRoomCam} 
-          {/* <RoomCam/> */}
         </div>
         {memoRoomChat}
-        {/* <RoomChat info={info} client={client} chatHistory={chatHistory} /> */}
-
         {memoRoonBtn}
-        {/* <RoomBtn info={info} client={client} head={head} ready={playerReady} /> */}
       </div>
     </div>
   );

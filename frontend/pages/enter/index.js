@@ -34,6 +34,8 @@ export default function EnterPage() {
   }, []);
   /* 유영 : 소켓 간단 연결 작업 끝 */
 
+  const audio = new Audio('/music/enter_bgm.mp3');
+  
   /* 유영 : axios를 통한 닉네임 생성 및 방 생성 시작 */
   /* 희진 : axios 렌더링 타이밍 변경 시작 (페이지 로딩 시 최초 1회) */
   let roomId = "";
@@ -68,6 +70,12 @@ export default function EnterPage() {
     getUserCamera();
   }, [videoRef]);
   /* 혜지 : 웹캠 화면 띄우기 위한 구현 끝 */
+
+  useEffect(() => {
+      playBGM();
+      window.addEventListener("beforeunload", onbeforeunload);
+  }, []);
+  
 
   const [text, setText] = useState("");
 
@@ -158,8 +166,21 @@ export default function EnterPage() {
         }
       });
   };
-  /* 유영 : axios를 통한 닉네임 생성 및 방 생성 끝 */
   /* 희진 : axios 렌더링 타이밍 변경 끝 */
+
+  const playBGM = async() => {
+    /*
+      ✔ Music provided by 셀바이뮤직
+      🎵 Title : 배달은 자신있어 by 배달의민족
+      https://sellbuymusic.com/md/micwcfw-jcncnhn
+    */
+    await audio.play();
+  };
+
+  const onbeforeunload = (e) => {
+    audio.pause();
+    audio.currentTime = 0;
+  };
 
   return (
     <div className={styles.container}>
