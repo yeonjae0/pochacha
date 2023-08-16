@@ -14,6 +14,8 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -29,19 +31,32 @@ public class GameController {
         this.gameService = gameService;
     }
 
-    @PostMapping("start")
-    private ResponseEntity<?> startGame(@RequestBody RoomRequestDto roomRequestDto) {
+//    @PostMapping("start")
+//    private ResponseEntity<?> startGame(@RequestBody RoomRequestDto roomRequestDto) {
+//        try {
+//            Object[] cellStatusList = gameService.startGame(roomRequestDto);
+//            return ResponseEntity.ok(cellStatusList);
+//        } catch(GameGetException e) {
+//            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+//        }
+//    }
+
+    @MessageMapping("/game/{roomId}")
+    public void startGame(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
+        System.out.println("게임 시작");
         try {
-            Object[] cellStatusList = gameService.startGame(roomRequestDto);
-            return ResponseEntity.ok(cellStatusList);
-        } catch(GameGetException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            Object[] responsePayload = gameService.startGame(payload, roomId);
+            webSocket.convertAndSend("/topic/game/" + roomId, responsePayload);
+        }catch(GameGetException e){
+            HashMap<String, String> errorMsg = new HashMap<>();
+            errorMsg.put("error", e.getMessage());
+            webSocket.convertAndSend("/topic/game/" + roomId, payload/* 임시 값 저장 */);
         }
     }
 
     // 말 이동 Socket 함수
     @MessageMapping("move/{roomId}")
-    public void movePin(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {;
+    public void movePin(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
         Map<String, Object> responsePayload = gameService.movePin(payload, roomId);
         webSocket.convertAndSend("/topic/move/" + roomId, responsePayload);
     }

@@ -1,11 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-/* 
-    CONFIRM :: 제대로 동작하지 않음
-*/
 const initialState = {
   publisher: {},
-  participants:[],
+  participants: [],
 };
 
 const openViduSlice = createSlice({
@@ -13,16 +10,17 @@ const openViduSlice = createSlice({
   initialState,
   reducers: {
     setPublisherData: (state, action) => {
-        state.publisher = action.payload;
-      },
-      setParticipantsData(state,action){
-        state.participants.push(action.payload); 
-      },
-      resetParticipantsData: (state, action) => {
-        state.participants =  action.payload
-      }
+      state.publisher = action.payload;
+    },
+    setParticipantsData(state, action) {
+      state.participants.push(action.payload);
+    },
+    resetParticipantsData: (state, action) => {
+      state.participants = action.payload;
+    },
   },
 });
 
 export default openViduSlice;
-export const { setPublisherData, setParticipantsData, resetParticipantsData } = openViduSlice.actions;
+export const { setPublisherData, setParticipantsData, resetParticipantsData } =
+  openViduSlice.actions;
