@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import RightBox from "./RightBox.js";
-import IntroMusic from "../data/MusicPlayer.js";
+import MusicPlayer from "../data/MusicPlayer.js";
 import styles from "@/styles/EnterPage.module.css";
 import classNames from "classnames";
 import SockJS from "sockjs-client";
@@ -13,7 +13,6 @@ import { useDispatch } from "react-redux";
 import { enterRoom } from "@/store/reducers/room.js";
 import { setMyData } from "@/store/reducers/player.js";
 import { addPlayers, resetPlayers } from "@/store/reducers/players.js";
-import MusicPlayer from "../data/MusicPlayer.js";
 
 /* 방장 입장 페이지 */
 export default function EnterPage() {

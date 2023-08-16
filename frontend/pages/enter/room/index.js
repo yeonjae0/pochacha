@@ -26,7 +26,7 @@ export default function EnterRoomPage() {
 
     stompClient.connect(
       {},
-      /*Connect Callback*/ () => {
+      /*Connect Callback*/() => {
         console.log("Socket Connected.");
       }
     );
@@ -136,19 +136,19 @@ export default function EnterRoomPage() {
           //dispatch(addPlayers(playerInfo));
           dispatch(setMyData(playerInfo));
 
-      //     router.push({
-      //       pathname: `/room/${roomId}`,
-      //       query: { currentName: JSON.stringify(obj) },
-      //     });
-      //   };
-      //   sendData();
-      // })
+          //     router.push({
+          //       pathname: `/room/${roomId}`,
+          //       query: { currentName: JSON.stringify(obj) },
+          //     });
+          //   };
+          //   sendData();
+          // })
 
-      /* 희진 : URL 숨김 시작 */
+          /* 희진 : URL 숨김 시작 */
           router.push({
             pathname: `/room/${roomId}`,
             query: { currentName: JSON.stringify(obj) },
-            },
+          },
             `/room/${roomId}`
           );
         };
@@ -168,8 +168,41 @@ export default function EnterRoomPage() {
       });
   };
 
+  /* 희진 : 배경 음악 추가 시작 */
+  /* 초대 코드로 들어온 방에서는 재생 안 됨 */
+  // function MusicPlayer() {
+  //   const [isPlaying, setIsPlaying] = useState(true);
+  //   const audioUrl = "sound/intro.mp3";
+
+  //   const togglePlay = () => {
+  //     setIsPlaying(!isPlaying);
+  //   };
+
+  //   useEffect(() => {
+  //     if (isPlaying) {
+  //       const audioElement = document.querySelector("audio");
+  //       audioElement.play();
+  //     }
+  //   }, [isPlaying]);
+
+  //   return (
+  //     <div>
+  //       <button onClick={togglePlay}>
+  //         {isPlaying ? "Pause" : "Play"}
+  //       </button>
+  //       <audio autoPlay={isPlaying}>
+  //         <source src={audioUrl} type="audio/mpeg" />
+  //       </audio>
+  //     </div>
+  //   );
+  // };
+  /* 희진 : 배경 음악 추가 끝 */
+
   return (
     <div className={styles.container}>
+      {/* <div style={{ display: 'none' }}> */}
+        {/* <MusicPlayer /> */}
+      {/* </div> */}
       {/* 타이틀 화면 */}
       <div className="roof">
         <img className={styles.title} src="/main/title.png" />
