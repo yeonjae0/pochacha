@@ -1,3 +1,125 @@
+@-webkit-keyframes jello_horizontal {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes jello_horizontal {
+
+  0%,
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+}
+
+.jello_horizontal {
+  -webkit-animation: jello_horizontal 0.9s both;
+  animation: jello_horizontal 0.9s both;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadein {
+
+  /* Firefox */
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadein {
+
+  /* Safari and Chrome */
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fadein {
+
+  /* Opera */
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .container {
   margin: 0;
   padding: 0;
@@ -9,6 +131,14 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+
+  animation: fadein 3s;
+  -moz-animation: fadein 3s;
+  /* Firefox */
+  -webkit-animation: fadein 3s;
+  /* Safari and Chrome */
+  -o-animation: fadein 3s;
+  /* Opera */
 }
 
 .title {
@@ -78,9 +208,10 @@
   width: 500px;
   margin: auto;
   position: absolute;
-  left: 50%;
+  left: -13%;
   cursor: pointer;
-  transform: translateX(-50%);
+  /* transform: translateX(-50%); */
+  animation: jello_horizontal 1.5s 5.5s infinite;
 }
 
 /***** 오른쪽 박스 팁 시작 *****/
@@ -111,12 +242,12 @@
 
 .tipContent {
   min-width: 300px;
+  transition: opacity 0.5s ease;
 }
 
-/* .tipContent>p {
-  margin: 0;
-  padding: 0;
-} */
+.tipContent.hidden {
+  opacity: 0;
+}
 
 .arrow {
   width: 20px;

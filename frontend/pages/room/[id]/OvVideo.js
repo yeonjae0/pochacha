@@ -36,9 +36,7 @@ export default function OpenViduVideoComponent(props) {
   return (
     <span>
       <video autoPlay={true} ref={videoRef} />
-      {/*
-        CONFIRM :: CAN ADD CUSTOM STYLE
-  */}
+      {/* CONFIRM :: CAN ADD CUSTOM STYLE */}
     </span>
   );
 }
