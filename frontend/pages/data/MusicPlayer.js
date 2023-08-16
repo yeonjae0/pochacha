@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const MusicPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(true);
-  const audioUrl = "sound/intro.mp3";
+  const audioUrl = "music/enter_bgm.mp3";
 
   const togglePlay = () => {
     setIsPlaying(!isPlaying);

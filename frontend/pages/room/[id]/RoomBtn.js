@@ -83,6 +83,7 @@ export default function RoomBtn(props) {
       font-size: 40px;
     }
   `;
+
   let StartBtn = styled.button`
     font-family: "LeeSeoyun";
 

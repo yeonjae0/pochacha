@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import RightBox from "../RightBox";
+// import MusicPlayer from "@/pages/data/MusicPlayer";
 import styles from "@/styles/EnterPage.module.css";
 import classNames from "classnames";
 import axios from "axios";
@@ -135,14 +136,6 @@ export default function EnterRoomPage() {
           );
           //dispatch(addPlayers(playerInfo));
           dispatch(setMyData(playerInfo));
-
-          //     router.push({
-          //       pathname: `/room/${roomId}`,
-          //       query: { currentName: JSON.stringify(obj) },
-          //     });
-          //   };
-          //   sendData();
-          // })
 
           /* 희진 : URL 숨김 시작 */
           router.push({
