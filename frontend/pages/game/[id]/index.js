@@ -167,7 +167,7 @@ export default function GamePage() {
 
     setTimeout(() => {
       client.current.send("/move/" + roomId, {}, JSON.stringify({ "reload": true }));
-    }, 10); // 비동기화 문제
+    }, 100); // 비동기화 문제 (시간 조절)
   }, []);
 
   let handleRollDiceClick = () => {
