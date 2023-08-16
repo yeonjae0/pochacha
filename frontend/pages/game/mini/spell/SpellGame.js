@@ -81,7 +81,7 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
       console.log('순서!!!!!', data.playerIdList)  // --> 정보가 들어오지 않음.
       const randomConsonant = data.firstWord + data.secondWord;
       setRandomConsonant(data.firstWord + data.secondWord);
-      dispatch(startGame(randomConsonant))
+      // dispatch(startGame(randomConsonant))
     }
     ).catch((error) => {
       if (error.response) {
