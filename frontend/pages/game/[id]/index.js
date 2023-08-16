@@ -40,12 +40,14 @@ export default function GamePage() {
 
   const router = useRouter();
 
-  /* 혜지 : OpenVidu 관련 데이터 */
+  /* 제정 : RoomCam component에서 필요한 정보들 불러오기 시작 */
   const session = useSelector(state => state.room.currentRoomId);
   const nickname = useSelector(state => state.player.currentNick);
   const publisher = useSelector(state => state.openvidu.publisher);
   const participants = useSelector(state => state.openvidu.participants);
-
+  /* 제정 : RoomCam component에서 필요한 정보들 불러오기 끝 */
+  
+  /* 혜지 : OpenVidu 관련 데이터 */
   const token = useSelector(state => state.player.currentPlayerId);
   const roomId = useSelector(state => state.room.currentRoomId);
   let includeMini = useSelector(state => state.room.currentIncludeMini) // 미니게임 진행 여부
@@ -220,7 +222,7 @@ export default function GamePage() {
       <div>
         {/* <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}> */}
       
-      {/* 제정 :  */}
+      {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 시작*/}
       {session !== undefined ? (
         <div id="session">
           <div id="video-container" className={styles.grid_container}>
@@ -242,6 +244,7 @@ export default function GamePage() {
           </div>
         </div>
       ) : null}
+      {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 끝*/}
 
         {/* <div style={{ position: "relative" }}> */}
 
