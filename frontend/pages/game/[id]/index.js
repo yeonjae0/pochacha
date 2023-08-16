@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/router";
 import DiceBox from "./DiceBox";
 import ActiveBoard from "./ActiveBoard";
