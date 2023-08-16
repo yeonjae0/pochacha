@@ -1,8 +1,9 @@
-"use client";
+'use client'
 
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import RightBox from "./RightBox.js";
+import MusicPlayer from "../data/MusicPlayer.js";
 import styles from "@/styles/EnterPage.module.css";
 import classNames from "classnames";
 import SockJS from "sockjs-client";
@@ -15,10 +16,28 @@ import { addPlayers, resetPlayers } from "@/store/reducers/players.js";
 
 /* 방장 입장 페이지 */
 export default function EnterPage() {
+
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const audio = new Audio('/music/enter_bgm.mp3');
+  /* 유영 : 소켓 간단 연결 작업 시작 */
+  useEffect(() => {
+    const socket = new SockJS("http://localhost:80/ws");
+    const stompClient = Stomp.over(socket);
+
+    stompClient.connect(
+      {},
+      /*Connect Callback*/() => {
+        console.log("Socket Connected.");
+      }
+    );
+  }, []);
+  /* 유영 : 소켓 간단 연결 작업 끝 */
+
+  /* 유영 배경음악 임시 주석 */
+  // const audio = new Audio('/music/enter_bgm.mp3');
+  
+  /* 유영 : axios를 통한 닉네임 생성 및 방 생성 시작 */
   /* 희진 : axios 렌더링 타이밍 변경 시작 (페이지 로딩 시 최초 1회) */
   let roomId = "";
   let progress = false;
@@ -53,11 +72,11 @@ export default function EnterPage() {
   }, [videoRef]);
   /* 혜지 : 웹캠 화면 띄우기 위한 구현 끝 */
 
-  useEffect(() => {
-      playBGM();
-      window.addEventListener("beforeunload", onbeforeunload);
-  }, []);
-  
+  /* 유영 배경음악 임시 주석 */
+  // useEffect(() => {
+  //     playBGM();
+  //     window.addEventListener("beforeunload", onbeforeunload);
+  // }, []);
 
   const [text, setText] = useState("");
 
@@ -114,23 +133,13 @@ export default function EnterPage() {
           dispatch(setMyData(playerInfo));
           console.log()
 
-      //     router.push(
-      //       {
-      //         pathname: `/room/${response.data.room.id}`,
-      //         query: { currentName: JSON.stringify(obj) },
-      //       }
-      //     );
-      //   };
-      //   sendData();
-      // })
-          
-      /* 희진 : URL 숨김 시작 */
+          /* 희진 : URL 숨김 시작 */
           router.push(
             {
               pathname: `/room/${response.data.room.id}`,
               query: { currentName: JSON.stringify(obj) },
-              },
-              `/room/${response.data.room.id}`
+            },
+            `/room/${response.data.room.id}`
           );
         };
         sendData();
@@ -150,22 +159,26 @@ export default function EnterPage() {
   };
   /* 희진 : axios 렌더링 타이밍 변경 끝 */
 
-  const playBGM = async() => {
-    /*
-      ✔ Music provided by 셀바이뮤직
-      🎵 Title : 배달은 자신있어 by 배달의민족
-      https://sellbuymusic.com/md/micwcfw-jcncnhn
-    */
-    await audio.play();
-  };
+  /* 유영 배경음악 임시 주석 */
+  // const playBGM = async() => {
+  //   /*
+  //     ✔ Music provided by 셀바이뮤직
+  //     🎵 Title : 배달은 자신있어 by 배달의민족
+  //     https://sellbuymusic.com/md/micwcfw-jcncnhn
+  //   */
+  //   await audio.play();
+  // };
 
-  const onbeforeunload = (e) => {
-    audio.pause();
-    audio.currentTime = 0;
-  };
+  // const onbeforeunload = (e) => {
+  //   audio.pause();
+  //   audio.currentTime = 0;
+  // };
 
   return (
     <div className={styles.container}>
+      <div style={{ display: 'none' }}>
+        <MusicPlayer />
+      </div>
       {/* 타이틀 화면 */}
       <div className="roof">
         <img className={styles.title} src="/main/title.png" />

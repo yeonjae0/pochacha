@@ -48,7 +48,8 @@
   background: #FFAA40;
   border: none;
   border-radius: 4px;
-  color: #fff;
+  color: #000000;
+  font-size: 20px;
   cursor: pointer;
   overflow: hidden;
   transition: all 0.2s ;
