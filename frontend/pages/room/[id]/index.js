@@ -151,7 +151,9 @@ export default function RoomPage() {
           router.push({
             pathname: `/game/${roomId}`,
             query: { currentName: JSON.stringify(info) },
-          });
+            },
+            `/game/${roomId}`
+            );
         } else {
           alert("알림 : " + data.error);
         }
@@ -278,8 +280,8 @@ export default function RoomPage() {
     <div className={styles.container}>
       <div className="roof2"></div>
       <div className={styles.room}>
-        <div className={styles.camList}>
-          {memoRoomCam}
+      <div className={styles.camList} style={{ marginTop: '30px', marginLeft: '0px' }} >
+          {memoRoomCam} 
         </div>
         {memoRoomChat}
         {memoRoonBtn}
