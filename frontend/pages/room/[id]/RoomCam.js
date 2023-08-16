@@ -6,7 +6,7 @@ import Videostyles from '@/styles/UserVideo.module.css';
 
 export default function RoomCam() {
 
-  //const [introChat, setIntroChat] = useState(''); // 참여자 입장 메시지
+  // const [introChat, setIntroChat] = useState(''); // 참여자 입장 메시지
 
   const session = useSelector(state => state.room.currentRoomId);
   const nickname = useSelector(state => state.player.currentNick);
@@ -22,6 +22,13 @@ export default function RoomCam() {
       {session !== undefined ? (
         <div id="session">
           <div id="video-container" className={Roomstyles.camList}>
+            {participants != null ? participants.map((par, i) => (
+              <span key={par.id} className={Videostyles.streamcomponent} >
+                <OpenViduVideoComponent className={Roomstyles.cam} streamManager={par} />
+                {console.log(par.nick)}
+                <div className={Videostyles.nickname}>{par.nick}</div>
+              </span>
+            )) : null}
             {publisher !== undefined ? (
               <span className={Videostyles.streamcomponent}>
                 <OpenViduVideoComponent className={Roomstyles.cam}
@@ -29,13 +36,7 @@ export default function RoomCam() {
                 <div className={Videostyles.nickname}>{nickname}</div>
               </span>
             ) : null}
-            {participants != null ? participants.map((par, i) => (
-              <span key={par.id} className={Videostyles.streamcomponent}>
-                <OpenViduVideoComponent className={Roomstyles.cam} streamManager={par} />
-                {console.log(par.nick)}
-                <div className={Videostyles.nickname}>{par.nick}</div>
-              </span>
-            )) : null}
+            
           </div>
         </div>
       ) : null}

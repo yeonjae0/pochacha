@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useInsertionEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from 'next/router';
 import styles from "@/styles/SpellGame.module.css";
@@ -7,16 +7,9 @@ import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { startGame } from '@/store/reducers/spell';
 
-export default function MainSpell({ sec, time, resetSec }) {
+export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
 
-  return (
-    <div>
-      <SpellGame sec={sec} resetSec={resetSec} />
-    </div>
-  )
-}
-
-function SpellGame({ sec, time, resetSec }) {
+  console.log('현재 플레이어 순서 -------------> ', currentPlayerIndex)
 
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
@@ -24,13 +17,22 @@ function SpellGame({ sec, time, resetSec }) {
   const [inputWords, setInputWords] = useState([]);  // 입력한 단어들 저장
   const [inputValue, setInputValue] = useState("");  // 유저 입력값 저장
   const [client, setClient] = useState({});
+  const [shouldGoToNextPlayer, setShouldGoToNextPlayer] = useState(0);
 
   // const [expression, setExpression] = useState(null)
   // const [sejong, setSejong] = usestate<string>("/초성_세종대왕_기본.png")
   const roomId = useSelector(state => state.room.currentRoomId);
+  const players = useSelector(state => state.players.players);
   const currentRandomConsonant = useSelector(state => state.spell.currentConsonant)
+  const playersLength = useSelector(state => state.players.players.length);
+
   let updatedWords = []
   const router = useRouter()
+  // let currentPlayerIndex = 0
+
+  // const tmpFn = () => {
+  //   console.log('tmpFn')
+  // }
 
   // Input창 단어 관련
   const handleInput = (e) => {
@@ -58,6 +60,7 @@ function SpellGame({ sec, time, resetSec }) {
     }
     // setInputWords((prevWords) => [...prevWords, inputValue]);
     // setInputValue("");
+
   }
 
   const setConsonant = () => {
@@ -74,11 +77,10 @@ function SpellGame({ sec, time, resetSec }) {
     }).then((response) => {
       let data = response.data;
       console.log('response.data', data)
-      console.log('순서!!!!!', data.playerIdList)
+      console.log('순서!!!!!', data.playerIdList)  // --> 정보가 들어오지 않음.
       const randomConsonant = data.firstWord + data.secondWord;
       setRandomConsonant(data.firstWord + data.secondWord);
       dispatch(startGame(randomConsonant))
-      // console.log('store저장1---------->', currentRandomConsonant)
     }
     ).catch((error) => {
       if (error.response) {
@@ -126,13 +128,17 @@ function SpellGame({ sec, time, resetSec }) {
             // 유효성 검사 최종 통과
             if (!inList) {
               updatedWords = [...prevWords, data.inputWord];
-              resetSec()
-              // setExpression(true)
-              // console.log(expression)
-            }
-
+              console.log('players 정보', players)
+              // tmpFn()
+              resetSec();
+              // goToNextPlayer()
+              // console.log('players 정보', players[0].nick)
+              // goToNextPlayer()
+              // console.log('현재 인덱스', currentPlayerIndex )
+              // resetSec()
+            //   setShouldGoToNextPlayer(shouldGoToNextPlayer+1); // 플레이어 전환을 위한 플래그 설정
+          }
             return updatedWords;
-
           });
         } else {
           console.log('data.correct', data.correct);
@@ -165,6 +171,12 @@ function SpellGame({ sec, time, resetSec }) {
     }, 5000);  // 설명 모달 시간 설정! 5초 정도? 임시로 1초
   })
 
+  // useEffect(() => {
+  //   goToNextPlayer()
+  //   resetSec()
+  //   // setShouldGoToNextPlayer(false);
+  // }, [tmpFn])
+
   return (
     <>
       { (showModal == false) ?
@@ -184,7 +196,7 @@ function SpellGame({ sec, time, resetSec }) {
         <div className={styles.upperContainer}>
           {/* 뒤로 가기 버튼 */}
           {/* <button type="button" onClick={() => router.back()}>Click here to go back</button> */}
-      <div style={{ fontSize: '25px' }}>{sec}초 남았습니다.</div>
+      <div style={{ fontSize: '25px' }}>{players[currentPlayerIndex].nick}님의 차례입니다. {sec}초 남았습니다.</div>
           <input
             type="text"
             placeholder="단어를 입력하세요"
