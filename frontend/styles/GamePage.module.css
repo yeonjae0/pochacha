@@ -39,23 +39,17 @@
 }
 
 .btnRolling {
-  display: block;
   display: inline;
-  /* text-align: center; */
-  position: relative;
   width: 160px;
   height: 60px;
-  margin-left: 300px;
-  /* margin-right: auto; */
   margin: 24px;
   background: #FFAA40;
-  border: none;
   border-radius: 4px;
   color: #000000;
   font-size: 20px;
   cursor: pointer;
   overflow: hidden;
-  transition: all 0.2s ;
+  transition: all 0.2s;
   box-shadow: 0px 12px 0px 0px #A66615;
 }
 
