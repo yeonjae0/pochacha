@@ -31,7 +31,7 @@ export default function RoomCam() {
             ) : null}
             {participants != null ? participants.map((par, i) => (
               <span key={par.id} className={Videostyles.streamcomponent} >
-                <OpenViduVideoComponent className={Roomstyles.cam} streamManager={par} />
+                <OpenViduVideoComponent className={Roomstyles.cam} streamManager={par.participant} />
                 {console.log(par.nick)}
                 <div className={Videostyles.nickname}>{par.nick}</div>
               </span>
