@@ -234,7 +234,7 @@ export default function GamePage() {
             ) : (
               <div>
                 <DiceBox dice={dice} />
-                <ActiveBoard pin={pin} cellObj={cellObj} currentCellObj={currentCellObj} />
+                <ActiveBoard pin={pin} cellObj={cellObj} />
               </div>
             )}
 
