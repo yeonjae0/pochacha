@@ -9,7 +9,7 @@ export default function SpellTimer() {
 // const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0); // 현재 차례 플레이어 인덱스
 let [keepGoing, SetKeepGoing] = useState(true);  // 게임이 진행중인지 멈췄는지
 let [sec, setSec] = useState(0);
-let time = useRef(15);
+let time = useRef(30);
 const timerId = useRef(null);
 const players = useSelector(state => state.players.players);
 const currentIdx = useSelector(state => state.spell.currentIdx);
