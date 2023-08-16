@@ -57,10 +57,7 @@ export default function GamePage() {
   let [client, setClient] = useState({});
   let [currentCell, setCurrentCell] = useState("");
   let [showModal, setShowModal] = useState(false);
-<<<<<<< HEAD
-  let [cellObj, setCellObj] = useState({});
-  let [prevDice, setPrevDice] = useState(0);
-=======
+  let [prevDice, setPrevDice] = useState(0); // 이전 주사위 값 저장
 
   const data = useSelector((state) => state.cell.currentBoard);
   const cellObj = {
@@ -89,7 +86,6 @@ export default function GamePage() {
     twentythree: data[22].status,
     twentyfour: data[23].status,
   };
->>>>>>> c1ac4bd190cc6727087e68387348d109e06ff6a2
 
   // 현재 방의 맵 불러오는 함수
   // const createMap = async () => {
@@ -162,42 +158,17 @@ export default function GamePage() {
     client.current.connect({}, () => {
       // callback 함수 설정, 대부분 여기에 sub 함수 씀
       client.current.subscribe(`/topic/move/${roomId}`, (response) => {
-<<<<<<< HEAD
-        let data = JSON.parse(response.body)
-        // console.log('!data.game.dice!', data.game.dice)
-        // console.log('!data.game!', data.game)
-        // console.log('!dice!', dice)
-
-        // 중복값 제외 -ing
-        console.log('이전, 지금--------->', prevDice, data.game.dice )
-        if(data.game.dice !== prevDice) {
-          console.log('if문 안으로 들어왔음.')
-          setPrevDice(data.game.dice);
-          setDice(data.game.dice)
-          setPin(data.game.pin)
-          setLab(data.game.lab)
-          setCurrentCell(data.cell.name)
-          console.log('현재 들어간 값------->', prevDice, dice)
-          // setCurrentCell('훈민정음')
-        }
-        else{
-          // subscribeSocket()
-        }
-      })
-    })
-  }
-=======
         let data = JSON.parse(response.body);
+        if(data.game.dice !== prevDice) {
+          setDice(data.game.dice);
+          setPin(data.game.pin);
+          setLab(data.game.lab);
+          setCurrentCell(data.cell.name);
+        }
 
-        setDice(data.game.dice);
-        setPin(data.game.pin);
-        setLab(data.game.lab);
-        setCurrentCell(data.cell.name);
-        // setCurrentCell('훈민정음')
       });
     });
   };
->>>>>>> c1ac4bd190cc6727087e68387348d109e06ff6a2
 
   useEffect(() => {
     // 최초 한 번 CellList 불러오기
