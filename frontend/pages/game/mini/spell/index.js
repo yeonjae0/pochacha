@@ -60,9 +60,10 @@ function GameOver() {
   const router = useRouter()
   return (
     <>
-      <div>
+      <div className={styles.gameOver}>
+        {/* <img src="/초성_세종대왕_화남.png" /> */}
         <h1>Game Over ㅜㅅㅜ</h1>
-        <h2>{players[currentIdx].nick}님의 패배입니다.</h2>
+        <h2>'{players[currentIdx].nick}' 님의 패배입니다.</h2>
       </div>
     </>
   )

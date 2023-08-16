@@ -205,7 +205,7 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
           {/* 뒤로 가기 버튼 */}
           {/* <button type="button" onClick={() => router.back()}>Click here to go back</button> */}
       <div style={{ fontSize: '25px' }}>{players[cnt].nick}님의 차례입니다. {sec}초 남았습니다.</div>
-      <h4>{cnt}</h4>
+      {/* <h4>{cnt}</h4> */}
           <input
             type="text"
             placeholder="단어를 입력하세요"
