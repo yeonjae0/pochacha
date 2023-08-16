@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import Ready from './MoleReady';
 import Go from './MoleGo';
 import styles from '@/styles/MoleGame.module.css';
+import { useRouter } from 'next/router';
 
 const getRandomGridPosition = () => ({
   row: Math.floor(Math.random() * 3), // 0, 1, 2
@@ -9,6 +11,7 @@ const getRandomGridPosition = () => ({
 });
 
 export default function Main({ sec }) {
+  
   return (
     <div>
       <MoleGame sec={sec} />
@@ -25,6 +28,9 @@ function MoleGame({ sec }) {
   const [hitMolePosition, setHitMolePosition] = useState({ row: 0, col: 0 });
   const [hoveredMoleIndex, setHoveredMoleIndex] = useState(-1);
   const [ready, setReady] = useState('ready')
+  
+
+ 
 
   const handleMoleClick = (index) => {
     if (molePositions[index]) {
@@ -134,6 +140,7 @@ function MoleGame({ sec }) {
 
 /* 희진 : 승패 여부 컴포넌트 시작 */
 function WinorLose({ score, sec }) {
+  
   return (
     <div>
       {
@@ -149,7 +156,13 @@ function WinorLose({ score, sec }) {
 /* 희진 : [승패 여부] Game Over 컴포넌트 시작 */
 function Gameover({ score }) {
 
+  const router = useRouter();
+  const roomId = useSelector(state => state.room.currentRoomId);
   let margin = 30 - score
+
+  setTimeout(() => {
+    router.push('/game/[id]', `/game/${roomId}`);
+    }, 5000);
 
   return (
     <div style={{ textAlign: 'center' }}>
@@ -164,6 +177,12 @@ function Gameover({ score }) {
 
 /* 희진 : [승패 여부] Mission Completed 컴포넌트 시작 */
 function MissionCompleted({ score, sec }) {
+  const router = useRouter();
+  const roomId = useSelector(state => state.room.currentRoomId);
+
+  setTimeout(() => {
+    router.push('/game/[id]', `/game/${roomId}`);
+    }, 5000);
 
   return (
     <div style={{ textAlign: 'center' }}>

@@ -4,15 +4,18 @@ import { useRouter } from 'next/router';
 import styles from "@/styles/SpellGame.module.css";
 import SpellGame from "./SpellGame";
 
-export default function SpellTimer() {
+export default function SpellTimer({ cellObj }) {
 
 // const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0); // 현재 차례 플레이어 인덱스
 let [keepGoing, SetKeepGoing] = useState(true);  // 게임이 진행중인지 멈췄는지
 let [sec, setSec] = useState(0);
 let time = useRef(15);
+
+const router = useRouter();
 const timerId = useRef(null);
 const players = useSelector(state => state.players.players);
 const currentIdx = useSelector(state => state.spell.currentIdx);
+const roomId = useSelector(state => state.room.currentRoomId);
 
 const resetSec = () => {
   // time.current = 10
@@ -56,8 +59,13 @@ useEffect(() => {
   }
 })
 
-function GameOver() {
+function GameOver({cellObj }) {
   const router = useRouter()
+  console.log('Spell의 GameOver로 cellobj 들어옴.', cellobj)
+  // 게임 오버 후에 넘어가야 함.
+  // setTimeout(() => {
+  //   router.push('/game/[id]', `/game/${roomId}`);
+  // }, 5000);
   return (
     <>
       <div className={styles.gameOver}>
@@ -70,14 +78,17 @@ function GameOver() {
 }
 
 
+
+
+
 return (
   <div className={styles.topSpellCompo}>
     {
       keepGoing ?
       <div>
-      <SpellGame sec={sec} resetSec={resetSec} />
+      <SpellGame sec={sec} resetSec={resetSec} cellObj={cellObj}/>
       </div>
-      : <GameOver />
+      : <GameOver cellObj={cellObj}/>
     }
   </div>
 )

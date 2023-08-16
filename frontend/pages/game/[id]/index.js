@@ -49,17 +49,21 @@ export default function GamePage() {
   /* 혜지 : OpenVidu 관련 데이터 */
   const token = useSelector((state) => state.player.currentPlayerId);
   const roomId = useSelector((state) => state.room.currentRoomId);
+  const players = useSelector(state => state.players.players);
   //let includeMini = useSelector((state) => state.room.currentIncludeMini); // 미니게임 진행 여부
 
-  let [dice, setDice] = useState(0); // 주사위
-  let [pin, setPin] = useState(0); // 현재 위치
-  let [lab, setLab] = useState(0); // 바퀴 수
-  let [client, setClient] = useState({});
-  let [currentCell, setCurrentCell] = useState("");
-  let [showModal, setShowModal] = useState(false);
-  let [prevDice, setPrevDice] = useState(0); // 이전 주사위 값 저장
+  const [dice, setDice] = useState(0); // 주사위
+  const [pin, setPin] = useState(0); // 현재 위치
+  const [lab, setLab] = useState(0); // 바퀴 수
+  const [client, setClient] = useState({});
+  const [currentCell, setCurrentCell] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [prevDice, setPrevDice] = useState(0); // 이전 주사위 값 저장
+  const [gameIdx, setGameIdx] = useState(0) // 플레이어 순서 
+  
 
   const data = useSelector((state) => state.cell.currentBoard);
+  console.log('data임!!! cellObj확인!!!', data)
   const cellObj = {
     one: data[0].status,
     two: data[1].status,
@@ -107,10 +111,11 @@ export default function GamePage() {
           setCurrentCell(data.cell.name);
           handleRollDiceClick();
         }
-
       });
     });
   };
+
+
 
   useEffect(() => {
     // 최초 한 번 CellList 불러오기
@@ -132,6 +137,13 @@ export default function GamePage() {
     }, 2500);
     // setShowModal(false)
   };
+
+  // 주사위 굴리기 보류. 
+  // useEffect(() => {   
+  //   setGameIdx((prevGameIdx) => (prevGameIdx + 1) % 4);
+  //   // dispatch(losingPlayer((cnt+1)%4))
+  //   console.log('gameIdx!!!!!!!!!!!!!!!', (gameIdx+1)%4)
+  // }, [onClick]);
 
   const ModalPage = ({ currentCell, pin }) => {
     return (
@@ -165,6 +177,7 @@ export default function GamePage() {
               <h5>
                 주사위 눈 : {dice}, 현재 {pin}번 블록에 위치, {lab}바퀴
               </h5>
+              <h4>{players[gameIdx].nick}님의 차례입니다.</h4>
             </nav>
             <div>
 
@@ -212,7 +225,7 @@ export default function GamePage() {
                 {currentCell == "두더지 게임" ||
                   currentCell == "라이어 게임" ||
                   currentCell == "훈민정음" ? (
-                  <GameSelect currentCell={currentCell} />
+                  <GameSelect currentCell={currentCell} cellObj={cellObj}/>
                 ) : (
                   <div>
                     <DiceBox dice={dice} />

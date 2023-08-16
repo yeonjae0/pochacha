@@ -57,7 +57,7 @@ export default function RoomPage() {
       .then((response) => {
         console.log("플레이어들 정보 받아오기");
         console.log(response);
-        // dispatch(resetPlayers([]));
+        dispatch(resetPlayers([]));
 
         setStart(true); //이후의 유효성 검사에서 모두 통과 시에 게임 시작 가능
 
@@ -81,7 +81,7 @@ export default function RoomPage() {
           };
 
           dispatch(addPlayers(obj));
-          console.log("받아온 데이터 결과 stargame");
+          console.log("받아온 데이터 결과 startgame");
           console.log(startGame);
           dispatch(setStartGame(startGame));
         }
@@ -145,6 +145,7 @@ export default function RoomPage() {
 
         if(data.error == undefined || data.error == null ) {
           dispatch(setCells(data));
+
 
   //         router.push({
   //           pathname: `/game/${roomId}`,
