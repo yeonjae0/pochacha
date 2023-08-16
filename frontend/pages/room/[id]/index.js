@@ -146,13 +146,12 @@ export default function RoomPage() {
         if(data.error == undefined || data.error == null ) {
           dispatch(setCells(data));
 
-          /* router.push({
+          router.push({
             pathname: `/game/${roomId}`,
             query: { currentName: JSON.stringify(info) },
-          }); */
+          });
         } else {
-          console.log("에러 : ", data);
-          alert("에러 : " + data.error);
+          alert("알림 : " + data.error);
         }
       }); // 게임 시작 신호 수신
     });
