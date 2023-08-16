@@ -61,6 +61,7 @@ export default function GamePage() {
   let [visible, setVisible] = useState(false)
 
   const data = useSelector((state) => state.cell.currentBoard);
+  console.log(data)
   const cellObj = {
     one: data[0].status,
     two: data[1].status,
@@ -100,20 +101,37 @@ export default function GamePage() {
     client.current.connect({}, () => {
       // callback 함수 설정, 대부분 여기에 sub 함수 씀
       client.current.subscribe(`/topic/move/${roomId}`, (response) => {
-        let data = JSON.parse(response.body);
-        if (data.game.dice !== prevDice) {
-          setDice(data.game.dice);
-          setPin(data.game.pin);
-          setLab(data.game.lab);
-          setCurrentCell(data.cell.name);
+        // 앞선 data 중복으로 변경 data -> position
+        let position = JSON.parse(response.body);
+        // if (data.game.dice !== prevDice) {
+          console.log('currentCell.move------>', position.cell.move)
+          console.log('position', position)
+          // setDice(position.game.dice);
+          // setPin(position.game.pin);
+          // setLab(position.game.lab);
+          // setCurrentCell(position.cell.name);
+          // handleRollDiceClick();
+          if (position.cell.move != 1) {
+            setPin(position.game.pin + position.cell.move);
+            setDice(position.game.dice);
+            setCurrentCell(position.cell.name);
+            handleRollDiceClick();
+          }
+          else {
+          setDice(position.game.dice);
+          setPin(position.game.pin);
+          setLab(position.game.lab);
+          setCurrentCell(position.cell.name);
           handleRollDiceClick();
-          if (data.cell.name == '두더지 게임' || data.cell.name == '라이어 게임' || data.cell.name == '훈민정음') {
+        }
+          if (position.cell.name == '두더지 게임' || position.cell.name == '라이어 게임' || position.cell.name == '훈민정음') {
             setVisible(true)
           }
-        }
+        // }
 
       });
-    });
+    }
+    );
   };
 
   useEffect(() => {

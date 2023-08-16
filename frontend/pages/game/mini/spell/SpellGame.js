@@ -198,6 +198,7 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
   useEffect(() => {
     handleStartListening();
 
+    // if(inputValue.length == 2) {
     if(inputValue != "") {
       handleSubmit();
     }
