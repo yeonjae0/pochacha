@@ -57,6 +57,7 @@ export default function GamePage() {
   let [client, setClient] = useState({});
   let [currentCell, setCurrentCell] = useState("");
   let [showModal, setShowModal] = useState(false);
+  let [prevDice, setPrevDice] = useState(0); // 이전 주사위 값 저장
 
   const data = useSelector((state) => state.cell.currentBoard);
   const cellObj = {
@@ -86,65 +87,6 @@ export default function GamePage() {
     twentyfour: data[23].status,
   };
 
-  // 현재 방의 맵 불러오는 함수
-  // const createMap = async () => {
-  //   axios({
-  //     url: process.env.NEXT_PUBLIC_API + "/game/start",
-  //     header: {
-  //       Accept: "application/json",
-  //       "Content-type": "application/json;charset=UTF-8",
-  //     },
-  //     method: "POST",
-  //     data: {
-  //       id: roomId, // RoomRequestDto에 id 삽입
-  //       includeMini, // 미니게임 여부
-  //     },
-  //   })
-  //     .then((response) => {
-  //       setCellObj({
-  //         one: response.data[0].status,
-  //         two: response.data[1].status,
-  //         three: response.data[2].status,
-  //         four: response.data[3].status,
-  //         five: response.data[4].status,
-  //         six: response.data[5].status,
-  //         seven: response.data[6].status,
-  //         eight: response.data[7].status,
-  //         nine: response.data[8].status,
-  //         ten: response.data[9].status,
-  //         eleven: response.data[10].status,
-  //         twelve: response.data[11].status,
-  //         thirteen: response.data[12].status,
-  //         fourteen: response.data[13].status,
-  //         fifteen: response.data[14].status,
-  //         sixteen: response.data[15].status,
-  //         seventeen: response.data[16].status,
-  //         eighteen: response.data[17].status,
-  //         nineteen: response.data[18].status,
-  //         twenty: response.data[19].status,
-  //         twentyone: response.data[20].status,
-  //         twentytwo: response.data[21].status,
-  //         twentythree: response.data[22].status,
-  //         twentyfour: response.data[23].status,
-  //       });
-  //       // console.log("RoomId", roomId);
-  //       console.log("Cell Data", response.data);
-  //     })
-  //     .catch((error) => {
-  //       if (error.response) {
-  //         router.push({
-  //           pathname: "/exception",
-  //           query: { msg: error.response.data },
-  //         });
-  //       } else {
-  //         console.log(error);
-  //       }
-  //     });
-  //   /*
-  //     TO DO :: Cell 색에 맞춰 배합
-  //   */
-  // };
-
   const connectSocket = () => {
     client.current = Stomp.over(() => {
       const sock = new SockJS(process.env.NEXT_PUBLIC_WS + "/ws")
@@ -158,12 +100,14 @@ export default function GamePage() {
       // callback 함수 설정, 대부분 여기에 sub 함수 씀
       client.current.subscribe(`/topic/move/${roomId}`, (response) => {
         let data = JSON.parse(response.body);
+        if(data.game.dice !== prevDice) {
+          setDice(data.game.dice);
+          setPin(data.game.pin);
+          setLab(data.game.lab);
+          setCurrentCell(data.cell.name);
+          handleRollDiceClick();
+        }
 
-        setDice(data.game.dice);
-        setPin(data.game.pin);
-        setLab(data.game.lab);
-        setCurrentCell(data.cell.name);
-        // setCurrentCell('훈민정음')
       });
     });
   };
