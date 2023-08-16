@@ -132,7 +132,7 @@ export default function RoomBtn(props) {
     let sendData = {
       includeMini: includeMini,
     };
-    if(client.current) {
+    if (client.current) {
       client.current.send(`/game/${info.roomId}`, {}, JSON.stringify(sendData));
     } else {
       alert("소켓 연결 실패!");
@@ -145,12 +145,41 @@ export default function RoomBtn(props) {
       playerId: info.playerId,
       ready: ready,
     };
-    if(client.current) {
+    if (client.current) {
       client.current.send(`/ready/${info.roomId}`, {}, JSON.stringify(sendData));
     } else {
       alert("소켓 연결 실패!");
     }
   };
+
+  /* Room --> Game 페이지 이동 기존 로직 주석 처리 */
+  // const sendData = () => {
+  //   let sendData = {
+  //     includeMini: includeMini,
+  //   };
+  //   /* 게임 시작 신호 전송 */
+  //   console.log("게임 시작 신호 전송 전");
+  //   /*
+  //     CONFIRM :: 타입에러 임시 해결을 위해 PROPS로 받아옴
+  //   */
+  //   client.current.send(`/game/${info.roomId}`, {}, JSON.stringify(sendData));
+  //   console.log("게임 시작 신호 전송");
+  //   // router.push(
+  //   //   {
+  //   //     pathname: `/game/${info.roomId}`,
+  //   //     query: { currentName: JSON.stringify(info) },
+  //   //   },
+  //   //   )
+  // };
+  // // 비방장 ready socket 전송
+  // const readyGame = (ready) => {
+  //   let sendData = {
+  //     playerId: info.playerId,
+  //     ready: ready,
+  //   };
+  //   client.current.send(`/ready/${info.roomId}`, {}, JSON.stringify(sendData));
+  //   console.log(ready);
+  // };
 
   return (
     <div style={{ marginTop: "20px" }}>
@@ -170,13 +199,13 @@ export default function RoomBtn(props) {
       </CopyBtn>
 
       {props.head === true ? (
-        // CONFIRM :: 재랜더링이 되지 않아 STARTGAME 값 변경 시 버튼이 활성화되지 않음 (유효성 검사 임시 패스)
-        // startGame !== true ? (
-        //   <StartBtn /*onClick={alert("모두 준비되지 않았습니다")}*/>시작불가</StartBtn>
-        // ) : (
-        <StartBtn onClick={startGame}>시 작</StartBtn>
-      ) : (
-        //)
+        props.startGame !== true ? (
+          <StartBtn /*onClick={alert("모두 준비되지 않았습니다")}*/>시작불가</StartBtn>
+        ) : (
+          // <StartBtn onClick={sendData}>시 작</StartBtn>
+          <StartBtn onClick={startGame}>시 작</StartBtn>
+        )) :
+
         <ReadyBtn
           onClick={() => {
             readyGame(props.ready);
@@ -185,7 +214,7 @@ export default function RoomBtn(props) {
           {" "}
           {props.ready === false ? "준 비" : "준비완료"}
         </ReadyBtn>
-      )}
+      }
     </div>
   );
 }

@@ -11,6 +11,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { enterRoom } from "@/store/reducers/room.js";
 import { setMyData } from "@/store/reducers/player.js";
+import { addPlayers, resetPlayers } from "@/store/reducers/players.js";
 
 /* 방장 입장 페이지 */
 export default function EnterPage() {
@@ -117,7 +118,9 @@ export default function EnterPage() {
               secret: response.data.room.secret,
             })
           );
+          // dispatch(addPlayers(playerInfo));
           dispatch(setMyData(playerInfo));
+          console.log()
 
           router.push(
             {

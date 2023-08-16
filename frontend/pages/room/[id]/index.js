@@ -9,7 +9,7 @@ import axios from "axios";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 import { useDispatch, useSelector } from "react-redux";
-import { addPlayers, /*removePlayers,*/ resetPlayers } from "@/store/reducers/players.js";
+import { addPlayers, resetPlayers } from "@/store/reducers/players.js";
 import { ready } from "@/store/reducers/player.js";
 import {
   setPublisherData,
@@ -25,7 +25,6 @@ export default function RoomPage() {
   const dispatch = useDispatch();
 
   let info = JSON.parse(router.query.currentName);
-  let startGame = false; //게임 시작 불가 상태
 
   /* 혜지 : 첫 렌더링 시에 OV, session 세팅 */
   let OV = new OpenVidu();
@@ -37,6 +36,7 @@ export default function RoomPage() {
   const head = useSelector((state) => state.player.currentHead);
   const playerReady = useSelector((state) => state.player.currentReady);
 
+  const [startGame, setStart] = useState(false); //게임 시작 불가 상태
   const [publisher, setPublisher] = useState({}); //비디오, 오디오 송신자
   const [participants, setParticipants] = useState([]); //참여자들
   const [chatHistory, setChatHistory] = useState(`${info.nick}님이 입장하셨습니다.` + "\n");
@@ -57,13 +57,13 @@ export default function RoomPage() {
       .then((response) => {
         console.log("플레이어들 정보 받아오기");
         console.log(response);
-        dispatch(resetPlayers([]));
+        // dispatch(resetPlayers([]));
 
-        startGame = true; //이후의 유효성 검사에서 모두 통과 시에 게임 시작 가능
+        setStart(true); //이후의 유효성 검사에서 모두 통과 시에 게임 시작 가능
 
         /* 혜지 : 접속 플레이어들 정보를 저장 시작 */
         const arrayLength = response.data.length;
-        if (arrayLength < 4) startGame = false; //[유효성 검사] 현재 접속 플레이어 수가 4명 이하일 때 게임 시작 불가
+        if (arrayLength < 4) setStart(false); //[유효성 검사] 현재 접속 플레이어 수가 4명 이하일 때 게임 시작 불가
 
         for (let i = 0; i < arrayLength; i++) {
           let head = response.data[i].head;
@@ -71,7 +71,7 @@ export default function RoomPage() {
           let nickname = response.data[i].nickname;
           let ready = response.data[i].ready;
 
-          if (ready === false) startGame = false; //[유효성 검사] 현재 접속 플레이어 중 한 명이라도 ready 상태가 아닐 때 게임 시작 불가
+          if (ready === false) setStart(false); //[유효성 검사] 현재 접속 플레이어 중 한 명이라도 ready 상태가 아닐 때 게임 시작 불가
 
           let obj = {
             head: head,
@@ -269,7 +269,7 @@ export default function RoomPage() {
     return (
       <RoomBtn info={info} client={client} head={head} ready={playerReady} startGame={startGame} />
     );
-  }, [playerReady]);
+  }, [playerReady, startGame]);
   /* 희진 : 리랜더링 방지 끝 */
 
   return (
