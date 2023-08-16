@@ -30,6 +30,8 @@ export default function RoomPage() {
   let OV = new OpenVidu();
   let session = OV.initSession();
 
+  let subGame = null;
+
   console.log("session")
   console.log(session)
 
@@ -145,7 +147,7 @@ export default function RoomPage() {
           dispatch(ready(data));
         }
       }); // 플레이어 정보 구독
-      client.current.subscribe(`/topic/game/${roomId}`, (response) => {
+      subGame = client.current.subscribe(`/topic/game/${roomId}`, (response) => {
         var data = JSON.parse(response.body);
 
         if (data.error == undefined || data.error == null) {
@@ -261,10 +263,15 @@ export default function RoomPage() {
     getPlayerList();
     connectSocket();
     subscribeSocket();
+
     window.addEventListener("beforeunload", onbeforeunload);
     joinSession(token);
     return () => {
       window.removeEventListener("beforeunload", onbeforeunload);
+      if(subGame){
+        console.log("구독해제")
+        subGame.unsubscribe()
+      }
     };
   }, []);
 
