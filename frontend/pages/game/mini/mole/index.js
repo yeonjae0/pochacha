@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef } from "react";
 import MoleGame from "./MoleGame";
 
 export default function Timer() {
@@ -26,7 +26,8 @@ export default function Timer() {
   })
   
   return (
-    <div style={{ backgroundColor: '#9DE551', height: '100vh' }}>
+    <div>
+    {/* <div style={{ backgroundColor: '#9DE551', height: '100vh' }}> */}
       <MoleGame sec={sec} />
     </div>
   )

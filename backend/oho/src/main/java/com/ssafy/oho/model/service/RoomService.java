@@ -69,14 +69,11 @@ public class RoomService extends RedisService implements BadWords, GoodWords {
     public RoomResponseDto getRoom(RoomRequestDto roomRequestDto) throws RoomGetException {
 
         /*** 유효성 검사 ***/
-        /* 
-            TO DO :: 사용자가 현재 방에 존재하는 사람인지 검사
-         */
+        /* 사용자가 현재 방에 존재하는 사람인지 검사 */
         Room room = roomRepository.findById(roomRequestDto.getId()).orElseThrow(()->new RoomGetException());
         if (room == null) throw new RoomGetException();
 
         try {
-
             /*** Response DTO Build ***/
             RoomResponseDto roomResponseDto = RoomResponseDto.builder()
                     .id(room.getId())
@@ -169,8 +166,6 @@ public class RoomService extends RedisService implements BadWords, GoodWords {
             i = new Random().nextInt(goodWords.length);
             message = message.replaceAll(b, goodWords[i]);
         }
-        System.out.println(message);
-
         String wholeMsg = "[" + nowdate.getHours() + ":" + nowdate.getMinutes() + "] " + playerId + ": " + message;
         super.setChat(roomId, wholeMsg);
 

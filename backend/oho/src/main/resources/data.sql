@@ -18,7 +18,7 @@ INSERT INTO cell (status, name, time) VALUES ("B", "애교부리기", 120);
 INSERT INTO cell (status, name, time) VALUES ("B", "카메라를 향해 뽀뽀", 60);
 INSERT INTO cell (status, name, time) VALUES ("B", "다 함께 원샷", 60);
 INSERT INTO cell (status, name, time) VALUES ("B", "성대모사", 120);
-INSERT INTO cell (status, name, time) VALUES ("B", "{playerId}가 한잔 마시기", 60);
+INSERT INTO cell (status, name, time) VALUES ("B", "지금 바로 한잔 마시기", 60);
 
 INSERT INTO minigame (name, winner_cnt, time, tagger) VALUES ("두더지 게임", 4, 60, 0);
 INSERT INTO minigame (name, winner_cnt, time, tagger) VALUES ("라이어 게임", 3, 0, 1);

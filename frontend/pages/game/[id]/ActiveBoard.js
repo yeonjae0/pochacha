@@ -1,15 +1,11 @@
-/* New Board */
-
 'use client'
 
-import React, { useRef, useEffect, useState } from 'react'
-import styles from '@/styles/BoardMap.module.css'
+import React, { useRef, useEffect, useState } from 'react';
+import styles from '@/styles/ActiveMap.module.css';
 
-export default function ActiveBoard({ pin, cellObj }) {
+export default function ActiveBoard({ pin, cellObj, currentCellObj }) {
 
   const targetRef = useRef(null);
-  // const [left, setLeft] = useState(0)
-  // const [top, setTop] = useState(0)
   const [positionStyle, setPositionStyle] = useState({ top: 0, left: 0 });
 
   /* 희진 : 보드 색 지정 시작 */
@@ -21,28 +17,44 @@ export default function ActiveBoard({ pin, cellObj }) {
 
   for (const key in numMatch) {
     if (cellObj[key] === 'E') { // 이동 이벤트
-      cellObj[key] = '#454545';
+      cellObj[key] = '#008000'; // 초록
     } else if (cellObj[key] === 'G') { // 긍정 이벤트
-      cellObj[key] = '#FFE6C7';
+      cellObj[key] = '#FFD400'; // 노랑
     } else if (cellObj[key] === 'B') { // 팀/개인 벌칙
-      cellObj[key] = '#FF6000';
+      cellObj[key] = '#FF6000'; // 진주황
     } else if (cellObj[key] === 'P') { // 필터 벌칙
-      cellObj[key] = '#FFFFFF';
+      cellObj[key] = '#0000FF'; // 파랑
     } else if (cellObj[key] === 'M') { // 미니게임
-      cellObj[key] = '#FFA559';
+      cellObj[key] = '#FFFFFF';
     }
   }
   /* 희진 : 보드 색 지정 끝 */
+  // currentCellObj.move !== undefined
+
+  // useEffect(() => {
+  //   const targetElement = targetRef.current;
+  //   if (targetElement) {
+  //     const rect = targetElement.getBoundingClientRect();
+  //     setPositionStyle({
+  //       top: rect.top - 80,
+  //       left: rect.left - 40
+  //     });
+  //   }
+  // }, [boardPin]);
+
+  // useEffect(() => {
+  //   if (targetRef.current && (currentCellObj.move !== undefined)) {
+  //     setBoardPin(pin + currentCellObj.move)
+  //   }
+  // }, []);
 
   useEffect(() => {
     const targetElement = targetRef.current;
     if (targetElement) {
       const rect = targetElement.getBoundingClientRect();
-      // setTop(rect.top - 80) // 위치 값 조정
-      // setLeft(rect.left - 40) // 위치 값 조정
       setPositionStyle({
-        top: rect.top - 80, // 위치 값 조정
-        left: rect.left - 40 // 위치 값 조정
+        top: rect.top - 80,
+        left: rect.left - 30
       });
     }
   }, [pin]);
@@ -102,20 +114,15 @@ export default function ActiveBoard({ pin, cellObj }) {
           <div style={{ backgroundColor: 'black' }}>{pin == 6 ? <div ref={targetRef}></div> : null}</div> {/* 07 */}
         </div>
       </div>
+
       <img
         src="/character.png"
         style={{
-          width: '100px',
+          height: '80px',
           position: 'absolute',
-          transition: 'top 0.3s ease, left 0.3s ease',
+          transition: 'top 1s ease, left 1s ease',
           ...positionStyle
         }}
-      // style={{
-      //   width: '100px',
-      //   position: 'absolute',
-      //   top: `${top}px`,
-      //   left: `${left}px`
-      // }}
       />
     </div>
   )

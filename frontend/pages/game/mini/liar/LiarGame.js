@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import SockJS from 'sockjs-client'
-import { Stomp } from '@stomp/stompjs'
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
 import axios from "axios";
 import styles from '@/styles/LiarGame.module.css';
 import Phase2 from './Phase2';
@@ -67,11 +67,9 @@ export default function Picktopic() {
           className="pickTopic"
           style={{
             position: 'relative',
-            width: '600px',
-            height: '600px',
-            border: '2px solid #000',
-            margin: '0 auto',
-            overflow: 'hidden',
+            width: '450px',
+            height: '450px',
+            // overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',

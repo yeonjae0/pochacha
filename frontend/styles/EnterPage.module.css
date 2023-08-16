@@ -79,6 +79,7 @@
   margin: auto;
   position: absolute;
   left: 50%;
+  cursor: pointer;
   transform: translateX(-50%);
 }
 
@@ -102,7 +103,7 @@
 
 .tipContainer {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 80%;
   height: 80%;
