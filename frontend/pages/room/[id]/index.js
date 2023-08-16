@@ -30,6 +30,8 @@ export default function RoomPage() {
   let OV = new OpenVidu();
   let session = OV.initSession();
 
+  let subGame=null;
+
   const roomId = useSelector((state) => state.room.currentRoomId);
   const token = useSelector((state) => state.player.currentPlayerId); //오픈비두 토큰
   const nickname = useSelector((state) => state.player.currentNick);
@@ -142,7 +144,7 @@ export default function RoomPage() {
           dispatch(ready(data));
         }
       }); // 플레이어 정보 구독
-      client.current.subscribe(`/topic/game/${roomId}`, (response) => {
+      subGame=client.current.subscribe(`/topic/game/${roomId}`, (response) => {
         var data = JSON.parse(response.body);
 
         if (data.error == undefined || data.error == null) {
@@ -257,6 +259,10 @@ export default function RoomPage() {
     joinSession(token);
     return () => {
       window.removeEventListener("beforeunload", onbeforeunload);
+      if (subGame) {
+        console.log("구독해제")
+        subGame.unsubscribe();
+      }
     };
   }, []);
 

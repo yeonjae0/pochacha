@@ -1,5 +1,6 @@
 package com.ssafy.oho.model.service;
 
+import com.ssafy.oho.model.dto.response.LiarGameVoteDto;
 import com.ssafy.oho.model.entity.Cell;
 import com.ssafy.oho.model.entity.Minigame;
 import com.ssafy.oho.model.entity.Player;
@@ -204,16 +205,19 @@ public class RedisService {
     }
 
     protected String getLiarGameKey(String roomId){return roomId+".liarGame";}
-    protected void setLiarGame(String roomId, String liar, String word, List<String> playerIdList){
+    protected String getLiarGameVoteListKey(String roomId){return roomId+".liarGame"+".voteList";}
+    protected void setLiarGame(String roomId, String liar, int total, List<String> playerIdList){
         redisTemplate.execute(new SessionCallback<>() {
             @Override
             public Object execute(RedisOperations operations) throws DataAccessException{
                 operations.multi();//트랜잭션 시작
                 hashOperations.put(getLiarGameKey(roomId),"liar",liar);
-                hashOperations.put(getLiarGameKey(roomId),"word",word);
+                hashOperations.put(getLiarGameKey(roomId),"total",Integer.toString(total));
+
                 for (int i = 0; i < playerIdList.size(); i++) {
-                    hashOperations.put(getLiarGameKey(roomId), playerIdList.get(i), Boolean.toString(false));//boolean?
+                    hashOperations.put(getLiarGameVoteListKey(roomId), playerIdList.get(i), Integer.toString(0));
                 }
+
 
                 List<Object> result = operations.exec();  // 트랜잭션 실행
                 if(result == null) System.out.println("LIARGAME :: REDIS TRANSACTION ERROR");
@@ -222,9 +226,31 @@ public class RedisService {
         });
         redisTemplate.expire(getLiarGameKey(roomId), SERVICE_TTL.get("mini"), TimeUnit.SECONDS);
     }
-    protected Map<Object, Object> getLiarGame(String roomId) {
-        if(hashOperations.entries(getLiarGameKey(roomId)).size() == 0) return null;
-        return hashOperations.entries(getLiarGameKey(roomId));
+
+
+    protected void setLiarGameVoteList(String roomId, int total, List<LiarGameVoteDto> voteList){
+        redisTemplate.execute(new SessionCallback<>() {
+            @Override
+            public Object execute(RedisOperations operations) throws DataAccessException{
+                operations.multi();//트랜잭션 시작
+                hashOperations.put(getLiarGameKey(roomId),"total",Integer.toString(total));
+                for (int i = 0; i < voteList.size(); i++) {
+                    hashOperations.put(getLiarGameVoteListKey(roomId), voteList.get(i).getPlayerId(),voteList.get(i).getCnt());
+                }
+
+                List<Object> result = operations.exec();  // 트랜잭션 실행
+                if(result == null) System.out.println("LIARGAME VOTE LIST :: REDIS TRANSACTION ERROR");
+                return null;
+            }
+        });
+        redisTemplate.expire(getLiarGameKey(roomId), SERVICE_TTL.get("mini"), TimeUnit.SECONDS);
+    }
+    protected Map<Object, Object> getLiarGameVoteList(String roomId) {
+        if(hashOperations.entries(getLiarGameVoteListKey(roomId)).size() == 0) return null;
+        return hashOperations.entries(getLiarGameVoteListKey(roomId));
+    }
+    protected String getLiarGameInfo(String roomId, String hashKey) {
+        return (String) hashOperations.get(getSpellKey(roomId), hashKey);
     }
 
     protected String getSpellKey(String roomId) {
