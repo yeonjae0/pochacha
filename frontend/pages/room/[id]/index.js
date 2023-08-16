@@ -187,6 +187,7 @@ export default function RoomPage() {
   const joinSession = async (token) => {
     try {
       session.on("streamCreated", async (event) => {
+
         let participant = session.subscribe(event.stream, undefined);
         let tempParticipants = [];
         participants.map((par) => {
@@ -236,6 +237,41 @@ export default function RoomPage() {
       console.log(pub.stream.getMediaStream().getAudioTracks())
 
       var currentVideoDevice = videoDevices.find(device => device.deviceId === currentVideoDeviceId);
+
+      /* 태훈 : 음성 변조 코드 시작 */
+      // 오디오 데이터 변조를 위한 작업을 수행합니다.
+      let audioTrack = pub.stream.getMediaStream().getAudioTracks()[0]
+
+      const audioContext = new AudioContext();
+      const scriptNode = audioContext.createScriptProcessor(4096, 1, 1);
+      scriptNode.onaudioprocess = event => {
+        const inputBuffer = event.inputBuffer;
+        console.log("Input Buffer")
+        console.log(inputBuffer)
+        const outputBuffer = event.outputBuffer;
+        console.log("Output Buffer")
+        console.log(outputBuffer)
+
+        for (let channel = 0; channel < outputBuffer.numberOfChannels; channel++) {
+          const inputData = inputBuffer.getChannelData(channel);
+          console.log("Input Data")
+          console.log(inputData)
+          const outputData = outputBuffer.getChannelData(channel);
+          console.log("Output Data")
+          console.log(outputData)
+
+          // 예제로 오디오 음량을 2배로 증폭시킵니다.
+          for (let sample = 0; sample < inputBuffer.length; sample++) {
+            outputData[sample] = inputData[sample] * 2;
+          }
+        }
+      };
+      
+      // 오디오 트랙을 오디오 컨텍스트에 연결하여 변조합니다.
+      const source = audioContext.createMediaStreamSource(new MediaStream([audioTrack]));
+      source.connect(scriptNode);
+      scriptNode.connect(audioContext.destination);
+      /* 태훈 : 음성 변조 코드 끝 */
 
       setPublisher(pub);
       dispatch(setPublisherData(pub));
