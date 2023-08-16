@@ -142,43 +142,6 @@ export default function EnterPage() {
   /* 유영 : axios를 통한 닉네임 생성 및 방 생성 끝 */
   /* 희진 : axios 렌더링 타이밍 변경 끝 */
 
-  /* 희진 : 추후 삭제 예정 시작 */
-  // const tmp = (
-  //   <div className="first" >
-
-  //     {/* <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}> */}
-  //     <div className="title">
-  //       {/* <img src="/tent.png" />
-  //       <br /> */}
-  //       <img src="/main/title.png" />
-  //       {/* <br /> */}
-  //     </div>
-
-  //     <div style={{ display: 'flex' }}>
-  //       <div className='leftBox'>
-  //         <div style={{ display: 'flex' }}>
-  //           <div className='imgCircle'></div>
-  //           <div className='inputNickname'>
-  //             <p style={{ fontSize: '20px' }}>캐릭터와 닉네임 선택</p>
-  //             <br />
-  //             <label htmlFor=""></label>
-  //             <input
-  //               value={text}
-  //               onChange={handleOnChange}
-  //               onKeyDown={enterDown}
-  //             />
-  //           </div>
-  //           <button id='startBtn' onClick={gameStart}>START</button>
-  //         </div>
-  //       </div>
-
-  //       <RightBox />
-  //       {/* <p id="bottom">서비스 약관 | 개인정보 취급정보 | 문의</p> */}
-  //     </div>
-  //   </div>
-  // )
-  /* 희진 : 추후 삭제 예정 끝 */
-
   return (
     <div className={styles.container}>
       {/* 타이틀 화면 */}
