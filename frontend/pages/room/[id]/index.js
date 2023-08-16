@@ -25,7 +25,6 @@ export default function RoomPage() {
   const dispatch = useDispatch();
 
   let info = JSON.parse(router.query.currentName);
-  // const [startGame, setStartGame] = useState(false); //게임 시작 불가 상태
 
   /* 혜지 : 첫 렌더링 시에 OV, session 세팅 */
   let OV = new OpenVidu();
