@@ -6,7 +6,7 @@ import Videostyles from '@/styles/UserVideo.module.css';
 
 export default function RoomCam() {
 
-  //const [introChat, setIntroChat] = useState(''); // 참여자 입장 메시지
+  // const [introChat, setIntroChat] = useState(''); // 참여자 입장 메시지
 
   const session = useSelector(state => state.room.currentRoomId);
   const nickname = useSelector(state => state.player.currentNick);

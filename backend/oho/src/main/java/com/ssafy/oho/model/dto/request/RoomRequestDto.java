@@ -6,7 +6,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@ToString
+//@ToString
+@Builder
 public class RoomRequestDto {
     private String id;
     private boolean secret;
