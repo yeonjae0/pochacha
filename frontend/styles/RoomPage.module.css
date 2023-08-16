@@ -24,7 +24,7 @@
   display: flex;
   justify-content: space-around;
   align-items: start;
-  /* margin: -40px 0 -10px 0; */
+  margin: -40px 0 -10px 0;
   width: 100vw;
 }
 
@@ -44,7 +44,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
   width: 1020px;
   height: 200px;
@@ -99,6 +99,7 @@
 
   background-color: transparent;
 }
+
 .chatArea:focus-visible {
   outline: none;
 }
@@ -107,7 +108,7 @@
   padding: 3px 14px;
 
   width: 880px;
-  height: 50px;
+  height: 30px;
 
   border-radius: 6px;
   font-size: 18px;
@@ -115,23 +116,13 @@
 
 .sendBtn {
   margin-left: 10px;
+  padding: 3px 14px;
 
   width: 100px;
-  height: 60px;
+  height: 40px;
 
   background-color: #ae1010;
   border-radius: 6px;
   color: white;
   font-size: 18px;
 }
-
-/* button { */
-/* TMP */
-/* margin: 10px;
-  padding: 5px;
-  background-color: black;
-  border-radius: 10px;
-  color: white;
-  width: 80px;
-  height: 50px; */
-/* } */
