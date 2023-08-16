@@ -35,9 +35,9 @@ public class GameService extends RedisService {
         /*** 유효성 검사 ***/
         Room room = roomRepository.findById(roomId).orElseThrow(() -> new GameGetException("방 조회에 실패하였습니다."));
 
-        if(room.getPlayers().size() != 4) {  // 정원 4인이 모두 접속하지 않았을 경우
-            throw new GameGetException("4명이 되어야 게임을 시작할 수 있습니다.");
-        }
+        //if(room.getPlayers().size() != 4) {  // 정원 4인이 모두 접속하지 않았을 경우
+        //    throw new GameGetException("4명이 되어야 게임을 시작할 수 있습니다.");
+        //}
 
         for(Player p : room.getPlayers()) {
             if(super.getPlayer(roomId, p.getId()) == null) {
