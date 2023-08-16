@@ -1,6 +1,5 @@
-
-import { Inter } from 'next/font/google'
-import Link from 'next/link'
+import { Inter } from 'next/font/google';
+import Link from 'next/link';
 import React, { useEffect } from "react";
 // import { useDispatch } from "react-redux";
 // import { enterRoom } from "@/store/reducers/room.js";

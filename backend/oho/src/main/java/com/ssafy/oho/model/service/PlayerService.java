@@ -159,7 +159,6 @@ public class PlayerService extends RedisService {
             } else {
                 player = playerRepository.findById(playerId).orElseThrow(PlayerGetException::new);
             }
-            System.out.println(player);
 
             if(player == null || !player.getRoom().getId().equals(roomId)) {
                 throw new PlayerGetException("플레이어가 존재하지 않습니다.");
@@ -184,6 +183,7 @@ public class PlayerService extends RedisService {
                         .id(p.getId())
                         .nickname(p.getNickname())
                         .head(p.isHead())
+                        .ready(Boolean.parseBoolean(super.getPlayerInfo(roomId, p.getId(), "ready")))//FIX: 넘어가는 데이터에 ready 추가
                         .build()
                 );
             }

@@ -28,10 +28,7 @@ import java.util.Map;
 @CrossOrigin(origins = "*")
 public class PlayerController {
 
-    /* 혜지 : OpenViduController RoomController 통합 작업 */
-
     private final SimpMessagingTemplate webSocket;
-
     private final PlayerService playerService;
     private final RoomService roomService;
     private final OpenVidu openVidu;
@@ -44,10 +41,6 @@ public class PlayerController {
         this.openVidu=openVidu;
     }
 
-    /**
-     * @param playerRequestDto
-     * @return playerResponseDto
-     */
     @PostMapping(value="create")
     private ResponseEntity<?> setPlayer(@RequestBody PlayerRequestDto playerRequestDto) {
         try {

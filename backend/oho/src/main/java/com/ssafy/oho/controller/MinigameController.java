@@ -34,14 +34,9 @@ public class MinigameController {
 
 
     /* 라이어 게임 API */
-        /*
-        TO DO :: 소켓 예외 처리 고려 (임의로 throws)
-     */
     @PostMapping("/mini/liar/set/{roomId}")
     public ResponseEntity<?> setLiarGame(@RequestBody LiarGameRequestDto liarGameRequestDto, @PathVariable String roomId){
-        System.out.println(liarGameRequestDto);
         try {
-            //webSocket.convertAndSend("/topic/game/" + roomId, liarGameResponseDto);
             return ResponseEntity.ok(minigameService.setLiarGame(liarGameRequestDto, roomId));
         }catch(GameSetException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -53,6 +48,7 @@ public class MinigameController {
 
     }
 
+    /* 훈민정음 게임 API */
     @PostMapping("/mini/spell")
     public ResponseEntity<?> setSpell(@RequestBody RoomRequestDto roomRequestDto) {
         try {

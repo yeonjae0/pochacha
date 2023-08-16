@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import SockJS from 'sockjs-client'
-import { Stomp } from '@stomp/stompjs'
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
 import axios from "axios";
 import styles from '@/styles/LiarGame.module.css';
 import Phase2 from './Phase2';

@@ -1,36 +1,35 @@
-'use client'
+"use client";
 
-import React,{ useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/router'
-import RightBox from '../RightBox';
-import styles from '@/styles/EnterPage.module.css'
-import classNames from 'classnames'
-import axios from 'axios'
-import SockJS from 'sockjs-client';
-import { Stomp } from '@stomp/stompjs';
+import React, { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
+import RightBox from "../RightBox";
+import styles from "@/styles/EnterPage.module.css";
+import classNames from "classnames";
+import axios from "axios";
+import SockJS from "sockjs-client";
+import { Stomp } from "@stomp/stompjs";
 import { useDispatch } from "react-redux";
 import { enterRoom } from "@/store/reducers/room.js";
-//import { addPlayers } from '@/store/reducers/players';
-import { MyPlayerData } from '@/store/reducers/player';
+import { setMyData } from "@/store/reducers/player";
 
-//비방장 입장 페이지
+/* 비방장 입장 페이지 */
 export default function EnterRoomPage() {
-
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const roomId=router.query.roomId;
-  console.log("쿼리 스트링 파싱");
-  console.log(roomId);
+  const roomId = router.query.roomId;
 
-/* 유영 : 소켓 간단 연결 작업 시작 */
-useEffect(() => {
+  /* 유영 : 소켓 간단 연결 작업 시작 */
+  useEffect(() => {
     const socket = new SockJS(process.env.NEXT_PUBLIC_WS + "/ws");
     const stompClient = Stomp.over(socket);
 
-    stompClient.connect({}, /*Connect Callback*/() => {
-      console.log("Socket Connected.");
-    });
+    stompClient.connect(
+      {},
+      /*Connect Callback*/ () => {
+        console.log("Socket Connected.");
+      }
+    );
   }, []);
   /* 유영 : 소켓 간단 연결 작업 끝 */
 
@@ -42,8 +41,8 @@ useEffect(() => {
   let progress = false;
   let secret = false;
 
-  let playerId = '';
-  let nick = '';
+  let playerId = "";
+  let nick = "";
   let ready = false;
   let obj = {};
 
@@ -51,109 +50,113 @@ useEffect(() => {
   let videoRef = useRef(null);
 
   const getUserCamera = () => {
-    navigator.mediaDevices.getUserMedia({
-      video: true,
-    })
+    navigator.mediaDevices
+      .getUserMedia({
+        video: true,
+      })
       .then((stream) => {
         let video = videoRef.current;
         video.srcObject = stream;
         video.play();
-      }).catch((error) => {
-      if(error.response) {
-        router.push({
+      })
+      .catch((error) => {
+        if (error.response) {
+          router.push({
             pathname: "/exception",
             query: { msg: error.response.data },
-          })
-      } else { console.log(error) }
-    });
-  }
+          });
+        } else {
+          console.log(error);
+        }
+      });
+  };
 
   useEffect(() => {
     getUserCamera();
   }, [videoRef]);
   /* 혜지 : 웹캠 화면 띄우기 위한 구현 끝 */
 
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
 
   const handleOnChange = (e) => {
     setText(e.target.value);
   };
   const enterDown = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       gameStart();
     }
-  }
+  };
 
   const gameStart = () => {
     axios({
       url: process.env.NEXT_PUBLIC_API + "/player/create",
       header: {
-        "Accept": "application/json",
-        "Content-type": "application/json;charset=UTF-8"
+        Accept: "application/json",
+        "Content-type": "application/json;charset=UTF-8",
       },
       method: "POST",
       data: {
         nickname: text,
         roomId: roomId,
-      }
-    }).then((response) => {
-      console.log("GAME START");
-      console.log('response.data' , response.data);
+      },
+    })
+      .then((response) => {
+        // console.log("GAME START");
+        // console.log("response.data", response.data);
 
-      obj = 
-      { 'roomId': roomId,//오픈비두 세션
-      
-      /* 혜지 : setPlayer API에서는 Room 값을 받아오지 않으므로, progress와 secret 임시로 false 부여 */
-        'progress': false, 
-        'secret': false, // 비밀 방인지, 아닌지
+        obj = {
+          roomId: roomId, //오픈비두 세션
 
-        'nick': text || response.data.nickname,
-        'playerId': response.data.id,//오픈비두 토큰
-        'ready': response.data.ready,
-       }
-       let playerInfo =  {
-        playerId: response.data.id,
-        nick: text || response.data.nickname,
-        ready: response.data.ready,
-        head:false,//초대받은 플레이어이므로 방장 false
-      }
+          /* 혜지 : setPlayer API에서는 Room 값을 받아오지 않으므로, progress와 secret 임시로 false 부여 */
+          progress: false,
+          secret: false, // 비밀 방인지, 아닌지
 
-      const sendData = () => {
-         /* 연재 : obj 정보 저장 */
-         dispatch(
-          enterRoom({
-            roomId: roomId,
+          nick: text || response.data.nickname,
+          playerId: response.data.id, //오픈비두 토큰
+          ready: response.data.ready,
+        };
+        let playerInfo = {
+          playerId: response.data.id,
+          nick: text || response.data.nickname,
+          ready: response.data.ready,
+          head: false, //초대받은 플레이어이므로 방장 false
+        };
 
-            /* 혜지 : setPlayer API에서는 Room 값을 받아오지 않으므로, progress와 secret 임시로 false 부여 */
-            progress: false, 
-            secret: false,
-          }),
-         );
-         //dispatch(addPlayers(playerInfo));
-         dispatch(MyPlayerData(playerInfo));
-         console.log
+        const sendData = () => {
+          /* 연재 : obj 정보 저장 */
+          dispatch(
+            enterRoom({
+              roomId: roomId,
 
-          router.push(
-          {
+              /* 혜지 : setPlayer API에서는 Room 값을 받아오지 않으므로, progress와 secret 임시로 false 부여 */
+              progress: false,
+              secret: false,
+            })
+          );
+          //dispatch(addPlayers(playerInfo));
+          dispatch(setMyData(playerInfo));
+
+          router.push({
             pathname: `/room/${roomId}`,
             query: { currentName: JSON.stringify(obj) },
-          },
-        )
-      }
-      sendData();
-    }).catch((error) => {
-      if(error.response) {
-        router.push({
+          });
+        };
+        sendData();
+      })
+      .catch((error) => {
+        if (error.response) {
+          router.push({
             pathname: "/exception",
             query: { msg: error.response.data },
-          })
-      } else { (error) => console.log(error); }
-    });
-  }
+          });
+        } else {
+          (error) => console.log(error);
+        }
+      });
+  };
 
   return (
     <div className={styles.container}>
-      
       {/* 타이틀 화면 */}
       <div className="roof">
         <img className={styles.title} src="/main/title.png" />
@@ -161,11 +164,13 @@ useEffect(() => {
 
       <div className={styles.boxContainer}>
         {/* 닉네임 입력 상자 */}
-        <div className={classNames({[styles.box]: true, [styles.leftBox]: true})}>
-        <h3 style={{ paddingTop: '0', marginBottom: '10px' }}>초대 코드로 입장하셨습니다</h3>
+        <div className={classNames({ [styles.box]: true, [styles.leftBox]: true })}>
+          <h3 style={{ paddingTop: "0", marginBottom: "10px" }}>초대 코드로 입장하셨습니다</h3>
           <video className={styles.cam} ref={videoRef} /> {/* 임시 화상화면 상자 */}
           <div className={styles.inputContainer}>
-            <input className={styles.nickname} spellCheck="false"
+            <input
+              className={styles.nickname}
+              spellCheck="false"
               placeholder="닉네임을 입력해주세요."
               value={text}
               onChange={handleOnChange}
@@ -181,5 +186,5 @@ useEffect(() => {
         </div>
       </div>
     </div>
-  )
+  );
 }

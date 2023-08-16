@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import styles from "@/styles/SpellGame.module.css";
-import SpellGame from "./SpellGame.js";
+import SpellGame from "./SpellGame";
 
 export default function SpellTimer() {
 
@@ -12,6 +12,8 @@ let time = useRef(15);
 const timerId = useRef(null);
 
 const resetSec = () => {
+  // time.current = 10
+  // setSec(10)
   time.current = 10
   setSec(10)
 }
@@ -40,9 +42,7 @@ function GameOver() {
     <>
       <div>
         <h1>Game Over ㅜㅅㅜ</h1>
-        <button type="button" onClick={() => router.back()}>
-        Click here to go back
-      </button>
+        <h2>한글 공부를 더 해야겠네요</h2>
       </div>
     </>
   )
@@ -50,10 +50,11 @@ function GameOver() {
 
 
 return (
-  <div>
+  <div className={styles.topSpellCompo}>
     {
       keepGoing ?
-      <div style={{ backgroundColor: 'blue', height: '100vh' }}>
+      <div>
+      {/* <div style={{ height: '100vh' }}> */}
       <SpellGame sec={sec} resetSec={resetSec}  />
       </div>
       : <GameOver />

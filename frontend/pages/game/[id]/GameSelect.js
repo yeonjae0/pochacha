@@ -1,6 +1,6 @@
-import MoleGame from '../mini/mole/index.js'
-import SpellGame from '../mini/spell/index.js'
-import LiarGame from '../mini/liar/index.js'
+import MoleGame from '../mini/mole/index';
+import SpellGame from '../mini/spell/index';
+import LiarGame from '../mini/liar/index';
 
 export default function GameSelect({ currentCell }) {
 
