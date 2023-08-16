@@ -22,13 +22,6 @@ export default function RoomCam() {
       {session !== undefined ? (
         <div id="session">
           <div id="video-container" className={Roomstyles.camList}>
-            {participants != null ? participants.map((par, i) => (
-              <span key={par.id} className={Videostyles.streamcomponent} >
-                <OpenViduVideoComponent className={Roomstyles.cam} streamManager={par} />
-                {console.log(par.nick)}
-                <div className={Videostyles.nickname}>{par.nick}</div>
-              </span>
-            )) : null}
             {publisher !== undefined ? (
               <span className={Videostyles.streamcomponent}>
                 <OpenViduVideoComponent className={Roomstyles.cam}
@@ -36,7 +29,13 @@ export default function RoomCam() {
                 <div className={Videostyles.nickname}>{nickname}</div>
               </span>
             ) : null}
-            
+            {participants != null ? participants.map((par, i) => (
+              <span key={par.id} className={Videostyles.streamcomponent} >
+                <OpenViduVideoComponent className={Roomstyles.cam} streamManager={par} />
+                {console.log(par.nick)}
+                <div className={Videostyles.nickname}>{par.nick}</div>
+              </span>
+            )) : null}
           </div>
         </div>
       ) : null}
