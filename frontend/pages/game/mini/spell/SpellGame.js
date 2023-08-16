@@ -6,6 +6,7 @@ import axios from 'axios';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { startGame, losingPlayer } from '@/store/reducers/spell';
+import { useSpeechRecognition } from 'react-speech-kit';
 
 export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
 
@@ -43,6 +44,7 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       handleSubmit()
+      handleStopListening();
     }
   };
 
@@ -184,6 +186,30 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
   //   resetSec()
   //   // setShouldGoToNextPlayer(false);
   // }, [tmpFn])
+
+  // STT 시작
+  
+  const { listen, stop } = useSpeechRecognition({
+    onResult: (result) => {
+      setInputValue(result);
+    },
+  });
+
+  useEffect(() => {
+    handleStartListening();
+
+    if(inputValue != "") {
+      handleSubmit();
+    }
+  });
+
+  const handleStartListening = () => {
+    listen({ interimResults: false });  // 음성 인식 시작
+  };
+
+  const handleStopListening = () => {
+    stop(); // 음성 인식 중지
+  };
 
   return (
     <>
