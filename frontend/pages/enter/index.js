@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import RightBox from "./RightBox.js";
+import IntroMusic from "../data/MusicPlayer.js";
 import styles from "@/styles/EnterPage.module.css";
 import classNames from "classnames";
 import SockJS from "sockjs-client";
@@ -12,9 +13,11 @@ import { useDispatch } from "react-redux";
 import { enterRoom } from "@/store/reducers/room.js";
 import { setMyData } from "@/store/reducers/player.js";
 import { addPlayers, resetPlayers } from "@/store/reducers/players.js";
+import MusicPlayer from "../data/MusicPlayer.js";
 
 /* 방장 입장 페이지 */
 export default function EnterPage() {
+
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -25,7 +28,7 @@ export default function EnterPage() {
 
     stompClient.connect(
       {},
-      /*Connect Callback*/ () => {
+      /*Connect Callback*/() => {
         console.log("Socket Connected.");
       }
     );
@@ -122,23 +125,23 @@ export default function EnterPage() {
           dispatch(setMyData(playerInfo));
           console.log()
 
-      //     router.push(
-      //       {
-      //         pathname: `/room/${response.data.room.id}`,
-      //         query: { currentName: JSON.stringify(obj) },
-      //       }
-      //     );
-      //   };
-      //   sendData();
-      // })
-          
-      /* 희진 : URL 숨김 시작 */
+          //     router.push(
+          //       {
+          //         pathname: `/room/${response.data.room.id}`,
+          //         query: { currentName: JSON.stringify(obj) },
+          //       }
+          //     );
+          //   };
+          //   sendData();
+          // })
+
+          /* 희진 : URL 숨김 시작 */
           router.push(
             {
               pathname: `/room/${response.data.room.id}`,
               query: { currentName: JSON.stringify(obj) },
-              },
-              `/room/${response.data.room.id}`
+            },
+            `/room/${response.data.room.id}`
           );
         };
         sendData();
@@ -161,6 +164,9 @@ export default function EnterPage() {
 
   return (
     <div className={styles.container}>
+      <div style={{ display: 'none' }}>
+        <MusicPlayer />
+      </div>
       {/* 타이틀 화면 */}
       <div className="roof">
         <img className={styles.title} src="/main/title.png" />

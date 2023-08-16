@@ -1,6 +1,4 @@
-'use client'
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import tip from "../data/tip";
 import styles from "@/styles/EnterPage.module.css";
 
@@ -8,18 +6,32 @@ export default function RightBox() {
   const [currentTipIdx, setCurrentTipIdx] = useState(0);
   const [isHidden, setIsHidden] = useState(false);
 
-  const toggleNext = () => {
-    setIsHidden(true);
-    setTimeout(() => {
-      setCurrentTipIdx((prevIdx) => (prevIdx === tip.length - 1 ? 0 : prevIdx + 1));
-      setIsHidden(false);
-    }, 200);
-  };
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIsHidden(true);
+      setTimeout(() => {
+        setCurrentTipIdx((prevIdx) => (prevIdx === tip.length - 1 ? 0 : prevIdx + 1));
+        setIsHidden(false);
+      }, 200);
+    }, 4000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [currentTipIdx]);
 
   const togglePrev = () => {
     setIsHidden(true);
     setTimeout(() => {
       setCurrentTipIdx((prevIdx) => (prevIdx === 0 ? tip.length - 1 : prevIdx - 1));
+      setIsHidden(false);
+    }, 200);
+  };
+
+  const toggleNext = () => {
+    setIsHidden(true);
+    setTimeout(() => {
+      setCurrentTipIdx((prevIdx) => (prevIdx === tip.length - 1 ? 0 : prevIdx + 1));
       setIsHidden(false);
     }, 200);
   };
