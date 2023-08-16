@@ -44,30 +44,22 @@ public class MinigameService extends RedisService {
     }
 
     public LiarGameResponseDto setLiarGame(LiarGameRequestDto liarGameRequestDto, String roomId) throws GameSetException {
-        //Map<String, Object> responsePayload = new HashMap<>();
-        System.out.println("미니게임 서비스");
-        System.out.println(roomId);
-        System.out.println(liarGameRequestDto);
         try {
-            Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomGetException("방이 없습니다"));
-            System.out.println("방이 있어요");
+            Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomGetException());
             List<String> playerIdList=new ArrayList<>();
 
             for(Player player:room.getPlayers()){
                 playerIdList.add(player.getId());
-                System.out.println(player.getId());
             }
 
             //멀티 게임이므로 2명 미만의 상태에서는 진행 불가
 //            if(playerIdList.size()<2){
-//                throw new GameSetException();
+//                throw new GameSetException("라이어 게임은 두명 이상이어야 해요");
 //            }
 
             //게임 진행 턴(순서) 임의로 배정
             Collections.shuffle(playerIdList);
-            System.out.println("셔플됨");
 
-           // String subject = ((String) payload.getOrDefault("subject", "")).trim();
             String subject=liarGameRequestDto.getSubject();
 
             /*
@@ -82,17 +74,18 @@ public class MinigameService extends RedisService {
             else if(subject.equals("objects")){ word= Objects.getRandomValue(); }
             else if(subject.equals("singer")){ word= Singer.getRandomValue(); }
             else if(subject.equals("sports")) { word = Sports.getRandomValue(); }
-            else{ throw new GameSetException("word 안 생김"); }
-            System.out.println(word);
+            else{ throw new GameSetException("단어 생성에 문제가 있어요"); }
+
+            /*** Redis Input ***/
+            super.setLiarGame(roomId, playerIdList.get(0), word, playerIdList);
+
             /*** Response DTO Build ***/
             LiarGameResponseDto liarGameResponseDto= LiarGameResponseDto.builder()
                     .liar(playerIdList.get(0))
                     .word(word)
                     .turns(playerIdList)
                     .build();
-        /*
-            TO DO :: Redis에 roomId, liar, room, turns 저장
-         */
+
             return liarGameResponseDto;
         }
         catch(Exception e){

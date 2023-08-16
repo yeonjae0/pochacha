@@ -108,3 +108,12 @@
   width: 350px;
   margin-top: -350px;
 } */
+
+.gameOver{
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  width: 400px;
+  height: 400px;
+  transform: translate(-50%, 50%);
+}

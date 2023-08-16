@@ -31,84 +31,22 @@ public class GameService extends RedisService {
         this.roomRepository = roomRepository;
     }
 
-//    public Object[] startGame(RoomRequestDto roomRequestDto) throws GameGetException {
-//        /*** 유효성 검사 ***/
-//        String roomId = roomRequestDto.getId();
-//            /*
-//                TO DO :: 플레이어 존재 여부 확인
-//             */
-//        Room room = roomRepository.findById(roomId).orElseThrow(() -> new GameGetException("방 조회에 실패하였습니다."));
-//
-//        /*
-//            TO DO :: 아래의 유효성 검사 이동 필요
-//         */
-//        if(room.getPlayers().size() != 4) {  // 정원 4인이 모두 접속하지 않았을 경우
-//            throw new GameGetException("4명이 되어야 게임을 시작할 수 있습니다.");
-//        }
-//
-//        for(Player p : room.getPlayers()) {
-//            if(super.getPlayer(roomId, p.getId()) == null) {
-//                throw new GameGetException("해당 방에 존재하지 않는 플레이어입니다.");
-//            }
-//            if(!Boolean.parseBoolean(super.getPlayerInfo(roomId, p.getId(), "ready"))) {
-//                throw new GameGetException("모든 플레이어가 준비되지 않았습니다.");
-//            }
-//        }
-//
-//        /*** 유효성 검사 끝 ***/
-//        try {
-//
-//            // 게임 정보 존재하지 않을 경우
-//            if(super.getGame(roomId) == null) {
-//                /*** 유효성 검사 ***/
-//                if(room.isProgress()) {  // 게임이 이미 시작 중일 경우
-//                    throw new GameGetException();
-//                }
-//
-//                super.setGame(room.getId(), 0, 0);
-//                setCell(roomId, roomRequestDto);
-//            }
-//
-//            Object[] cellList = new Object[CELL_CNT];
-//            for (int i = 0; i < CELL_CNT; i++) {
-//                cellList[i] = super.getCell(roomId, i);
-//            }
-//
-//            roomRepository.save(Room.builder()
-//                            .id(roomId)
-//                            .players(room.getPlayers())
-//                            .progress(true)
-//                            .secret(room.isSecret())
-//                    .build());
-//
-//            return cellList;
-//        } catch(Exception e) {
-//            throw new GameGetException();
-//        }
-//    }
-
     public Object[] startGame(Map<String, Object> payload, String roomId) throws GameGetException {
-        //Map<String, Object> responsePayload = new HashMap<>();
-
         /*** 유효성 검사 ***/
         Room room = roomRepository.findById(roomId).orElseThrow(() -> new GameGetException("방 조회에 실패하였습니다."));
 
-        /*
-            TO DO :: 아래의 유효성 검사 이동 필요
-         */
-        //LAZY 에러 발생으로 임시 주석 처리
-//        if(room.getPlayers().size() != 4) {  // 정원 4인이 모두 접속하지 않았을 경우
-//            throw new GameGetException("4명이 되어야 게임을 시작할 수 있습니다.");
-//        }
+        if(room.getPlayers().size() != 4) {  // 정원 4인이 모두 접속하지 않았을 경우
+            throw new GameGetException("4명이 되어야 게임을 시작할 수 있습니다.");
+        }
 
-//        for(Player p : room.getPlayers()) {
-//            if(super.getPlayer(roomId, p.getId()) == null) {
-//                throw new GameGetException("해당 방에 존재하지 않는 플레이어입니다.");
-//            }
-//            if(!Boolean.parseBoolean(super.getPlayerInfo(roomId, p.getId(), "ready"))) {
-//                throw new GameGetException("모든 플레이어가 준비되지 않았습니다.");
-//            }
-//        }
+        for(Player p : room.getPlayers()) {
+            if(super.getPlayer(roomId, p.getId()) == null) {
+                throw new GameGetException("해당 방에 존재하지 않는 플레이어입니다.");
+            }
+            if(!Boolean.parseBoolean(super.getPlayerInfo(roomId, p.getId(), "ready"))) {
+                throw new GameGetException("모든 플레이어가 준비되지 않았습니다.");
+            }
+        }
 
         /*** 유효성 검사 끝 ***/
         try {
