@@ -5,6 +5,7 @@
   /* Safari and Chrome */
   -moz-transform: rotateY(180deg);
   /* margin: 10px; */
+  margin-top: -80px;
 }
 
 .nickname {

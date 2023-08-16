@@ -43,7 +43,7 @@ public class MinigameService extends RedisService {
         this.roomRepository = roomRepository;
     }
 
-    public LiarGameResponseDto setLiarGame(LiarGameRequestDto liarGameRequestDto, String roomId) throws GameSetException {
+    public LiarGameResponseDto setLiarGame(Map<String, Object> payload, String roomId) throws GameSetException {
         try {
             Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomGetException());
             List<String> playerIdList=new ArrayList<>();
@@ -53,19 +53,14 @@ public class MinigameService extends RedisService {
             }
 
             //멀티 게임이므로 2명 미만의 상태에서는 진행 불가
-//            if(playerIdList.size()<2){
-//                throw new GameSetException("라이어 게임은 두명 이상이어야 해요");
-//            }
+            if(playerIdList.size()<2){
+                throw new GameSetException("라이어 게임은 두명 이상이어야 해요");
+            }
 
             //게임 진행 턴(순서) 임의로 배정
             Collections.shuffle(playerIdList);
 
-            String subject=liarGameRequestDto.getSubject();
-
-            /*
-                CONFIRM :: 조건문을 바꿀 방법 찾기 (enum 데이터 저장 방식 변경)
-                            그러나 우아한 형제들 블로그에서는 enum과 함께 아래처럼 사용
-             */
+            String subject=((String) payload.getOrDefault("subject", "")).trim();
 
             String word="";
             if(subject.equals("animal")){ word= Animal.getRandomValue(); }

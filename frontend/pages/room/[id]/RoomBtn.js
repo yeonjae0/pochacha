@@ -112,7 +112,6 @@ export default function RoomBtn(props) {
   const [client] = useState(props.client);
   const ready = useState(props.ready);
   const includeMini = useSelector((state) => state.room.currentIncludeMini);
-  // let startGame = useSelector((state) => state.cell.startGame);
 
   /* 희진 : JS 클립보드 API 시작 */
   const roomId = useSelector((state) => state.room.currentRoomId); //오픈비두 세션
@@ -130,7 +129,7 @@ export default function RoomBtn(props) {
       includeMini: includeMini,
     };
 
-    if(client.current) {
+    if (client.current) {
       client.current.send(`/game/${info.roomId}`, {}, JSON.stringify(sendData));
     } else {
       alert("소켓 연결 실패!");
@@ -143,7 +142,7 @@ export default function RoomBtn(props) {
       playerId: info.playerId,
       ready: ready,
     };
-    if(client.current) {
+    if (client.current) {
       client.current.send(`/ready/${info.roomId}`, {}, JSON.stringify(sendData));
     } else {
       alert("소켓 연결 실패!");
@@ -168,13 +167,12 @@ export default function RoomBtn(props) {
       </CopyBtn>
 
       {props.head === true ? (
-        // CONFIRM :: 재랜더링이 되지 않아 STARTGAME 값 변경 시 버튼이 활성화되지 않음 (유효성 검사 임시 패스)
-        // startGame !== true ? (
-        //   <StartBtn /*onClick={alert("모두 준비되지 않았습니다")}*/>시작불가</StartBtn>
-        // ) : (
-        <StartBtn onClick={startGame}>시 작</StartBtn>
-      ) : (
-        //)
+        props.startGame !== true ? (
+          <StartBtn /*onClick={alert("모두 준비되지 않았습니다")}*/>시작불가</StartBtn>
+        ) : (
+          <StartBtn onClick={startGame}>시 작</StartBtn>
+        )) :
+
         <ReadyBtn
           onClick={() => {
             readyGame(props.ready);
@@ -183,7 +181,7 @@ export default function RoomBtn(props) {
           {" "}
           {props.ready === false ? "준 비" : "준비완료"}
         </ReadyBtn>
-      )}
+      }
     </div>
   );
 }

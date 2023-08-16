@@ -136,13 +136,26 @@ export default function EnterRoomPage() {
           //dispatch(addPlayers(playerInfo));
           dispatch(setMyData(playerInfo));
 
+      //     router.push({
+      //       pathname: `/room/${roomId}`,
+      //       query: { currentName: JSON.stringify(obj) },
+      //     });
+      //   };
+      //   sendData();
+      // })
+
+      /* 희진 : URL 숨김 시작 */
           router.push({
             pathname: `/room/${roomId}`,
             query: { currentName: JSON.stringify(obj) },
-          });
+            },
+            `/room/${roomId}`
+          );
         };
         sendData();
       })
+      /* 희진 : URL 숨김 끝 */
+
       .catch((error) => {
         if (error.response) {
           router.push({

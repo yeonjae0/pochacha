@@ -11,6 +11,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { enterRoom } from "@/store/reducers/room.js";
 import { setMyData } from "@/store/reducers/player.js";
+import { addPlayers, resetPlayers } from "@/store/reducers/players.js";
 
 /* 방장 입장 페이지 */
 export default function EnterPage() {
@@ -117,17 +118,33 @@ export default function EnterPage() {
               secret: response.data.room.secret,
             })
           );
+          // dispatch(addPlayers(playerInfo));
           dispatch(setMyData(playerInfo));
+          console.log()
 
+      //     router.push(
+      //       {
+      //         pathname: `/room/${response.data.room.id}`,
+      //         query: { currentName: JSON.stringify(obj) },
+      //       }
+      //     );
+      //   };
+      //   sendData();
+      // })
+          
+      /* 희진 : URL 숨김 시작 */
           router.push(
             {
               pathname: `/room/${response.data.room.id}`,
               query: { currentName: JSON.stringify(obj) },
-            }
+              },
+              `/room/${response.data.room.id}`
           );
         };
         sendData();
       })
+      /* 희진 : URL 숨김 끝 */
+
       .catch((error) => {
         if (error.response) {
           router.push({
@@ -141,43 +158,6 @@ export default function EnterPage() {
   };
   /* 유영 : axios를 통한 닉네임 생성 및 방 생성 끝 */
   /* 희진 : axios 렌더링 타이밍 변경 끝 */
-
-  /* 희진 : 추후 삭제 예정 시작 */
-  // const tmp = (
-  //   <div className="first" >
-
-  //     {/* <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}> */}
-  //     <div className="title">
-  //       {/* <img src="/tent.png" />
-  //       <br /> */}
-  //       <img src="/main/title.png" />
-  //       {/* <br /> */}
-  //     </div>
-
-  //     <div style={{ display: 'flex' }}>
-  //       <div className='leftBox'>
-  //         <div style={{ display: 'flex' }}>
-  //           <div className='imgCircle'></div>
-  //           <div className='inputNickname'>
-  //             <p style={{ fontSize: '20px' }}>캐릭터와 닉네임 선택</p>
-  //             <br />
-  //             <label htmlFor=""></label>
-  //             <input
-  //               value={text}
-  //               onChange={handleOnChange}
-  //               onKeyDown={enterDown}
-  //             />
-  //           </div>
-  //           <button id='startBtn' onClick={gameStart}>START</button>
-  //         </div>
-  //       </div>
-
-  //       <RightBox />
-  //       {/* <p id="bottom">서비스 약관 | 개인정보 취급정보 | 문의</p> */}
-  //     </div>
-  //   </div>
-  // )
-  /* 희진 : 추후 삭제 예정 끝 */
 
   return (
     <div className={styles.container}>

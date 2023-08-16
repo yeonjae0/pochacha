@@ -92,7 +92,7 @@
 /* 제정 : 캠 위치 선정을 위한 grid container */
 .grid_container {
   position: absolute;
-  z-index: 1;
+  z-index: 0;
   margin: 0 3.05vw;
   width: 94vw;
   height: 85vh;
