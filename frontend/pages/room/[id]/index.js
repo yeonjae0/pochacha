@@ -286,7 +286,7 @@ export default function RoomPage() {
     <div className={styles.container}>
       <div className="roof2"></div>
       <div className={styles.room}>
-      <div className={styles.camList} style={{ marginTop: '30px', marginLeft: '0px' }} >
+      <div className={styles.camList} style={{ marginTop: '50px', marginLeft: '0px', marginBottom: '10px'}} >
           {memoRoomCam} 
         </div>
         {memoRoomChat}
