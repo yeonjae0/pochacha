@@ -252,10 +252,6 @@ export default function GamePage() {
               ) : null}
               {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 끝*/}
 
-              // <div className={styles.camList}>
-              //   {/* <RoomCam /> */}
-              //   {memoRoomCam}
-              // </div>
 
               <div>
                 {/* 이전 메인 보드 */}

@@ -9,7 +9,7 @@ import axios from "axios";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 import { useDispatch, useSelector } from "react-redux";
-import { addPlayers, /*removePlayers,*/ resetPlayers } from "@/store/reducers/players.js";
+import { addPlayers, resetPlayers } from "@/store/reducers/players.js";
 import { ready } from "@/store/reducers/player.js";
 import {
   setPublisherData,
@@ -57,7 +57,7 @@ export default function RoomPage() {
       .then((response) => {
         console.log("플레이어들 정보 받아오기");
         console.log(response);
-        dispatch(resetPlayers([]));
+        // dispatch(resetPlayers([]));
 
         startGame = true; //이후의 유효성 검사에서 모두 통과 시에 게임 시작 가능
 
