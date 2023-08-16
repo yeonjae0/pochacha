@@ -1,11 +1,12 @@
 .streamcomponent video {
-  width: 300px;
+  width: 250px;
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg);
   /* Safari and Chrome */
   -moz-transform: rotateY(180deg);
   /* margin: 10px; */
   margin-top: -80px;
+  border-radius: 50px;
 }
 
 .nickname {
@@ -24,7 +25,7 @@
 
   text-align: center;
   color: white;
-  font-size: 28px;
+  font-size: 20px;
   line-height: 50px;
 }
 
