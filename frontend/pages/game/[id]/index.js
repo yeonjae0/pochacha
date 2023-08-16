@@ -45,7 +45,7 @@ export default function GamePage() {
   const publisher = useSelector(state => state.openvidu.publisher);
   const participants = useSelector(state => state.openvidu.participants);
   /* 제정 : RoomCam component에서 필요한 정보들 불러오기 끝 */
-  
+
   /* 혜지 : OpenVidu 관련 데이터 */
   const token = useSelector((state) => state.player.currentPlayerId);
   const roomId = useSelector((state) => state.room.currentRoomId);
@@ -150,7 +150,7 @@ export default function GamePage() {
       const sock = new SockJS("http://localhost:80/ws");
       return sock;
     });
-    client.current.debug = () => {};
+    client.current.debug = () => { };
   };
 
   const subscribeSocket = () => {
@@ -204,103 +204,80 @@ export default function GamePage() {
   };
   /* 연재 : 모달 끝 */
 
-<<<<<<< frontend/pages/game/[id]/index.js
-  return (
-    <div className={styles.container}>
-      <nav className={styles.infobar}>
-        <h5>주사위 눈 : {dice}, 현재 {pin}번 블록에 위치, {lab}바퀴</h5>
-      </nav>
-      <button className={styles.btnRolling} value="innerHTML" onClick={() => {
-        var sendData = {
-          "dice": dice,
-          "pin": pin,
-          "lab": lab,
-        };
-
-        client.current.send("/move/" + roomId, {}, JSON.stringify(sendData));
-        handleRollDiceClick();
-      }}>주사위 굴리기</button>
-      <div>
-        {/* <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}> */}
-      
-      {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 시작*/}
-      {session !== undefined ? (
-        <div id="session">
-          <div id="video-container" className={styles.grid_container}>
-            {publisher !== undefined ? (
-              <span className={Videostyles.streamcomponent} style={{gridArea: 'cam1'}}>
-                <OpenViduVideoComponent className={styles.cam}
-                  streamManager={publisher} />
-                <div className={Videostyles.nickname}>{nickname}</div>
-              </span>
-            ) : null}
-            {participants != null ? participants.map((par, i) => (
-              <span key={par.id} className={Videostyles.streamcomponent} style={{gridArea: `cam${i + 2}`}}>
-                <OpenViduVideoComponent className={styles.cam} streamManager={par} />
-                {console.log(par.nick)}
-                <div className={Videostyles.nickname}>{par.nick}</div>
-              </span>
-            )) : null}
-            
-          </div>
-        </div>
-      ) : null}
-      {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 끝*/}
-
-        {/* <div style={{ position: "relative" }}> */}
-=======
   /* 희진 : 리랜더링 방지 시작 */
-  const memoRoomCam = useMemo(() => {
-    return <RoomCam />
-  }, []);
+  // const memoRoomCam = useMemo(() => {
+  //   return <RoomCam />
+  // }, []);
   /* 희진 : 리랜더링 방지 끝 */
->>>>>>> frontend/pages/game/[id]/index.js
 
-  return (
-    <div>
-      <div className={styles.container}>
-        <nav className={styles.infobar}>
-          <h5>
-            주사위 눈 : {dice}, 현재 {pin}번 블록에 위치, {lab}바퀴
-          </h5>
-        </nav>
+        return (
         <div>
+          <div className={styles.container}>
+            <nav className={styles.infobar}>
+              <h5>
+                주사위 눈 : {dice}, 현재 {pin}번 블록에 위치, {lab}바퀴
+              </h5>
+            </nav>
+            <div>
 
-        <div>
-        <button className={styles.btnRolling} style={{ zIndex: '0' }} value="innerHTML" onClick={() => {
-          client.current.send("/move/" + roomId, {}, JSON.stringify({}));
-          handleRollDiceClick();
-        }}>주사위 굴리기</button>
-        </div>
-
-          <div className={styles.camList}>
-            {/* <RoomCam /> */}
-            {memoRoomCam}
-          </div>
-
-          <div>
-            {/* 이전 메인 보드 */}
-            {/* <ActiveBoard pin={pin} cellObj={cellObj} /> */}
-
-            {currentCell == "두더지 게임" ||
-            currentCell == "라이어 게임" ||
-            currentCell == "훈민정음" ? (
-              <GameSelect currentCell={currentCell} />
-            ) : (
               <div>
-                <DiceBox dice={dice} />
-                <ActiveBoard pin={pin} cellObj={cellObj} />
+                <button className={styles.btnRolling} style={{ zIndex: '0' }} value="innerHTML" onClick={() => {
+                  client.current.send("/move/" + roomId, {}, JSON.stringify({}));
+                  handleRollDiceClick();
+                }}>주사위 굴리기</button>
               </div>
-            )}
+              {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 시작*/}
+              {session !== undefined ? (
+                <div id="session">
+                  <div id="video-container" className={styles.grid_container}>
+                    {publisher !== undefined ? (
+                      <span className={Videostyles.streamcomponent} style={{ gridArea: 'cam1' }}>
+                        <OpenViduVideoComponent className={styles.cam}
+                          streamManager={publisher} />
+                        <div className={Videostyles.nickname}>{nickname}</div>
+                      </span>
+                    ) : null}
+                    {participants != null ? participants.map((par, i) => (
+                      <span key={par.id} className={Videostyles.streamcomponent} style={{ gridArea: `cam${i + 2}` }}>
+                        <OpenViduVideoComponent className={styles.cam} streamManager={par} />
+                        {console.log(par.nick)}
+                        <div className={Videostyles.nickname}>{par.nick}</div>
+                      </span>
+                    )) : null}
 
-            {/* 희진 : Temporary Board (추후 삭제 예정) */}
-            {/* <div style={{ position: "absolute" }}><BoardMap pin={pin} style={{ bottom: "0" }} /></div> */}
+                  </div>
+                </div>
+              ) : null}
+              {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 끝*/}
+
+              // <div className={styles.camList}>
+              //   {/* <RoomCam /> */}
+              //   {memoRoomCam}
+              // </div>
+
+              <div>
+                {/* 이전 메인 보드 */}
+                {/* <ActiveBoard pin={pin} cellObj={cellObj} /> */}
+
+                {currentCell == "두더지 게임" ||
+                  currentCell == "라이어 게임" ||
+                  currentCell == "훈민정음" ? (
+                  <GameSelect currentCell={currentCell} />
+                ) : (
+                  <div>
+                    <DiceBox dice={dice} />
+                    <ActiveBoard pin={pin} cellObj={cellObj} />
+                  </div>
+                )}
+
+                {/* 희진 : Temporary Board (추후 삭제 예정) */}
+                {/* <div style={{ position: "absolute" }}><BoardMap pin={pin} style={{ bottom: "0" }} /></div> */}
+              </div>
+            </div>
+            <>
+              <ModalPage currentCell={currentCell} pin={pin} />
+            </>
           </div>
         </div>
-        <>
-          <ModalPage currentCell={currentCell} pin={pin} />
-        </>
-      </div>
-    </div>
-  );
+        );
 }
