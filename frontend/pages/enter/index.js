@@ -119,15 +119,29 @@ export default function EnterPage() {
           );
           dispatch(setMyData(playerInfo));
 
+      //     router.push(
+      //       {
+      //         pathname: `/room/${response.data.room.id}`,
+      //         query: { currentName: JSON.stringify(obj) },
+      //       }
+      //     );
+      //   };
+      //   sendData();
+      // })
+          
+      /* 희진 : URL 숨김 시작 */
           router.push(
             {
               pathname: `/room/${response.data.room.id}`,
               query: { currentName: JSON.stringify(obj) },
-            }
+              },
+              `/room/${response.data.room.id}`
           );
         };
         sendData();
       })
+      /* 희진 : URL 숨김 끝 */
+
       .catch((error) => {
         if (error.response) {
           router.push({

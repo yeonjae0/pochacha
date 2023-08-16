@@ -146,10 +146,23 @@ export default function RoomPage() {
         if(data.error == undefined || data.error == null ) {
           dispatch(setCells(data));
 
+  //         router.push({
+  //           pathname: `/game/${roomId}`,
+  //           query: { currentName: JSON.stringify(info) },
+  //         });
+  //       } else {
+  //         alert("알림 : " + data.error);
+  //       }
+  //     }); // 게임 시작 신호 수신
+  //   });
+  // };
+
           router.push({
             pathname: `/game/${roomId}`,
             query: { currentName: JSON.stringify(info) },
-          });
+            },
+            `/game/${roomId}`
+            );
         } else {
           alert("알림 : " + data.error);
         }
@@ -276,7 +289,7 @@ export default function RoomPage() {
     <div className={styles.container}>
       <div className="roof2"></div>
       <div className={styles.room}>
-        <div className={styles.camList}>
+        <div className={styles.camList} style={{ marginTop: '30px', marginLeft: '0px' }} >
           {memoRoomCam}
           {/* <RoomCam/> */}
         </div>
