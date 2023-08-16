@@ -43,14 +43,13 @@ public class GameController {
 
     @MessageMapping("/game/{roomId}")
     public void startGame(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
-        System.out.println("게임 시작");
         try {
             Object[] responsePayload = gameService.startGame(payload, roomId);
             webSocket.convertAndSend("/topic/game/" + roomId, responsePayload);
         }catch(GameGetException e){
             HashMap<String, String> errorMsg = new HashMap<>();
             errorMsg.put("error", e.getMessage());
-            webSocket.convertAndSend("/topic/game/" + roomId, payload/* 임시 값 저장 */);
+            webSocket.convertAndSend("/topic/game/" + roomId, errorMsg/* 임시 값 저장 */);
         }
     }
 
