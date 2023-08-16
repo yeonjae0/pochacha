@@ -14,11 +14,11 @@ const persistConfig = {
 
 
 const perReducer = persistReducer(persistConfig, rootReducer);
-// const middlewares = [logger]
+const middlewares = [logger]
 
 export const store = configureStore({
   reducer: perReducer,
-  // middleware: middlewares
+  middleware: middlewares
 });
 
 const setUpStore = (context) => store;
