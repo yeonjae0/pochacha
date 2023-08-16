@@ -34,7 +34,7 @@ public class Room extends Base {
     private boolean progress;
 
     //FK
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room", fetch = FetchType.EAGER)
     private List<Player> players = new ArrayList<>();
 
 }
