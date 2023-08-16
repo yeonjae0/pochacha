@@ -112,14 +112,10 @@ export default function RoomBtn(props) {
   const [client] = useState(props.client);
   const ready = useState(props.ready);
   const includeMini = useSelector((state) => state.room.currentIncludeMini);
-  // let startGame = useSelector((state) => state.cell.startGame);
 
   /* 희진 : JS 클립보드 API 시작 */
   const roomId = useSelector((state) => state.room.currentRoomId); //오픈비두 세션
   let urls = `http://localhost:3000/enter/room/?` + `roomId=` + roomId;
-
-  // console.log("생성 url");
-  // console.log(urls);
 
   const clipBoard = () => {
     navigator.clipboard.writeText(urls);
@@ -152,35 +148,6 @@ export default function RoomBtn(props) {
     }
   };
 
-  /* Room --> Game 페이지 이동 기존 로직 주석 처리 */
-  // const sendData = () => {
-  //   let sendData = {
-  //     includeMini: includeMini,
-  //   };
-  //   /* 게임 시작 신호 전송 */
-  //   console.log("게임 시작 신호 전송 전");
-  //   /*
-  //     CONFIRM :: 타입에러 임시 해결을 위해 PROPS로 받아옴
-  //   */
-  //   client.current.send(`/game/${info.roomId}`, {}, JSON.stringify(sendData));
-  //   console.log("게임 시작 신호 전송");
-  //   // router.push(
-  //   //   {
-  //   //     pathname: `/game/${info.roomId}`,
-  //   //     query: { currentName: JSON.stringify(info) },
-  //   //   },
-  //   //   )
-  // };
-  // // 비방장 ready socket 전송
-  // const readyGame = (ready) => {
-  //   let sendData = {
-  //     playerId: info.playerId,
-  //     ready: ready,
-  //   };
-  //   client.current.send(`/ready/${info.roomId}`, {}, JSON.stringify(sendData));
-  //   console.log(ready);
-  // };
-
   return (
     <div style={{ marginTop: "20px" }}>
       <ModeBtn
@@ -202,7 +169,6 @@ export default function RoomBtn(props) {
         props.startGame !== true ? (
           <StartBtn /*onClick={alert("모두 준비되지 않았습니다")}*/>시작불가</StartBtn>
         ) : (
-          // <StartBtn onClick={sendData}>시 작</StartBtn>
           <StartBtn onClick={startGame}>시 작</StartBtn>
         )) :
 

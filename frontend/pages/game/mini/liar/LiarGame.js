@@ -1,110 +1,109 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
-import axios from "axios";
 import styles from '@/styles/LiarGame.module.css';
 import Phase2 from './Phase2';
 
 export default function Picktopic() {
-  const [word, setWord] = useState('abc')
-  const [status, setStatus] = useState('ready')
+  const [word, setWord] = useState('');
+  const [status, setStatus] = useState('ready');
+  const [client, setClient] = useState({});
 
-  let [client, setClient] = useState({});
-  
   const roomId = useSelector(state => state.room.currentRoomId);
-  
-  const handleTopicClick = (topic) => {
-    console.log('topic', topic)
-    axios({
-      url: `http://localhost:80/game/mini/liar/set/${roomId}`,
-      header: {
-        "Accept": "application/json",
-        "Content-type": "application/json;charset=UTF-8"
-      },
-      method: "POST",
-      data: {
-        "subject": topic
-      }
-    })
-    .then((response) => {
-      let data = response.data;
-      console.log(data)
-      setWord(data.word)
-      setStatus('checkWord')
-    })
-    .catch(e => console.log('error', e));
-  }
-   
+  const head = useSelector(state => state.player.currentHead);
+
   /* 혜지 : 소켓 연결 시작 */
   const connectSocket = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS("http://localhost:80/ws")
+      const sock = new SockJS("http://localhost:80/ws");
       return sock;
     });
   }
-  
+
   const subscribeSocket = () => {
     client.current.connect({}, () => {
-      client.current.subscribe(`/mini/liar/set/${roomId}`, (response) => {
-        let data = JSON.parse(response.body)
-        console.log(data)
+      client.current.subscribe(`/topic/mini/liar/set/${roomId}`, (response) => {
+        let data = JSON.parse(response.body);
+        console.log("라이어게임 단어");
+        console.log(data);
+
+        setWord(data.word);
+        setStatus('checkWord');
       })
     })
   }
 
   useEffect(() => {
-    connectSocket()
-    subscribeSocket()
+    connectSocket();
+    subscribeSocket();
   }, [])
- /* 혜지 : 소켓 연결 완료 */
+  /* 혜지 : 소켓 연결 완료 */
+
+  //방장 주제 전송
+  const handleTopicClick = (topic) => {
+    let sendData = {
+      subject: topic,
+    };
+    if (client.current) {
+      client.current.send(`/mini/liar/set/${roomId}`, {}, JSON.stringify(sendData));
+    } else {
+      alert("소켓 연결 실패!");
+    }
+  };
 
   return (
     <div style={{ textAlign: 'center' }}>
       {
         status == 'ready' ?
-        <div>
-        <div
-          className="pickTopic"
-          style={{
-            position: 'relative',
-            width: '450px',
-            height: '450px',
-            // overflow: 'hidden',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-          }}
-        >
-          <h1>주제를 골라주세요</h1>
-          <br/>
-          <div className={styles.buttonContainer}>
-            <button
-              className={styles.button}
-              onClick={() => handleTopicClick('animal')}>동물</button>
-            <button
-              className={styles.button}
-              onClick={() => handleTopicClick('country')}>나라</button>
-          </div>
-          <div className={styles.buttonContainer}>
-            <button
-             className={styles.button}
-             onClick={() => handleTopicClick('food')}>음식</button>
-            <button
-             className={styles.button}
-             onClick={() => handleTopicClick('objects')}>사물</button>
-          </div>
-          <div className={styles.buttonContainer}>
-            <button
-             className={styles.button}
-             onClick={() => handleTopicClick('singer')}>가수</button>
-            <button
-             className={styles.button}
-             onClick={() => handleTopicClick('sports')}>스포츠</button>
-          </div>  
-        </div>
-        </div>
-        : <ShowWord word = {word} />
+          (
+            head === true ?
+              (
+                <div>
+                  <div
+                    className="pickTopic"
+                    style={{
+                      position: 'relative',
+                      width: '450px',
+                      height: '450px',
+                      // overflow: 'hidden',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <h1>주제를 골라주세요</h1>
+                    <br />
+                    <div className={styles.buttonContainer}>
+                      <button
+                        className={styles.button}
+                        onClick={() => handleTopicClick('animal')}>동물</button>
+                      <button
+                        className={styles.button}
+                        onClick={() => handleTopicClick('country')}>나라</button>
+                    </div>
+                    <div className={styles.buttonContainer}>
+                      <button
+                        className={styles.button}
+                        onClick={() => handleTopicClick('food')}>음식</button>
+                      <button
+                        className={styles.button}
+                        onClick={() => handleTopicClick('objects')}>사물</button>
+                    </div>
+                    <div className={styles.buttonContainer}>
+                      <button
+                        className={styles.button}
+                        onClick={() => handleTopicClick('singer')}>가수</button>
+                      <button
+                        className={styles.button}
+                        onClick={() => handleTopicClick('sports')}>스포츠</button>
+                    </div>
+                  </div>
+                </div>
+              )
+              : (null/*방장이 아닐 때는 어떤 화면을 띄워? */)
+          )
+          : <ShowWord word={word} />
       }
     </div>
   )
@@ -124,14 +123,14 @@ function ShowWord(props) {
   // list = [player_id1, player_id2, player_id3, player_id4]
   // index로 라이어 지정
 
-    return (
-      <div>
+  return (
+    <div>
       {
-        invisible == false ? 
-        (liar == false ? <><h1>단어를 확인하세요.</h1><div>주어진 단어는 { word }입니다. 라이어에게 들기키 않게 설명하세요.</div></>
-        : <div>당신은 라이어입니다.</div>)
-        : <Phase2 />
+        invisible == false ?
+          (liar == false ? <><h1>단어를 확인하세요.</h1><div>주어진 단어는 {word}입니다. 라이어에게 들기키 않게 설명하세요.</div></>
+            : <div>당신은 라이어입니다.</div>)
+          : <Phase2 />
       }
-      </div>
+    </div>
   )
 }
