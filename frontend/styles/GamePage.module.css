@@ -38,13 +38,6 @@
   /* z-index: 1; */
 }
 
-.cam {
-  background-color: rgb(0, 255, 38);
-  width: 240px;
-  height: 180px;
-  border-radius: 50px / 50px;
-}
-
 .btnRolling {
   display: block;
   position: relative;
@@ -94,4 +87,25 @@
   100% {
     opacity: 1;
   }
+}
+
+/* 제정 : 캠 위치 선정을 위한 grid container */
+.grid_container {
+  position: absolute;
+  z-index: 1;
+  margin: 0 3.05vw;
+  width: 94vw;
+  height: 85vh;
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-rows: 1fr 17vh 1fr;
+  grid-template-areas: "cam1 . cam2"
+                       " . . ."
+                       "cam3 . cam4"
+}
+
+.cam {
+  width: 240px;
+  height: 140px;
+  background-color: black;
 }

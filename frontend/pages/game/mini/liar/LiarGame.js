@@ -41,13 +41,12 @@ export default function Picktopic() {
   //     const sock = new SockJS("http://localhost:80/ws")
   //     return sock;
   //   });
-  //   client.current.debug = () => { };
+  //   // client.current.debug = () => { };
   // }
   
-  // const subscribeSocket = (topic) => {
+  // const subscribeSocket = () => {
   //   client.current.connect({}, () => {
-  //     // callback 함수 설정, 대부분 여기에 sub 함수 씀
-  //     client.current.subscribe(`/mini/liar/set/${roomId}`, {topic}, (response) => {
+  //     client.current.subscribe(`/mini/liar/set/${roomId}`, (response) => {
   //       let data = JSON.parse(response.body)
   //       console.log(data)
   //     })
