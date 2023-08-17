@@ -47,7 +47,7 @@ export default function GamePage() {
   /* 혜지 : OpenVidu 관련 데이터 */
   const token = useSelector((state) => state.player.currentPlayerId);
   const roomId = useSelector((state) => state.room.currentRoomId);
-  
+
   let [dice, setDice] = useState(0); // 주사위
   let [pin, setPin] = useState(0); // 현재 위치
   let [lab, setLab] = useState(0); // 바퀴 수
@@ -113,6 +113,13 @@ export default function GamePage() {
     });
   };
 
+  function extendSession() {
+    session.extendSession();
+    // 세션 만료 시간을 현재 시간으로 연장
+  }
+
+
+
   useEffect(() => {
     connectSocket();
     subscribeSocket();
@@ -120,6 +127,9 @@ export default function GamePage() {
     setTimeout(() => {
       client.current.send("/move/" + roomId, {}, JSON.stringify({ "reload": true }));
     }, 100); // 비동기화 문제 (시간 조절)
+
+    // 사용자 활동이 있을 때마다 세션 연장
+    setInterval(extendSession, 300000); // 5분마다 세션 연장
   }, []);
 
   let handleRollDiceClick = () => {
@@ -177,77 +187,77 @@ export default function GamePage() {
           </h5>
         </nav>
 
-          <div style={{ textAlign: 'center' }}>
-            <button className={styles.btnRolling} style={{ zIndex: '0' }} value="innerHTML" onClick={() => {
-              client.current.send("/move/" + roomId, {}, JSON.stringify({}));
-              handleRollDiceClick();
-            }}>주사위 굴리기</button>
-          </div>
+        <div style={{ textAlign: 'center' }}>
+          <button className={styles.btnRolling} style={{ zIndex: '0' }} value="innerHTML" onClick={() => {
+            client.current.send("/move/" + roomId, {}, JSON.stringify({}));
+            handleRollDiceClick();
+          }}>주사위 굴리기</button>
+        </div>
 
-          {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 시작 */}
-          {session !== undefined ? (
-            <div id="session">
-              <div id="video-container" className={styles.grid_container}>
+        {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 시작 */}
+        {session !== undefined ? (
+          <div id="session">
+            <div id="video-container" className={styles.grid_container}>
 
-                {publisher !== undefined ? (
-                  <span className={Videostyles.streamcomponent} style={{ marginLeft: '50px', gridArea: 'cam1' }}>
-                    {memoRoomCamPub}
-                    {/* <OpenViduVideoComponent className={styles.cam} streamManager={publisher} /> */}
-                    <div className={Videostyles.nickname}>{nickname}</div>
-                  </span>
-                ) : null}
-                
-                {/* (희진 : 리랜더링 방지를 위해 주석 처리) */}
-                {/* {participants != null ? participants.map((par, i) => (
+              {publisher !== undefined ? (
+                <span className={Videostyles.streamcomponent} style={{ marginLeft: '50px', gridArea: 'cam1' }}>
+                  {memoRoomCamPub}
+                  {/* <OpenViduVideoComponent className={styles.cam} streamManager={publisher} /> */}
+                  <div className={Videostyles.nickname}>{nickname}</div>
+                </span>
+              ) : null}
+
+              {/* (희진 : 리랜더링 방지를 위해 주석 처리) */}
+              {/* {participants != null ? participants.map((par, i) => (
                       <span key={par.id} className={Videostyles.streamcomponent} style={{ gridArea: `cam${i + 2}` }}>
                         <OpenViduVideoComponent className={styles.cam} streamManager={par} />
                         <div className={Videostyles.nickname}>{par.nick}</div>
                       </span>
                     )) : null} */}
-                {/* (희진 : 리랜더링 방지를 위해 주석 처리) */}
-                {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 끝 */}
+              {/* (희진 : 리랜더링 방지를 위해 주석 처리) */}
+              {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 끝 */}
 
-                {participants != null ? (
-                  <>
+              {participants != null ? (
+                <>
                   (participant[0]!=null?
-                    <span className={Videostyles.streamcomponent} style={{ marginRight: '50px', gridArea: `cam${0 + 2}` }}>
-                      {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[0]} /> */}
-                      {memoVideoFirst}
-                      <div className={Videostyles.nickname}>{participants[0].nick}</div>
-                    </span>
-                    :null)
-                    (participant[1]!=null?
-                    <span className={Videostyles.streamcomponent} style={{ marginLeft: '50px', gridArea: `cam${1 + 2}` }}>
-                      {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[1]} /> */}
-                      {memoVideoSecond}
-                      <div className={Videostyles.nickname}>{participants[1].nick}</div>
-                    </span>
-                    :null)
-                    (participant[2]!=null?
-                    <span className={Videostyles.streamcomponent} style={{ marginRight: '50px', gridArea: `cam${2 + 2}` }}>
-                      {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[2]} /> */}
-                      {memoVideoThird}
-                      <div className={Videostyles.nickname}>{participants[2].nick}</div>
-                    </span>
-                    :null)
-                  </>
-                ) : null}
-              </div>
+                  <span className={Videostyles.streamcomponent} style={{ marginRight: '50px', gridArea: `cam${0 + 2}` }}>
+                    {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[0]} /> */}
+                    {memoVideoFirst}
+                    <div className={Videostyles.nickname}>{participants[0].nick}</div>
+                  </span>
+                  :null)
+                  (participant[1]!=null?
+                  <span className={Videostyles.streamcomponent} style={{ marginLeft: '50px', gridArea: `cam${1 + 2}` }}>
+                    {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[1]} /> */}
+                    {memoVideoSecond}
+                    <div className={Videostyles.nickname}>{participants[1].nick}</div>
+                  </span>
+                  :null)
+                  (participant[2]!=null?
+                  <span className={Videostyles.streamcomponent} style={{ marginRight: '50px', gridArea: `cam${2 + 2}` }}>
+                    {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[2]} /> */}
+                    {memoVideoThird}
+                    <div className={Videostyles.nickname}>{participants[2].nick}</div>
+                  </span>
+                  :null)
+                </>
+              ) : null}
             </div>
-          ) : null}
-
-          <div>
-            {currentCell == "두더지 게임" ||
-              currentCell == "라이어 게임" ||
-              currentCell == "훈민정음" ? (
-              <GameSelect currentCell={currentCell} />
-            ) : (
-              <div>
-                <DiceBox dice={dice} />
-                <ActiveBoard pin={pin} cellObj={cellObj} />
-              </div>
-            )}
           </div>
+        ) : null}
+
+        <div>
+          {currentCell == "두더지 게임" ||
+            currentCell == "라이어 게임" ||
+            currentCell == "훈민정음" ? (
+            <GameSelect currentCell={currentCell} />
+          ) : (
+            <div>
+              <DiceBox dice={dice} />
+              <ActiveBoard pin={pin} cellObj={cellObj} />
+            </div>
+          )}
+        </div>
 
         <>
           <ModalPage currentCell={currentCell} pin={pin} />
