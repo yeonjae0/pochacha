@@ -157,9 +157,9 @@ public class MinigameService extends RedisService {
             else{
                 String liar=super.getLiarGameInfo(roomId,"liar");
                 String word=super.getLiarGameInfo(roomId,"word");
-                boolean winner=false;
+                boolean winner=true;
                 if(voteList.get(0).getPlayerId().equals(liar)){
-                    winner=true;
+                    winner=false;
                 }
 
                 liarGameResponseDto=LiarGameResponseDto.builder()
