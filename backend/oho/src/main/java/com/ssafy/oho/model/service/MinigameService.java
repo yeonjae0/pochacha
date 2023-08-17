@@ -356,8 +356,9 @@ public class MinigameService extends RedisService {
                 int tempScore=Integer.parseInt(map.get(key).toString());
                 result.add(new MoleGameResultDto(id,tempScore));
             }
-
+            Collections.sort(result);
             MoleGameResponseDto moleGameResponseDto=null;
+            System.out.println(result.size());
             if(result.size()==4){
                 moleGameResponseDto=MoleGameResponseDto.builder().finish(true).result(result).build();
             }

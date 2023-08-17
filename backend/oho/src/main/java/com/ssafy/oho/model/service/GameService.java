@@ -2,6 +2,7 @@ package com.ssafy.oho.model.service;
 
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.GameResponseDto;
+import com.ssafy.oho.model.dto.response.PenaltyResponseDto;
 import com.ssafy.oho.model.entity.Cell;
 import com.ssafy.oho.model.entity.Minigame;
 import com.ssafy.oho.model.entity.Player;
@@ -10,6 +11,7 @@ import com.ssafy.oho.model.repository.CellRepository;
 import com.ssafy.oho.model.repository.MinigameRepository;
 import com.ssafy.oho.model.repository.RoomRepository;
 import com.ssafy.oho.util.exception.GameGetException;
+import com.ssafy.oho.util.exception.RoomGetException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -90,7 +92,7 @@ public class GameService extends RedisService {
             throw new GameGetException();
         }
     }
-    public void setCell(String roomId, RoomRequestDto roomRequestDto) throws GameGetException {
+    public void setCell2(String roomId, RoomRequestDto roomRequestDto) throws GameGetException {
         List<Minigame> miniCellList = minigameRepository.findAll();
 
         Minigame minigame;
@@ -101,7 +103,7 @@ public class GameService extends RedisService {
         }
     }
 
-    public void setCell2(String roomId, RoomRequestDto roomRequestDto) throws GameGetException {
+    public void setCell(String roomId, RoomRequestDto roomRequestDto) throws GameGetException {
         List<Cell> normalCellList = cellRepository.findTop19Random();
 
         if(roomRequestDto.isIncludeMini()) { // 미니게임 ON 시작
@@ -135,24 +137,64 @@ public class GameService extends RedisService {
     public Map<String, Object> movePin(Map<String, Object> payload, String roomId) {
         Map<String, Object> responsePayload = new HashMap<>();
 
-        int dice = (!payload.containsKey("reload"))?(int) (Math.random() * 6) +1 : 0;
+        boolean set=(boolean) payload.get("set");
 
-        int pin = Integer.parseInt(super.getGameInfo(roomId, "pin"));
-        int lab = Integer.parseInt(super.getGameInfo(roomId, "lab"));
+        if(set==false) {
+            int dice = (!payload.containsKey("reload")) ? (int) (Math.random() * 6) + 1 : 0;
 
-        Map<String, String> hash = new HashMap<>();
+            int pin = Integer.parseInt(super.getGameInfo(roomId, "pin"));
+            int lab = Integer.parseInt(super.getGameInfo(roomId, "lab"));
 
-        /* 혜지 : dice 값 추가 */
-        hash.put("dice",Integer.toString(dice));
-        hash.put("pin", Integer.toString((pin + dice) % 24));
-        if(Integer.parseInt(hash.get("pin")) < 0) hash.put("pin", hash.get("pin") + 24);
-        if(pin > Integer.parseInt(hash.get("pin"))) hash.put("lab", Integer.toString(++lab));
+            Map<String, String> hash = new HashMap<>();
 
-        super.setGameInfo(roomId, hash);  // Redis에 저장
+            /* 혜지 : dice 값 추가 */
+            hash.put("dice", Integer.toString(dice));
+            hash.put("pin", Integer.toString((pin + dice) % 24));
+            if (Integer.parseInt(hash.get("pin")) < 0) hash.put("pin", hash.get("pin") + 24);
+            if (pin > Integer.parseInt(hash.get("pin"))) hash.put("lab", Integer.toString(++lab));
 
-        responsePayload.put("game", super.getGame(roomId));
-        responsePayload.put("cell", super.getCell(roomId, Integer.parseInt(hash.get("pin"))));
+            super.setGameInfo(roomId, hash);  // Redis에 저장
 
+            responsePayload.put("game", super.getGame(roomId));
+            responsePayload.put("cell", super.getCell(roomId, Integer.parseInt(hash.get("pin"))));
+        }
+        else{
+            int move=Integer.parseInt(payload.get("move").toString());
+            int dice = Integer.parseInt(super.getGameInfo(roomId, "dice"));
+            int pin = Integer.parseInt(super.getGameInfo(roomId, "pin"));
+            int newPin=pin+move;
+            if(newPin<0) newPin+=24;
+            if(newPin>23) newPin%=24;
+            int lab = Integer.parseInt(super.getGameInfo(roomId, "lab"));
+            if(pin>newPin) lab++;
+
+            Map<String, String> hash = new HashMap<>();
+            hash.put("dice", Integer.toString(dice));
+            hash.put("pin", Integer.toString(newPin));
+            hash.put("lab",Integer.toString(lab));
+
+            super.setGameInfo(roomId, hash);  // Redis에 저장
+
+            responsePayload.put("game", super.getGame(roomId));
+            responsePayload.put("cell", super.getCell(roomId, Integer.parseInt(hash.get("pin"))));
+        }
         return responsePayload;
+    }
+
+    public PenaltyResponseDto getFaceFilter(Map<String, Object> payload, String roomId) throws GameGetException {
+        try {
+            Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomGetException());
+            String nickname=payload.get("nickname").toString();
+            Random random=new Random();
+            int num=random.nextInt(4);//4 미만의 랜덤 수
+
+            PenaltyResponseDto penaltyResponseDto=PenaltyResponseDto.builder()
+                    .nickname(nickname)
+                    .num(num)
+                    .build();
+            return penaltyResponseDto;
+        }catch (Exception e){
+            throw new GameGetException("벌칙 생성에 실패했어요");
+        }
     }
 }

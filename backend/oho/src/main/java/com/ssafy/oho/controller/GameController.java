@@ -44,6 +44,7 @@ public class GameController {
     @MessageMapping("move/{roomId}")
     public void movePin(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
         Map<String, Object> responsePayload = gameService.movePin(payload, roomId);
+
         webSocket.convertAndSend("/topic/move/" + roomId, responsePayload);
     }
 
@@ -55,5 +56,16 @@ public class GameController {
         // 타이머 시간 추가
         TimeStatusResponseDto timeStatusResponseDto = TimeStatusResponseDto.builder().time(time).build();
         webSocket.convertAndSend("/topic/timer/" + roomId, timeStatusResponseDto);
+    }
+
+    @MessageMapping("/penalty/{roomId}")
+    public void getFaceFilter(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
+        try {
+            webSocket.convertAndSend("/topic/penalty/" + roomId, gameService.getFaceFilter(payload,roomId));
+        }catch(GameGetException e){
+            HashMap<String, String> errorMsg = new HashMap<>();
+            errorMsg.put("error", e.getMessage());
+            webSocket.convertAndSend("/topic/penalty/" + roomId, errorMsg/* 임시 값 저장 */);
+        }
     }
 }
