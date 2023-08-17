@@ -38,8 +38,6 @@ export default function RoomPage() {
   const head = useSelector((state) => state.player.currentHead);
   const playerReady = useSelector((state) => state.player.currentReady);
   const startGame = useSelector((state) => state.players.canStart);
-
-  // const [startGame, setStart] = useState(false); //게임 시작 불가 상태
   const [chatHistory, setChatHistory] = useState(`${info.nick}님이 입장하셨습니다.` + "\n");
 
   /* 유영 : 최초 한 번 사용자 목록 불러오기 시작 */
@@ -57,22 +55,15 @@ export default function RoomPage() {
     })
       .then((response) => {
         dispatch(resetPlayers([]));
-        setStart(true); //이후의 유효성 검사에서 모두 통과 시에 게임 시작 가능
 
         /* 혜지 : 접속 플레이어들 정보를 저장 시작 */
         const arrayLength = response.data.length;
-
-        //[유효성 검사] 현재 접속 플레이어 수가 4명 이하일 때 게임 시작 불가
-        if (arrayLength < 4) setStart(false);
 
         for (let i = 0; i < arrayLength; i++) {
           let head = response.data[i].head;
           let id = response.data[i].id;
           let nickname = response.data[i].nickname;
           let ready = response.data[i].ready;
-
-          //[유효성 검사] 현재 접속 플레이어 중 한 명이라도 ready 상태가 아닐 때 게임 시작 불가
-          if (ready === false) setStart(false);
 
           let obj = {
             head: head,
@@ -83,7 +74,7 @@ export default function RoomPage() {
 
           dispatch(addPlayers(obj));
           dispatch(addTmpPlayer({ id, nickname, ready, head }));
-          console.log("받아온 데이터 결과 stargame");
+          console.log("받아온 데이터 결과 startgame");
           console.log(startGame);
           dispatch(setStartGame(startGame));
         }
@@ -103,7 +94,7 @@ export default function RoomPage() {
 
   /* 유영 : 사용자 삭제 시작 */
   const deletePlayer = async () => {
-    dispatch(deleteTmpPlayer({id: token}));  // redux에서 플레이어 샂게
+    dispatch(deleteTmpPlayer({id: token}));  // redux에서 플레이어 삭제
     await client.current.send(`/leave/${roomId}`, {}, JSON.stringify({ playerId: token }));
   };
   /* 유영 : 사용자 삭제 끝 */
@@ -219,15 +210,16 @@ export default function RoomPage() {
   /* 혜지 : OpenVidu 연결 관련 메소드 완료 */
 
   useEffect(() => {
+    joinSession(token);
     dispatch(resetTmpPlayers());  // redux players 삭제
     getPlayerList();
     connectSocket();
     subscribeSocket();
 
     window.addEventListener("beforeunload", onbeforeunload);
-    joinSession(token);
+
     return () => {
-      //window.removeEventListener("beforeunload", onbeforeunload);
+      window.removeEventListener("beforeunload", onbeforeunload);
       if (subGame) {
         console.log("구독해제")
         subGame.unsubscribe();

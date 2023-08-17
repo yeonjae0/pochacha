@@ -6,7 +6,7 @@ import axios from 'axios';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { startGame, losingPlayer } from '@/store/reducers/spell';
-import { useSpeechRecognition } from 'react-speech-kit';
+import { useSpeechRecognition } from 'react-speech-kit'; <div className=""></div>
 
 export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
 
@@ -23,6 +23,7 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
   // const [sejong, setSejong] = usestate<string>("/초성_세종대왕_기본.png")
   const roomId = useSelector(state => state.room.currentRoomId);
   const players = useSelector(state => state.players.players);
+  const tmpPlayers = useSelector(state => state.players.tmpPlayers);
   const currentIdx = useSelector(state => state.spell.currentIdx);
   // const currentRandomConsonant = useSelector(state => state.spell.currentConsonant)
   // const playersLength = useSelector(state => state.players.players.length);
@@ -80,7 +81,10 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
     }).then((response) => {
       let data = response.data;
       console.log('response.data', data)
-      console.log('순서!!!!!', data.playerIdList)  // --> 정보가 들어오지 않음.
+      console.log('순서!!!!!', data.playerIdList)
+      console.log('순서!!!!!', data.playerIdList[0])
+      // console.log('확인', tmpPlayers[].nick)
+
       const randomConsonant = data.firstWord + data.secondWord;
       setRandomConsonant(data.firstWord + data.secondWord);
       dispatch(startGame(randomConsonant))
@@ -134,6 +138,12 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
               console.log('players 정보', players)
               // tmpFn()
               console.log('updatedWords.length------>', updatedWords.length)
+
+              setCnt((prevCnt) => (prevCnt + 1) % 4);
+              // setCnt((cnt+1)%4);
+              console.log('cnt!!!!!!!!!!!!!!!', cnt)
+              console.log('currentIdx!!!!!!!!!', currentIdx)
+
               resetSec();
               // goToNextPlayer()
               // console.log('players 정보', players[0].nick)
@@ -155,16 +165,20 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
       })  // 채팅 구독
     })
   }
-  // useEffect(() => {
-
-  // },[setInputWords] )
-
+ 
+  let playersIdList = Object.keys(tmpPlayers)  // tmpPlayers ID 값들 리스트로 받음
   useEffect(() => {
     connectSocket();
     subscribeSocket();
     setConsonant();
-    // let updatedWords = null
+    console.log('tmpPlayers', tmpPlayers)
+    // console.log(tmpPlayers[playersIdList[0]].nickname) 
+    // console.log(tmpPlayers[playersIdList[1]].nickname) 
+    // console.log(tmpPlayers[playersIdList[2]].nickname) 
+    // console.log(tmpPlayers[playersIdList[3]].nickname) 
+    console.log('tmpPlayers 확인', playersIdList)
   }, []);
+
 
   useEffect(()=>{
     setTimeout(() => {
@@ -176,9 +190,8 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
   })
 
   useEffect(() => {   
-    setCnt((prevCnt) => (prevCnt + 1) % 4);
-    dispatch(losingPlayer((cnt+1)%4))
-    console.log('cnt!!!!!!!!!!!!!!!', (cnt+1)%4)
+    dispatch(losingPlayer(tmpPlayers[playersIdList[cnt]].nickname))
+
   }, [inputWords]);
 
   // useEffect(() => {
@@ -226,12 +239,9 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
         </div>
     : null }
 
-      {/* <h2>{currentPlayer}님의 차례입니다.</h2> */}
       <div className={styles.wrapper}>
         <div className={styles.upperContainer}>
-          {/* 뒤로 가기 버튼 */}
-          {/* <button type="button" onClick={() => router.back()}>Click here to go back</button> */}
-      <div style={{ fontSize: '25px' }}>{players[cnt].nick}님의 차례입니다. {sec}초 남았습니다.</div>
+      <div style={{ fontSize: '25px' }}>{tmpPlayers[playersIdList[cnt]].nickname}님의 차례입니다. {sec}초 남았습니다.</div>
       {/* <h4>{cnt}</h4> */}
           <input
             type="text"
