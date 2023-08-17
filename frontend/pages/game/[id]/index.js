@@ -268,27 +268,21 @@ export default function GamePage() {
 
               {participants != null ? (
                 <>
-                  (participant[0]!=null?
                   <span className={Videostyles.streamcomponent} style={{ marginRight: '50px', gridArea: `cam${0 + 2}` }}>
                     {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[0]} /> */}
                     {memoVideoFirst}
                     <div className={Videostyles.nickname}>{participants[0].nick}</div>
                   </span>
-                  :null)
-                  (participant[1]!=null?
                   <span className={Videostyles.streamcomponent} style={{ marginLeft: '50px', gridArea: `cam${1 + 2}` }}>
                     {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[1]} /> */}
                     {memoVideoSecond}
                     <div className={Videostyles.nickname}>{participants[1].nick}</div>
                   </span>
-                  :null)
-                  (participant[2]!=null?
                   <span className={Videostyles.streamcomponent} style={{ marginRight: '50px', gridArea: `cam${2 + 2}` }}>
                     {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[2]} /> */}
                     {memoVideoThird}
                     <div className={Videostyles.nickname}>{participants[2].nick}</div>
                   </span>
-                  :null)
                 </>
               ) : null}
             </div>
