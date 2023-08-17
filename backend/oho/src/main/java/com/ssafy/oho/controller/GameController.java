@@ -1,6 +1,7 @@
 package com.ssafy.oho.controller;
 
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
+import com.ssafy.oho.model.dto.response.GameResponseDto;
 import com.ssafy.oho.model.dto.response.TimeStatusResponseDto;
 import com.ssafy.oho.model.service.GameService;
 import com.ssafy.oho.util.exception.GameGetException;
@@ -34,7 +35,7 @@ public class GameController {
     @MessageMapping("/game/{roomId}")
     public void startGame(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
         try {
-            Object[] responsePayload = gameService.startGame(payload, roomId);
+            GameResponseDto responsePayload = gameService.startGame(payload, roomId);
             webSocket.convertAndSend("/topic/game/" + roomId, responsePayload);
         }catch(GameGetException e){
             HashMap<String, String> errorMsg = new HashMap<>();
