@@ -25,10 +25,7 @@ export default function RoomPage() {
   /* 혜지 : 첫 렌더링 시에 OV, session 세팅 */
   let OV=new OpenVidu()
   let session=OV.initSession();
-  //let devices=OV.getDevices();
   dispatch(openViduActions.createOpenVidu({OV,session/*,devices*/}));
-  //let OV=useSelector((state) => state.openvidu.OV);
-  //let session=useSelector((state) => state.openvidu.session);
 
   let subGame=null;
 
