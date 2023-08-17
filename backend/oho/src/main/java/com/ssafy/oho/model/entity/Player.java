@@ -28,7 +28,7 @@ public class Player extends Base {
     @JoinColumn(name="room_id", nullable = false)
     private Room room;
 
-    @Column(name="nickname",nullable = false, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8")
+    @Column(name="nickname",nullable = false, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8"/*, unique = true*/)
     private String nickname;
 
     @Column(name="head",nullable = false)

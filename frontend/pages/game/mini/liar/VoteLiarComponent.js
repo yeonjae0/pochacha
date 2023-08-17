@@ -15,10 +15,14 @@ export default function VoteLiarComponent(){
 
     const roomId = useSelector(state => state.room.currentRoomId);
     const currentPlayer = useSelector(state => state.player)
-    let players = useSelector(state => state.players.players)
-    // console.log('플레이어', currentPlayer)
-    // console.log('플레이어들', players)
+    const players = useSelector(state => state.players.tmpPlayers)
 
+    let playerList = Object.keys(players)
+
+    console.log('플레이어', currentPlayer)
+    console.log('플레이어들', players)
+    console.log('플레이어 리스트', playerList)
+    
     const handleRadioChange = (event) => {
       setSelectedPlayer(event.target.id)
       console.log(selectedPlayer)
@@ -53,7 +57,7 @@ export default function VoteLiarComponent(){
             }
             else {
               setStageStatus('voting')
-              players = data.tiebreaker
+              // players = data.tiebreaker
               //재투표
               //투표 대상 : tiebreaker
               //투표 대상 인원 : tiebreaker.length()
@@ -110,10 +114,10 @@ export default function VoteLiarComponent(){
               <legend className={styles.legend}>라이어라고 생각되는 사람에게 투표하세요</legend>
               <div>
               {
-                players.map((player, i) => (
-                  <label key={player.id}>
-                    <input style={{marginTop:'20px'}} type="radio" id={player.playerId} name="votePlayer" value={player.nick} onChange={handleRadioChange}/>
-                    <span style={{fontSize: '18px'}}>{player.nick}</span><br />
+                playerList.map((player, i) => (
+                  <label key={i}>
+                    <input style={{marginTop:'20px'}} type="radio" id={players[player].id} name="votePlayer" value={players[player].nickname} onChange={handleRadioChange}/>
+                    <span style={{fontSize: '18px'}}>{players[player].nickname}</span><br />
                   </label>
                 ))
               }
