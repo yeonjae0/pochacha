@@ -2,7 +2,6 @@ import { combineReducers } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 
 // 슬라이스들 import
-import fruitSlice from "./fruit";
 import roomSlice from "./room";
 import playersSlice from "./players";
 import playerSlice from "./player";
@@ -18,7 +17,6 @@ const rootReducer = (state, action) => {
     default: {
       const combineReducer = combineReducers({
         // 여기에 slice들 추가해서 묶어주기
-        fruit: fruitSlice.reducer,
         room: roomSlice.reducer,
         player: playerSlice.reducer,
         players: playersSlice.reducer,

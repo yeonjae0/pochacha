@@ -188,7 +188,7 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
       // return () => {
       //   clearTimeout(timeout);
       // };
-    }, 2000); 
+    }, 3000); 
   })
 
 
