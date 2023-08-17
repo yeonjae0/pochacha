@@ -215,7 +215,7 @@ public class RedisService {
                 hashOperations.put(getLiarGameKey(roomId),"total",Integer.toString(total));
 
                 for (int i = 0; i < playerIdList.size(); i++) {
-                    hashOperations.put(getLiarGameVoteListKey(roomId), playerIdList.get(i), Integer.toString(0));
+                    hashOperations.put(getLiarGameVoteListKey(roomId),playerIdList.get(i),Integer.toString(0));
                 }
 
 
@@ -235,7 +235,7 @@ public class RedisService {
                 operations.multi();//트랜잭션 시작
                 hashOperations.put(getLiarGameKey(roomId),"total",Integer.toString(total));
                 for (int i = 0; i < voteList.size(); i++) {
-                    hashOperations.put(getLiarGameVoteListKey(roomId), voteList.get(i).getPlayerId(),voteList.get(i).getCnt());
+                    hashOperations.put(getLiarGameVoteListKey(roomId), voteList.get(i).getPlayerId(),Integer.toString(voteList.get(i).getCnt()));
                 }
 
                 List<Object> result = operations.exec();  // 트랜잭션 실행
@@ -244,10 +244,8 @@ public class RedisService {
             }
         });
         redisTemplate.expire(getLiarGameKey(roomId), SERVICE_TTL.get("mini"), TimeUnit.SECONDS);
-    }
-    protected Map<Object, Object> getLiarGameVoteList(String roomId) {
-        if(hashOperations.entries(getLiarGameVoteListKey(roomId)).size() == 0) return null;
-        return hashOperations.entries(getLiarGameVoteListKey(roomId));
+    }    protected String getLiarGameVoteList(String roomId,String hashKey) {
+        return (String) hashOperations.get(getLiarGameVoteListKey(roomId), hashKey);
     }
     protected String getLiarGameInfo(String roomId, String hashKey) {
         return (String) hashOperations.get(getSpellKey(roomId), hashKey);
@@ -265,8 +263,9 @@ public class RedisService {
                 hashOperations.put(getSpellKey(roomId), "firstWord", firstWord);
                 hashOperations.put(getSpellKey(roomId), "secondWord", secondWord);
                 for (int i = 0; i < playerIdList.size(); i++) {
-                    hashOperations.put(getSpellKey(roomId), playerIdList.get(i), Boolean.toString(false));
+                    hashOperations.put(getSpellKey(roomId), "player" + i, playerIdList.get(i));
                 }
+                hashOperations.put(getSpellKey(roomId), "index", "0");
 
                 List<Object> result = operations.exec();  // 트랜잭션 실행
                 if(result == null) System.out.println("SPELL :: REDIS TRANSACTION ERROR");

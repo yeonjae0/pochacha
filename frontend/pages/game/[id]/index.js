@@ -11,9 +11,7 @@ import Videostyles from '@/styles/UserVideo.module.css';
 import { styled } from "styled-components";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
-//import axios from "axios";
 import { useSelector } from "react-redux";
-import RoomCam from "@/pages/room/[id]/RoomCam";
 
 /* 연재 : 모달 시작 */
 const ModalContainer = styled.div`
@@ -38,7 +36,7 @@ export default function GamePage() {
   const router = useRouter();
 
   /* 제정 : RoomCam component에서 필요한 정보들 불러오기 시작 */
-  const session = useSelector(state => state.room.currentRoomId);
+  const session = useSelector(state => state.openvidu.session);
   const nickname = useSelector(state => state.player.currentNick);
   const publisher = useSelector(state => state.openvidu.publisher);
   const participants = useSelector(state => state.openvidu.participants);
@@ -47,8 +45,7 @@ export default function GamePage() {
   /* 혜지 : OpenVidu 관련 데이터 */
   const token = useSelector((state) => state.player.currentPlayerId);
   const roomId = useSelector((state) => state.room.currentRoomId);
-  //let includeMini = useSelector((state) => state.room.currentIncludeMini); // 미니게임 진행 여부
-
+  
   let [dice, setDice] = useState(0); // 주사위
   let [pin, setPin] = useState(0); // 현재 위치
   let [lab, setLab] = useState(0); // 바퀴 수
@@ -59,6 +56,7 @@ export default function GamePage() {
   let [visible, setVisible] = useState(false)
 
   const data = useSelector((state) => state.cell.currentBoard);
+  console.log(data)
   const cellObj = {
     one: data[0].status,
     two: data[1].status,
@@ -98,25 +96,47 @@ export default function GamePage() {
     client.current.connect({}, () => {
       // callback 함수 설정, 대부분 여기에 sub 함수 씀
       client.current.subscribe(`/topic/move/${roomId}`, (response) => {
-        let data = JSON.parse(response.body);
-        if (data.game.dice !== prevDice) {
-          setDice(data.game.dice);
-          setPin(data.game.pin);
-          setLab(data.game.lab);
-          setCurrentCell(data.cell.name);
+        console.log('response', response)
+        // 앞선 data 중복으로 변경 data -> position
+        let position = JSON.parse(response.body);
+        // if (data.game.dice !== prevDice) {
+          console.log('currentCell.move------>', position.cell.move)
+          console.log('position', position)
+          setDice(position.game.dice);
+          setPin(position.game.pin);
+          setLab(position.game.lab);
+          setCurrentCell(position.cell.name);
           handleRollDiceClick();
-          if (data.cell.name == '두더지 게임' || data.cell.name == '라이어 게임' || data.cell.name == '훈민정음') {
+          // console.log(typeof(position.game.pin))
+          // console.log(typeof(parseInt(position.game.pin)))
+          // console.log(typeof(position.cell.move))
+          // console.log('position', position)
+
+        //   if (parseInt(position.cell.move) != 1) {
+        //     setPin(position.game.pin)
+        //     setPin(parseInt(position.game.pin) + parseInt(position.cell.move));
+        //     setDice(position.game.dice);
+        //     setCurrentCell(position.cell.name);
+        //     handleRollDiceClick();
+        //   }
+        //   else {
+        //   setDice(position.game.dice);
+        //   setPin(position.game.pin);
+        //   setLab(position.game.lab);
+        //   setCurrentCell(position.cell.name);
+        //   handleRollDiceClick();
+        // }
+          if (position.cell.name == '두더지 게임' || position.cell.name == '라이어 게임' || position.cell.name == '훈민정음') {
             setVisible(true)
           }
-        }
+        // }
 
       });
-    });
+    }
+    );
   };
 
   useEffect(() => {
-    // 최초 한 번 CellList 불러오기
-    //createMap();
     connectSocket();
     subscribeSocket();
 
@@ -184,15 +204,15 @@ export default function GamePage() {
 
   // 참가자 카메라
   const memoVideoFirst = useMemo(() => {
-    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[0]} />
+    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[0].participant} />
   }, [])
 
   const memoVideoSecond = useMemo(() => {
-    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[1]} />
+    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[1].participant} />
   }, [])
 
   const memoVideoThird = useMemo(() => {
-    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[2]} />
+    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[2].participant} />
   }, [])
   /* 희진 : 리랜더링 방지 끝 */
 
@@ -238,21 +258,27 @@ export default function GamePage() {
 
                 {participants != null ? (
                   <>
+                  (participant[0]!=null?
                     <span className={Videostyles.streamcomponent} style={{ marginRight: '50px', gridArea: `cam${0 + 2}` }}>
                       {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[0]} /> */}
                       {memoVideoFirst}
                       <div className={Videostyles.nickname}>{participants[0].nick}</div>
                     </span>
+                    :null)
+                    (participant[1]!=null?
                     <span className={Videostyles.streamcomponent} style={{ marginLeft: '50px', gridArea: `cam${1 + 2}` }}>
                       {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[1]} /> */}
                       {memoVideoSecond}
                       <div className={Videostyles.nickname}>{participants[1].nick}</div>
                     </span>
+                    :null)
+                    (participant[2]!=null?
                     <span className={Videostyles.streamcomponent} style={{ marginRight: '50px', gridArea: `cam${2 + 2}` }}>
                       {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[2]} /> */}
                       {memoVideoThird}
                       <div className={Videostyles.nickname}>{participants[2].nick}</div>
                     </span>
+                    :null)
                   </>
                 ) : null}
               </div>

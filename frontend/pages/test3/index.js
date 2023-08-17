@@ -3,9 +3,9 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { enterRoom } from "@/store/reducers/room.js";
-import { resetPlayers } from "@/store/reducers/players";
+import { resetPlayers, resetTmpPlayers } from "@/store/reducers/players";
 import { setMyData } from "@/store/reducers/player";
-import { resetParticipantsData, setPublisherData } from "@/store/reducers/openvidu";
+import { resetOpenvidu } from "@/store/reducers/openvidu";
 
 function ResetPage() {
   const dispatch = useDispatch();
@@ -13,8 +13,8 @@ function ResetPage() {
   const doInitialize = () => {
     dispatch(enterRoom({ currentRoomId: null, currentProgress: null, currentSecret: null }));
     dispatch(resetPlayers([]));
-    dispatch(resetParticipantsData([]));
-    dispatch(setPublisherData({}));
+    dispatch(resetTmpPlayers());
+    dispatch(resetOpenvidu());
     dispatch(setMyData({  currentPlayerId: null,
     currentNick: null,
     currentReady: false,
