@@ -131,7 +131,7 @@ export default function GamePage() {
           if (parseInt(position.cell.move) !== 0 &&  parseInt(position.cell.move) !== NaN) {
             addMoving(position.cell.move);
 
-        if (position.cell.name == "목소리 변조 벌칙") {
+        if (position.cell.name == '페이스 필터 벌칙') {
           callFaceFilter(nickname);
         }
 
@@ -242,7 +242,7 @@ export default function GamePage() {
     return (
       facefilterNick !== null ?
         (facefilterNick === nickname ?
-          <FilterVideoComponent className={styles.cam} streamManager={publisher} facefilterNum={facefilterNum} />
+          <FilterVideoComponent className={styles.cam} streamManager={publisher} num={facefilterNum} />
           : <OpenViduVideoComponent className={styles.cam} streamManager={publisher} />
         ) : null
     )
@@ -253,7 +253,7 @@ export default function GamePage() {
     return (
       facefilterNick !== null ?
         (facefilterNick === participants[0].nick ?
-          <FilterVideoComponent className={styles.cam} streamManager={publisher} facefilterNum={facefilterNum} />
+          <FilterVideoComponent className={styles.cam} streamManager={publisher} num={facefilterNum} />
           : <OpenViduVideoComponent className={styles.cam} streamManager={participants[0].participant} />
         ) : null
     )
@@ -263,7 +263,7 @@ export default function GamePage() {
     return (
       facefilterNick !== null ?
         (facefilterNick === participants[1].nick ?
-          <FilterVideoComponent className={styles.cam} streamManager={publisher} facefilterNum={facefilterNum} />
+          <FilterVideoComponent className={styles.cam} streamManager={publisher} num={facefilterNum} />
           : <OpenViduVideoComponent className={styles.cam} streamManager={participants[1].participant} />
         ) : null
     )
@@ -273,7 +273,7 @@ export default function GamePage() {
     return (
       facefilterNick !== null ?
         (facefilterNick === participants[2].nick ?
-          <FilterVideoComponent className={styles.cam} streamManager={publisher} facefilterNum={facefilterNum} />
+          <FilterVideoComponent className={styles.cam} streamManager={publisher} num={facefilterNum} />
           : <OpenViduVideoComponent className={styles.cam} streamManager={participants[2].participant} />
         ) : null
     )
