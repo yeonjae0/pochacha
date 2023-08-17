@@ -103,11 +103,9 @@ public class MinigameService extends RedisService {
             /*
                 TO DO :: 해당 방에 존재하는 player인지 유효성 검사 필요
              */
-            System.out.println("라이어 게임 유효성 검사 통과");
 
             int total = Integer.parseInt(super.getLiarGameInfo(roomId, "total"));
             total++;
-            System.out.println("TOTAL: "+total);
 
             List<LiarGameVoteDto> voteList=new ArrayList<>();
             for(Player player:room.getPlayers()){
@@ -307,7 +305,6 @@ public class MinigameService extends RedisService {
 
             return confirmMap;
         } catch(Exception e) {
-            e.printStackTrace();
             throw new GameGetException("훈민정음 조회에 실패하였습니다.");
         }
     }

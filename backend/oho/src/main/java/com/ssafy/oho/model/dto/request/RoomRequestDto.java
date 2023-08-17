@@ -6,7 +6,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-//@ToString
 @Builder
 public class RoomRequestDto {
     private String id;
