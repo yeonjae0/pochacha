@@ -11,14 +11,10 @@ import { Stomp } from "@stomp/stompjs";
 import { useDispatch, useSelector } from "react-redux";
 import { addPlayers, resetPlayers } from "@/store/reducers/players.js";
 import { ready } from "@/store/reducers/player.js";
-import {
-  setPublisherData,
-  setParticipantsData,
-  resetParticipantsData,
-} from "@/store/reducers/openvidu.js";
+import { openViduActions } from "@/store/reducers/openvidu";
 import { setCells, setStartGame } from "@/store/reducers/cell";
-import { OpenVidu } from "openvidu-browser";
 import styles from "@/styles/RoomPage.module.css";
+import { OpenVidu } from "openvidu-browser";
 
 export default function RoomPage() {
   const router = useRouter();
@@ -27,10 +23,14 @@ export default function RoomPage() {
   let info = router.query.currentName ? JSON.parse(router.query.currentName) : '';
 
   /* 혜지 : 첫 렌더링 시에 OV, session 세팅 */
-  let OV = new OpenVidu();
-  let session = OV.initSession();
+  let OV=new OpenVidu()
+  let session=OV.initSession();
+  //let devices=OV.getDevices();
+  dispatch(openViduActions.createOpenVidu({OV,session/*,devices*/}));
+  //let OV=useSelector((state) => state.openvidu.OV);
+  //let session=useSelector((state) => state.openvidu.session);
 
-  let subGame = null;
+  let subGame=null;
 
   console.log("session")
   console.log(session)
@@ -42,8 +42,6 @@ export default function RoomPage() {
   const playerReady = useSelector(state => state.player.currentReady);
 
   const [startGame, setStart] = useState(false); //게임 시작 불가 상태
-  const [publisher, setPublisher] = useState({}); //비디오, 오디오 송신자
-  const [participants, setParticipants] = useState([]); //참여자들
   const [chatHistory, setChatHistory] = useState(`${info.nick}님이 입장하셨습니다.` + "\n");
 
   /* 유영 : 최초 한 번 사용자 목록 불러오기 시작 */
@@ -62,7 +60,7 @@ export default function RoomPage() {
       .then((response) => {
         console.log("플레이어들 정보 받아오기");
         console.log(response);
-        // dispatch(resetPlayers([]));
+        dispatch(resetPlayers([]));
 
         setStart(true); //이후의 유효성 검사에서 모두 통과 시에 게임 시작 가능
 
@@ -147,6 +145,7 @@ export default function RoomPage() {
           dispatch(ready(data));
         }
       }); // 플레이어 정보 구독
+
       subGame = client.current.subscribe(`/topic/game/${roomId}`, (response) => {
         var data = JSON.parse(response.body);
 
@@ -167,40 +166,21 @@ export default function RoomPage() {
   };
 
   /* 혜지 : OpenVidu 연결 관련 메소드 시작 */
-  const onbeforeunload = async (e) => {
-    leaveSession();
-    await deletePlayer();
-  };
-
-  const deleteParticipant = (streamManager) => {
-    let tempParticipants = participants;
-    let index = tempParticipants.indexOf(streamManager, 0);
-    if (index > -1) {
-      tempParticipants.splice(index, 1);
-      setParticipants(tempParticipants);
-
-      dispatch(resetParticipantsData([]));
-      dispatch(setParticipantsData(tempParticipants));
-    }
-  };
+  // const onbeforeunload = async (e) => {
+  //   leaveSession();
+  //   await deletePlayer();
+  // };
 
   const joinSession = async (token) => {
     try {
       session.on("streamCreated", async (event) => {
-        let participant = session.subscribe(event.stream, undefined);
-        let tempParticipants = [];
-        participants.map((par) => {
-          tempParticipants.push({ par });
-          dispatch(setParticipantsData(par));
-        });
-        const nick = JSON.parse(participant.stream.connection.data.split("%")[0]).clientData;
-        dispatch(setParticipantsData({ nick: nick, participant: participant }));
-        tempParticipants.push({ nick: nick, participant: participant });
-        setParticipants(tempParticipants);
+        //let participant = session.subscribe(event.stream, undefined);
+        dispatch(openViduActions.enteredParticipant(event.stream));
       });
 
       session.on("streamDestroyed", (event) => {
-        deleteParticipant(event.stream.streamManager);
+        //deleteParticipant(event.stream.streamManager);
+        dispatch(openViduActions.deleteParticipant(event.stream.streamManager));
       });
 
       session.on("exception", (exception) => {
@@ -221,24 +201,19 @@ export default function RoomPage() {
         mirror: false,
       });
 
-      console.log("pub")
-      console.log(pub)
+      //await session.publish(pub);
 
-      await session.publish(pub);
-      let deviceList = await OV.getDevices();
+      let devices = await OV.getDevices();
+      var videoDevices = devices.filter((device) => device.kind === "videoinput");
+      var currentVideoDeviceId = pub.stream
+        .getMediaStream()
+        .getVideoTracks()[0]
+        .getSettings().deviceId;
+      var currentVideoDevice = videoDevices.find(
+        (device) => device.deviceId === currentVideoDeviceId
+      );
 
-      console.log("deviceList")
-      console.log(deviceList)
-      var videoDevices = deviceList.filter(device => device.kind === 'videoinput');
-      var currentVideoDeviceId = pub.stream.getMediaStream().getVideoTracks()[0].getSettings().deviceId;
-
-      console.log("getAudioTracks")
-      console.log(pub.stream.getMediaStream().getAudioTracks())
-
-      var currentVideoDevice = videoDevices.find(device => device.deviceId === currentVideoDeviceId);
-
-      setPublisher(pub);
-      dispatch(setPublisherData(pub));
+      dispatch(openViduActions.createPublisher({publisher:pub,currentVideoDevice:currentVideoDevice}));
     } catch (error) {
       console.log(error);
       router.push({
@@ -249,13 +224,7 @@ export default function RoomPage() {
   };
 
   const leaveSession = () => {
-    if (session) {
-      session.disconnect();
-    }
-
-    OV = null;
-    setPublisher(undefined);
-    setParticipants([]);
+    dispatch(openViduActions.leaveSession({}));
   };
   /* 혜지 : OpenVidu 연결 관련 메소드 완료 */
 
@@ -264,13 +233,13 @@ export default function RoomPage() {
     connectSocket();
     subscribeSocket();
 
-    window.addEventListener("beforeunload", onbeforeunload);
+    //window.addEventListener("beforeunload", onbeforeunload);
     joinSession(token);
     return () => {
-      window.removeEventListener("beforeunload", onbeforeunload);
-      if(subGame){
+      //window.removeEventListener("beforeunload", onbeforeunload);
+      if (subGame) {
         console.log("구독해제")
-        subGame.unsubscribe()
+        subGame.unsubscribe();
       }
     };
   }, []);
@@ -295,7 +264,7 @@ export default function RoomPage() {
     <div className={styles.container}>
       <div className="roof2"></div>
       <div className={styles.room}>
-      <div className={styles.camList} style={{ marginTop: '30px', marginLeft: '0px' }} >
+      <div className={styles.camList} style={{ marginTop: '50px', marginBottom: '10px', textAlign: 'center' }} >
           {memoRoomCam} 
         </div>
         {memoRoomChat}

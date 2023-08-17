@@ -1,9 +1,8 @@
 package com.ssafy.oho.model.service;
 
-import com.google.gson.JsonObject;
-import com.ssafy.oho.model.dto.request.LiarGameRequestDto;
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.LiarGameResponseDto;
+import com.ssafy.oho.model.dto.response.LiarGameVoteDto;
 import com.ssafy.oho.model.entity.Player;
 import com.ssafy.oho.model.entity.Room;
 import com.ssafy.oho.model.repository.MinigameRepository;
@@ -12,6 +11,7 @@ import com.ssafy.oho.util.data.liargame.words.*;
 import com.ssafy.oho.util.data.liargame.words.Objects;
 import com.ssafy.oho.util.exception.GameGetException;
 import com.ssafy.oho.util.exception.GameSetException;
+import com.ssafy.oho.util.exception.PlayerGetException;
 import com.ssafy.oho.util.exception.RoomGetException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,13 +72,13 @@ public class MinigameService extends RedisService {
             else{ throw new GameSetException("단어 생성에 문제가 있어요"); }
 
             /*** Redis Input ***/
-            super.setLiarGame(roomId, playerIdList.get(0), word, playerIdList);
+            super.setLiarGame(roomId, playerIdList.get(0), 0, playerIdList);
 
             /*** Response DTO Build ***/
             LiarGameResponseDto liarGameResponseDto= LiarGameResponseDto.builder()
                     .liar(playerIdList.get(0))
-                    .word(word)
-                    .turns(playerIdList)
+                    .word(word)//저장x
+                    .turns(playerIdList)//저장x
                     .build();
 
             return liarGameResponseDto;
@@ -88,9 +88,57 @@ public class MinigameService extends RedisService {
         }
     }
 
-    /*
-        TO DO :: 투표 득표수 집계 메소드 추가
-     */
+    public LiarGameResponseDto voteLiar(Map<String, Object> payload, String roomId) throws GameGetException {
+        try {
+            Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomGetException());
+
+            String playerId=((String) payload.getOrDefault("playerId", "")).trim();
+            String vote=((String) payload.getOrDefault("vote", "")).trim();
+
+            if(playerId==null||vote==null){
+                throw new PlayerGetException("접속 정보를 확인해주세요");
+            }
+
+            /*
+                TO DO :: 해당 방에 존재하는 player인지 유효성 검사 필요
+             */
+            System.out.println("유효성 검사 통과");
+
+            int total = Integer.parseInt(super.getLiarGameInfo(roomId, "total"));
+            total++;
+            System.out.println(total);
+            /*
+                TO DO :: total에 대한 유효성 검사 필요
+             */
+
+            List<LiarGameVoteDto> voteList=new ArrayList<>();
+            Map<Object, Object> currentVoteList=super.getLiarGameVoteList(roomId);
+            System.out.println("CURRENT VOTE LIST");
+            System.out.println(currentVoteList);
+//
+//            for(int i=0;i<4;i++){
+//                voteList.add(new LiarGameVoteDto())
+//            }
+
+
+            /*** Redis Input ***/
+            super.setLiarGameVoteList(roomId, total, voteList);
+
+            /*** Response DTO Build ***/
+            LiarGameResponseDto liarGameResponseDto=LiarGameResponseDto.builder()
+                    .total(total)
+                    .voteList(voteList)
+                    .tiebreak(false)
+                    .tiebreakerList(null)
+                    .build();
+
+            return liarGameResponseDto;
+        }
+        catch(Exception e){
+            throw new GameGetException();
+        }
+    }
+
     String[] wordUnit = {
             "ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ",
             "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ",

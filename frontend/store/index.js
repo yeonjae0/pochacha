@@ -3,13 +3,12 @@ import { createWrapper } from "next-redux-wrapper";
 import rootReducer from "./reducers";
 import { persistStore, persistReducer, } from "redux-persist";
 import storageSession from "redux-persist/lib/storage/session";
-// import storage from 'redux-persist/lib/storage'
 import logger from 'redux-logger';
 
 const persistConfig = {
   key: "root",
   storage: storageSession,
-  //storage,
+  blacklist:['openvidu'],
 }
 
 
@@ -18,7 +17,14 @@ const middlewares = [logger]
 
 export const store = configureStore({
   reducer: perReducer,
-  middleware: middlewares
+  middleware: getDefaultMiddleware =>
+  getDefaultMiddleware({
+    serializableCheck: false,
+    // serializableCheck: {
+    // ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    // ovActions: false,
+    // },
+  }),
 });
 
 const setUpStore = (context) => store;
