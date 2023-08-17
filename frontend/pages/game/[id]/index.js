@@ -322,35 +322,6 @@ export default function GamePage() {
                   </>
                 ) : null}
               </div>
-
-              {participants != null ? (
-                <>
-                  {/* (participant[0]!=null? */}
-              {/* (희진 : 리랜더링 방지를 위해 주석 처리) */}
-              {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 끝 */}
-
-                  <span className={Videostyles.streamcomponent} style={{ marginRight: '50px', gridArea: `cam${0 + 2}` }}>
-                    {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[0]} /> */}
-                    {memoVideoFirst}
-                    <div className={Videostyles.nickname}>{participants[0].nick}</div>
-                  </span>
-                  {/* :null) */}
-                  {/* (participant[1]!=null? */}
-                  <span className={Videostyles.streamcomponent} style={{ marginLeft: '50px', gridArea: `cam${1 + 2}` }}>
-                    {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[1]} /> */}
-                    {memoVideoSecond}
-                    <div className={Videostyles.nickname}>{participants[1].nick}</div>
-                  </span>
-                  {/* :null) */}
-                  {/* (participant[2]!=null? */}
-                  <span className={Videostyles.streamcomponent} style={{ marginRight: '50px', gridArea: `cam${2 + 2}` }}>
-                    {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[2]} /> */}
-                    {memoVideoThird}
-                    <div className={Videostyles.nickname}>{participants[2].nick}</div>
-                  </span>
-                  {/* :null) */}
-                </>
-              ) : null}
           </div>
         ) : null}
 
