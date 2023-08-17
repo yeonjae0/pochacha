@@ -3,18 +3,19 @@ import { useState, useEffect, useRef } from 'react';
 import { useSelector } from "react-redux";
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
+import styles from '@/styles/LiarGame.module.css';
 
 
 
 export default function VoteLiarComponent(){
     const [client, setClient] = useState({});
+    const [stageStatus, setStageStatus] = useState('voting');
     const [voteStatus, setVoteStatus] = useState(false);
-    
     const [selectedPlayer, setSelectedPlayer] = useState(null);
 
     const roomId = useSelector(state => state.room.currentRoomId);
     const currentPlayer = useSelector(state => state.player)
-    const players = useSelector(state => state.players.players)
+    let players = useSelector(state => state.players.players)
     // console.log('플레이어', currentPlayer)
     // console.log('플레이어들', players)
 
@@ -35,6 +36,29 @@ export default function VoteLiarComponent(){
         client.current.subscribe(`/topic/mini/liar/vote/${roomId}`, (response) => {
           let data = JSON.parse(response.body);
           console.log(data);
+          if(data.total===4){
+            //모두 투표 완료
+            if(data.tiebreak===false) {
+              //승패 결정
+              if(data.winner===true) {
+                //라이어 승
+                setStageStatus('liarWin')
+                // status >> liarWin으로 설정하여 멘트 표시
+              }
+              else {
+                //세명의 승
+                setStageStatus('liarLose')
+                // status >> liarLose으로 설정하여 멘트 표시
+              }
+            }
+            else {
+              setStageStatus('voting')
+              players = data.tiebreaker
+              //재투표
+              //투표 대상 : tiebreaker
+              //투표 대상 인원 : tiebreaker.length()
+            }
+          }
         })
       })
     }
@@ -46,8 +70,9 @@ export default function VoteLiarComponent(){
 
     const handleVoteClick = () => {
       console.log('------------------------')
-      console.log(selectedPlayer)
-      console.log(voteStatus)
+      console.log('투표하기 클릭 시 선택된 플레이어', selectedPlayer)
+      console.log('send 처리 전 voteStatus', voteStatus)
+      console.log('------------------------')
       if(!voteStatus) {
         if(selectedPlayer){
           let sendData = {
@@ -68,32 +93,63 @@ export default function VoteLiarComponent(){
        }
     }
 
+    const handleVoteComplete = () => {
+      if(voteStatus) {
+        alert('이미 투표에 참여하셨습니다.')
+        }
+    }
+
     return (
-        <div>
-          <h1>누가 거짓말을 하고 있을까?</h1>
-            <fieldset style={{width: '400px'}}>
-              <legend style={{backgroundColor: '#000', color: '#fff', padding: '3px 6px'}}>라이어라고 생각되는 사람에게 투표하세요</legend>
+      <>
+      {
+        stageStatus === 'voting' ?
+        (<>
+          <h1 style={{marginBottom: '30px'}}>누가 거짓말을 하고 있을까?</h1>
+        <div className={styles.vote_container}>
+            <fieldset className={styles.fieldSet}>
+              <legend className={styles.legend}>라이어라고 생각되는 사람에게 투표하세요</legend>
+              <div>
               {
                 players.map((player, i) => (
                   <label key={player.id}>
-                    <input type="radio" id={player.playerId} name="votePlayer" value={player.nick} onChange={handleRadioChange}/>
-                    <span>{player.nick}</span><br />
+                    <input style={{marginTop:'20px'}} type="radio" id={player.playerId} name="votePlayer" value={player.nick} onChange={handleRadioChange}/>
+                    <span style={{fontSize: '18px'}}>{player.nick}</span><br />
                   </label>
                 ))
               }
+              </div>
             </fieldset>
-            <button style={{width: '100px', height:'100px', backgroundColor: "black", color:'white'}}onClick={handleVoteClick}>투표하기</button>
+            {
+              voteStatus == false ?
+                (<button className={styles.beforeVotebtn} onClick={handleVoteClick}>투표하기</button>)
+              : (<button className={styles.voteCompletebtn} onClick={handleVoteComplete}>투표완료</button>)
+
+            }
         </div>
+        </>)
+        : null
+      }
+        </>
         )
 }
 
+function LiarResult() {
+  const [liar, setLiar] = useState(false) // false면 일반인, true면 라이어
 
-// let sendData = {
-//     "playerId": currentPlayer.currentPlayerId,
-//     "vote": vote,
-//   };
-//   if (client.current) {
-//     client.current.send(`/mini/liar/set/${roomId}`, {}, JSON.stringify(sendData));
-//   } else {
-//     alert("소켓 연결 실패!");
-//   }
+  return (
+    <div>
+      {
+        stageStatus === 'liarWin' ?
+          (liar == false ? 
+            <div className={styles.checkword}>
+              <h1>아쉽네요. 라이어의 승리입니다.</h1>
+              <div>
+                <h3>라이어는 {} 입니다.</h3>
+              </div>
+            </div>
+          : <div>축하합니다. 당신의 승리입니다.</div>)
+          : null
+      }
+    </div>
+  )
+}
