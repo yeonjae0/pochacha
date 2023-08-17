@@ -199,6 +199,7 @@ export default function RoomPage() {
         frameRate: 30,
         insertMode: "APPEND", // 비디오 컨테이너 적재 방식
         mirror: false,
+        sessionTimeout: 3600, // 1시간 후 세션 만료
       });
 
       //await session.publish(pub);
@@ -245,9 +246,9 @@ export default function RoomPage() {
   }, []);
 
   /* 희진 : 리랜더링 방지 시작 */
-  const memoRoomCam = useMemo(() => {
-    return <RoomCam />;
-  }, []);
+  // const memoRoomCam = useMemo(() => {
+  //   return <RoomCam />;
+  // }, []);
 
   const memoRoomChat = useMemo(() => {
     return <RoomChat info={info} client={client} chatHistory={chatHistory} />;
@@ -265,7 +266,8 @@ export default function RoomPage() {
       <div className="roof2"></div>
       <div className={styles.room}>
       <div className={styles.camList} style={{ marginTop: '50px', marginBottom: '10px', textAlign: 'center' }} >
-          {memoRoomCam} 
+          {/* {memoRoomCam}  */}
+          <RoomCam />
         </div>
         {memoRoomChat}
         {memoRoonBtn}
