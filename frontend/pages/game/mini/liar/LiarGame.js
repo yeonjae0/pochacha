@@ -51,6 +51,8 @@ export default function Picktopic() {
       } else {
         alert("소켓 연결 실패!");
       }
+    } else {
+      alert("방장이 주제를 선택해주세요.")
     }
   };
 
@@ -111,7 +113,7 @@ function ShowWord(props) {
             <div className={styles.checkword}>
               <h1>단어를 확인하세요.</h1>
               <div>
-                <h3>주어진 단어는 {word}입니다.<br/> 라이어에게 들기키 않게 설명하세요.</h3>
+                <h3>주어진 단어는 <span style={{fontSize: 'xx-large'}}>{word}</span> 입니다.<br/> 라이어에게 들키지 않게 설명하세요.</h3>
               </div>
             </div>
           : <div>당신은 라이어입니다.</div>)
