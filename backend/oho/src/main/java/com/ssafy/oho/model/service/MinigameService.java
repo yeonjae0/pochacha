@@ -71,7 +71,7 @@ public class MinigameService extends RedisService {
             int liarCnt=random.nextInt(room.getPlayers().size());
 
             /*** Redis Input ***/
-            super.setLiarGame(roomId, playerIdList.get(liarCnt), 0, playerIdList);
+            super.setLiarGame(roomId, playerIdList.get(liarCnt), 0, playerIdList, word);
 
             /*** Response DTO Build ***/
             LiarGameResponseDto liarGameResponseDto= LiarGameResponseDto.builder()
@@ -156,6 +156,7 @@ public class MinigameService extends RedisService {
             }
             else{
                 String liar=super.getLiarGameInfo(roomId,"liar");
+                String word=super.getLiarGameInfo(roomId,"word");
                 boolean winner=false;
                 if(voteList.get(0).getPlayerId().equals(liar)){
                     winner=true;
@@ -165,6 +166,8 @@ public class MinigameService extends RedisService {
                         .total(total)
                         .tiebreak(false)
                         .winner(winner)
+                        .word(word)
+                        .liar(liar)
                         .build();
             }
 
