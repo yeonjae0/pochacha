@@ -1,6 +1,7 @@
 package com.ssafy.oho.model.service;
 
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
+import com.ssafy.oho.model.dto.response.GameResponseDto;
 import com.ssafy.oho.model.entity.Cell;
 import com.ssafy.oho.model.entity.Minigame;
 import com.ssafy.oho.model.entity.Player;
@@ -32,7 +33,7 @@ public class GameService extends RedisService {
         this.roomRepository = roomRepository;
     }
 
-    public Object[] startGame(Map<String, Object> payload, String roomId) throws GameGetException {
+    public GameResponseDto startGame(Map<String, Object> payload, String roomId) throws GameGetException {
         /*** 유효성 검사 ***/
         Room room = roomRepository.findById(roomId).orElseThrow(() -> new GameGetException("방 조회에 실패하였습니다."));
 
@@ -77,9 +78,15 @@ public class GameService extends RedisService {
                     .secret(room.isSecret())
                     .build());
 
-            return cellList;
-            //responsePayload.put("cellList", cellList);
-            //return responsePayload;
+            List<String> playerIdList=new ArrayList<>();
+            for(Player player:room.getPlayers()){
+                playerIdList.add(player.getId());
+            }
+            Collections.shuffle(playerIdList);
+
+            GameResponseDto gameResponseDto=GameResponseDto.builder().cellList(cellList).playerIdList(playerIdList).build();
+
+            return gameResponseDto;
         } catch(Exception e) {
             throw new GameGetException();
         }
@@ -125,10 +132,6 @@ public class GameService extends RedisService {
             super.setCell(roomId, cell, i);  /// Redis에 cell 삽입
         }
     }
-
-//    public Map<String, Object> runGame(Map<String, Object> payload, String roomId) {
-//
-//    }
 
     public Map<String, Object> movePin(Map<String, Object> payload, String roomId) {
         Map<String, Object> responsePayload = new HashMap<>();

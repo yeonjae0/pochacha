@@ -7,13 +7,16 @@ import styles from '../../../../styles/LiarGame.module.css';
 import Phase2 from './Phase2';
 
 export default function Picktopic() {
+  const roomId = useSelector(state => state.room.currentRoomId);
+  const currentPlayer = useSelector(state => state.player);
+  console.log('Liar Game', currentPlayer)
+
   const [word, setWord] = useState('');
   const [status, setStatus] = useState('ready');
   const [client, setClient] = useState({});
+  const [liar, setLiar] = useState(null);
 
-  const roomId = useSelector(state => state.room.currentRoomId);
-  const head = useSelector(state => state.player.currentHead);
-
+  
   /* 혜지 : 소켓 연결 시작 */
   const connectSocket = () => {
     client.current = Stomp.over(() => {
@@ -31,6 +34,7 @@ export default function Picktopic() {
 
         setWord(data.word);
         setStatus('checkWord');
+        setLiar(data.liar);
       })
     })
   }
@@ -43,7 +47,7 @@ export default function Picktopic() {
 
   //방장 주제 전송
   const handleTopicClick = (topic) => {
-    if(head) {
+    if(currentPlayer.currentHead) {
       let sendData = {
         subject: topic,
       };
@@ -52,6 +56,8 @@ export default function Picktopic() {
       } else {
         alert("소켓 연결 실패!");
       }
+    } else {
+      alert("방장이 주제를 선택해주세요.")
     }
   };
 
@@ -89,7 +95,7 @@ export default function Picktopic() {
                     </div>
                   </div>
               )
-          : <ShowWord word={word} />
+          : <ShowWord word={word} liar={liar} currentPlayer={currentPlayer.currentPlayerId}/>
       }
     </div>
   )
@@ -97,25 +103,31 @@ export default function Picktopic() {
 
 function ShowWord(props) {
   let word = props.word
-  const [liar, setLiar] = useState(false) // false면 일반인, true면 라이어
+  let isLiar = null
+   // false면 일반인, true면 라이어
+   if (props.currentPlayer === props.liar) {
+    isLiar = true
+   } else {
+    isLiar = false
+   }
   const [invisible, setInvisible] = useState(false)
 
   setTimeout(() => {
     setInvisible(true)
-  }, 1000); // 일반인 & 라이어 단어 확인 시간, 빠른 테스트를 위한 시간 1초 설정(기존 값 = 7000)
+  }, 10000); // 일반인 & 라이어 단어 확인 시간, 빠른 테스트를 위한 시간 1초 설정(기존 값 = 7000)
 
   return (
     <div>
       {
         invisible == false ?
-          (liar == false ? 
+          (isLiar == false ? 
             <div className={styles.checkword}>
               <h1>단어를 확인하세요.</h1>
               <div>
-                <h3>주어진 단어는 {word}입니다.<br/> 라이어에게 들기키 않게 설명하세요.</h3>
+                <h3>주어진 단어는 <span style={{fontSize: 'xx-large'}}>{word}</span> 입니다.<br/> 라이어에게 들키지 않게 설명하세요.</h3>
               </div>
             </div>
-          : <div>당신은 라이어입니다.</div>)
+          : <h1>당신은 라이어입니다.</h1>)
           : <Phase2 />
       }
     </div>

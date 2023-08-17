@@ -65,17 +65,16 @@ export default function Liar() {
     }}>
     <img src='/라이어_로고.png' alt='Liar game Title' style={{ width: '300px', height: '100px' }} />
     
-    <div className={styles.game_container}>
+    <div className={styles.gameContainer}>
       {/* 제정 : 빠른 테스트를 위한 룰 설명 주석 처리 시작 */}
       {/* {
         rule === 1 && (
-          <h2>주제를 고르고 한 명씩 제시어를 확인합니다.</h2>
+          <h2>주제를 고르고<br/>한 명씩 제시어를 확인합니다.</h2>
         )
       }
       {
         rule === 2 && (
-          <h2 style={{textAlign: 'center'}}>제시어를 확인한 뒤,<br/>
-          정해진 순서로 한 명씩 제시어를 설명합니다.</h2>
+          <h2 style={{textAlign: 'center'}}>제시어를 확인한 뒤, 정해진 순서로<br/>한 명씩 제시어를 설명합니다.</h2>
         )
       }
       {

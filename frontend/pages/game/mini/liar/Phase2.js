@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from "react-redux";
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
 import VoteLiarComponent from './VoteLiarComponent';
 // import styles from '@/styles/LiarGame.module.css';
 import styles from '../../../../styles/LiarGame.module.css';
@@ -6,8 +9,34 @@ import styles from '../../../../styles/LiarGame.module.css';
 
 export default function Phase2() {
   const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(1); // 빠른 테스트를 위한 시간 1초 설정(기존 값 : minutes = 2, seconds = 0)
+  const [seconds, setSeconds] = useState(5); // 빠른 테스트를 위한 시간 1초 설정(기존 값 : minutes = 2, seconds = 0)
   const [status, setStatus] = useState('ing')
+  const [client, setClient] = useState({});
+
+  const roomId = useSelector(state => state.room.currentRoomId);
+
+  const connectSocket = () => {
+    client.current = Stomp.over(() => {
+      const sock = new SockJS("http://localhost:80/ws");
+      return sock;
+    });
+  }
+
+  const subscribeSocket = () => {
+    client.current.connect({}, () => {
+      client.current.subscribe(`/topic/timer/${roomId}`, (response) => {
+        let data = JSON.parse(response.body);
+        console.log("Timer 연결");
+        console.log(data);
+        setSeconds(seconds + data.time);
+      })
+    })
+  }
+
+  useEffect(() => {
+    connectSocket();
+    subscribeSocket();
+  }, [])
 
   useEffect(() => {
     const countdown = setInterval(() => {
@@ -28,7 +57,14 @@ export default function Phase2() {
   }, [minutes, seconds]);
 
   const handleAddTime = () => {
-    setSeconds(seconds + 30);
+    let sendData = {
+      time: 30,
+    };
+    if (client.current) {
+      client.current.send(`/timer/${roomId}`, {}, JSON.stringify(sendData));
+    } else {
+      alert("소켓 연결 실패!");
+    }
   };
   
   return (

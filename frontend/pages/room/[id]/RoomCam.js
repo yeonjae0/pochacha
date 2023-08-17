@@ -1,18 +1,19 @@
-import React from 'react';
-import OpenViduVideoComponent from './OvVideo';
+import React from "react";
+import OpenViduVideoComponent from "./OvVideo";
 import { useSelector } from "react-redux";
 // import Roomstyles from '@/styles/RoomPage.module.css';
 import Roomstyles from '../../../styles/RoomPage.module.css';
 // import Videostyles from '@/styles/UserVideo.module.css';
 import Videostyles from '../../../styles/UserVideo.module.css';
 import { useState } from "react";
+// import * as deepar from "deepar";
 
 export default function RoomCam() {
+  const session = useSelector((state) => state.openvidu.session);
+  const nickname = useSelector((state) => state.player.currentNick);
+  const publisher = useSelector((state) => state.openvidu.publisher);
+  const participants = useSelector((state) => state.openvidu.participants);
 
-  const session = useSelector(state => state.openvidu.session);
-  const nickname = useSelector(state => state.player.currentNick);
-  const publisher = useSelector(state => state.openvidu.publisher);
-  const participants = useSelector(state => state.openvidu.participants);
   // const [isPartAudioDistorted, setIsPartAudioDistorted] = useState(true)
   // const [isPubAudioDistorted, setIsPubAudioDistorted] = useState(false)
 
@@ -39,10 +40,10 @@ export default function RoomCam() {
               <span className={Videostyles.streamcomponent}>
                 <OpenViduVideoComponent className={Roomstyles.cam}
                   streamManager={publisher} isAudioDistorted={false} />
+
                 <div className={Videostyles.nickname}>{nickname}</div>
               </span>
             ) : null}
-            
           </div>
         </div>
       ) : null}

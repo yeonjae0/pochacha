@@ -206,13 +206,14 @@ public class RedisService {
 
     protected String getLiarGameKey(String roomId){return roomId+".liarGame";}
     protected String getLiarGameVoteListKey(String roomId){return roomId+".liarGame"+".voteList";}
-    protected void setLiarGame(String roomId, String liar, int total, List<String> playerIdList){
+    protected void setLiarGame(String roomId, String liar, int total, List<String> playerIdList, String word){
         redisTemplate.execute(new SessionCallback<>() {
             @Override
             public Object execute(RedisOperations operations) throws DataAccessException{
                 operations.multi();//트랜잭션 시작
                 hashOperations.put(getLiarGameKey(roomId),"liar",liar);
                 hashOperations.put(getLiarGameKey(roomId),"total",Integer.toString(total));
+                hashOperations.put(getLiarGameKey(roomId),"word",word);
 
                 for (int i = 0; i < playerIdList.size(); i++) {
                     hashOperations.put(getLiarGameVoteListKey(roomId),playerIdList.get(i),Integer.toString(0));
@@ -248,7 +249,7 @@ public class RedisService {
         return (String) hashOperations.get(getLiarGameVoteListKey(roomId), hashKey);
     }
     protected String getLiarGameInfo(String roomId, String hashKey) {
-        return (String) hashOperations.get(getSpellKey(roomId), hashKey);
+        return (String) hashOperations.get(getLiarGameKey(roomId), hashKey);
     }
 
     protected String getSpellKey(String roomId) {
@@ -323,5 +324,28 @@ public class RedisService {
     protected Map<Object, Object> getChat(String roomId) {
         if(hashOperations.entries(getChatKey(roomId)).size() == 0) return null;
         return hashOperations.entries(getChatKey(roomId));
+    }
+
+    protected String getMoleGameKey(String roomId){return roomId+".moleGame";}
+    protected void setMoleGameResult(String roomId, String playerId, int score){
+        redisTemplate.execute(new SessionCallback<>() {
+            @Override
+            public Object execute(RedisOperations operations) throws DataAccessException{
+                operations.multi();//트랜잭션 시작
+                hashOperations.put(getMoleGameKey(roomId),playerId,Integer.toString(score));
+
+                List<Object> result = operations.exec();  // 트랜잭션 실행
+                if(result == null) System.out.println("MOLEGAME :: REDIS TRANSACTION ERROR");
+                return null;
+            }
+        });
+        redisTemplate.expire(getMoleGameKey(roomId), SERVICE_TTL.get("mini"), TimeUnit.SECONDS);
+    }
+    protected String getMoleGameInfo(String roomId, String hashKey) {
+        return (String) hashOperations.get(getMoleGameKey(roomId), hashKey);
+    }
+    protected Map<Object, Object> getMoleGame(String roomId) {
+        if(hashOperations.entries(getMoleGameKey(roomId)).size() == 0) return null;
+        return hashOperations.entries(getMoleGameKey(roomId));
     }
 }

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   currentBoard: [],
-  startGame: false,
+  turns:[],
 };
 
 const cellSlice = createSlice({
@@ -16,11 +16,11 @@ const cellSlice = createSlice({
     setCells: (state, action) => {
       state.currentBoard = action.payload;
     },
-    setStartGame: (state, action) => {
-      state.startGame = action.payload.startGame;
+    setTurns: (state, action) => {
+      state.turns = action.payload;
     },
   },
 });
 
 export default cellSlice;
-export const { setCells, setStartGame } = cellSlice.actions;
+export const { setCells, setTurns } = cellSlice.actions;

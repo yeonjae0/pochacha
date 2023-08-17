@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useRouter } from "next/router";
 import RoomCam from "./RoomCam";
 import RoomChat from "./RoomChat";
@@ -19,6 +19,7 @@ import { openViduActions } from "../../../store/reducers/openvidu";
 import { setCells, setStartGame } from "../../../store/reducers/cell";
 // import styles from "@/styles/RoomPage.module.css";
 import styles from "../../../styles/RoomPage.module.css";
+
 import { OpenVidu } from "openvidu-browser";
 // import SoundMeter from "@/pages/audioeffect/SoundMeter";
 import SoundMeter from "../../../pages/audioeffect/SoundMeter";
@@ -34,7 +35,7 @@ export default function RoomPage() {
   let session=OV.initSession({sessionTimeout: 3600,}); // 1시간 후 세션 만료
   dispatch(openViduActions.createOpenVidu({OV,session/*,devices*/}));
 
-  let subGame=null;
+  let subGame = null;
 
   const roomId = useSelector((state) => state.room.currentRoomId);
   const token = useSelector((state) => state.player.currentPlayerId); //오픈비두 토큰
@@ -44,6 +45,7 @@ export default function RoomPage() {
   const startGame = useSelector((state) => state.players.canStart);
 
   const [chatHistory, setChatHistory] = useState(`${info.nick}님이 입장하셨습니다.` + "\n");
+
 
   /* 유영 : 최초 한 번 사용자 목록 불러오기 시작 */
   const getPlayerList = () => {
@@ -79,9 +81,6 @@ export default function RoomPage() {
 
           dispatch(addPlayers(obj));
           dispatch(addTmpPlayer({ id, nickname, ready, head }));
-          console.log("받아온 데이터 결과 startgame");
-          console.log(startGame);
-          dispatch(setStartGame(startGame));
         }
         dispatch(checkReady());
       })
@@ -135,9 +134,12 @@ export default function RoomPage() {
 
       subGame = client.current.subscribe(`/topic/game/${roomId}`, (response) => {
         var data = JSON.parse(response.body);
+        console.log("게임 데이터");
+        console.log(data);
 
         if (data.error == undefined || data.error == null) {
-          dispatch(setCells(data));
+          dispatch(setCells(data.cellList));
+          dispatch(setTurns(data.playerIdList));
 
           router.push({
             pathname: `/game/${roomId}`,
@@ -238,9 +240,9 @@ export default function RoomPage() {
   }, []);
 
   /* 희진 : 리랜더링 방지 시작 */
-  // const memoRoomCam = useMemo(() => {
-  //   return <RoomCam />;
-  // }, []);
+  const memoRoomCam = useMemo(() => {
+    return <RoomCam />;
+  }, []);
 
   const memoRoomChat = useMemo(() => {
     return <RoomChat info={info} client={client} chatHistory={chatHistory} />;
@@ -257,9 +259,9 @@ export default function RoomPage() {
     <div className={styles.container}>
       <div className="roof2"></div>
       <div className={styles.room}>
-      <div className={styles.camList} style={{ marginTop: '50px', marginBottom: '10px', textAlign: 'center' }} >
-          {/* {memoRoomCam}  */}
-          <RoomCam />
+        <div className={styles.camList} style={{ marginTop: '50px', marginBottom: '10px', textAlign: 'center' }} >
+            {memoRoomCam} 
+
         </div>
         {memoRoomChat}
         {memoRoonBtn}

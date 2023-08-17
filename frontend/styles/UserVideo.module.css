@@ -32,3 +32,9 @@
 /* p {
   margin: 0;
 } */
+
+.videofilter {
+  /* filter: brightness(200%); */
+  /* filter: invert(100%); */
+  /* filter: blur(5px); */
+}

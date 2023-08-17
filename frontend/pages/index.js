@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google';
 import Link from 'next/link';
 import React, { useEffect } from "react";
+import EnterPage from './enter';
 // import { useDispatch } from "react-redux";
 // import { enterRoom } from "@/store/reducers/room.js";
 // import { resetPlayers } from '@/store/reducers/players';
@@ -27,7 +28,7 @@ export default function Home() {
 
   return (
     <div>
-      <p>메인 배경색 수정 가능</p>
+      {/* <p>메인 배경색 수정 가능</p>
       <Link href={'/enter'}><h3>🙌대기실 (START 클릭 시 Go To Room)</h3></Link>
       <Link href={'/game'}><h3>🤩메인 게임</h3></Link>
       <Link href={'/game/mini/liar'}><h3>😋라이어 게임</h3></Link>
@@ -37,8 +38,9 @@ export default function Home() {
       <hr />
       <br />
       <Link href={'/test2'}><h3>데이터 확인</h3></Link>
-      <Link href={'/test3'}><h3>데이터 초기화</h3></Link>
-      <Link href={'/game/penalty/facefilter'}><h3>페이스 필터</h3></Link>
+
+      <Link href={'/test3'}><h3>데이터 초기화</h3></Link> */}
+      <EnterPage/>
     </div>
   )
 }

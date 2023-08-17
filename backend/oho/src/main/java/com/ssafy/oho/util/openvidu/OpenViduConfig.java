@@ -29,7 +29,7 @@ public class OpenViduConfig {
 
     @Bean
     public OpenVidu openVidu(){
-        System.out.println("OPENVIDU OBJECT");
+        //System.out.println("OPENVIDU OBJECT");
         return new OpenVidu(OPENVIDU_URL,OPENVIDU_SECRET);
     }
 }
