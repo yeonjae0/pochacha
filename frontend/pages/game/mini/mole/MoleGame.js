@@ -86,7 +86,7 @@ function MoleGame({ sec }) {
         <Go />
       )}
 
-      {/* 20초 동안 가장 많이 잡는 사람 순으로 랭킹 */}
+      {/* 30초 동안 가장 많이 잡는 사람 순으로 랭킹 */}
       {ready === 'game' && sec > 0 && (
         <div style={{ textAlign: 'center' }}>
           <h3 style={{ marginBottom: '20px' }}>{score}마리를 잡았어요! {sec}초 남았습니다!</h3>
