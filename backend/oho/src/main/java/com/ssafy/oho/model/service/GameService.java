@@ -2,6 +2,7 @@ package com.ssafy.oho.model.service;
 
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.GameResponseDto;
+import com.ssafy.oho.model.dto.response.PenaltyResponseDto;
 import com.ssafy.oho.model.entity.Cell;
 import com.ssafy.oho.model.entity.Minigame;
 import com.ssafy.oho.model.entity.Player;
@@ -91,7 +92,7 @@ public class GameService extends RedisService {
             throw new GameGetException();
         }
     }
-    public void setCell(String roomId, RoomRequestDto roomRequestDto) throws GameGetException {
+    public void setCell2(String roomId, RoomRequestDto roomRequestDto) throws GameGetException {
         List<Minigame> miniCellList = minigameRepository.findAll();
 
         Minigame minigame;
@@ -102,7 +103,7 @@ public class GameService extends RedisService {
         }
     }
 
-    public void setCell2(String roomId, RoomRequestDto roomRequestDto) throws GameGetException {
+    public void setCell(String roomId, RoomRequestDto roomRequestDto) throws GameGetException {
         List<Cell> normalCellList = cellRepository.findTop19Random();
 
         if(roomRequestDto.isIncludeMini()) { // 미니게임 ON 시작
@@ -179,11 +180,18 @@ public class GameService extends RedisService {
         return responsePayload;
     }
 
-    public String getFaceFilter(Map<String, Object> payload, String roomId) throws GameGetException {
+    public PenaltyResponseDto getFaceFilter(Map<String, Object> payload, String roomId) throws GameGetException {
         try {
             Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomGetException());
             String nickname=payload.get("nickname").toString();
-            return nickname;
+            Random random=new Random();
+            int num=random.nextInt(4);//4 미만의 랜덤 수
+
+            PenaltyResponseDto penaltyResponseDto=PenaltyResponseDto.builder()
+                    .nickname(nickname)
+                    .num(num)
+                    .build();
+            return penaltyResponseDto;
         }catch (Exception e){
             throw new GameGetException("벌칙 생성에 실패했어요");
         }
