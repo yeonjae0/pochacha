@@ -16,7 +16,7 @@ import { ready } from "../../../store/reducers/player.js";
 // import { openViduActions } from "@/store/reducers/openvidu";
 import { openViduActions } from "../../../store/reducers/openvidu";
 // import { setCells, setStartGame } from "@/store/reducers/cell";
-import { setCells, setStartGame } from "../../../store/reducers/cell";
+import { setCells, setStartGame, setTurns } from "../../../store/reducers/cell";
 // import styles from "@/styles/RoomPage.module.css";
 import styles from "../../../styles/RoomPage.module.css";
 
