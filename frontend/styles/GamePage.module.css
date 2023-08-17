@@ -11,21 +11,6 @@
   background-repeat: no-repeat;
 }
 
-.upper_container {
-  /* position: static;
-  display: flex;
-  justify-content: space-between;
-  margin-left: 4.2vw;
-  margin-right: 2.9vw; */
-}
-
-.lower_container {
-  /* display: flex;
-  justify-content: space-between;
-  margin-left: 4.2vw;
-  margin-right: 2.9vw; */
-}
-
 .infobar {
   /* position: absolute; */
   background-color: rgb(255, 255, 255, 0.5);
@@ -58,24 +43,6 @@
   margin-bottom: 12px;
   box-shadow: 0px 0px 0px 0px #A66615;
 }
-
-.modalContent {
-  animation: fadeIn 1s;
-  /* animation: fadeOut 1s; */
-}
-
-/* #modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 500px;
-  height: 308px;
-  background-color: #F2F4F6;
-  border-radius: 20px;
-  padding: 20px;
-  z-index: 1;
-} */
 
 @keyframes fadeIn {
   0% {
