@@ -73,6 +73,12 @@ public class PlayerController {
         try {
             List<PlayerResponseDto> playerResponseDto = playerService.getPlayersByRoomId(playerRequestDto, roomId);
 
+            for (PlayerResponseDto p : playerResponseDto) {
+                if(p.getId().equals(playerRequestDto.getId())) {
+                    webSocket.convertAndSend("/topic/player/" + roomId, p);
+                }
+            }
+
             return ResponseEntity.ok(playerResponseDto);
         } catch(PlayerGetException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

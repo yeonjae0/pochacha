@@ -9,7 +9,7 @@ import axios from "axios";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 import { useDispatch, useSelector } from "react-redux";
-import { addPlayers, resetPlayers } from "@/store/reducers/players.js";
+import { addPlayers, resetPlayers, addTmpPlayer, resetTmpPlayers, updateTmpPlayer, deleteTmpPlayer, checkReady } from "@/store/reducers/players.js";
 import { ready } from "@/store/reducers/player.js";
 import { openViduActions } from "@/store/reducers/openvidu";
 import { setCells, setStartGame } from "@/store/reducers/cell";
@@ -37,8 +37,9 @@ export default function RoomPage() {
   const nickname = useSelector((state) => state.player.currentNick);
   const head = useSelector((state) => state.player.currentHead);
   const playerReady = useSelector((state) => state.player.currentReady);
+  const startGame = useSelector((state) => state.players.canStart);
 
-  const [startGame, setStart] = useState(false); //게임 시작 불가 상태
+  // const [startGame, setStart] = useState(false); //게임 시작 불가 상태
   const [chatHistory, setChatHistory] = useState(`${info.nick}님이 입장하셨습니다.` + "\n");
 
   /* 유영 : 최초 한 번 사용자 목록 불러오기 시작 */
@@ -55,10 +56,7 @@ export default function RoomPage() {
       },
     })
       .then((response) => {
-        console.log("플레이어들 정보 받아오기");
-        console.log(response);
         dispatch(resetPlayers([]));
-
         setStart(true); //이후의 유효성 검사에서 모두 통과 시에 게임 시작 가능
 
         /* 혜지 : 접속 플레이어들 정보를 저장 시작 */
@@ -84,10 +82,12 @@ export default function RoomPage() {
           };
 
           dispatch(addPlayers(obj));
+          dispatch(addTmpPlayer({ id, nickname, ready, head }));
           console.log("받아온 데이터 결과 stargame");
           console.log(startGame);
           dispatch(setStartGame(startGame));
         }
+        dispatch(checkReady());
       })
       .catch((error) => {
         if (error.response) {
@@ -103,10 +103,8 @@ export default function RoomPage() {
 
   /* 유영 : 사용자 삭제 시작 */
   const deletePlayer = async () => {
+    dispatch(deleteTmpPlayer({id: token}));  // redux에서 플레이어 샂게
     await client.current.send(`/leave/${roomId}`, {}, JSON.stringify({ playerId: token }));
-    /*
-      TO DO :: 해당 playerId redux에서 삭제 필요
-    */
   };
   /* 유영 : 사용자 삭제 끝 */
 
@@ -130,16 +128,12 @@ export default function RoomPage() {
       client.current.subscribe(`/topic/player/${roomId}`, (response) => {
         var data = JSON.parse(response.body);
 
-        console.log("레디 변경 감지");
-        console.log(data);
+        // 플레이어 정보 업데이트 / 추가 후 ready 체크
+        dispatch(updateTmpPlayer(data));
+        dispatch(checkReady());
 
-        /*
-          CONFIRM :: 현재 지금까지의 사용자 리스트만 받아오는 문제 있으므로, READY 변경 감지마다 리스트 새로 받는 것으로 임시 처리
-        */
-        getPlayerList();
         if (data.id == token) {
-          //본인일 경우 변경
-          dispatch(ready(data));
+          dispatch(ready(data));  // 본인일 경우 변경
         }
       }); // 플레이어 정보 구독
       subGame=client.current.subscribe(`/topic/game/${roomId}`, (response) => {
@@ -162,10 +156,10 @@ export default function RoomPage() {
   };
 
   /* 혜지 : OpenVidu 연결 관련 메소드 시작 */
-  // const onbeforeunload = async (e) => {
-  //   leaveSession();
-  //   await deletePlayer();
-  // };
+  const onbeforeunload = async (e) => {
+    // leaveSession();
+    await deletePlayer();
+  };
 
   const joinSession = async (token) => {
     try {
@@ -225,10 +219,12 @@ export default function RoomPage() {
   /* 혜지 : OpenVidu 연결 관련 메소드 완료 */
 
   useEffect(() => {
+    dispatch(resetTmpPlayers());  // redux players 삭제
     getPlayerList();
     connectSocket();
     subscribeSocket();
-    //window.addEventListener("beforeunload", onbeforeunload);
+
+    window.addEventListener("beforeunload", onbeforeunload);
     joinSession(token);
     return () => {
       //window.removeEventListener("beforeunload", onbeforeunload);
