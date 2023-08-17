@@ -3,7 +3,7 @@ import OpenViduVideoComponent from "./OvVideo";
 import { useSelector } from "react-redux";
 import Roomstyles from "@/styles/RoomPage.module.css";
 import Videostyles from "@/styles/UserVideo.module.css";
-import * as deepar from "deepar";
+// import * as deepar from "deepar";
 
 export default function RoomCam() {
   const session = useSelector((state) => state.openvidu.session);
