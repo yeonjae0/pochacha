@@ -60,6 +60,7 @@ const playersSlice = createSlice({
           readyCnt++;
         }
       }
+      console.log("플레이어 레디 정보 ::: ", readyCnt)
       if(readyCnt == 4) {
         state.canStart = true;
       } else {
