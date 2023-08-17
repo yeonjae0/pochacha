@@ -12,30 +12,21 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
 
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
   const [randomConsonant, setRandomConsonant] = useState("");
   const [inputWords, setInputWords] = useState([]);  // 입력한 단어들 저장
   const [inputValue, setInputValue] = useState("");  // 유저 입력값 저장
   const [client, setClient] = useState({});
   // const [shouldGoToNextPlayer, setShouldGoToNextPlayer] = useState(0);
   const [cnt, setCnt] = useState(0)
-
-  // const [expression, setExpression] = useState(null)
-  // const [sejong, setSejong] = usestate<string>("/초성_세종대왕_기본.png")
   const roomId = useSelector(state => state.room.currentRoomId);
   const players = useSelector(state => state.players.players);
   const tmpPlayers = useSelector(state => state.players.tmpPlayers);
   const currentIdx = useSelector(state => state.spell.currentIdx);
-  // const currentRandomConsonant = useSelector(state => state.spell.currentConsonant)
-  // const playersLength = useSelector(state => state.players.players.length);
 
-  // let cnt = 0
   let updatedWords = []
   const router = useRouter()
-  // let currentPlayerIndex = 0
 
-  // const tmpFn = () => {
-  //   console.log('tmpFn')
-  // }
 
   // Input창 단어 관련
   const handleInput = (e) => {
@@ -82,8 +73,6 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
       let data = response.data;
       console.log('response.data', data)
       console.log('순서!!!!!', data.playerIdList)
-      console.log('순서!!!!!', data.playerIdList[0])
-      // console.log('확인', tmpPlayers[].nick)
 
       const randomConsonant = data.firstWord + data.secondWord;
       setRandomConsonant(data.firstWord + data.secondWord);
@@ -127,7 +116,9 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
             for (let i = 0; i < updatedWords.length; i++) {  // 중복 단어를 걸러서 리스트 업뎃
               // console.log('!!!!!!!!!!!!', updatedWords[i])
               if (newInputWord == updatedWords[i]) {
-                alert('이미 입력된 단어입니다.')
+                setShowModal2(('이미 입력된 단어입니다.'))
+                // alert('이미 입력된 단어입니다.')
+
                 inList = true;
                 break
               }
@@ -156,7 +147,8 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
           });
         } else {
           console.log('data.correct', data.correct);
-          alert(data.msg);
+          setShowModal2((data.msg))
+          // alert(data.msg);
         }
         setInputValue("");
 
@@ -188,6 +180,17 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
       // };
     }, 5000);  // 설명 모달 시간 설정! 5초 정도? 임시로 1초
   })
+
+  useEffect(()=>{
+    setTimeout(() => {
+      setShowModal2(false);
+      // return () => {
+      //   clearTimeout(timeout);
+      // };
+    }, 2000); 
+  })
+
+
 
   useEffect(() => {   
     dispatch(losingPlayer(tmpPlayers[playersIdList[cnt]].nickname))
@@ -238,6 +241,13 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
           </div>
         </div>
     : null }
+      {showModal2 && (
+        <div className={styles.modalContainer2}>
+          <div className={styles.modalContent2}>
+            <p>{showModal2}</p>
+          </div>
+        </div>
+      )}
 
       <div className={styles.wrapper}>
         <div className={styles.upperContainer}>
