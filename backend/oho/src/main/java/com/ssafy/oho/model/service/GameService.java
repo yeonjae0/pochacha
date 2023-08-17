@@ -84,7 +84,7 @@ public class GameService extends RedisService {
             throw new GameGetException();
         }
     }
-    public void setCell(String roomId, RoomRequestDto roomRequestDto) throws GameGetException {
+    public void setCell2(String roomId, RoomRequestDto roomRequestDto) throws GameGetException {
         List<Minigame> miniCellList = minigameRepository.findAll();
 
         Minigame minigame;
@@ -95,7 +95,7 @@ public class GameService extends RedisService {
         }
     }
 
-    public void setCell2(String roomId, RoomRequestDto roomRequestDto) throws GameGetException {
+    public void setCell(String roomId, RoomRequestDto roomRequestDto) throws GameGetException {
         List<Cell> normalCellList = cellRepository.findTop19Random();
 
         if(roomRequestDto.isIncludeMini()) { // 미니게임 ON 시작
