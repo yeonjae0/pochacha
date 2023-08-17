@@ -83,8 +83,18 @@ public class GameService extends RedisService {
             throw new GameGetException();
         }
     }
-
     public void setCell(String roomId, RoomRequestDto roomRequestDto) throws GameGetException {
+        List<Minigame> miniCellList = minigameRepository.findAll();
+
+        Minigame minigame;
+        int miniIndex;
+        for (int i = 0; i < CELL_CNT; i++) {
+            minigame = miniCellList.get(i % miniCellList.size());  // 미니게임 가져오기
+            super.setMinigame(roomId, minigame, i);  /// Redis에 minigame 삽입
+        }
+    }
+
+    public void setCell2(String roomId, RoomRequestDto roomRequestDto) throws GameGetException {
         List<Cell> normalCellList = cellRepository.findTop19Random();
 
         if(roomRequestDto.isIncludeMini()) { // 미니게임 ON 시작

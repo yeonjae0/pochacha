@@ -21,6 +21,9 @@ const openViduSlice = createSlice({
         //state.devices = payload.devices;//state.OV.getDevices();
       }
     },
+    resetOpenvidu: (state) => {
+      Object.assign(state, initialState);
+    },
     createPublisher: (state, { payload }) => {
       state.session.publish(payload.publisher);
       state.currentVideoDevice = payload.currentVideoDevice;
@@ -55,5 +58,6 @@ const openViduSlice = createSlice({
 
 export const openViduActions =
   openViduSlice.actions;
+  export const { resetOpenvidu } = openViduSlice.actions;
 export default openViduSlice;
 
