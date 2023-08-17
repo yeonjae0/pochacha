@@ -11,8 +11,9 @@ let [keepGoing, SetKeepGoing] = useState(true);  // 게임이 진행중인지 �
 let [sec, setSec] = useState(0);
 let time = useRef(30);
 const timerId = useRef(null);
-const players = useSelector(state => state.players.players);
 const currentIdx = useSelector(state => state.spell.currentIdx);
+const tmpPlayers = useSelector(state => state.players.tmpPlayers);
+let playersIdList = Object.keys(tmpPlayers) 
 
 const resetSec = () => {
   // time.current = 10
@@ -62,8 +63,10 @@ function GameOver() {
     <>
       <div className={styles.gameOver}>
         {/* <img src="/초성_세종대왕_화남.png" /> */}
-        <h1>Game Over ㅜㅅㅜ</h1>
-        <h2>'{players[currentIdx].nick}' 님의 패배입니다.</h2>
+        <img src='/초성_게임오버.png' />
+        {/* <h1 style= {{top: '10%', left: '60%'}}>{currentIdx} </h1>
+        <h2 style= {{top: '10%', left: '60%'}}>  님의 패배입니다.</h2> */}
+        <h1>'{currentIdx}' 님의 패배입니다.</h1>
       </div>
     </>
   )
