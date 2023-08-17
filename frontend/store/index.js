@@ -8,7 +8,7 @@ import logger from 'redux-logger';
 const persistConfig = {
   key: "root",
   storage: storageSession,
-  blacklist:['openvidu'],
+  blacklist:['openvidu']
 }
 
 
@@ -17,9 +17,12 @@ const middlewares = [logger]
 
 export const store = configureStore({
   reducer: perReducer,
+  // middleware: middlewares
+
   middleware: getDefaultMiddleware =>
   getDefaultMiddleware({
     serializableCheck: false,
+    middlewares
     // serializableCheck: {
     // ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     // ovActions: false,
