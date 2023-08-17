@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styles from "@/styles/UserVideo.module.css";
 
 // import * as canvas from 'canvas';
 // import * as faceapi from 'face-api.js';
@@ -49,7 +50,7 @@ export default class OpenViduVideoComponent extends Component {
     render() {
         return (
             <div>
-                <video autoPlay={true} ref={this.videoRef}/>
+                <video autoPlay={true} ref={this.videoRef} className={styles.videofilter}/>
                 {/* <canvas/> */}
             </div>
         )

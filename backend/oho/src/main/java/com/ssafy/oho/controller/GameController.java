@@ -52,17 +52,12 @@ public class GameController {
     }
 
     /* 타이머 테스트 관련 코드 (재사용성) */
-    /*
-        TO DO :: 타이머 관련 ON/OFF API 작성
-     */
-    @MessageMapping("/start-timer")
-    @SendTo("/topic/timer")
-    public TimeStatusResponseDto startTimer() {
-        // 타이머 시작 로직
-        TimeStatusResponseDto timeStatusResponseDto = new TimeStatusResponseDto(); // TimerStatus는 타이머 상태 클래스로 가정
-        // 타이머 상태 설정 로직
-        return timeStatusResponseDto;
+    @MessageMapping("/timer/{roomId}")
+    public void addTime(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
+
+        int time=(Integer)payload.get("time");
+        // 타이머 시간 추가
+        TimeStatusResponseDto timeStatusResponseDto = TimeStatusResponseDto.builder().time(time).build();
+        webSocket.convertAndSend("/topic/timer/" + roomId, timeStatusResponseDto);
     }
-
-
 }
