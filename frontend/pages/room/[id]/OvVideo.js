@@ -1,13 +1,9 @@
-import React, { Component, useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef} from "react";
 import styles from "@/styles/UserVideo.module.css";
 import * as deepar from "deepar";
 
-// import * as canvas from 'canvas';
-// import * as faceapi from 'face-api.js';
-
-//export default class OpenViduVideoComponent extends Component {
-
 export default function OpenViduVideoComponent(props) {
+  console.log("오픈비두 열림")
   const videoRef = React.createRef();
 
   /// 여기서부터 Deep AR 변수
@@ -16,7 +12,9 @@ export default function OpenViduVideoComponent(props) {
 
   useEffect(() => {
     if (props && !!videoRef) {
+      console.log("오픈비두 변화")
       props.streamManager.addVideoElement(videoRef.current);
+      initializeDeepAR();
     }
   });
 
@@ -40,6 +38,7 @@ export default function OpenViduVideoComponent(props) {
             },
           },
         });
+        console.log("딥에이알 초기화")
         await deepAR.setVideoElement(video, true);
         await deepAR.startCamera();
       }
@@ -49,9 +48,10 @@ export default function OpenViduVideoComponent(props) {
   };
 
   useEffect(() => {
-    initializeDeepAR();
+   // initializeDeepAR();
     return () => {
-      if (deepAR) {
+      if (deepAR!=null) {
+        console.log("딥에이알 셧다운")
         deepAR.shutdown();
       }
     };
