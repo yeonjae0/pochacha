@@ -1,35 +1,34 @@
 import React, { useState, useEffect, useInsertionEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import styles from "@/styles/SpellGame.module.css";
-import axios from 'axios';
-import SockJS from 'sockjs-client';
-import { Stomp } from '@stomp/stompjs';
-import { startGame, losingPlayer, setCurrentPlayer } from '@/store/reducers/spell';
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
+import axios from "axios";
+import SockJS from "sockjs-client";
+import { Stomp } from "@stomp/stompjs";
+import { startGame, losingPlayer, setCurrentPlayer } from "@/store/reducers/spell";
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 
 export default function MainSpell({ sec, resetSec }) {
-
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
   const [randomConsonant, setRandomConsonant] = useState("");
 
-  const [inputWords, setInputWords] = useState([]);  // 입력한 단어들 저장
-  const [client] = useState({});  // 소켓
+  const [inputWords, setInputWords] = useState([]); // 입력한 단어들 저장
+  const [client] = useState({}); // 소켓
 
-  const roomId = useSelector(state => state.room.currentRoomId);
-  const tmpPlayers = useSelector(state => state.players.tmpPlayers);
+  const roomId = useSelector((state) => state.room.currentRoomId);
+  const tmpPlayers = useSelector((state) => state.players.tmpPlayers);
 
   // STT를 위한 추가
-  let currentPlayerId = useSelector(state => state.spell.currentPlayerId);
-  const playerId = useSelector(state => state.player.currentPlayerId);
+  let currentPlayerId = useSelector((state) => state.spell.currentPlayerId);
+  const playerId = useSelector((state) => state.player.currentPlayerId);
   const {
     transcript,
     finalTranscript,
     listening,
     resetTranscript,
-    browserSupportsSpeechRecognition
+    browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
 
   const router = useRouter();
@@ -37,62 +36,62 @@ export default function MainSpell({ sec, resetSec }) {
   // 단어 입력되었을 경우 호출
   const handleSubmit = () => {
     let isAlready = false;
-    for (let w of inputWords) {  // 중복 단어를 걸러서 리스트 업뎃
+    for (let w of inputWords) {
+      // 중복 단어를 걸러서 리스트 업뎃
       if (transcript == w) {
-        setShowModal2(('이미 입력된 단어입니다.'));
+        setShowModal2("이미 입력된 단어입니다.");
         isAlready = true;
-        return;  // 함수 종료
+        return; // 함수 종료
       }
-    };
+    }
     if (isAlready) {
-      return;  // 함수 종료
+      return; // 함수 종료
     } else if (client.current) {
       // 단어 전송
-      client.current.send(`/mini/spell/confirm/${roomId}`, {}, JSON.stringify({ word: transcript.trim() }));
+      client.current.send(
+        `/mini/spell/confirm/${roomId}`,
+        {},
+        JSON.stringify({ word: transcript.trim() })
+      );
     } else {
       setShowModal2("소켓이 연결되지 않았습니다.");
     }
-  }
+  };
 
   // 최초 한 번 단어 받기
   const setConsonant = () => {
     axios({
       url: "http://localhost:80/game/mini/spell",
       headers: {
-        "Accept": "application/json",
-        "Content-type": "application/json;charset=UTF-8"
+        Accept: "application/json",
+        "Content-type": "application/json;charset=UTF-8",
       },
       method: "POST",
       data: {
-        "id": roomId
-      }
-    }).then((response) => {
-      let data = response.data;
-      resetTranscript();
+        id: roomId,
+      },
+    })
+      .then((response) => {
+        let data = response.data;
+        resetTranscript();
 
-      dispatch(setCurrentPlayer({ "id": data.currentPlayerId }));
+        dispatch(setCurrentPlayer({ id: data.currentPlayerId }));
 
-      setTimeout(() => {
-        if (data.currentPlayerId == playerId) {  // 본인이 현 순서일 경우
-          SpeechRecognition.startListening({ continuous: true });  // 마이크 열기
+        const randomConsonant = data.firstWord + data.secondWord;
+        setRandomConsonant(randomConsonant); // 단어 초기화
+        dispatch(startGame(randomConsonant));
+      })
+      .catch((error) => {
+        if (error.response) {
+          router.push({
+            pathname: "/exception",
+            query: { msg: error.response.data },
+          });
         } else {
-          SpeechRecognition.stopListening();  // 마이크 닫기
+          console.log(error);
         }
-      }, 1000);
-
-      const randomConsonant = data.firstWord + data.secondWord;
-      setRandomConsonant(randomConsonant);  // 단어 초기화
-      dispatch(startGame(randomConsonant));
-    }
-    ).catch((error) => {
-      if (error.response) {
-        router.push({
-          pathname: "/exception",
-          query: { msg: error.response.data },
-        })
-      } else { console.log(error) }
-    });
-  }
+      });
+  };
 
   // 소켓 연결
   const connectSocket = () => {
@@ -100,46 +99,40 @@ export default function MainSpell({ sec, resetSec }) {
       const sock = new SockJS("http://localhost:80/ws");
       return sock;
     });
-  }
+  };
 
   const subscribeSocket = () => {
     client.current.connect({}, () => {
       client.current.subscribe(`/topic/mini/spell/${roomId}`, async (response) => {
         var data = JSON.parse(response.body);
-
-        if (data.correct) {  // 맞았을 경우
-          setInputWords([...inputWords, data.inputWord]);  // 단어 저장
-          dispatch(setCurrentPlayer({ "id": data.currentPlayerId }));
-          resetSec();
-
-          if (data.currentPlayerId == playerId) {  // 본인이 현 순서일 경우
-            SpeechRecognition.startListening({ continuous: true });  // 마이크 열기
-          } else {
-            SpeechRecognition.stopListening();  // 마이크 닫기
-          }
-        } else {  // 틀렸을 경우
-          setShowModal2(( data.inputWord + " : " + data.msg));
-          
-          setTimeout(() => {
-            if (currentPlayerId == playerId) {  // 본인이 현 순서일 경우
-              SpeechRecognition.startListening({ continuous: true });  // 마이크 열기
-            } else {
-              SpeechRecognition.stopListening();  // 마이크 닫기
-            }
-          }, 500);
-        }
         resetTranscript();
-      })  // 훈민정음 구독
-    })
-  }
 
-  useEffect(() => {  // 최초 한 번 실행
+        if (data.correct) {
+          // 맞았을 경우
+          const updatedWords = [...inputWords, data.inputWord];
+          setInputWords(prevWords => {
+            const updatedWords = [...prevWords, data.inputWord];
+            return updatedWords;
+          }); // 단어 저장
+          dispatch(setCurrentPlayer({ id: data.currentPlayerId }));
+          resetSec();
+        } else {
+          // 틀렸을 경우
+          setShowModal2(data.inputWord + " : " + data.msg);
+        }
+      }); // 훈민정음 구독
+    });
+  };
+
+  useEffect(() => {
+    // 최초 한 번 실행
     connectSocket();
     subscribeSocket();
     setConsonant();
   }, []);
 
-  useEffect(() => {  // 렌더링 마다 실행
+  useEffect(() => {
+    // 렌더링 마다 실행
     // 설명 모달 시간 설정
     setTimeout(() => {
       setShowModal(true);
@@ -154,19 +147,27 @@ export default function MainSpell({ sec, resetSec }) {
   })
 
   useEffect(() => {
-    setTimeout(() => {
-      if (transcript.trim() != "" && currentPlayerId == playerId) { // 값이 입력 되었을 경우
-        SpeechRecognition.stopListening();
-        setTimeout(() => {
-          handleSubmit();
-        }, 1000);
-      }
-    }, 200);
+    if (transcript.trim().length >= 2 && currentPlayerId == playerId) {
+      // 값이 입력 되었을 경우
+      SpeechRecognition.stopListening();
+      setTimeout(() => {
+        handleSubmit();
+      }, 500);
+    }
   }, [transcript]);
+
+  useEffect(() => {
+    if (currentPlayerId == playerId) {
+      // 본인이 현 순서일 경우
+      SpeechRecognition.startListening({ continuous: true }); // 마이크 열기
+    } else {
+      SpeechRecognition.stopListening(); // 마이크 닫기
+    }
+  });
 
   return (
     <>
-      {(showModal == false) ?
+      {showModal == false ? (
         <div className={styles.modalContainer}>
           <div className={styles.modalContent}>
             {/* <img className="logoImg" src="/로고_훈민정음.png" /> */}
@@ -176,7 +177,7 @@ export default function MainSpell({ sec, resetSec }) {
             <h4>제시된 초성: {randomConsonant}</h4>
           </div>
         </div>
-        : null}
+      ) : null}
       {showModal2 && (
         <div className={styles.modalContainer2}>
           <div className={styles.modalContent2}>
@@ -187,18 +188,26 @@ export default function MainSpell({ sec, resetSec }) {
 
       <div className={styles.wrapper}>
         <div className={styles.upperContainer}>
-          <div style={{ fontSize: '25px' }}>{(tmpPlayers[currentPlayerId]) && tmpPlayers[currentPlayerId].nickname} 님의 차례입니다. {sec}초 남았습니다.</div>
-          {listening &&
+          <div style={{ fontSize: "25px" }}>
+            {tmpPlayers[currentPlayerId] && tmpPlayers[currentPlayerId].nickname} 님의 차례입니다.{" "}
+            {sec}초 남았습니다.
+          </div>
+          {currentPlayerId == playerId && (
             <input
               type="text"
               placeholder="단어를 입력하세요"
               value={transcript}
               className={styles.inputContainer}
-            // disabled={cnt !== currentPlayerIndex} // -> 이 부분은 멀티플레이 실행 후 계산
-            />}
+              // disabled={cnt !== currentPlayerIndex} // -> 이 부분은 멀티플레이 실행 후 계산
+            />
+          )}
           {listening && <span>음성 입력 중..</span>}
-          <button type="button" onClick={handleSubmit} style={{ marginLeft: '20px' }}>제출</button>
-          <div><img src="/초성_로고.png" style={{ width: '450px' }} /></div>
+          <button type="button" onClick={handleSubmit} style={{ marginLeft: "20px" }}>
+            제출
+          </button>
+          <div>
+            <img src="/초성_로고.png" style={{ width: "450px" }} />
+          </div>
         </div>
 
         <br />
@@ -214,7 +223,16 @@ export default function MainSpell({ sec, resetSec }) {
           />
           <div className={styles.miniBlock1}></div>
           <div className={styles.miniBlock2}></div>
-          <h3 style={{ fontFamily: 'ChosunCentennial', position: "absolute", left: "170px", zIndex: "1" }}>초성은 {randomConsonant}</h3>
+          <h3
+            style={{
+              fontFamily: "ChosunCentennial",
+              position: "absolute",
+              left: "170px",
+              zIndex: "1",
+            }}
+          >
+            초성은 {randomConsonant}
+          </h3>
           <img
             src="/초성_두루마리.png"
             style={{
@@ -223,7 +241,8 @@ export default function MainSpell({ sec, resetSec }) {
               left: "-130px",
               marginBottom: "-210px",
               zIndex: "0",
-            }} />
+            }}
+          />
           <div className={styles.wordsContainer}>
             {inputWords.map((word, index) => (
               <div
@@ -231,9 +250,9 @@ export default function MainSpell({ sec, resetSec }) {
                 className={styles.word}
                 style={{
                   position: "absolute",
-                  marginLeft: '20px',
-                  marginTop: '195px',
-                  fontFamily: 'ChosunCentennial',
+                  marginLeft: "20px",
+                  marginTop: "195px",
+                  fontFamily: "ChosunCentennial",
                   left: `${(index % 8) * 50}px`,
                   top: `${Math.floor(index / 8) * 30}px`,
                 }}
@@ -247,7 +266,7 @@ export default function MainSpell({ sec, resetSec }) {
             단어를 입력하세요:
             <input type="text" value={transcript} />
           </label>
-          <button type="button" onClick={handleSubmit} >
+          <button type="button" onClick={handleSubmit}>
             제출
           </button>
         </div>
