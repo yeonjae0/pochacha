@@ -45,6 +45,9 @@ export default function GamePage() {
   const participants = useSelector(state => state.openvidu.participants);
   /* 제정 : RoomCam component에서 필요한 정보들 불러오기 끝 */
 
+  const players = useSelector(state => state.players.players)
+  const [audioDistortion, setAudioDistortion] = useState([false, false, false])
+
   /* 혜지 : OpenVidu 관련 데이터 */
   const token = useSelector((state) => state.player.currentPlayerId);
   const roomId = useSelector((state) => state.room.currentRoomId);
@@ -102,6 +105,8 @@ export default function GamePage() {
         console.log('response', response)
         // 앞선 data 중복으로 변경 data -> position
         let position = JSON.parse(response.body);
+        console.log("position")
+        console.log(position)
         // if (data.game.dice !== prevDice) {
           console.log('currentCell.move------>', position.cell.move)
           console.log('position', position)
@@ -132,9 +137,21 @@ export default function GamePage() {
           if (position.cell.name == '두더지 게임' || position.cell.name == '라이어 게임' || position.cell.name == '훈민정음') {
             setVisible(true)
           }
+          else if(position.cell.name == '목소리 변조 벌칙'){
+            client.current.send("/penalty/voice/" + roomId, {}, JSON.stringify({ "penalty": nickname }));
+          }
         // }
 
       });
+
+      client.current.subscribe(`/topic/penalty/voice/${roomId}`, (response) => {
+        console.log(response)
+        let position = JSON.parse(response.body);
+
+        let penaltyName = position.penalty;
+        let tempAudioDistortionState = participants.map((par) => par.nick==penaltyName ? true : false)
+        setAudioDistortion(tempAudioDistortionState)
+      })
     }
     );
   };
@@ -211,21 +228,21 @@ export default function GamePage() {
   /* 희진 : 리랜더링 방지 시작 */
   // 방장 카메라
   const memoRoomCamPub = useMemo(() => {
-    return <OpenViduVideoComponent className={styles.cam} streamManager={publisher} />
+    return <OpenViduVideoComponent className={styles.cam} streamManager={publisher} isAudioDistorted={false} />
   }, []);
 
   // 참가자 카메라
   const memoVideoFirst = useMemo(() => {
-    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[0].participant} />
-  }, [])
+    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[0].participant} isAudioDistorted={audioDistortion[0]} />
+  }, [audioDistortion])
 
   const memoVideoSecond = useMemo(() => {
-    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[1].participant} />
-  }, [])
+    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[1].participant} isAudioDistorted={isPubAudioDistorted[1]} />
+  }, [audioDistortion])
 
   const memoVideoThird = useMemo(() => {
-    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[2].participant} />
-  }, [])
+    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[2].participant} isAudioDistorted={isPubAudioDistorted[2]} />
+  }, [audioDistortion])
   /* 희진 : 리랜더링 방지 끝 */
 
 
