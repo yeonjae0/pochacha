@@ -159,18 +159,19 @@ public class GameService extends RedisService {
             responsePayload.put("cell", super.getCell(roomId, Integer.parseInt(hash.get("pin"))));
         }
         else{
-            int move=(Integer) payload.get("move");
+            int move=Integer.parseInt(payload.get("move").toString());
             int dice = Integer.parseInt(super.getGameInfo(roomId, "dice"));
             int pin = Integer.parseInt(super.getGameInfo(roomId, "pin"));
             int newPin=pin+move;
             if(newPin<0) newPin+=24;
+            if(newPin>23) newPin%=24;
             int lab = Integer.parseInt(super.getGameInfo(roomId, "lab"));
             if(pin>newPin) lab++;
 
             Map<String, String> hash = new HashMap<>();
             hash.put("dice", Integer.toString(dice));
             hash.put("pin", Integer.toString(newPin));
-            hash.put("pin",Integer.toString(lab));
+            hash.put("lab",Integer.toString(lab));
 
             super.setGameInfo(roomId, hash);  // Redis에 저장
 
