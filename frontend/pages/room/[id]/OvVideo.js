@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import SoundMeter from "../../../pages/audioeffect/SoundMeter";
 
 export default class OpenViduVideoComponent extends Component {
 
@@ -8,7 +9,7 @@ export default class OpenViduVideoComponent extends Component {
     }
 
     componentDidUpdate(props) {
-        // let soundMeter = new SoundMeter(new AudioContext())
+        let soundMeter = new SoundMeter(new AudioContext())
 
         console.log("OvVideoComponent의 streamManager 출력")
         console.log(props.streamManager.stream.getMediaStream())
