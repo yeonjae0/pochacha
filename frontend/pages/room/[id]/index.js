@@ -201,18 +201,8 @@ export default function RoomPage() {
         (device) => device.deviceId === currentVideoDeviceId
       );
 
-      // let audioContext = new AudioContext();
-      // let pitchChangeEffect = new Jungle(audioContext);
-      // let compressor = audioContext.createDynamicsCompressor();
-      // let mic = audioContext.createMediaStreamSource(pub.stream.getMediaStream())
-  
-      // mic.connect(pitchChangeEffect.input);
-      // pitchChangeEffect.output.connect(compressor);
-      // pitchChangeEffect.setPitchOffset(0.7);      // pitch 조절     
-      // compressor.connect(audioContext.destination);
-
-      let soundMeter = new SoundMeter(new AudioContext())
-      soundMeter.connectToSource(true, pub.stream.getMediaStream());
+      // let soundMeter = new SoundMeter(new AudioContext())
+      // soundMeter.connectToSource(true, pub.stream.getMediaStream());
 
       dispatch(openViduActions.createPublisher({publisher:pub,currentVideoDevice:currentVideoDevice}));
     } catch (error) {

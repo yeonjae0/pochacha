@@ -8,8 +8,18 @@ export default class OpenViduVideoComponent extends Component {
     }
 
     componentDidUpdate(props) {
+        // let soundMeter = new SoundMeter(new AudioContext())
+
+        console.log("OvVideoComponent의 streamManager 출력")
+        console.log(props.streamManager.stream.getMediaStream())
         if (props && !!this.videoRef) {
             this.props.streamManager.addVideoElement(this.videoRef.current);
+        }
+
+        if(props.isAudioDistorted){
+            soundMeter.connectToSource(true, props.streamManager.stream.getMediaStream());
+        } else {
+            soundMeter.stop();
         }
     }
 
