@@ -3,6 +3,8 @@ package com.ssafy.oho.model.service;
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.LiarGameResponseDto;
 import com.ssafy.oho.model.dto.response.LiarGameVoteDto;
+import com.ssafy.oho.model.dto.response.MoleGameResponseDto;
+import com.ssafy.oho.model.dto.response.MoleGameResultDto;
 import com.ssafy.oho.model.entity.Player;
 import com.ssafy.oho.model.entity.Room;
 import com.ssafy.oho.model.repository.MinigameRepository;
@@ -105,14 +107,9 @@ public class MinigameService extends RedisService {
             /*
                 TO DO :: 해당 방에 존재하는 player인지 유효성 검사 필요
              */
-            System.out.println("라이어 게임 유효성 검사 통과");
 
             int total = Integer.parseInt(super.getLiarGameInfo(roomId, "total"));
             total++;
-            System.out.println("TOTAL: "+total);
-            /*
-                TO DO :: total에 대한 유효성 검사 필요
-             */
 
             List<LiarGameVoteDto> voteList=new ArrayList<>();
             for(Player player:room.getPlayers()){
@@ -146,6 +143,11 @@ public class MinigameService extends RedisService {
                 }
             }
 
+            /* total 체크 : 재투표 시 reset */
+            String liar=super.getLiarGameInfo(roomId,"liar");
+            String word=super.getLiarGameInfo(roomId,"word");
+
+
             /*** Redis Input ***/
             super.setLiarGameVoteList(roomId, total, voteList);
 
@@ -159,8 +161,6 @@ public class MinigameService extends RedisService {
                         .build();
             }
             else{
-                String liar=super.getLiarGameInfo(roomId,"liar");
-                String word=super.getLiarGameInfo(roomId,"word");
                 boolean winner=true;
                 if(voteList.get(0).getPlayerId().equals(liar)){
                     winner=false;
@@ -173,6 +173,15 @@ public class MinigameService extends RedisService {
                         .word(word)
                         .liar(liar)
                         .build();
+            }
+
+            if(total==4){
+                List<String> playerIdList=new ArrayList<>();
+                for(Player player:room.getPlayers()){
+                    playerIdList.add(player.getId());//투표 시에 순서 고려할 필요 없음
+                }
+
+                super.setLiarGame(roomId, liar, 0, playerIdList, word);
             }
 
             return liarGameResponseDto;
@@ -246,7 +255,7 @@ public class MinigameService extends RedisService {
 
             String word = ((String) payload.getOrDefault("word", "")).trim();
             confirmMap.put("inputWord", word);  // Input word
-            
+
             if (word.length() != 2) {  // 단어를 받지 못했을 경우, 단어 길이가 다를 경우
                 confirmMap.put("msg", "단어의 길이를 확인해 주세요.");
                 return confirmMap;
@@ -325,8 +334,41 @@ public class MinigameService extends RedisService {
 
             return confirmMap;
         } catch(Exception e) {
-            e.printStackTrace();
             throw new GameGetException("훈민정음 조회에 실패하였습니다.");
         }
+    }
+
+    public MoleGameResponseDto getMoleGameResult(Map<String, Object> payload, String roomId) throws GameGetException {
+        try {
+            String playerId = (String) payload.get("playerId");
+            int score = (Integer) payload.get("score");
+
+            Room room = roomRepository.findById(roomId).orElseThrow(RoomGetException::new);
+
+            /*** Redis Input ***/
+            super.setMoleGameResult(roomId,playerId,score);
+
+            /*** Redis Output ***/
+            Map<Object,Object> map=super.getMoleGame(roomId);
+            List<MoleGameResultDto> result=new ArrayList<>();
+            for(Object key:map.keySet()){
+                String id=key.toString();
+                int tempScore=Integer.parseInt(map.get(key).toString());
+                result.add(new MoleGameResultDto(id,tempScore));
+            }
+
+            MoleGameResponseDto moleGameResponseDto=null;
+            if(result.size()==4){
+                moleGameResponseDto=MoleGameResponseDto.builder().finish(true).result(result).build();
+            }
+            else{
+                moleGameResponseDto=MoleGameResponseDto.builder().finish(false).result(result).build();
+            }
+
+            return moleGameResponseDto;
+        }catch (Exception e){
+            throw new GameGetException("두더지 잡기 결과 조회에 실패했습니다.");
+        }
+
     }
 }

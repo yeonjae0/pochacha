@@ -69,4 +69,14 @@ public class MinigameController {
             webSocket.convertAndSend("/topic/mini/spell/" + roomId, e.getMessage());
         }
     }
+
+    @MessageMapping("/mini/mole/{roomId}")
+    public void getMoleGameResult(@Payload Map<String,Object> payload, @DestinationVariable String roomId) {
+        try {
+            webSocket.convertAndSend("/topic/mini/mole/" + roomId, minigameService.getMoleGameResult(payload, roomId));
+        } catch (GameGetException e) {
+            webSocket.convertAndSend("/topic/mini/mole/" + roomId, e.getMessage());
+        }
+    }
+
 }

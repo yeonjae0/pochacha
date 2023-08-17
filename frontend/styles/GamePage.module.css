@@ -54,6 +54,15 @@
   }
 }
 
+.gameOver {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.gameOver.visible {
+  opacity: 1;
+}
+
 /* 제정 : 캠 위치 선정을 위한 grid container */
 .grid_container {
   position: absolute;

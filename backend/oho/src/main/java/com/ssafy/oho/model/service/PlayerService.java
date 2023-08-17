@@ -119,7 +119,6 @@ public class PlayerService extends RedisService {
                     .ready(Boolean.parseBoolean(super.getPlayerInfo(roomId, player.getId(), "ready")))
                     .build();
         } catch (Exception e) {  // OpenViduJavaClientException, OpenViduHttpException, ...
-            e.printStackTrace();
             throw new PlayerSetException();
         }
     }

@@ -12,6 +12,7 @@ import { styled } from "styled-components";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 import { useSelector } from "react-redux";
+import GameOverBoard from "./GameOverBoard"
 
 /* 연재 : 모달 시작 */
 const ModalContainer = styled.div`
@@ -56,6 +57,7 @@ export default function GamePage() {
   let [visible, setVisible] = useState(false)
   let [hideBtn, setHideBtn] = useState(false) // 미니게임 진행 중 주사위 가리기
   let [cnt, setCnt] = useState(0)
+  let [cntDice, setCntDice] = useState(0)
 
   const data = useSelector((state) => state.cell.currentBoard);
   const tmpPlayers = useSelector(state => state.players.tmpPlayers);
@@ -173,11 +175,13 @@ export default function GamePage() {
   };
   useEffect (() => {
     setCnt((prevCnt) => (prevCnt + 1) % 4);
-    console.log('cnt---------->', cnt)
-    console.log('setTurns---------->', setTurns)
+    // console.log('cnt---------->', cnt)
+    // console.log('setTurns---------->', setTurns)
     console.log('내 ID', myId)
     console.log('내 닉네임', tmpPlayers[myId])
-  }, [dice])
+    setCntDice((prevCntDice) => (prevCntDice + 1));
+    console.log('cntDice------->', cntDice)
+  }, [pin])
 
   const cellNameGif =
   {
@@ -256,7 +260,7 @@ export default function GamePage() {
           <h5>
             주사위 눈 : {dice}, 현재 {pin}번 블록, {lab}바퀴 째
           </h5>
-          <h3>{cnt}</h3>
+          {/* <h3>{cnt}</h3> */}
           {/* <h5> {tmpPlayers[playersIdList[cnt]].nickname}님의 차례입니다.</h5> */}
           <h5> {tmpPlayers[setTurns[cnt]].nickname}님의 차례입니다.</h5>
         </nav>
@@ -275,7 +279,7 @@ export default function GamePage() {
         <div style={{ textAlign: 'center' }}>
           <button className={styles.btnRolling} style={{ zIndex: '0' }} value="innerHTML" onClick={() => {
             client.current.send("/move/" + roomId, {}, JSON.stringify({}));
-            handleRollDiceClick();
+            //handleRollDiceClick();
           }}>주사위 굴리기</button>
         </div>          
         )}
@@ -323,51 +327,24 @@ export default function GamePage() {
                   </>
                 ) : null}
               </div>
-
-              {participants != null ? (
-                <>
-                  {/* (participant[0]!=null? */}
-              {/* (희진 : 리랜더링 방지를 위해 주석 처리) */}
-              {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 끝 */}
-
-                  <span className={Videostyles.streamcomponent} style={{ marginRight: '50px', gridArea: `cam${0 + 2}` }}>
-                    {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[0]} /> */}
-                    {memoVideoFirst}
-                    <div className={Videostyles.nickname}>{participants[0].nick}</div>
-                  </span>
-                  {/* :null) */}
-                  {/* (participant[1]!=null? */}
-                  <span className={Videostyles.streamcomponent} style={{ marginLeft: '50px', gridArea: `cam${1 + 2}` }}>
-                    {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[1]} /> */}
-                    {memoVideoSecond}
-                    <div className={Videostyles.nickname}>{participants[1].nick}</div>
-                  </span>
-                  {/* :null) */}
-                  {/* (participant[2]!=null? */}
-                  <span className={Videostyles.streamcomponent} style={{ marginRight: '50px', gridArea: `cam${2 + 2}` }}>
-                    {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[2]} /> */}
-                    {memoVideoThird}
-                    <div className={Videostyles.nickname}>{participants[2].nick}</div>
-                  </span>
-                  {/* :null) */}
-                </>
-              ) : null}
           </div>
         ) : null}
 
-        <div>
-          {currentCell == "두더지 게임" ||
-            currentCell == "라이어 게임" ||
-            currentCell == "훈민정음" ? (
-            <GameSelect currentCell={currentCell} />
-          ) : (
-            <div>
-              <DiceBox dice={dice} />
-              <ActiveBoard pin={pin} cellObj={cellObj} />
-            </div>
-          )}
-        </div>
-
+          <div>
+            {currentCell == "두더지 게임" ||
+              currentCell == "라이어 게임" ||
+              currentCell == "훈민정음" ? (
+              <GameSelect currentCell={currentCell} />
+            ) : (
+              <div>
+                {cntDice >= 22 && currentCell !== "두더지 게임" && currentCell !== "라이어 게임" && currentCell !== "훈민정음" && (
+                  <GameOverBoard />
+                )}
+                <DiceBox dice={dice} />
+                <ActiveBoard pin={pin} cellObj={cellObj} />
+              </div>
+            )}
+          </div>
         <>
           <ModalPage currentCell={currentCell} pin={pin} />
         </>

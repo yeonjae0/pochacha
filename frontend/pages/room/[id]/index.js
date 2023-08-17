@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useRouter } from "next/router";
 import RoomCam from "./RoomCam";
 import RoomChat from "./RoomChat";
@@ -27,7 +27,7 @@ export default function RoomPage() {
   let session=OV.initSession({sessionTimeout: 3600,}); // 1시간 후 세션 만료
   dispatch(openViduActions.createOpenVidu({OV,session/*,devices*/}));
 
-  let subGame=null;
+  let subGame = null;
 
   const roomId = useSelector((state) => state.room.currentRoomId);
   const token = useSelector((state) => state.player.currentPlayerId); //오픈비두 토큰
@@ -37,6 +37,7 @@ export default function RoomPage() {
   const startGame = useSelector((state) => state.players.canStart);
 
   const [chatHistory, setChatHistory] = useState(`${info.nick}님이 입장하셨습니다.` + "\n");
+
 
   /* 유영 : 최초 한 번 사용자 목록 불러오기 시작 */
   const getPlayerList = () => {
@@ -247,9 +248,8 @@ export default function RoomPage() {
     <div className={styles.container}>
       <div className="roof2"></div>
       <div className={styles.room}>
-      <div className={styles.camList} style={{ marginTop: '50px', marginBottom: '10px', textAlign: 'center' }} >
-          {/* {memoRoomCam}  */}
-          <RoomCam />
+        <div className={styles.camList} style={{ marginTop: '50px', marginBottom: '10px', textAlign: 'center' }} >
+            {memoRoomCam} 
         </div>
         {memoRoomChat}
         {memoRoonBtn}

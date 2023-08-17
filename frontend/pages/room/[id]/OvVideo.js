@@ -1,59 +1,69 @@
-import React, { Component } from 'react';
+import React, {useEffect, useRef} from "react";
 import styles from "@/styles/UserVideo.module.css";
+import * as deepar from "deepar";
 
-// import * as canvas from 'canvas';
-// import * as faceapi from 'face-api.js';
+export default function OpenViduVideoComponent(props) {
+  console.log("오픈비두 열림")
+  const videoRef = React.createRef();
 
-export default class OpenViduVideoComponent extends Component {
+  /// 여기서부터 Deep AR 변수
+  const canvasRef = useRef(null); // Deep AR Canvas
+  let deepAR = null;
 
-    constructor(props) {
-        super(props);
-        this.videoRef = React.createRef();
+  useEffect(() => {
+    if (props && !!videoRef) {
+      console.log("오픈비두 변화")
+      props.streamManager.addVideoElement(videoRef.current);
+      initializeDeepAR();
     }
+  });
 
-    componentDidUpdate(props) {
-        if (props && !!this.videoRef) {
-            this.props.streamManager.addVideoElement(this.videoRef.current);
-        }
+  /// 여기서부터 Deep AR
+  const initializeDeepAR = async () => {
+    try {
+      const canvas = canvasRef.current;
+      const video = videoRef.current;
+      if (!deepAR) {
+        await console.log("deepAR ::: ", deepAR);
+        await console.log("deepar ::: ", deepar);
+
+        deepAR = await deepar.initialize({
+          licenseKey:
+            "278cc7b9cd550b7b553b0c6b3629c269ea59e76ba24c8393a927b41264da4ff4ca7c1a0d1e640e90",
+          canvas,
+          effect: "/effects/ray-ban-wayfarer.deepar",
+          additionalOptions: {
+            cameraConfig: {
+              disableDefaultCamera: true,
+            },
+          },
+        });
+        console.log("딥에이알 초기화")
+        await deepAR.setVideoElement(video, true);
+        await deepAR.startCamera();
+      }
+    } catch (error) {
+      console.error(error);
     }
+  };
 
-    async componentDidMount() {
-        //     await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
-        //     await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
+  useEffect(() => {
+   // initializeDeepAR();
+    return () => {
+      if (deepAR!=null) {
+        console.log("딥에이알 셧다운")
+        deepAR.shutdown();
+      }
+    };
+  }, [videoRef]);
 
-        // const video = this.videoRef.current;
-
-        if (this.props && !!this.videoRef) {
-            this.props.streamManager.addVideoElement(this.videoRef.current);
-
-            // video.addEventListener('play', async () => {
-            //     const canvas = faceapi.createCanvasFromMedia(video);
-            //     document.body.append(canvas);
-
-            //     const displaySize = { width: video.width, height: video.height };
-            //     faceapi.matchDimensions(canvas, displaySize);
-
-            //     const interval = setInterval(async () => {
-            //         const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks();
-            //         const resizedDetections = faceapi.resizeResults(detections, displaySize);
-            //         canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-
-            //         faceapi.draw.drawDetections(canvas, resizedDetections);
-            //         faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
-            //     }, 100);
-            // });
-        }
-
-
-    }
-
-    render() {
-        return (
-            <div>
-                <video autoPlay={true} ref={this.videoRef} className={styles.videofilter}/>
-                {/* <canvas/> */}
-            </div>
-        )
-    }
-
+  // render() {
+  return (
+    <div>
+      <canvas ref={canvasRef}>
+        <video autoPlay={true} ref={videoRef} className={styles.videofilter} />
+      </canvas>
+    </div>
+  );
+  // }
 }

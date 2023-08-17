@@ -88,7 +88,6 @@ public class RoomController {
             errorMsg.put("error", e.getMessage());
             webSocket.convertAndSend("/queue/" + payload.get("playerId"), payload/* 임시 값 저장 */);
         } catch(Exception e) {
-            e.printStackTrace();
             return;
         }
     }
