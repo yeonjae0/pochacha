@@ -64,9 +64,9 @@ public class MinigameController {
     public void confirmSpell(@Payload Map<String,Object> payload, @DestinationVariable String roomId) {
         try {
             // 초성 분리 및 정답 확인
-            webSocket.convertAndSend("/topic/game/" + roomId, minigameService.confirmSpell(payload, roomId));
+            webSocket.convertAndSend("/topic/mini/spell/" + roomId, minigameService.confirmSpell(payload, roomId));
         } catch (GameGetException e) {
-            webSocket.convertAndSend("/topic/game/" + roomId, e.getMessage());
+            webSocket.convertAndSend("/topic/mini/spell/" + roomId, e.getMessage());
         }
     }
 }
