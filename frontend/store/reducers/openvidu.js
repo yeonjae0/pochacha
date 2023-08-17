@@ -1,26 +1,59 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { OpenVidu } from "openvidu-browser";
 
 const initialState = {
-  publisher: {},
+  OV: null,
+  session: undefined,
+  publisher: undefined,
   participants: [],
+  //devices: undefined,
+  currentVideoDevice: undefined,
 };
 
 const openViduSlice = createSlice({
   name: "openvidu",
   initialState,
   reducers: {
-    setPublisherData: (state, action) => {
-      state.publisher = action.payload;
+    createOpenVidu: (state, { payload }) => {
+      if (!state.OV) {
+        state.OV = payload.OV;//new OpenVidu();
+        state.session = payload.session;//state.OV.initSession();
+        //state.devices = payload.devices;//state.OV.getDevices();
+      }
     },
-    setParticipantsData(state, action) {
-      state.participants.push(action.payload);
+    createPublisher: (state, { payload }) => {
+      state.session.publish(payload.publisher);
+      state.currentVideoDevice = payload.currentVideoDevice;
+      state.publisher = payload.publisher;
     },
-    resetParticipantsData: (state, action) => {
-      state.participants = action.payload;
+    enteredParticipant: (state, action) => {
+      const participant = state.session.subscribe(action.payload, undefined);
+      const nick = JSON.parse(participant.stream.connection.data.split("%")[0]).clientData;
+      state.participants.push({nick:nick, participant:participant});
+    },
+    deleteParticipant: (state, action) => {
+      let index = state.participants.indexOf(action.payload, 0);
+      if (index > -1) {
+        state.participants.splice(index, 1);
+      }
+    },
+    leaveSession(state, { payload }) {
+      const mySession = state.session;
+      if (mySession) {
+        mySession.disconnect();
+      }
+
+      state.OV = null;
+      state.session = undefined;
+      state.participants = [];
+      state.publisher = undefined;
+      state.devices = undefined;
+      state.currentVideoDevice = undefined;
     },
   },
 });
 
-export default openViduSlice;
-export const { setPublisherData, setParticipantsData, resetParticipantsData } =
+export const openViduActions =
   openViduSlice.actions;
+export default openViduSlice;
+

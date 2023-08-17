@@ -11,9 +11,7 @@ import Videostyles from '@/styles/UserVideo.module.css';
 import { styled } from "styled-components";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
-//import axios from "axios";
 import { useSelector } from "react-redux";
-import RoomCam from "@/pages/room/[id]/RoomCam";
 
 /* 연재 : 모달 시작 */
 // 해야할 것: 모달 창 꾸미기
@@ -40,7 +38,7 @@ export default function GamePage() {
   const router = useRouter();
 
   /* 제정 : RoomCam component에서 필요한 정보들 불러오기 시작 */
-  const session = useSelector(state => state.room.currentRoomId);
+  const session = useSelector(state => state.openvidu.session);
   const nickname = useSelector(state => state.player.currentNick);
   const publisher = useSelector(state => state.openvidu.publisher);
   const participants = useSelector(state => state.openvidu.participants);
@@ -49,8 +47,7 @@ export default function GamePage() {
   /* 혜지 : OpenVidu 관련 데이터 */
   const token = useSelector((state) => state.player.currentPlayerId);
   const roomId = useSelector((state) => state.room.currentRoomId);
-  //let includeMini = useSelector((state) => state.room.currentIncludeMini); // 미니게임 진행 여부
-
+  
   let [dice, setDice] = useState(0); // 주사위
   let [pin, setPin] = useState(0); // 현재 위치
   let [lab, setLab] = useState(0); // 바퀴 수
@@ -117,8 +114,6 @@ export default function GamePage() {
   };
 
   useEffect(() => {
-    // 최초 한 번 CellList 불러오기
-    //createMap();
     connectSocket();
     subscribeSocket();
 
@@ -134,7 +129,6 @@ export default function GamePage() {
     setTimeout(() => {
       setShowModal(false);
     }, 2500);
-    // setShowModal(false)
   };
 
   const ModalPage = ({ currentCell, pin }) => {
@@ -161,15 +155,15 @@ export default function GamePage() {
 
   // 참가자 카메라
   const memoVideoFirst = useMemo(() => {
-    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[0]} />
+    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[0].participant} />
   }, [])
 
   const memoVideoSecond = useMemo(() => {
-    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[1]} />
+    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[1].participant} />
   }, [])
 
   const memoVideoThird = useMemo(() => {
-    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[2]} />
+    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[2].participant} />
   }, [])
   /* 희진 : 리랜더링 방지 끝 */
 

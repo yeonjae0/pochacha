@@ -1,42 +1,26 @@
-import React, { useEffect, useRef } from 'react'; /* React 관련 */
+import React, { Component } from 'react';
 
-export default function OpenViduVideoComponent(props) {
+export default class OpenViduVideoComponent extends Component {
 
-  let streamManager = props.streamManager;
-  let videoRef = useRef(null);
-
-  navigator.mediaDevices.getUserMedia({
-    video: true,
-  })
-    .then((stream) => {
-      let video = videoRef.current;
-      video.srcObject = stream;
-    }).catch((error) => {
-      if(error.response) {
-        router.push({
-            pathname: "/exception",
-            query: { msg: error.response.data },
-          })
-      } else { console.log(error) }
-    });
-
-  /*
-    CONFIRM :: CAN ADD STATE
-*/
-  /* 
-      TO DO :: ADD FACE FILTER API
-  */
-
-  useEffect(() => {
-    if (streamManager && !videoRef) {
-      streamManager.addVideoElement(videoRef.current);
+    constructor(props) {
+        super(props);
+        this.videoRef = React.createRef();
     }
-  }, [videoRef]);
 
-  return (
-    <span>
-      <video autoPlay={true} ref={videoRef} />
-      {/* CONFIRM :: CAN ADD CUSTOM STYLE */}
-    </span>
-  );
+    componentDidUpdate(props) {
+        if (props && !!this.videoRef) {
+            this.props.streamManager.addVideoElement(this.videoRef.current);
+        }
+    }
+
+    componentDidMount() {
+        if (this.props && !!this.videoRef) {
+            this.props.streamManager.addVideoElement(this.videoRef.current);
+        }
+    }
+
+    render() {
+        return <video autoPlay={true} ref={this.videoRef} />;
+    }
+
 }
