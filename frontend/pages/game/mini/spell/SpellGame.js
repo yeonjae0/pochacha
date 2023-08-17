@@ -140,8 +140,11 @@ export default function MainSpell({ sec, resetSec }) {
 
     setTimeout(() => {
       setShowModal2(false);
-    }, 5000);
-  });
+      // return () => {
+      //   clearTimeout(timeout);
+      // };
+    }, 3000); 
+  })
 
   useEffect(() => {
     if (transcript.trim().length >= 2 && currentPlayerId == playerId) {
