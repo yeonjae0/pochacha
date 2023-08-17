@@ -170,7 +170,6 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
     console.log('tmpPlayers 확인', playersIdList)
   }, []);
 
-
   useEffect(()=>{
     setTimeout(() => {
       setShowModal(true);
@@ -188,8 +187,6 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
       // };
     }, 2000); 
   })
-
-
 
   useEffect(() => {   
     dispatch(losingPlayer(tmpPlayers[playersIdList[cnt]].nickname))
