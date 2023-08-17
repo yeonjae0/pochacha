@@ -63,5 +63,13 @@ public class GameController {
         return timeStatusResponseDto;
     }
 
+    @MessageMapping("/penalty/voice/{roomId}")
+    public void broadcastAudioPenalty(@Payload Map<String, Object> payload, @DestinationVariable String roomId){
+        try{
+            webSocket.convertAndSend("/topic/penalty/voice/" + roomId, gameService.validateNickName(payload, roomId));
+        } catch(Exception e){
+            webSocket.convertAndSend("/topic/penalty/voice/" + roomId, e.getMessage());
+        }
 
+    }
 }
