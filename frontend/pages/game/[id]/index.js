@@ -101,6 +101,12 @@ export default function GamePage() {
     client.current.debug = () => { };
   };
 
+  const addMoving=(move)=>{
+    console.log("또 호출해")
+    console.log("MOVE: "+move)
+    client.current.send("/move/" + roomId, {}, JSON.stringify({"set":true, "move":move}));
+  };
+
   const subscribeSocket = () => {
     client.current.connect({}, () => {
       // callback 함수 설정, 대부분 여기에 sub 함수 씀
@@ -116,36 +122,40 @@ export default function GamePage() {
         setLab(position.game.lab);
         setCurrentCell(position.cell.name);
         handleRollDiceClick();
-        console.log(typeof(position.game.pin))
-        console.log(typeof(parseInt(position.game.pin)))
-        console.log(typeof(position.cell.move))
-        console.log('position', position)
+        // console.log(typeof(position.game.pin))
+        // console.log(typeof(parseInt(position.game.pin)))
+        // console.log(typeof(position.cell.move))
+        // console.log('position', position)
 
         /* 말을 움직이는 셀 작동 구현*/
+          if (parseInt(position.cell.move) !== 0 &&  parseInt(position.cell.move) !== NaN) {
+            // console.log('여기로 진입함 @@@@@@@@@@@!!!!!!!')
+            // setPin(position.game.pin);
+            // setDice(position.game.dice);
+            // setCurrentCell(position.cell.name);
+            // setLab(position.game.lab);
+            // handleRollDiceClick();
+            //console.log('1) useState전 currentCell', position.cell.name)
+            addMoving(position.cell.move);
+            // setTimeout(() => {
+            //   console.log('pin이랑 move 더한 값임', parseInt(position.game.pin) + parseInt(position.cell.move))
+            //   console.log('parseInt(position.game.pin)', parseInt(position.game.pin))
+            //   console.log('parseInt(position.cell.move)', parseInt(position.cell.move))
+            //   setTimeout(() => {
+            //   setPin(parseInt(position.game.pin) + parseInt(position.cell.move));
+            //   setCurrentCell(position.cell.name);
+            //   }, 1000);
+            //   setCntDice((prevCntDice) => (prevCntDice - 1));
+            //   setLab(position.game.lab);
+            //   console.log('2) modal직전 currentCell', position.cell.name)
+            //   console.log('position.game.pin', position.game.pin)
 
-        //   if (parseInt(position.cell.move) !== 0 ) {
-        //     console.log('여기로 진입함 @@@@@@@@@@@!!!!!!!')
-        //     setPin(position.game.pin)
-        //     setDice(position.game.dice);
-        //     setCurrentCell(position.cell.name);
-        //     setLab(position.game.lab);
-        //     handleRollDiceClick();
-        //     setTimeout(() => {
-        //       console.log('pin이랑 move 더한 값임', parseInt(position.game.pin) + parseInt(position.cell.move))
-        //       console.log('parseInt(position.game.pin)', parseInt(position.game.pin))
-        //       console.log('parseInt(position.cell.move)', parseInt(position.cell.move))
-        //       setTimeout(() => {
-        //       setPin(parseInt(position.game.pin) + parseInt(position.cell.move));
-        //       setCurrentCell(position.cell.name);
-        //       }, 1000);
-        //       setCntDice((prevCntDice) => (prevCntDice - 1));
-        //       setLab(position.game.lab);
-        //       setShowModal(true);
-        //       setTimeout(() => {
-        //         setShowModal(false);
-        //       }, 3000);
-        //     }, 1000);
-        //   }
+            //   setShowModal(true);
+            //   setTimeout(() => {
+            //     setShowModal(false);
+            //   }, 3000);
+            // }, 1000);
+          }
         //   else {
         //   setDice(position.game.dice);
         //   setPin(position.game.pin);
@@ -153,6 +163,7 @@ export default function GamePage() {
         //   setCurrentCell(position.cell.name);
         //   handleRollDiceClick();
         // }
+
 
         if (position.cell.name == '두더지 게임' || position.cell.name == '라이어 게임' || position.cell.name == '훈민정음') {
           setVisible(true)
@@ -173,9 +184,9 @@ export default function GamePage() {
     connectSocket();
     subscribeSocket();
 
-    setTimeout(() => {
-      client.current.send("/move/" + roomId, {}, JSON.stringify({ "reload": true }));
-    }, 100); // 비동기화 문제 (시간 조절)
+    // setTimeout(() => {
+    //   client.current.send("/move/" + roomId, {}, JSON.stringify({ "reload": true }));
+    // }, 100); // 비동기화 문제 (시간 조절)
     // console.log('tmpPlayers확인!!!', tmpPlayers)
     console.log('setTurns확인!!!!!!!!', setTurns)
 
@@ -287,8 +298,8 @@ export default function GamePage() {
         { hideBtn && (
         <div style={{ textAlign: 'center', visibility: 'hidden' }}>
           <button className={styles.btnRolling} style={{ zIndex: '0', visibility: setTurns[cnt] !== myId ? 'hidden' : 'visible' }} value="innerHTML" onClick={() => {
-            client.current.send("/move/" + roomId, {}, JSON.stringify({}));
-            handleRollDiceClick();
+            client.current.send("/move/" + roomId, {}, JSON.stringify({"set":false}));
+            //handleRollDiceClick();
           }}>주사위 굴리기</button>
         </div>          
         )}
@@ -296,7 +307,7 @@ export default function GamePage() {
         { !hideBtn && (
         <div style={{ textAlign: 'center' }}>
           <button className={styles.btnRolling} style={{ zIndex: '0', visibility: setTurns[cnt] !== myId ? 'hidden' : 'visible' }} value="innerHTML" onClick={() => {
-            client.current.send("/move/" + roomId, {}, JSON.stringify({}));
+            client.current.send("/move/" + roomId, {}, JSON.stringify({"set":false}));
             //handleRollDiceClick();
           }}>주사위 굴리기</button>
         </div>          
