@@ -16,7 +16,6 @@ import { useSelector } from "react-redux";
 import RoomCam from "@/pages/room/[id]/RoomCam";
 
 /* 연재 : 모달 시작 */
-// 해야할 것: 모달 창 꾸미기
 const ModalContainer = styled.div`
   position: fixed;
   top: 0;
@@ -29,12 +28,11 @@ const ModalContainer = styled.div`
   justify-content: center;
 `;
 
-const ModalContent = styled.div`
-  background-color: white;
-  padding: 70px;
-  /* transition: visibility 0.5s ease-out; */
-  border-radius: 20px;
-`;
+// const ModalContent = styled.div`
+//   background-color: white;
+//   padding: 70px;
+//   border-radius: 20px;
+// `;
 
 export default function GamePage() {
   const router = useRouter();
@@ -133,18 +131,43 @@ export default function GamePage() {
     }, 1000);
     setTimeout(() => {
       setShowModal(false);
-    }, 2500);
-    // setShowModal(false)
+    }, 3000);
   };
+
+  const cellNameGif =
+  {'한 칸 앞으로 이동': '',
+   '한 칸 뒤로 이동': '',
+   '두 칸 앞으로 이동': '',
+   '벌칙 제거 (없으면 까비)': '',
+   '한 턴 영어 금지': '영어금지',
+   '한 턴 안주 금지': '안주금지',
+   '목소리 변조 벌칙': '목소리',
+   '페이스 필터 벌칙': '필터',
+   '걸린 사람 빼고 원샷': '원샷',
+   '원샷': '원샷',
+   '건배사': '건배사',
+   '물 1L 마시기': '1L',
+   '한 명 지목해서 같이 원샷': '원샷',
+   '코끼리코 52바퀴': '코끼리코',
+   '웃긴 썰 풀기': '웃썰',
+   '파워댄스': '댄스',
+   '카메라에 뽀뽀': '뽀뽀',
+   '다 함께 원샷': '원샷',
+   '성대모사': '성대모사',
+   '지금 바로 한잔 마시기': '한잔'
+  }
+
+  const cellValue = cellNameGif[currentCell];
 
   const ModalPage = ({ currentCell, pin }) => {
     return (
       <>
         {showModal && (
-          <ModalContainer id="modalContainer">
-            <ModalContent className={styles.modalContent} style={{ zIndex: "1" }}>
-              <p>{currentCell}</p>
-            </ModalContent>
+          <ModalContainer style={{ animation: 'fadeIn 2s' }}>
+            {/* <ModalContent className={styles.modalContent} style={{ zIndex: "1" }}> */}
+            <p>{cellValue && <img style={{ width: '400px' }} src={`/cell/${cellValue}.gif`}/>}</p>
+            <p style={{ fontFamily: 'LeeSeoyun', fontSize: '50px', color: '#FFFFFF' }}>{currentCell}</p>
+            {/* </ModalContent> */}
           </ModalContainer>
         )}
       </>
@@ -248,7 +271,6 @@ export default function GamePage() {
               </div>
             )}
           </div>
-
         <>
           <ModalPage currentCell={currentCell} pin={pin} />
         </>
