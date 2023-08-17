@@ -263,8 +263,9 @@ public class RedisService {
                 hashOperations.put(getSpellKey(roomId), "firstWord", firstWord);
                 hashOperations.put(getSpellKey(roomId), "secondWord", secondWord);
                 for (int i = 0; i < playerIdList.size(); i++) {
-                    hashOperations.put(getSpellKey(roomId), playerIdList.get(i), Boolean.toString(false));
+                    hashOperations.put(getSpellKey(roomId), "player" + i, playerIdList.get(i));
                 }
+                hashOperations.put(getSpellKey(roomId), "index", "0");
 
                 List<Object> result = operations.exec();  // 트랜잭션 실행
                 if(result == null) System.out.println("SPELL :: REDIS TRANSACTION ERROR");

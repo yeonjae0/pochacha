@@ -188,28 +188,36 @@ public class MinigameService extends RedisService {
     private final String SPELL_KEY = "461267C04AE2F8FD88F1327EC3533DA7";
     private static final String SPELL_URL = "https://krdict.korean.go.kr/api/search";
     public HashMap<String, Object> setSpell(@RequestBody RoomRequestDto roomRequestDto) throws GameGetException {
-        String correctWord = randWord[(int) Math.floor(Math.random() * randWord.length)];
-        String firstWord = Character.toString(correctWord.charAt(0));
-        String secondWord = Character.toString(correctWord.charAt(1));
+        HashMap<String, Object> responsePayload = new HashMap<>();
+        String firstWord, secondWord;
 
-        if(roomRequestDto == null || roomRequestDto.getId() == null) throw new GameGetException();
+        // room 유효성 검사
+        if (roomRequestDto == null || roomRequestDto.getId() == null) throw new GameGetException();
         Room room = roomRepository.findById(roomRequestDto.getId()).orElseThrow(() -> new GameGetException());
-        List<String> playerIdList = new ArrayList<>();
-        for (Player p : room.getPlayers()) {
-            playerIdList.add(p.getId());
+
+        if(super.getSpell(roomRequestDto.getId()) == null) {
+            String correctWord = randWord[(int) Math.floor(Math.random() * randWord.length)];
+            firstWord = Character.toString(correctWord.charAt(0));
+            secondWord = Character.toString(correctWord.charAt(1));
+
+            List<String> playerIdList = new ArrayList<>();
+            for (Player p : room.getPlayers()) {
+                playerIdList.add(p.getId());
+            }
+
+            Collections.shuffle(playerIdList);  // 무작위 섞기
+
+            /*** Redis Input ***/
+            super.setSpell(room.getId(), firstWord, secondWord, playerIdList);
         }
-
-        Collections.shuffle(playerIdList);  // 무작위 섞기
-
-        /*** Redis Input ***/
-        super.setSpell(roomRequestDto.getId(), firstWord, secondWord, playerIdList);
+        int index = Integer.parseInt(super.getSpellInfo(room.getId(), "index"));
+        responsePayload.put("firstWord", super.getSpellInfo(room.getId(), "firstWord"));
+        responsePayload.put("secondWord", super.getSpellInfo(room.getId(), "secondWord"));
+        responsePayload.put("currentPlayer", super.getSpellInfo(room.getId(), "player" + index));  // 현 순서의 플레이어
+        responsePayload.put("index", super.getSpellInfo(room.getId(), "index"));  // 현 순서의 플레이어
 
         /*** Response DTO Build ***/
-        return new HashMap<>() {{
-            put("firstWord", firstWord);
-            put("secondWord", secondWord);
-            put("playerIdList", playerIdList);
-        }};
+        return responsePayload;
     }
     public Map<String, Object> confirmSpell(Map<String, Object> payload, String roomId) throws GameGetException {
         try {
@@ -273,6 +281,15 @@ public class MinigameService extends RedisService {
 
             confirmMap.put("correct", true);
             confirmMap.put("msg", "정답입니다!");
+
+            int index = Integer.parseInt(super.getSpellInfo(roomId, "index"));
+            index = (index + 1) % 4;
+
+            HashMap<String, String> hash = new HashMap<>();
+            hash.put("index", Integer.toString(index));
+            super.setSpellInfo(roomId, hash);  // 순서 다시 설정
+
+            confirmMap.put("currentPlayer", super.getSpellInfo(roomId, "player" + index));
 
             return confirmMap;
         } catch(Exception e) {
