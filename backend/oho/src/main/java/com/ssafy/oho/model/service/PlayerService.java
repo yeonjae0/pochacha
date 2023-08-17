@@ -201,9 +201,9 @@ public class PlayerService extends RedisService {
 
             String playerId = (String) payload.get("playerId");
             String nickname=(String)payload.get("nickname");
-            boolean head=(boolean)payload.get("head");
-            System.out.println("nickname: "+nickname);
-            System.out.println("head: "+head);
+            //boolean head=(boolean)payload.get("head");
+            //System.out.println("nickname: "+nickname);
+            //System.out.println("head: "+head);
 
             // Redis 저장 확인
             if (super.getPlayer(roomId, playerId) == null) {
@@ -225,12 +225,12 @@ public class PlayerService extends RedisService {
 //                hash.put("ready", Boolean.toString((boolean) payload.get("ready")));
 //            }
 
-            if(head==false) {
+          //  if(head==false) {
                 boolean ready = Boolean.parseBoolean(super.getPlayerInfo(roomId, playerId, "ready"));
                 hash.put("ready", Boolean.toString(!ready));
 
                 super.setPlayerInfo(roomId, playerId, hash);
-            }
+            //}
 
             /*** Response DTO Build ***/
             return PlayerResponseDto.builder()
