@@ -234,15 +234,15 @@ export default function GamePage() {
   // 참가자 카메라
   const memoVideoFirst = useMemo(() => {
     return <OpenViduVideoComponent className={styles.cam} streamManager={participants[0].participant} isAudioDistorted={audioDistortion[0]} />
-  }, [audioDistortion])
+  }, [])
 
   const memoVideoSecond = useMemo(() => {
     return <OpenViduVideoComponent className={styles.cam} streamManager={participants[1].participant} isAudioDistorted={audioDistortion[1]} />
-  }, [audioDistortion])
+  }, [])
 
   const memoVideoThird = useMemo(() => {
     return <OpenViduVideoComponent className={styles.cam} streamManager={participants[2].participant} isAudioDistorted={audioDistortion[2]} />
-  }, [audioDistortion])
+  }, [])
   /* 희진 : 리랜더링 방지 끝 */
 
 
