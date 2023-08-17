@@ -248,7 +248,7 @@ public class RedisService {
         return (String) hashOperations.get(getLiarGameVoteListKey(roomId), hashKey);
     }
     protected String getLiarGameInfo(String roomId, String hashKey) {
-        return (String) hashOperations.get(getSpellKey(roomId), hashKey);
+        return (String) hashOperations.get(getLiarGameKey(roomId), hashKey);
     }
 
     protected String getSpellKey(String roomId) {
