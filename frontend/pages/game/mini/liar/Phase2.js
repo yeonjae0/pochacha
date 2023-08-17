@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import VoteLiarComponent from './VoteLiarComponent';
+import styles from '@/styles/LiarGame.module.css';
+
 
 export default function Phase2() {
   const [minutes, setMinutes] = useState(0);
@@ -31,22 +33,12 @@ export default function Phase2() {
   return (
     <div
           className="discuss"
-          style={{
-            position: 'relative',
-            width: '600px',
-            height: '600px',
-            margin: '0 auto',
-            overflow: 'hidden',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-          }}
         >  
         {
           (status === 'ing' && minutes >= 0 && seconds > 0) && (<><h1>토론을 해보세요</h1><h2>{minutes}:{seconds < 10 ? `0${seconds}` : seconds}초 남았습니다.</h2></>)
         }
         {
-          (status === 'ing' && minutes === 0 && seconds <= 30 && seconds >= 1 ) && (<button onClick={() => handleAddTime()}>시간 추가</button>)
+          (status === 'ing' && minutes === 0 && seconds <= 30 && seconds >= 1 ) && (<button className={styles.addTimebtn} onClick={() => handleAddTime()}>시간 추가</button>)
         }
         {
           status === 'done' && (<VoteLiarComponent/>)
