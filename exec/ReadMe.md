@@ -1,82 +1,134 @@
 # 1. 빌드 및 배포 정리
+|배포 환경|개발 OS|WAS|Web Server|JVM|Docker|Docker Compose|Web Server|
+|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
+|AWS EC2 ubuntu instance|windows|Tomcat|Nginx|jdk17|20.10.21|18.16.1|1.28.2|
 
-### WAS
+|Node.js|React|MariaDB|Gradle|npm|Next.js|Redis|npx|
+|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
+|18.16.1|18.2.0|10.11.4|8.1.1|9.5.1|13.4.10|3|9.5.1|
 
-Tomcat
+|Intellij|VSCode|Openvidu|
+|:-------------:|:-------------:|:-------------:|
+|2023.01.03|1.81.0|2.28.0|
 
-### Web Server
+---
+## How To Run Ohogame At Server
 
-Nginx
+### BE - DB
 
-### JVM
+1. `S09P12A602` 폴더와 같은 위치에 `db` 폴더를 만들고 `db` 폴더로 진입한다.
+    
+    ```jsx
+    mkdir db
+    cd db
+    ```
+    
+2. `db` 폴더 하위에 `data` 와 `initdb.d` 폴더를 만든다.
+    
+    ```jsx
+    mkdir data
+    mkdir initdb.d
+    ```
+    
+3. `initdb.d` 폴더 안에 `data.sql` 파일을 위치시킨다.
+    
+    ```jsx
+    cp -r /home/ubuntu/S09P12A602/backend/oho/src/main/resource/data.sql initdb.d/
+    ```
+    
+4. `S09P12A602` 폴더로 진입한다.
+    
+    ```jsx
+    cd /home/ubuntu/S09P12A602
+    ```
+    
+5. BE 및 DB 컨테이너를 생성한다. 만약 기존에 생성된 BE 및 DB 컨테이너가 존재한다면 두 번째 명령어를 실행하고 첫 번째 명령어를 실행한다.
+    
+    ```jsx
+    docker-compose up -d
+    docker-compose down
+    ```
+    
 
-jdk17
+### FE - OpenVidu - Nginx
 
-### Docker
+1. `openvidu` 폴더로 진입한다.
+    
+    ```jsx
+    cd openvidu
+    ```
+    
+2. openvidu 관련 컨테이너들을 생성한다. 기존에 생성되었던 openvidu 관련 컨테이너들이 존재한다면 두 번째 명령어를 실행한다.
+    
+    ```jsx
+    ./openvidu start
+    ./openvidu restart
+    ```
+    
+3. 필요한 컨테이너들이 생성되었는지 확인한다.
+    
+    ```jsx
+    docker ps -a
+    ```
+    
+4. `[ohogame.shop](http://ohogame.shop)` 을 브라우저 url에 입력하고 Enter를 누르면 Ohogame을 시작할 수 있다.
 
-20.10.21
+## How To Build Ohogame At Local
+### Frontend
 
-### Node.js
+1. `frontend` 폴더에서 Next.js와 프로젝트 빌드 시 필요한 모든 모듈들을 프로젝트에 설치한다.
+    
+    ```jsx
+    npm install next
+    npm install .
+    ```
+    
+2. 프로젝트를 빌드한다. 로컬에서 서버를 돌릴 시 첫 번째 명령어를, 서버를 구동하는데 필요한 빌드 폴더를 생성할 시 두 번째 명령어를 실행한다.
+    
+    ```jsx
+    npm run dev
+    npm run build
+    ```
+    
 
-18.16.1
+### Backend
 
-### React
-
-18.2.0
-
-### MariaDB
-
-10.11.4
-
-### Gradle
-
-8.1.1
-
-### Docker Compose
-
-1.28.2
-
-### npm
-
-9.5.1
-
-### Next.js
-
-13.4.10
-
-### Redis
-
-3
-
-### 개발 OS
-
-windows
-
-### 배포 환경
-
-AWS EC2 ubuntu instance
-
-### npx
-
-9.5.1
-
-### Intellij
-
-2023.01.03
-
-### VSCode
-
-1.81.0
+1. `backend/oho` 폴더로 이동하고 아래의 명령어를 실행하면 기존에 빌드된 jar 파일이 삭제되고 프로젝트가 새로 빌드된다.
+    
+    ```jsx
+    ./gradlew clean build
+    ```
+    
 
 ### Openvidu
 
-2.28.0
-
----
-
+1. docker를 통해 오픈비두 서버를 실행한다.
+    
+    ```jsx
+    docker run -p 4443:4443 --rm -e OPENVIDU_SECRET=MY_SECRET openvidu/openvidu-dev:2.28.0
+    ```
 
 # 2. 외부 서비스 정리
+## 외부 API 및 서비스 목록
 
-# 3. DB 덤프 파일 (X)
+### 가비아
+
+커스텀 도메인을 발급받는데 활용함
+
+발급받은 도메인: ohogame.shop
+
+### 한국어 기초사전
+
+초성게임에서 입력한 단어가 국어사전에 존재하는 단어인지 확인하기 위해 사용함
+
+### Openvidu
+
+화상 채팅 서비스를 직접 구현하지 않고 편하게 도입하기 위해 사용함
+
+
+# 3. DB 덤프 파일
+```
+S09P12A602/backend/oho/src/main/resources/data.sql
+```
 
 # 4. 시연 시나리오
