@@ -229,9 +229,9 @@ export default function RoomPage() {
   }, []);
 
   /* 희진 : 리랜더링 방지 시작 */
-  // const memoRoomCam = useMemo(() => {
-  //   return <RoomCam />;
-  // }, []);
+  const memoRoomCam = useMemo(() => {
+    return <RoomCam />;
+  }, []);
 
   const memoRoomChat = useMemo(() => {
     return <RoomChat info={info} client={client} chatHistory={chatHistory} />;
@@ -250,6 +250,7 @@ export default function RoomPage() {
       <div className={styles.room}>
         <div className={styles.camList} style={{ marginTop: '50px', marginBottom: '10px', textAlign: 'center' }} >
             {memoRoomCam} 
+
         </div>
         {memoRoomChat}
         {memoRoonBtn}
