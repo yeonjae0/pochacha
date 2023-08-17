@@ -8,7 +8,7 @@ import { Stomp } from '@stomp/stompjs';
 import { startGame, losingPlayer, setCurrentPlayer } from '@/store/reducers/spell';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 
-export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
+export default function MainSpell({ sec, resetSec }) {
 
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
@@ -66,18 +66,17 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
       data: {
         "id": roomId
       }
-    }).then(async (response) => {
+    }).then((response) => {
       let data = response.data;
-      console.log("data ::: ", data);
+      resetTranscript();
 
-      await dispatch(await setCurrentPlayer({ "id": data.currentPlayerId }));
-      console.log("axios currentPlayerId ::: ", currentPlayerId);
+      dispatch(setCurrentPlayer({ "id": data.currentPlayerId }));
 
-      setTimeout(async() => {
-        if (await currentPlayerId == playerId) {  // 본인이 현 순서일 경우
-          await SpeechRecognition.startListening({ continuous: true });  // 마이크 열기
+      setTimeout(() => {
+        if (data.currentPlayerId == playerId) {  // 본인이 현 순서일 경우
+          SpeechRecognition.startListening({ continuous: true });  // 마이크 열기
         } else {
-          await SpeechRecognition.stopListening();  // 마이크 닫기
+          SpeechRecognition.stopListening();  // 마이크 닫기
         }
       }, 1000);
 
@@ -110,21 +109,26 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
 
         if (data.correct) {  // 맞았을 경우
           setInputWords([...inputWords, data.inputWord]);  // 단어 저장
-          await dispatch(await setCurrentPlayer({ "id": data.currentPlayerId }));
+          dispatch(setCurrentPlayer({ "id": data.currentPlayerId }));
+          resetSec();
+
+          if (data.currentPlayerId == playerId) {  // 본인이 현 순서일 경우
+            SpeechRecognition.startListening({ continuous: true });  // 마이크 열기
+          } else {
+            SpeechRecognition.stopListening();  // 마이크 닫기
+          }
         } else {  // 틀렸을 경우
-          setShowModal2((data.msg));
-          console.log("틀린 단어 ::: " + data.inputWord);
+          setShowModal2(( data.inputWord + " : " + data.msg));
+          
+          setTimeout(() => {
+            if (currentPlayerId == playerId) {  // 본인이 현 순서일 경우
+              SpeechRecognition.startListening({ continuous: true });  // 마이크 열기
+            } else {
+              SpeechRecognition.stopListening();  // 마이크 닫기
+            }
+          }, 500);
         }
         resetTranscript();
-        await dispatch(await setCurrentPlayer({ "id": data.currentPlayerId }));
-        console.log("socket currentPlayerId ::: ", currentPlayerId);
-        setTimeout(async() => {
-          if (await currentPlayerId == playerId) {  // 본인이 현 순서일 경우
-            await SpeechRecognition.startListening({ continuous: true });  // 마이크 열기
-          } else {
-            await SpeechRecognition.stopListening();  // 마이크 닫기
-          }
-        }, 1000);
       })  // 훈민정음 구독
     })
   }
@@ -143,7 +147,7 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
 
     setTimeout(() => {
       setShowModal2(false);
-    }, 2000);
+    }, 5000);
   })
 
   useEffect(() => {

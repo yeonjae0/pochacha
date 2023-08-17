@@ -71,7 +71,7 @@ public class MinigameService extends RedisService {
             int liarCnt=random.nextInt(room.getPlayers().size());
 
             /*** Redis Input ***/
-            super.setLiarGame(roomId, playerIdList.get(0), 0, playerIdList);
+            super.setLiarGame(roomId, playerIdList.get(liarCnt), 0, playerIdList);
 
             /*** Response DTO Build ***/
             LiarGameResponseDto liarGameResponseDto= LiarGameResponseDto.builder()

@@ -54,8 +54,14 @@ export default function GamePage() {
   let [showModal, setShowModal] = useState(false);
   let [prevDice, setPrevDice] = useState(0); // 이전 주사위 값 저장
   let [visible, setVisible] = useState(false)
+  let [cnt, setCnt] = useState(0)
 
   const data = useSelector((state) => state.cell.currentBoard);
+  const tmpPlayers = useSelector(state => state.players.tmpPlayers);
+  const setTurns = useSelector(state => state.cell.turns);
+  const myId = useSelector(state => state.player.currentPlayerId);
+  // let playersIdList = Object.keys(tmpPlayers)
+
   console.log(data)
   const cellObj = {
     one: data[0].status,
@@ -150,6 +156,8 @@ export default function GamePage() {
     setTimeout(() => {
       client.current.send("/move/" + roomId, {}, JSON.stringify({ "reload": true }));
     }, 100); // 비동기화 문제 (시간 조절)
+    // console.log('tmpPlayers확인!!!', tmpPlayers)
+    console.log('setTurns확인!!!!!!!!', setTurns)
 
     // 사용자 활동이 있을 때마다 세션 연장
     // setInterval(extendSession, 300000); // 5분마다 세션 연장
@@ -163,6 +171,13 @@ export default function GamePage() {
       setShowModal(false);
     }, 3000);
   };
+  useEffect (() => {
+    setCnt((prevCnt) => (prevCnt + 1) % 4);
+    console.log('cnt---------->', cnt)
+    console.log('setTurns---------->', setTurns)
+    console.log('내 ID', myId)
+    console.log('내 닉네임', tmpPlayers[myId])
+  }, [dice])
 
   const cellNameGif =
   {'한 칸 앞으로 이동': '',
@@ -234,13 +249,18 @@ export default function GamePage() {
           <h5>
             주사위 눈 : {dice}, 현재 {pin}번 블록에 위치, {lab}바퀴
           </h5>
+          <h3>{cnt}</h3>
+          {/* <h5> {tmpPlayers[playersIdList[cnt]].nickname}님의 차례입니다.</h5> */}
+          <h5> {tmpPlayers[setTurns[cnt]].nickname}님의 차례입니다.</h5>
         </nav>
 
         <div style={{ textAlign: 'center' }}>
-          <button className={styles.btnRolling} style={{ zIndex: '0' }} value="innerHTML" onClick={() => {
+          <button className={styles.btnRolling} style={{ zIndex: '0', visibility: setTurns[cnt] !== myId ? 'hidden' : 'visible' }} value="innerHTML" onClick={() => {
             client.current.send("/move/" + roomId, {}, JSON.stringify({}));
             handleRollDiceClick();
-          }}>주사위 굴리기</button>
+          }}
+          disabled={setTurns[cnt] !== myId}
+          >주사위 굴리기</button>
         </div>
 
         {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 시작 */}
