@@ -11,15 +11,10 @@ let [keepGoing, SetKeepGoing] = useState(true);  // 게임이 진행중인지 �
 let [sec, setSec] = useState(0);
 let time = useRef(30);
 const timerId = useRef(null);
-const currentIdx = useSelector(state => state.spell.currentIdx);
 const tmpPlayers = useSelector(state => state.players.tmpPlayers);
-let playersIdList = Object.keys(tmpPlayers) 
+let currentPlayerId = useSelector(state => state.spell.currentPlayerId);
 
 const resetSec = () => {
-  // time.current = 10
-  // setSec(10)
-  // console.log(currentPlayerIndex)
-  // setCurrentPlayerIndex((currentPlayerIndex + 1) % 4);
   time.current = 10
   setSec(10)
 }
@@ -66,7 +61,7 @@ function GameOver() {
         <img src='/초성_게임오버.png' />
         {/* <h1 style= {{top: '10%', left: '60%'}}>{currentIdx} </h1>
         <h2 style= {{top: '10%', left: '60%'}}>  님의 패배입니다.</h2> */}
-        <h1>'{currentIdx}' 님의 패배입니다.</h1>
+        <h1>'{tmpPlayers[currentPlayerId].nickname}' 님의 패배입니다.</h1>
       </div>
     </>
   )

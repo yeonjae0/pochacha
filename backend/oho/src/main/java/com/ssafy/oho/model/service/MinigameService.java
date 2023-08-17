@@ -71,7 +71,7 @@ public class MinigameService extends RedisService {
             int liarCnt=random.nextInt(room.getPlayers().size());
 
             /*** Redis Input ***/
-            super.setLiarGame(roomId, playerIdList.get(liarCnt), 0, playerIdList);
+            super.setLiarGame(roomId, playerIdList.get(liarCnt), 0, playerIdList, word);
 
             /*** Response DTO Build ***/
             LiarGameResponseDto liarGameResponseDto= LiarGameResponseDto.builder()
@@ -156,15 +156,18 @@ public class MinigameService extends RedisService {
             }
             else{
                 String liar=super.getLiarGameInfo(roomId,"liar");
-                boolean winner=false;
+                String word=super.getLiarGameInfo(roomId,"word");
+                boolean winner=true;
                 if(voteList.get(0).getPlayerId().equals(liar)){
-                    winner=true;
+                    winner=false;
                 }
 
                 liarGameResponseDto=LiarGameResponseDto.builder()
                         .total(total)
                         .tiebreak(false)
                         .winner(winner)
+                        .word(word)
+                        .liar(liar)
                         .build();
             }
 
@@ -213,7 +216,7 @@ public class MinigameService extends RedisService {
         int index = Integer.parseInt(super.getSpellInfo(room.getId(), "index"));
         responsePayload.put("firstWord", super.getSpellInfo(room.getId(), "firstWord"));
         responsePayload.put("secondWord", super.getSpellInfo(room.getId(), "secondWord"));
-        responsePayload.put("currentPlayer", super.getSpellInfo(room.getId(), "player" + index));  // 현 순서의 플레이어
+        responsePayload.put("currentPlayerId", super.getSpellInfo(room.getId(), "player" + index));  // 현 순서의 플레이어
         responsePayload.put("index", super.getSpellInfo(room.getId(), "index"));  // 현 순서의 플레이어
 
         /*** Response DTO Build ***/
@@ -289,7 +292,7 @@ public class MinigameService extends RedisService {
             hash.put("index", Integer.toString(index));
             super.setSpellInfo(roomId, hash);  // 순서 다시 설정
 
-            confirmMap.put("currentPlayer", super.getSpellInfo(roomId, "player" + index));
+            confirmMap.put("currentPlayerId", super.getSpellInfo(roomId, "player" + index));
 
             return confirmMap;
         } catch(Exception e) {

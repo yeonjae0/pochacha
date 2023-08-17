@@ -8,6 +8,7 @@ import playerSlice from "./player";
 import spellSlice from "./spell";
 import cellSlice from "./cell";
 import openViduSlice from "./openvidu";
+import stompSlice from "./stomp";
 
 const rootReducer = (state, action) => {
   switch (action.type) {
@@ -23,6 +24,7 @@ const rootReducer = (state, action) => {
         spell: spellSlice.reducer,
         cell: cellSlice.reducer,
         openvidu: openViduSlice.reducer,
+        stomp: stompSlice.reducer,
       });
       return combineReducer(state, action);
     }

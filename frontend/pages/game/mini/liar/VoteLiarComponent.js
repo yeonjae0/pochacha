@@ -11,6 +11,9 @@ export default function VoteLiarComponent(){
     const [stageStatus, setStageStatus] = useState('voting');
     const [voteStatus, setVoteStatus] = useState(false);
     const [selectedPlayer, setSelectedPlayer] = useState(null);
+    const [liar, setLiar] = useState(null);
+    const [word, setWord] = useState('');
+
 
     const roomId = useSelector(state => state.room.currentRoomId);
     const currentPlayer = useSelector(state => state.player)
@@ -18,9 +21,9 @@ export default function VoteLiarComponent(){
 
     let playerList = Object.keys(players)
 
-    console.log('플레이어', currentPlayer)
-    console.log('플레이어들', players)
-    console.log('플레이어 리스트', playerList)
+    // console.log('플레이어', currentPlayer)
+    // console.log('플레이어들', players)
+    // console.log('플레이어 리스트', playerList)
     
     const handleRadioChange = (event) => {
       setSelectedPlayer(event.target.id)
@@ -43,15 +46,17 @@ export default function VoteLiarComponent(){
             //모두 투표 완료
             if(data.tiebreak === false) {
               //승패 결정
+              setLiar(data.liar)
+              setWord(data.word)
               if(data.winner === true) {
                 //라이어 승
-                setStageStatus('done')
+                console.log('라이어 승리!!!!')
                 setStageStatus('liarWin')
                 // status >> liarWin으로 설정하여 멘트 표시
               }
               else {
                 //세명의 승
-                setStageStatus('done')
+                console.log('라이어 패배!!!!')
                 setStageStatus('liarLose')
                 // status >> liarLose으로 설정하여 멘트 표시
               }
@@ -130,30 +135,65 @@ export default function VoteLiarComponent(){
             }
         </div>
         </>)
-        : <LiarResult stageStatus={stageStatus} />
+        : <LiarResult stageStatus={stageStatus} liar={liar} currentPlayer={currentPlayer.currentPlayerId} word={word}/>
       }
         </>
         )
 }
 
 function LiarResult(props) {
-  const [liar, setLiar] = useState(false) // false면 일반인, true면 라이어
-  // let stageStatus = props.stageStatus
-  let stageStatus = 'liarWin'
+  const players = useSelector(state => state.players.tmpPlayers)
+  let word = props.word
+  console.log(word)
+  let stageStatus = props.stageStatus
+  console.log(stageStatus)
+  let isLiar = null
+  // false면 일반인, true면 라이어
+  if (props.currentPlayer === props.liar) {
+  isLiar = true
+  } else {
+  isLiar = false
+  }
+  console.log(isLiar)
+  let liarNick = players[props.liar].nickname
 
+  
   return (
     <div className={styles.resultContainer}>
       {
         stageStatus === 'liarWin' ?
-          (liar == false ? 
+        (
+          (isLiar == true) ?
+          (
+          <div>
+            <h1>축하합니다.<br/>당신의 승리입니다.</h1><br/>
+            <h2>제시 단어는 <span style={{fontSize: 'xx-large'}}>{word}</span> 입니다.</h2>
+          </div>
+          )
+          : (
             <div>
               <h1>아쉽네요.<br/> 라이어의 승리입니다.</h1>
               <div>
-                <h2>라이어는 <span style={{fontSize: 'x-large'}}>XXX</span> 입니다.</h2>
+                <h2>라이어는<br/> <span style={{fontSize: 'xx-large'}}>{liarNick}</span><br/> 입니다.</h2>
               </div>
-            </div>
-          : <h1>축하합니다.<br/>당신의 승리입니다.</h1>)
-          : null
+            </div>)
+        )
+        : (
+          (isLiar == true) ?
+          (
+          <div>
+            <h1>아쉽네요.<br/>당신의 패배입니다.</h1><br/>
+            <h2>제시 단어는 <span style={{fontSize: 'xx-large'}}>{word}</span> 입니다.</h2>
+          </div>
+          )
+          : (
+            <div>
+              <h1>축하합니다.<br/> 당신의 승리입니다.</h1>
+              <div>
+              <h2>라이어는<br/> <span style={{fontSize: 'xx-large'}}>{liarNick}</span><br/> 입니다.</h2>
+              </div>
+            </div>)
+          )
       }
     </div>
   )
