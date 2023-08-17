@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { enterRoom } from "@/store/reducers/room.js";
-import { resetPlayers } from "@/store/reducers/players";
+import { resetPlayers, resetTmpPlayers } from "@/store/reducers/players";
 import { setMyData } from "@/store/reducers/player";
 
 function ResetPage() {
@@ -12,6 +12,7 @@ function ResetPage() {
   const doInitialize = () => {
     dispatch(enterRoom({ currentRoomId: null, currentProgress: null, currentSecret: null }));
     dispatch(resetPlayers([]));
+    dispatch(resetTmpPlayers());
     dispatch(setMyData({  currentPlayerId: null,
     currentNick: null,
     currentReady: false,

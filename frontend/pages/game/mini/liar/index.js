@@ -63,7 +63,7 @@ export default function Liar() {
       transform: 'translate(-50%, -10%)'
     }}>
     <img src='/라이어_로고.png' alt='Liar game Title' style={{ width: '300px', height: '100px' }} />
-    </div>
+    
     <div className={styles.game_container}>
       {/* 제정 : 빠른 테스트를 위한 룰 설명 주석 처리 시작 */}
       {/* {
@@ -101,6 +101,7 @@ export default function Liar() {
           <LiarGame />
       )
       }
+    </div>
     </div>
     </>
   )
