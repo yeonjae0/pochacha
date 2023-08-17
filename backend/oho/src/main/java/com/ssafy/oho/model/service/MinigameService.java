@@ -3,6 +3,8 @@ package com.ssafy.oho.model.service;
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.LiarGameResponseDto;
 import com.ssafy.oho.model.dto.response.LiarGameVoteDto;
+import com.ssafy.oho.model.dto.response.MoleGameResponseDto;
+import com.ssafy.oho.model.dto.response.MoleGameResultDto;
 import com.ssafy.oho.model.entity.Player;
 import com.ssafy.oho.model.entity.Room;
 import com.ssafy.oho.model.repository.MinigameRepository;
@@ -308,5 +310,39 @@ public class MinigameService extends RedisService {
             e.printStackTrace();
             throw new GameGetException("훈민정음 조회에 실패하였습니다.");
         }
+    }
+
+    public MoleGameResponseDto getMoleGameResult(Map<String, Object> payload, String roomId) throws GameGetException {
+        try {
+            String playerId = (String) payload.get("playerId");
+            int score = (Integer) payload.get("score");
+
+            Room room = roomRepository.findById(roomId).orElseThrow(RoomGetException::new);
+
+            /*** Redis Input ***/
+            super.setMoleGameResult(roomId,playerId,score);
+
+            /*** Redis Output ***/
+            Map<Object,Object> map=super.getMoleGame(roomId);
+            List<MoleGameResultDto> result=new ArrayList<>();
+            for(Object key:map.keySet()){
+                String id=key.toString();
+                int tempScore=Integer.parseInt(map.get(key).toString());
+                result.add(new MoleGameResultDto(id,tempScore));
+            }
+
+            MoleGameResponseDto moleGameResponseDto=null;
+            if(result.size()==4){
+                moleGameResponseDto=MoleGameResponseDto.builder().finish(true).result(result).build();
+            }
+            else{
+                moleGameResponseDto=MoleGameResponseDto.builder().finish(false).result(result).build();
+            }
+
+            return moleGameResponseDto;
+        }catch (Exception e){
+            throw new GameGetException("두더지 잡기 결과 조회에 실패했습니다.");
+        }
+
     }
 }
