@@ -21,7 +21,7 @@ export default function OpenViduVideoComponent(props) {
     if (props && !!videoRef) {
       console.log("오픈비두 변화")
       props.streamManager.addVideoElement(videoRef.current);
-      soundMeter.connectToSource(props.isAudioDistorted, this.props.streamManager.stream.getMediaStream());
+      soundMeter.connectToSource(props.isAudioDistorted, props.streamManager.stream.getMediaStream());
       // initializeDeepAR();
     }
   });
