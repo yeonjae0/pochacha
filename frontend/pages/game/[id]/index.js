@@ -106,24 +106,26 @@ export default function GamePage() {
         // if (data.game.dice !== prevDice) {
           console.log('currentCell.move------>', position.cell.move)
           console.log('position', position)
-          // setDice(position.game.dice);
-          // setPin(position.game.pin);
-          // setLab(position.game.lab);
-          // setCurrentCell(position.cell.name);
-          // handleRollDiceClick();
-          if (position.cell.move != 1) {
-            setPin(position.game.pin + position.cell.move);
-            setDice(position.game.dice);
-            setCurrentCell(position.cell.name);
-            handleRollDiceClick();
-          }
-          else {
           setDice(position.game.dice);
           setPin(position.game.pin);
           setLab(position.game.lab);
           setCurrentCell(position.cell.name);
           handleRollDiceClick();
-        }
+          console.log(typeof(position.game.pin))
+          console.log(typeof(position.cell.move))
+          // if (position.cell.move != 1) {
+          //   setPin(position.game.pin + position.cell.move);
+          //   setDice(position.game.dice);
+          //   setCurrentCell(position.cell.name);
+          //   handleRollDiceClick();
+          // }
+          // else {
+          // setDice(position.game.dice);
+          // setPin(position.game.pin);
+          // setLab(position.game.lab);
+          // setCurrentCell(position.cell.name);
+          // handleRollDiceClick();
+        // }
           if (position.cell.name == '두더지 게임' || position.cell.name == '라이어 게임' || position.cell.name == '훈민정음') {
             setVisible(true)
           }
