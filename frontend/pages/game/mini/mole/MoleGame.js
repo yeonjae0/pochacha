@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useSelector } from "react-redux";
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
 import Ready from './MoleReady';
 import Go from './MoleGo';
 import styles from '@/styles/MoleGame.module.css';
@@ -9,15 +12,20 @@ const getRandomGridPosition = () => ({
 });
 
 export default function Main({ sec }) {
+
   return (
     <div>
-      <MoleGame sec={sec} />
+      <MoleGame sec={sec}/>
     </div>
   )
 }
 
 /* 희진 : 메인 두더지 게임 시작 */
 function MoleGame({ sec }) {
+  const roomId = useSelector(state => state.room.currentRoomId);
+  const currentPlayer = useSelector(state => state.player);
+
+  const [client, setClient] = useState({});
 
   const [score, setScore] = useState(0);
   const [molePositions, setMolePositions] = useState([]);
@@ -25,6 +33,33 @@ function MoleGame({ sec }) {
   const [hitMolePosition, setHitMolePosition] = useState({ row: 0, col: 0 });
   const [hoveredMoleIndex, setHoveredMoleIndex] = useState(-1);
   const [ready, setReady] = useState('ready')
+  const [result, setResult] = useState(null)
+
+  const connectSocket = () => {
+    client.current = Stomp.over(() => {
+      const sock = new SockJS("http://localhost:80/ws");
+      return sock;
+    });
+  }
+
+  const subscribeSocket = () => {
+    client.current.connect({}, () => {
+      client.current.subscribe(`/topic/mini/mole/${roomId}`, (response) => {
+        let data = JSON.parse(response.body);
+        console.log("두더지 게임 집계");
+        console.log(data);
+        if (data.finish) {
+          setReady('done')
+          setResult(data.result)
+        }
+      })
+    })
+  }
+  
+  useEffect(() => {
+    connectSocket();
+    subscribeSocket();
+  }, [])
 
   const handleMoleClick = (index) => {
     if (molePositions[index]) {
@@ -67,6 +102,18 @@ function MoleGame({ sec }) {
       setReady('game')
     }, 5000)
   }, [])
+
+  const handleOnClick = () => {
+    let sendData = {
+      "playerId": currentPlayer.currentPlayerId,
+      "score": score,
+    };
+    if (client.current) {
+      client.current.send(`/mini/mole/${roomId}`, {}, JSON.stringify(sendData));
+    } else {
+      alert("소켓 연결 실패!");
+    }
+  }
 
   return (
     <div style={{
@@ -125,8 +172,19 @@ function MoleGame({ sec }) {
       )}
 
       {ready === 'game' && sec <= 0 && (
-        <Result score={score} sec={sec} />
+        <div style={{ textAlign: 'center' }}>
+          <h3 style={{ marginBottom: '20px' }}>{score}마리 잡기 성공!</h3>
+          <h3>화면을 클릭해 친구들의 점수를 확인하세요!</h3>
+          <div className={styles.end}>
+            <img className={styles.bounceInBottom} src="/두더지_O.png" onClick={handleOnClick}/>
+          </div>
+        </div>
       )}
+      {
+        ready === 'done' && result != null && (
+          <Result result={result}/>
+        )
+      }
 
     </div>
   )
@@ -134,28 +192,29 @@ function MoleGame({ sec }) {
 /* 희진 : 메인 두더지 게임 끝 */
 
 /* 희진 : 결과 컴포넌트 시작 */
-function Result({ score, sec }) {
-  return (
-    <div>
-      {
-        sec <= 0 ?
-          <Rank score={score} sec={sec} />
-          : null // 수정 필요
-      }
-    </div>
-  )
-}
+function Result(props) {
+  const players = useSelector(state => state.players.tmpPlayers)
+  let result = props.result
 
-function Rank({ score }) {
   return (
     <div style={{ textAlign: 'center' }}>
-      <h3 style={{ marginBottom: '20px' }}>{score}마리 잡기 성공!</h3>
-      <div className={styles.end}>
-        <img className={styles.bounceInBottom} src="/두더지_O.png" />
+      <h2 style={{ marginBottom: '20px' }}>순위 결과</h2>
+      <div className={styles.resultContainer}>
+        <div className={styles.scoreBoard}>
+          {
+            result.map((player, i) => (
+            <div key={i} className={styles.resultRow}>{players[player.playerId].nickname}
+              <span>:</span>
+              <span style={{fontSize: 'xx-large'}}>{player.score}</span>
+            </div> 
+            ))
+          }
+        </div>
       </div>
     </div>
   )
 }
+
 /* 희진 : 결과 컴포넌트 끝 */
 
 // /* 희진 : [승패 여부] Game Over 컴포넌트 시작 */
