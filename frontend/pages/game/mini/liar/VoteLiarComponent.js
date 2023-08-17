@@ -6,7 +6,6 @@ import { Stomp } from '@stomp/stompjs';
 import styles from '@/styles/LiarGame.module.css';
 
 
-
 export default function VoteLiarComponent(){
     const [client, setClient] = useState({});
     const [stageStatus, setStageStatus] = useState('voting');
@@ -40,24 +39,26 @@ export default function VoteLiarComponent(){
         client.current.subscribe(`/topic/mini/liar/vote/${roomId}`, (response) => {
           let data = JSON.parse(response.body);
           console.log(data);
-          if(data.total===4){
+          if(data.total === 4){
             //모두 투표 완료
-            if(data.tiebreak===false) {
+            if(data.tiebreak === false) {
               //승패 결정
-              if(data.winner===true) {
+              if(data.winner === true) {
                 //라이어 승
+                setStageStatus('done')
                 setStageStatus('liarWin')
                 // status >> liarWin으로 설정하여 멘트 표시
               }
               else {
                 //세명의 승
+                setStageStatus('done')
                 setStageStatus('liarLose')
                 // status >> liarLose으로 설정하여 멘트 표시
               }
             }
             else {
               setStageStatus('voting')
-              // players = data.tiebreaker
+              setVoteStatus(false)
               //재투표
               //투표 대상 : tiebreaker
               //투표 대상 인원 : tiebreaker.length()
@@ -92,8 +93,6 @@ export default function VoteLiarComponent(){
         } else {
           alert('플레이어를 선택해주세요!')
         }
-       } else {
-        alert('이미 투표에 참여하셨습니다.')
        }
     }
 
@@ -109,7 +108,7 @@ export default function VoteLiarComponent(){
         stageStatus === 'voting' ?
         (<>
           <h1 style={{marginBottom: '30px'}}>누가 거짓말을 하고 있을까?</h1>
-        <div className={styles.vote_container}>
+        <div className={styles.voteContainer}>
             <fieldset className={styles.fieldSet}>
               <legend className={styles.legend}>라이어라고 생각되는 사람에게 투표하세요</legend>
               <div>
@@ -131,27 +130,29 @@ export default function VoteLiarComponent(){
             }
         </div>
         </>)
-        : null
+        : <LiarResult stageStatus={stageStatus} />
       }
         </>
         )
 }
 
-function LiarResult() {
+function LiarResult(props) {
   const [liar, setLiar] = useState(false) // false면 일반인, true면 라이어
+  // let stageStatus = props.stageStatus
+  let stageStatus = 'liarWin'
 
   return (
-    <div>
+    <div className={styles.resultContainer}>
       {
         stageStatus === 'liarWin' ?
           (liar == false ? 
-            <div className={styles.checkword}>
-              <h1>아쉽네요. 라이어의 승리입니다.</h1>
+            <div>
+              <h1>아쉽네요.<br/> 라이어의 승리입니다.</h1>
               <div>
-                <h3>라이어는 {} 입니다.</h3>
+                <h2>라이어는 <span style={{fontSize: 'x-large'}}>XXX</span> 입니다.</h2>
               </div>
             </div>
-          : <div>축하합니다. 당신의 승리입니다.</div>)
+          : <h1>축하합니다.<br/>당신의 승리입니다.</h1>)
           : null
       }
     </div>
