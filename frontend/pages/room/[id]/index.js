@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addPlayers, resetPlayers, addTmpPlayer, resetTmpPlayers, updateTmpPlayer, deleteTmpPlayer, checkReady } from "@/store/reducers/players.js";
 import { ready } from "@/store/reducers/player.js";
 import { openViduActions } from "@/store/reducers/openvidu";
-import { setCells, setStartGame } from "@/store/reducers/cell";
+import { setCells, setTurns } from "@/store/reducers/cell";
 import styles from "@/styles/RoomPage.module.css";
 import { OpenVidu } from "openvidu-browser";
 
@@ -72,9 +72,6 @@ export default function RoomPage() {
 
           dispatch(addPlayers(obj));
           dispatch(addTmpPlayer({ id, nickname, ready, head }));
-          console.log("받아온 데이터 결과 startgame");
-          console.log(startGame);
-          dispatch(setStartGame(startGame));
         }
         dispatch(checkReady());
       })
@@ -128,9 +125,12 @@ export default function RoomPage() {
 
       subGame = client.current.subscribe(`/topic/game/${roomId}`, (response) => {
         var data = JSON.parse(response.body);
+        console.log("게임 데이터");
+        console.log(data);
 
         if (data.error == undefined || data.error == null) {
-          dispatch(setCells(data));
+          dispatch(setCells(data.cellList));
+          dispatch(setTurns(data.playerIdList));
 
           router.push({
             pathname: `/game/${roomId}`,
