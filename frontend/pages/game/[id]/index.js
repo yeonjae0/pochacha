@@ -105,6 +105,12 @@ export default function GamePage() {
     client.current.debug = () => { };
   };
 
+  const addMoving=(move)=>{
+    console.log("또 호출해")
+    console.log("MOVE: "+move)
+    client.current.send("/move/" + roomId, {}, JSON.stringify({"set":true, "move":move}));
+  };
+
   const subscribeSocket = () => {
     client.current.connect({}, () => {
       // callback 함수 설정, 대부분 여기에 sub 함수 씀
@@ -120,32 +126,19 @@ export default function GamePage() {
         setLab(position.game.lab);
         setCurrentCell(position.cell.name);
         handleRollDiceClick();
-        // console.log(typeof(position.game.pin))
-        // console.log(typeof(parseInt(position.game.pin)))
-        // console.log(typeof(position.cell.move))
-        // console.log('position', position)
 
-        //   if (parseInt(position.cell.move) != 1) {
-        //     setPin(position.game.pin)
-        //     setPin(parseInt(position.game.pin) + parseInt(position.cell.move));
-        //     setDice(position.game.dice);
-        //     setCurrentCell(position.cell.name);
-        //     handleRollDiceClick();
-        //   }
-        //   else {
-        //   setDice(position.game.dice);
-        //   setPin(position.game.pin);
-        //   setLab(position.game.lab);
-        //   setCurrentCell(position.cell.name);
-        //   handleRollDiceClick();
-        // }
+        /* 말을 움직이는 셀 작동 구현*/
+          if (parseInt(position.cell.move) !== 0 &&  parseInt(position.cell.move) !== NaN) {
+            addMoving(position.cell.move);
+
         if (position.cell.name == "목소리 변조 벌칙") {
           callFaceFilter(nickname);
         }
+
         if (position.cell.name == '두더지 게임' || position.cell.name == '라이어 게임' || position.cell.name == '훈민정음') {
           setVisible(true)
         }
-        // }
+        }
 
       });
       client.current.subscribe(`/topic/penalty/${roomId}`, (response) => {
@@ -172,9 +165,9 @@ export default function GamePage() {
     connectSocket();
     subscribeSocket();
 
-    setTimeout(() => {
-      client.current.send("/move/" + roomId, {}, JSON.stringify({ "reload": true }));
-    }, 100); // 비동기화 문제 (시간 조절)
+    // setTimeout(() => {
+    //   client.current.send("/move/" + roomId, {}, JSON.stringify({ "reload": true }));
+    // }, 100); // 비동기화 문제 (시간 조절)
     // console.log('tmpPlayers확인!!!', tmpPlayers)
     console.log('setTurns확인!!!!!!!!', setTurns)
 
@@ -308,22 +301,23 @@ export default function GamePage() {
         </nav>
 
         {/* 미니게임 때 버튼 숨기기 (레이아웃은 유지) */}
-        {hideBtn && (
-          <div style={{ textAlign: 'center', visibility: 'hidden' }}>
-            <button className={styles.btnRolling} style={{ zIndex: '0' }} value="innerHTML" onClick={() => {
-              client.current.send("/move/" + roomId, {}, JSON.stringify({}));
-              handleRollDiceClick();
-            }}>주사위 굴리기</button>
-          </div>
+
+        { hideBtn && (
+        <div style={{ textAlign: 'center', visibility: 'hidden' }}>
+          <button className={styles.btnRolling} style={{ zIndex: '0', visibility: setTurns[cnt] !== myId ? 'hidden' : 'visible' }} value="innerHTML" onClick={() => {
+            client.current.send("/move/" + roomId, {}, JSON.stringify({"set":false}));
+            //handleRollDiceClick();
+          }}>주사위 굴리기</button>
+        </div>          
         )}
 
-        {!hideBtn && (
-          <div style={{ textAlign: 'center' }}>
-            <button className={styles.btnRolling} style={{ zIndex: '0' }} value="innerHTML" onClick={() => {
-              client.current.send("/move/" + roomId, {}, JSON.stringify({}));
-              //handleRollDiceClick();
-            }}>주사위 굴리기</button>
-          </div>
+        { !hideBtn && (
+        <div style={{ textAlign: 'center' }}>
+          <button className={styles.btnRolling} style={{ zIndex: '0', visibility: setTurns[cnt] !== myId ? 'hidden' : 'visible' }} value="innerHTML" onClick={() => {
+            client.current.send("/move/" + roomId, {}, JSON.stringify({"set":false}));
+            //handleRollDiceClick();
+          }}>주사위 굴리기</button>
+        </div>     
         )}
 
         {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 시작 */}

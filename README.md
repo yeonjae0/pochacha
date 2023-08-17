@@ -14,11 +14,21 @@
 ### 🔗 URL을 통한 초대 기능
 > URL을 통해 간편하게 친구들을 초대하고 접속할 수 있습니다.
 * 게임을 처음 생성하면 방장으로서 게임 방에 입장할 수 있습니다.
-![방장 게임방 입장](https://github.com/babyyu0/UploadImage/assets/58788576/2217cd32-a75c-4adc-b163-da782ddbea4a)
+
+<img src="https://github.com/babyyu0/UploadImage/assets/58788576/5135b7c3-8514-4806-ab19-681156b9ea4b" width=600>
+
 * '초대하기' 버튼을 클릭하면 해당 방으로 들어갈 수 있는 URL이 복사 됩니다.
-![image](https://github.com/babyyu0/UploadImage/assets/58788576/c63a8120-2094-41cc-ae1d-69a6cfef61dc)
-* 복사된 URL을 친구들에게 전송하고, 이 URL을 통해 친구들이 게임에 접속합니다.
+
+<img src="https://github.com/babyyu0/UploadImage/assets/58788576/750c0638-bb1a-4d85-b73c-f801410344d4" width=600>
+
+* 복사된 URL을 친구들에게 전송하고, 이 URL을 통해 친구들이 게임에 접속합니다.  
+
+<img src="https://github.com/babyyu0/UploadImage/assets/58788576/f6703910-ad98-43ef-867a-8e2f5d2ae009" width=600>
+
 * URL을 통해 접속한 친구들은 비방장으로서 게임에 참여하고, 비방장 인원 전부가 '준비' 버튼을 클릭해야 게임이 시작 됩니다.
+
+<img src="https://github.com/babyyu0/UploadImage/assets/58788576/3ef11564-029d-47c1-93d7-42282aa7b392" width=600>
+
 
 ### 🎲 다양한 칸을 보유한 보드게임 기능
 > 친구들과 다양하고 재미있는 칸에 주사위를 굴려 도달할 수 있습니다.
@@ -41,27 +51,33 @@
 * 라이어가 누구일지 유추하여 투표합니다.
 * 맞춘다면 라이어가 아닌 플레이어들, 맞추지 못한다면 라이어의 승리!
 #### 훈민정음
-* 세종대왕님께서 초성 2개를 제시합니다.
+* 세종대왕님께서 두 글자의 초성을 제시합니다.
 * 각 플레이어들은 자신의 턴에 초성과 일치하는 단어를 입력합니다.
 * 제한 시간 내에 단어를 외치지 못하면 원샷!
 
 # 기술 스택
-### Front-end
+### 👤 Front-end
 <img  alt="React"  src ="https://img.shields.io/badge/React-61DAFB?&style=for-the-badge&logo=React&logoColor=black"/>
 <img  alt="Node.js"  src ="https://img.shields.io/badge/Node.js-339933?&style=for-the-badge&logo=nodedotjs&logoColor=black"/>
 <img  alt="Redux"  src ="https://img.shields.io/badge/Redux-764ABC?&style=for-the-badge&logo=Redux&logoColor=white"/>
 <img  alt="Next.js"  src ="https://img.shields.io/badge/Next.js-000000?&style=for-the-badge&logo=nextdotjs&logoColor=white"/>
 <img  alt="npm"  src ="https://img.shields.io/badge/npm-CB3837?&style=for-the-badge&logo=npm&logoColor=white"/>
 
-### Back-end
+### 💻 Back-end
 <img  alt="Java" src="https://img.shields.io/badge/Java-EA2D2E?style=for-the-badge&logo=java">
 <img  alt="SpringBoot" src ="https://img.shields.io/badge/SpringBoot-6DB33F.svg?&style=for-the-badge&logo=SpringBoot&logoColor=white"/>
 <img  alt="IntelliJ IDEA" src ="https://img.shields.io/badge/IntelliJ IDEA-000000.svg?&style=for-the-badge&logo=intellijidea&logoColor=white"/>
 <img  alt="MariaDB" src ="https://img.shields.io/badge/MariaDB-003545.svg?&style=for-the-badge&logo=MariaDB&logoColor=white"/>
 <img  alt="Redis" src ="https://img.shields.io/badge/Redis-DC382D.svg?&style=for-the-badge&logo=Redis&logoColor=white"/>
 
-### Infra
+### ⚙️ Infra
 <img  alt="Docker" src ="https://img.shields.io/badge/Docker-2496ED.svg?&style=for-the-badge&logo=Docker&logoColor=white"/>
 <img  alt="NGINX" src ="https://img.shields.io/badge/NGINX-009639.svg?&style=for-the-badge&logo=NGINX&logoColor=white"/>
 <img  alt="Amazon EC2" src ="https://img.shields.io/badge/Amazon EC2-FF9900.svg?&style=for-the-badge&logo=amazonec2&logoColor=white"/>
 <img  alt="GitLab CI/CD" src ="https://img.shields.io/badge/GitLab CI/CD-FC6D26.svg?&style=for-the-badge&logo=gitlab&logoColor=white"/>
+
+# 팀원 소개
+|![유영](https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:06d99255-c30a-4130-8ec1-5a7243ddc80f/8237d16f-b689-4d3e-b8c4-28b42bd42af9/128)|![임혜지](https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:c22a9139-eb79-42c8-9e76-8b9f8ac25f8a/0379d4b1-3d0d-43f5-8e70-20b0825a458b/128)|![김태훈](https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:1c4d69ae-39f6-4d45-a811-b266b3df1c94/06013e9c-79ce-4207-b35e-5b0c394b45a6/128)|![연제정](https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:4ff99902-745d-4ff3-9d04-d90294035542/d14939b1-3a1e-4a7e-a85b-4bcdaf11fe1c/128)|![배희진](https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:211f43a8-7de6-4c3e-9a29-7b7406ac7770/8bf6f204-7003-45f7-bd5f-4ee2fba89ebc/128)|![김연재](https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:289f6611-e32c-43d6-bf61-271e7bd4d6e2/adf7a466-883b-4a2c-9392-81402cf873cb/128)|
+|:-:|:-:|:-:|:-:|:-:|:-:|
+|**유영** (팀장)|**임혜지**|**김태훈**|**연제정**|**배희진**|**김연재**|
+|BE|BE|BE / INFRA|FE|FE|FE|

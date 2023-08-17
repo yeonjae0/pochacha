@@ -15,8 +15,8 @@ const tmpPlayers = useSelector(state => state.players.tmpPlayers);
 let currentPlayerId = useSelector(state => state.spell.currentPlayerId);
 
 const resetSec = () => {
-  time.current = 10
-  setSec(10)
+  time.current = 30
+  setSec(30)
 }
 
 // const tmpFn = () => {''\
