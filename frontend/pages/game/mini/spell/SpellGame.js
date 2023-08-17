@@ -71,7 +71,6 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
     }).then((response) => {
       let data = response.data;
       console.log('response.data', data)
-      console.log('순서!!!!!', data.playerIdList)
 
       const randomConsonant = data.firstWord + data.secondWord;
       setRandomConsonant(data.firstWord + data.secondWord);
