@@ -10,6 +10,7 @@ import com.ssafy.oho.model.repository.CellRepository;
 import com.ssafy.oho.model.repository.MinigameRepository;
 import com.ssafy.oho.model.repository.RoomRepository;
 import com.ssafy.oho.util.exception.GameGetException;
+import com.ssafy.oho.util.exception.RoomGetException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -176,5 +177,15 @@ public class GameService extends RedisService {
             responsePayload.put("cell", super.getCell(roomId, Integer.parseInt(hash.get("pin"))));
         }
         return responsePayload;
+    }
+
+    public String getFaceFilter(Map<String, Object> payload, String roomId) throws GameGetException {
+        try {
+            Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomGetException());
+            String nickname=payload.get("nickname").toString();
+            return nickname;
+        }catch (Exception e){
+            throw new GameGetException("벌칙 생성에 실패했어요");
+        }
     }
 }
