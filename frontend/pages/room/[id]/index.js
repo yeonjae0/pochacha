@@ -24,7 +24,7 @@ export default function RoomPage() {
 
   /* 혜지 : 첫 렌더링 시에 OV, session 세팅 */
   let OV=new OpenVidu()
-  let session=OV.initSession();
+  let session=OV.initSession({sessionTimeout: 3600,}); // 1시간 후 세션 만료
   dispatch(openViduActions.createOpenVidu({OV,session/*,devices*/}));
 
   let subGame=null;
