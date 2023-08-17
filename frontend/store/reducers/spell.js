@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState= {
   currentConsonant: "",
   currentIdx: null,
-  currentPlayer: ""
+  currentPlayerId: ""
 
 };
 
@@ -19,7 +19,7 @@ const spellSlice = createSlice({
       return {...state, currentIdx: action.payload}
     },
     setCurrentPlayer: (state, action) => {
-      state.currentPlayer = action.payload.id;
+      state.currentPlayerId = action.payload.id;
     }
     // startGame: (state, action) => {
     //   state.currentConsonant = action.payload.consonant;
