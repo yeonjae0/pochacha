@@ -56,8 +56,12 @@ export default function GamePage() {
   let [showModal, setShowModal] = useState(false);
   let [prevDice, setPrevDice] = useState(0); // 이전 주사위 값 저장
   let [visible, setVisible] = useState(false)
+  let [cnt, setCnt] = useState(0)
 
   const data = useSelector((state) => state.cell.currentBoard);
+  const tmpPlayers = useSelector(state => state.players.tmpPlayers);
+  let playersIdList = Object.keys(tmpPlayers)
+  
   console.log(data)
   const cellObj = {
     one: data[0].status,
@@ -154,6 +158,7 @@ export default function GamePage() {
     setTimeout(() => {
       setShowModal(false);
     }, 2500);
+    setCnt((prevCnt) => (prevCnt + 1) % 4);
   };
 
   const ModalPage = ({ currentCell, pin }) => {
@@ -198,8 +203,9 @@ export default function GamePage() {
       <div className={styles.container}>
         <nav className={styles.infobar}>
           <h5>
-            주사위 눈 : {dice}, 현재 {pin}번 블록에 위치, {lab}바퀴
+            주사위 눈 : {dice}, 현재 {pin}번 블록에 위치, {lab}바퀴 
           </h5>
+          <h5> {tmpPlayers[playersIdList[cnt]].nickname}님의 차례입니다.</h5>
         </nav>
 
           <div style={{ textAlign: 'center' }}>

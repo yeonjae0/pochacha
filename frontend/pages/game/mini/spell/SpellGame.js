@@ -19,10 +19,12 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
   const [client, setClient] = useState({});
   // const [shouldGoToNextPlayer, setShouldGoToNextPlayer] = useState(0);
   const [cnt, setCnt] = useState(0)
+
   const roomId = useSelector(state => state.room.currentRoomId);
   const players = useSelector(state => state.players.players);
   const tmpPlayers = useSelector(state => state.players.tmpPlayers);
   const currentIdx = useSelector(state => state.spell.currentIdx);
+  const myId = useSelector(state => state.player.currentPlayerId) 
 
   let updatedWords = []
   const router = useRouter()
@@ -73,6 +75,8 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
       let data = response.data;
       console.log('response.data', data)
       console.log('순서!!!!!', data.playerIdList)
+      console.log('myId', myId)
+
 
       const randomConsonant = data.firstWord + data.secondWord;
       setRandomConsonant(data.firstWord + data.secondWord);
@@ -260,7 +264,7 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
             onChange={handleInput}
             onKeyDown={handleKeyDown}
             className={styles.inputContainer}
-            // disabled={cnt !== currentPlayerIndex} // -> 이 부분은 멀티플레이 실행 후 계산
+            // disabled={playersIdList[cnt] !== myId} // -> 이 부분은 멀티플레이 실행 후 계산
              />
           <button type="button" onClick={handleSubmit} style={{ marginLeft: '20px' }}>제출</button>
           <div><img src="/초성_로고.png" style={{ width: '450px' }} /></div>
