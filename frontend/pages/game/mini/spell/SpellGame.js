@@ -142,7 +142,7 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
               // goToNextPlayer()
               // console.log('현재 인덱스', currentPlayerIndex )
               // resetSec()
-            //   setShouldGoToNextPlayer(shouldGoToNextPlayer+1); // 플레이어 전환을 위한 플래그 설정
+              // setShouldGoToNextPlayer(shouldGoToNextPlayer+1); // 플레이어 전환을 위한 플래그 설정
           }
             return updatedWords;
           });
@@ -152,9 +152,6 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
           // alert(data.msg);
         }
         setInputValue("");
-
-
-        // console.log('store저장2---------->', currentRandomConsonant)
       })  // 채팅 구독
     })
   }
