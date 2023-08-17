@@ -213,7 +213,7 @@ public class MinigameService extends RedisService {
         int index = Integer.parseInt(super.getSpellInfo(room.getId(), "index"));
         responsePayload.put("firstWord", super.getSpellInfo(room.getId(), "firstWord"));
         responsePayload.put("secondWord", super.getSpellInfo(room.getId(), "secondWord"));
-        responsePayload.put("currentPlayer", super.getSpellInfo(room.getId(), "player" + index));  // 현 순서의 플레이어
+        responsePayload.put("currentPlayerId", super.getSpellInfo(room.getId(), "player" + index));  // 현 순서의 플레이어
         responsePayload.put("index", super.getSpellInfo(room.getId(), "index"));  // 현 순서의 플레이어
 
         /*** Response DTO Build ***/
@@ -289,7 +289,7 @@ public class MinigameService extends RedisService {
             hash.put("index", Integer.toString(index));
             super.setSpellInfo(roomId, hash);  // 순서 다시 설정
 
-            confirmMap.put("currentPlayer", super.getSpellInfo(roomId, "player" + index));
+            confirmMap.put("currentPlayerId", super.getSpellInfo(roomId, "player" + index));
 
             return confirmMap;
         } catch(Exception e) {
