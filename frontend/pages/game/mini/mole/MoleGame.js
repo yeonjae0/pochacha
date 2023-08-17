@@ -76,7 +76,7 @@ function MoleGame({ sec }) {
       left: '50%',
       transform: 'translate(-50%, -20%)'
     }}>
-      <div><img src="/두더지_로고.png" style={{ marginTop: '80px', width: '350px' }} /></div>
+      <div><img src="/두더지_로고.png" style={{ marginTop: '20px', width: '400px' }} /></div>
 
       {ready === 'ready' && (
         <Ready />
@@ -86,9 +86,10 @@ function MoleGame({ sec }) {
         <Go />
       )}
 
-      {ready === 'game' && sec > 0 && score < 30 && (
+      {/* 20초 동안 가장 많이 잡는 사람 순으로 랭킹 */}
+      {ready === 'game' && sec > 0 && (
         <div style={{ textAlign: 'center' }}>
-          <h3 style={{ marginBottom: '20px' }}>{30 - score}마리만 더 잡아주세요! {sec}초 남았습니다!</h3>
+          <h3 style={{ marginBottom: '20px' }}>{score}마리를 잡았어요! {sec}초 남았습니다!</h3>
           <div className={styles.container}>
             {molePositions.map((molePosition, index) => (
               molePosition && (
@@ -123,8 +124,8 @@ function MoleGame({ sec }) {
         </div>
       )}
 
-      {ready === 'game' && (sec <= 0 || score >= 30) && (
-        <WinorLose score={score} sec={sec} />
+      {ready === 'game' && sec <= 0 && (
+        <Result score={score} sec={sec} />
       )}
 
     </div>
@@ -132,46 +133,43 @@ function MoleGame({ sec }) {
 }
 /* 희진 : 메인 두더지 게임 끝 */
 
-/* 희진 : 승패 여부 컴포넌트 시작 */
-function WinorLose({ score, sec }) {
+/* 희진 : 결과 컴포넌트 시작 */
+function Result({ score, sec }) {
   return (
     <div>
       {
-        score >= 30 ?
-          <MissionCompleted score={score} sec={sec} />
-          : <Gameover score={score} />
+        sec <= 0 ?
+          <Rank score={score} sec={sec} />
+          : null // 수정 필요
       }
     </div>
   )
 }
-/* 희진 : 승패 여부 컴포넌트 끝 */
 
-/* 희진 : [승패 여부] Game Over 컴포넌트 시작 */
-function Gameover({ score }) {
-
-  let margin = 30 - score
-
+function Rank({ score }) {
   return (
     <div style={{ textAlign: 'center' }}>
-      <h3 style={{ marginBottom: '20px' }}>{margin}마리가 부족해요 ~^^~</h3>
-      <div className={styles.end}>
-        <img className={styles.slideInEllipticBottomFwd} src="/두더지_X.png" />
-      </div>
-    </div>
-  )
-}
-/* 희진 : Game Over 컴포넌트 끝 */
-
-/* 희진 : [승패 여부] Mission Completed 컴포넌트 시작 */
-function MissionCompleted({ score, sec }) {
-
-  return (
-    <div style={{ textAlign: 'center' }}>
-      <h3 style={{ marginBottom: '20px' }}>성공 (추후 순위 추가 여부 결정)</h3>
+      <h3 style={{ marginBottom: '20px' }}>{score}마리 잡기 성공!</h3>
       <div className={styles.end}>
         <img className={styles.bounceInBottom} src="/두더지_O.png" />
       </div>
     </div>
   )
 }
-/* 희진 : Mission Completed 컴포넌트 끝 */
+/* 희진 : 결과 컴포넌트 끝 */
+
+// /* 희진 : [승패 여부] Game Over 컴포넌트 시작 */
+// function Gameover({ score }) {
+
+//   let margin = 30 - score
+
+//   return (
+//     <div style={{ textAlign: 'center' }}>
+//       <h3 style={{ marginBottom: '20px' }}>{margin}마리가 부족해요 ~^^~</h3>
+//       <div className={styles.end}>
+//         <img className={styles.slideInEllipticBottomFwd} src="/두더지_X.png" />
+//       </div>
+//     </div>
+//   )
+// }
+// /* 희진 : Game Over 컴포넌트 끝 */
