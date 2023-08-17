@@ -42,13 +42,17 @@ export default function Picktopic() {
 
   //방장 주제 전송
   const handleTopicClick = (topic) => {
-    let sendData = {
-      subject: topic,
-    };
-    if (client.current) {
-      client.current.send(`/mini/liar/set/${roomId}`, {}, JSON.stringify(sendData));
+    if(head) {
+      let sendData = {
+        subject: topic,
+      };
+      if (client.current) {
+        client.current.send(`/mini/liar/set/${roomId}`, {}, JSON.stringify(sendData));
+      } else {
+        alert("소켓 연결 실패!");
+      }
     } else {
-      alert("소켓 연결 실패!");
+      alert("방장이 주제를 선택해주세요.")
     }
   };
 
@@ -57,21 +61,7 @@ export default function Picktopic() {
       {
         status == 'ready' ?
           (
-            head === true ?
-              (
                 <div>
-                  <div
-                    className="pickTopic"
-                    style={{
-                      position: 'relative',
-                      width: '450px',
-                      height: '450px',
-                      // overflow: 'hidden',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                    }}
-                  >
                     <h1>주제를 골라주세요</h1>
                     <br />
                     <div className={styles.buttonContainer}>
@@ -99,10 +89,7 @@ export default function Picktopic() {
                         onClick={() => handleTopicClick('sports')}>스포츠</button>
                     </div>
                   </div>
-                </div>
               )
-              : (null/*방장이 아닐 때는 어떤 화면을 띄워? */)
-          )
           : <ShowWord word={word} />
       }
     </div>
@@ -118,17 +105,18 @@ function ShowWord(props) {
     setInvisible(true)
   }, 1000); // 일반인 & 라이어 단어 확인 시간, 빠른 테스트를 위한 시간 1초 설정(기존 값 = 7000)
 
-  // 일반인/라이어를 구분하는 기준을 정하기
-  // random.math --> 0 1 2 3 (혜지 제정 토의)
-  // list = [player_id1, player_id2, player_id3, player_id4]
-  // index로 라이어 지정
-
   return (
     <div>
       {
         invisible == false ?
-          (liar == false ? <><h1>단어를 확인하세요.</h1><div>주어진 단어는 {word}입니다. 라이어에게 들기키 않게 설명하세요.</div></>
-            : <div>당신은 라이어입니다.</div>)
+          (liar == false ? 
+            <div className={styles.checkword}>
+              <h1>단어를 확인하세요.</h1>
+              <div>
+                <h3>주어진 단어는 <span style={{fontSize: 'xx-large'}}>{word}</span> 입니다.<br/> 라이어에게 들키지 않게 설명하세요.</h3>
+              </div>
+            </div>
+          : <div>당신은 라이어입니다.</div>)
           : <Phase2 />
       }
     </div>

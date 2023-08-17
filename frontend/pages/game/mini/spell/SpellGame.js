@@ -6,35 +6,30 @@ import axios from 'axios';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { startGame, losingPlayer } from '@/store/reducers/spell';
-import { useSpeechRecognition } from 'react-speech-kit';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 
 export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
 
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
   const [randomConsonant, setRandomConsonant] = useState("");
   const [inputWords, setInputWords] = useState([]);  // 입력한 단어들 저장
   const [inputValue, setInputValue] = useState("");  // 유저 입력값 저장
   const [client, setClient] = useState({});
   // const [shouldGoToNextPlayer, setShouldGoToNextPlayer] = useState(0);
   const [cnt, setCnt] = useState(0)
-
-  // const [expression, setExpression] = useState(null)
-  // const [sejong, setSejong] = usestate<string>("/초성_세종대왕_기본.png")
   const roomId = useSelector(state => state.room.currentRoomId);
   const players = useSelector(state => state.players.players);
+  const tmpPlayers = useSelector(state => state.players.tmpPlayers);
   const currentIdx = useSelector(state => state.spell.currentIdx);
-  // const currentRandomConsonant = useSelector(state => state.spell.currentConsonant)
-  // const playersLength = useSelector(state => state.players.players.length);
+  const setTurns = useSelector(state => state.cell.turns);
+  const myId = useSelector(state => state.player.currentPlayerId);
 
-  // let cnt = 0
+
   let updatedWords = []
   const router = useRouter()
-  // let currentPlayerIndex = 0
 
-  // const tmpFn = () => {
-  //   console.log('tmpFn')
-  // }
 
   // Input창 단어 관련
   const handleInput = (e) => {
@@ -44,7 +39,6 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       handleSubmit()
-      handleStopListening();
     }
   };
 
@@ -80,7 +74,7 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
     }).then((response) => {
       let data = response.data;
       console.log('response.data', data)
-      console.log('순서!!!!!', data.playerIdList)  // --> 정보가 들어오지 않음.
+
       const randomConsonant = data.firstWord + data.secondWord;
       setRandomConsonant(data.firstWord + data.secondWord);
       dispatch(startGame(randomConsonant))
@@ -123,7 +117,9 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
             for (let i = 0; i < updatedWords.length; i++) {  // 중복 단어를 걸러서 리스트 업뎃
               // console.log('!!!!!!!!!!!!', updatedWords[i])
               if (newInputWord == updatedWords[i]) {
-                alert('이미 입력된 단어입니다.')
+                setShowModal2(('이미 입력된 단어입니다.'))
+                // alert('이미 입력된 단어입니다.')
+
                 inList = true;
                 break
               }
@@ -134,6 +130,12 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
               console.log('players 정보', players)
               // tmpFn()
               console.log('updatedWords.length------>', updatedWords.length)
+
+              setCnt((prevCnt) => (prevCnt + 1) % 4);
+              // setCnt((cnt+1)%4);
+              console.log('cnt!!!!!!!!!!!!!!!', cnt)
+              console.log('currentIdx!!!!!!!!!', currentIdx)
+
               resetSec();
               // goToNextPlayer()
               // console.log('players 정보', players[0].nick)
@@ -146,22 +148,27 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
           });
         } else {
           console.log('data.correct', data.correct);
-          alert(data.msg);
+          setShowModal2((data.msg))
+          // alert(data.msg);
         }
         setInputValue("");
       })  // 채팅 구독
     })
   }
-  // useEffect(() => {
-
-  // },[setInputWords] )
-
+ 
+  // let playersIdList = Object.keys(tmpPlayers)  // tmpPlayers ID 값들 리스트로 받음
   useEffect(() => {
     connectSocket();
     subscribeSocket();
     setConsonant();
-    // let updatedWords = null
+    console.log('tmpPlayers', tmpPlayers)
+    // console.log(tmpPlayers[playersIdList[0]].nickname) 
+    // console.log(tmpPlayers[playersIdList[1]].nickname) 
+    // console.log(tmpPlayers[playersIdList[2]].nickname) 
+    // console.log(tmpPlayers[playersIdList[3]].nickname) 
+    // console.log('tmpPlayers 확인', playersIdList)
   }, []);
+
 
   useEffect(()=>{
     setTimeout(() => {
@@ -172,10 +179,20 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
     }, 5000);  // 설명 모달 시간 설정! 5초 정도? 임시로 1초
   })
 
+  useEffect(()=>{
+    setTimeout(() => {
+      setShowModal2(false);
+      // return () => {
+      //   clearTimeout(timeout);
+      // };
+    }, 2000); 
+  })
+
+
+
   useEffect(() => {   
-    setCnt((prevCnt) => (prevCnt + 1) % 4);
-    dispatch(losingPlayer((cnt+1)%4))
-    console.log('cnt!!!!!!!!!!!!!!!', (cnt+1)%4)
+    dispatch(losingPlayer(tmpPlayers[setTurns[cnt]].nickname))
+
   }, [inputWords]);
 
   // useEffect(() => {
@@ -183,30 +200,6 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
   //   resetSec()
   //   // setShouldGoToNextPlayer(false);
   // }, [tmpFn])
-
-  // STT 시작
-  
-  const { listen, stop } = useSpeechRecognition({
-    onResult: (result) => {
-      setInputValue(result);
-    },
-  });
-
-  useEffect(() => {
-    handleStartListening();
-
-    if(inputValue != "") {
-      handleSubmit();
-    }
-  });
-
-  const handleStartListening = () => {
-    listen({ interimResults: false });  // 음성 인식 시작
-  };
-
-  const handleStopListening = () => {
-    stop(); // 음성 인식 중지
-  };
 
   return (
     <>
@@ -221,13 +214,17 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
           </div>
         </div>
     : null }
+      {showModal2 && (
+        <div className={styles.modalContainer2}>
+          <div className={styles.modalContent2}>
+            <p>{showModal2}</p>
+          </div>
+        </div>
+      )}
 
-      {/* <h2>{currentPlayer}님의 차례입니다.</h2> */}
       <div className={styles.wrapper}>
         <div className={styles.upperContainer}>
-          {/* 뒤로 가기 버튼 */}
-          {/* <button type="button" onClick={() => router.back()}>Click here to go back</button> */}
-      <div style={{ fontSize: '25px' }}>{players[cnt].nick}님의 차례입니다. {sec}초 남았습니다.</div>
+      <div style={{ fontSize: '25px' }}>{tmpPlayers[setTurns[cnt]].nickname}님의 차례입니다. {sec}초 남았습니다.</div>
       {/* <h4>{cnt}</h4> */}
           <input
             type="text"
@@ -236,7 +233,7 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
             onChange={handleInput}
             onKeyDown={handleKeyDown}
             className={styles.inputContainer}
-            // disabled={cnt !== currentPlayerIndex} // -> 이 부분은 멀티플레이 실행 후 계산
+            disabled={setTurns[cnt] !== myId} // -> 이 부분은 멀티플레이 실행 후 계산
              />
           <button type="button" onClick={handleSubmit} style={{ marginLeft: '20px' }}>제출</button>
           <div><img src="/초성_로고.png" style={{ width: '450px' }} /></div>

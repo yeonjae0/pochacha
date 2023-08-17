@@ -200,6 +200,11 @@ public class PlayerService extends RedisService {
             }
 
             String playerId = (String) payload.get("playerId");
+            String nickname=(String)payload.get("nickname");
+            //boolean head=(boolean)payload.get("head");
+            //System.out.println("nickname: "+nickname);
+            //System.out.println("head: "+head);
+
             // Redis 저장 확인
             if (super.getPlayer(roomId, playerId) == null) {
                 // Redis에도 DB에도 없을 시 Exception
@@ -219,14 +224,18 @@ public class PlayerService extends RedisService {
 //            if(payload.containsKey("ready")) {  // Ready 상태 변경
 //                hash.put("ready", Boolean.toString((boolean) payload.get("ready")));
 //            }
-            boolean ready = Boolean.parseBoolean(super.getPlayerInfo(roomId, playerId, "ready"));
 
-            hash.put("ready", Boolean.toString(!ready));
-            super.setPlayerInfo(roomId, playerId, hash);
+          //  if(head==false) {
+                boolean ready = Boolean.parseBoolean(super.getPlayerInfo(roomId, playerId, "ready"));
+                hash.put("ready", Boolean.toString(!ready));
+
+                super.setPlayerInfo(roomId, playerId, hash);
+            //}
 
             /*** Response DTO Build ***/
             return PlayerResponseDto.builder()
                     .id(playerId)
+                    .nickname(nickname)
                     .ready(Boolean.parseBoolean(super.getPlayerInfo(roomId, playerId, "ready")))
                     .build();
         } catch(Exception e) {

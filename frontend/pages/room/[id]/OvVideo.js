@@ -1,42 +1,58 @@
-import React, { useEffect, useRef } from 'react'; /* React 관련 */
+import React, { Component } from 'react';
 
-export default function OpenViduVideoComponent(props) {
+// import * as canvas from 'canvas';
+// import * as faceapi from 'face-api.js';
 
-  let streamManager = props.streamManager;
-  let videoRef = useRef(null);
+export default class OpenViduVideoComponent extends Component {
 
-  navigator.mediaDevices.getUserMedia({
-    video: true,
-  })
-    .then((stream) => {
-      let video = videoRef.current;
-      video.srcObject = stream;
-    }).catch((error) => {
-      if(error.response) {
-        router.push({
-            pathname: "/exception",
-            query: { msg: error.response.data },
-          })
-      } else { console.log(error) }
-    });
-
-  /*
-    CONFIRM :: CAN ADD STATE
-*/
-  /* 
-      TO DO :: ADD FACE FILTER API
-  */
-
-  useEffect(() => {
-    if (streamManager && !videoRef) {
-      streamManager.addVideoElement(videoRef.current);
+    constructor(props) {
+        super(props);
+        this.videoRef = React.createRef();
     }
-  }, [videoRef]);
 
-  return (
-    <span>
-      <video autoPlay={true} ref={videoRef} />
-      {/* CONFIRM :: CAN ADD CUSTOM STYLE */}
-    </span>
-  );
+    componentDidUpdate(props) {
+        if (props && !!this.videoRef) {
+            this.props.streamManager.addVideoElement(this.videoRef.current);
+        }
+    }
+
+    async componentDidMount() {
+        //     await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
+        //     await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
+
+        // const video = this.videoRef.current;
+
+        if (this.props && !!this.videoRef) {
+            this.props.streamManager.addVideoElement(this.videoRef.current);
+
+            // video.addEventListener('play', async () => {
+            //     const canvas = faceapi.createCanvasFromMedia(video);
+            //     document.body.append(canvas);
+
+            //     const displaySize = { width: video.width, height: video.height };
+            //     faceapi.matchDimensions(canvas, displaySize);
+
+            //     const interval = setInterval(async () => {
+            //         const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks();
+            //         const resizedDetections = faceapi.resizeResults(detections, displaySize);
+            //         canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+
+            //         faceapi.draw.drawDetections(canvas, resizedDetections);
+            //         faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+            //     }, 100);
+            // });
+        }
+
+
+    }
+
+    render() {
+        return (
+            <div>
+                <video autoPlay={true} ref={this.videoRef}/>
+                {/* <canvas/> */}
+            </div>
+        )
+    }
+
 }
