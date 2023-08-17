@@ -155,7 +155,8 @@ public class GameService extends RedisService {
     }
 
     public Object validateNickName(Map<String, Object> payload, String roomId) throws GameGetException {
-        if(roomRepository.findById(roomId).orElseThrow(()->new GameGetException("존재하지 않는 방입니다.")).getPlayers().stream().map(p -> p.getNickname()).collect(Collectors.toList()).contains((String)payload.get("penalty"))){
+        if(roomRepository.findById(roomId).orElseThrow(()->new GameGetException("존재하지 않는 방입니다.")).getPlayers()
+                .stream().map(p -> p.getNickname()).collect(Collectors.toList()).contains((String)payload.get("penalty"))){
            return payload;
         } else {
             throw new GameGetException("해당 방에 존재하지 않는 유저입니다.");

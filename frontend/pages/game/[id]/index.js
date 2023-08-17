@@ -150,6 +150,8 @@ export default function GamePage() {
 
         let penaltyName = position.penalty;
         let tempAudioDistortionState = participants.map((par) => par.nick==penaltyName ? true : false)
+        console.log("tempAudioDistortionState")
+        console.log(tempAudioDistortionState)
         setAudioDistortion(tempAudioDistortionState)
       })
     }

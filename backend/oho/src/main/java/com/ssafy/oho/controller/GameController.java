@@ -65,6 +65,7 @@ public class GameController {
 
     @MessageMapping("/penalty/voice/{roomId}")
     public void broadcastAudioPenalty(@Payload Map<String, Object> payload, @DestinationVariable String roomId){
+        System.out.println("Penalty Log");
         try{
             webSocket.convertAndSend("/topic/penalty/voice/" + roomId, gameService.validateNickName(payload, roomId));
         } catch(Exception e){
