@@ -23,6 +23,9 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
   const players = useSelector(state => state.players.players);
   const tmpPlayers = useSelector(state => state.players.tmpPlayers);
   const currentIdx = useSelector(state => state.spell.currentIdx);
+  const setTurns = useSelector(state => state.cell.turns);
+  const myId = useSelector(state => state.player.currentPlayerId);
+
 
   let updatedWords = []
   const router = useRouter()
@@ -139,7 +142,7 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
               // goToNextPlayer()
               // console.log('현재 인덱스', currentPlayerIndex )
               // resetSec()
-            //   setShouldGoToNextPlayer(shouldGoToNextPlayer+1); // 플레이어 전환을 위한 플래그 설정
+              // setShouldGoToNextPlayer(shouldGoToNextPlayer+1); // 플레이어 전환을 위한 플래그 설정
           }
             return updatedWords;
           });
@@ -149,14 +152,11 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
           // alert(data.msg);
         }
         setInputValue("");
-
-
-        // console.log('store저장2---------->', currentRandomConsonant)
       })  // 채팅 구독
     })
   }
  
-  let playersIdList = Object.keys(tmpPlayers)  // tmpPlayers ID 값들 리스트로 받음
+  // let playersIdList = Object.keys(tmpPlayers)  // tmpPlayers ID 값들 리스트로 받음
   useEffect(() => {
     connectSocket();
     subscribeSocket();
@@ -166,7 +166,7 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
     // console.log(tmpPlayers[playersIdList[1]].nickname) 
     // console.log(tmpPlayers[playersIdList[2]].nickname) 
     // console.log(tmpPlayers[playersIdList[3]].nickname) 
-    console.log('tmpPlayers 확인', playersIdList)
+    // console.log('tmpPlayers 확인', playersIdList)
   }, []);
 
 
@@ -191,7 +191,7 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
 
 
   useEffect(() => {   
-    dispatch(losingPlayer(tmpPlayers[playersIdList[cnt]].nickname))
+    dispatch(losingPlayer(tmpPlayers[setTurns[cnt]].nickname))
 
   }, [inputWords]);
 
@@ -224,7 +224,7 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
 
       <div className={styles.wrapper}>
         <div className={styles.upperContainer}>
-      <div style={{ fontSize: '25px' }}>{tmpPlayers[playersIdList[cnt]].nickname}님의 차례입니다. {sec}초 남았습니다.</div>
+      <div style={{ fontSize: '25px' }}>{tmpPlayers[setTurns[cnt]].nickname}님의 차례입니다. {sec}초 남았습니다.</div>
       {/* <h4>{cnt}</h4> */}
           <input
             type="text"
@@ -233,7 +233,7 @@ export default function MainSpell({ sec, resetSec, currentPlayerIndex }) {
             onChange={handleInput}
             onKeyDown={handleKeyDown}
             className={styles.inputContainer}
-            // disabled={cnt !== currentPlayerIndex} // -> 이 부분은 멀티플레이 실행 후 계산
+            disabled={setTurns[cnt] !== myId} // -> 이 부분은 멀티플레이 실행 후 계산
              />
           <button type="button" onClick={handleSubmit} style={{ marginLeft: '20px' }}>제출</button>
           <div><img src="/초성_로고.png" style={{ width: '450px' }} /></div>

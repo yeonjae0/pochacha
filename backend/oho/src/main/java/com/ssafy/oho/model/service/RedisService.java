@@ -206,13 +206,14 @@ public class RedisService {
 
     protected String getLiarGameKey(String roomId){return roomId+".liarGame";}
     protected String getLiarGameVoteListKey(String roomId){return roomId+".liarGame"+".voteList";}
-    protected void setLiarGame(String roomId, String liar, int total, List<String> playerIdList){
+    protected void setLiarGame(String roomId, String liar, int total, List<String> playerIdList, String word){
         redisTemplate.execute(new SessionCallback<>() {
             @Override
             public Object execute(RedisOperations operations) throws DataAccessException{
                 operations.multi();//트랜잭션 시작
                 hashOperations.put(getLiarGameKey(roomId),"liar",liar);
                 hashOperations.put(getLiarGameKey(roomId),"total",Integer.toString(total));
+                hashOperations.put(getLiarGameKey(roomId),"word",word);
 
                 for (int i = 0; i < playerIdList.size(); i++) {
                     hashOperations.put(getLiarGameVoteListKey(roomId),playerIdList.get(i),Integer.toString(0));
