@@ -1,17 +1,13 @@
 package com.ssafy.oho.controller;
 
-import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.GameResponseDto;
 import com.ssafy.oho.model.dto.response.TimeStatusResponseDto;
 import com.ssafy.oho.model.service.GameService;
 import com.ssafy.oho.util.exception.GameGetException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +44,7 @@ public class GameController {
     @MessageMapping("move/{roomId}")
     public void movePin(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
         Map<String, Object> responsePayload = gameService.movePin(payload, roomId);
+
         webSocket.convertAndSend("/topic/move/" + roomId, responsePayload);
     }
 
