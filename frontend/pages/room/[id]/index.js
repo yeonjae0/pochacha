@@ -224,10 +224,6 @@ export default function RoomPage() {
     connectSocket();
     subscribeSocket();
 
-    setTimeout(() => {
-      client.current.send(`/connect/${roomId}`, {}, JSON.stringify({ playerId: token }));
-    }, 100);  // 플레이어 접속 알림
-
     window.addEventListener("beforeunload", onbeforeunload);
     joinSession(token);
     return () => {
