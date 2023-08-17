@@ -135,24 +135,46 @@ public class GameService extends RedisService {
     public Map<String, Object> movePin(Map<String, Object> payload, String roomId) {
         Map<String, Object> responsePayload = new HashMap<>();
 
-        int dice = (!payload.containsKey("reload"))?(int) (Math.random() * 6) +1 : 0;
+        boolean set=(boolean) payload.get("set");
 
-        int pin = Integer.parseInt(super.getGameInfo(roomId, "pin"));
-        int lab = Integer.parseInt(super.getGameInfo(roomId, "lab"));
+        if(set==false) {
+            int dice = (!payload.containsKey("reload")) ? (int) (Math.random() * 6) + 1 : 0;
 
-        Map<String, String> hash = new HashMap<>();
+            int pin = Integer.parseInt(super.getGameInfo(roomId, "pin"));
+            int lab = Integer.parseInt(super.getGameInfo(roomId, "lab"));
 
-        /* 혜지 : dice 값 추가 */
-        hash.put("dice",Integer.toString(dice));
-        hash.put("pin", Integer.toString((pin + dice) % 24));
-        if(Integer.parseInt(hash.get("pin")) < 0) hash.put("pin", hash.get("pin") + 24);
-        if(pin > Integer.parseInt(hash.get("pin"))) hash.put("lab", Integer.toString(++lab));
+            Map<String, String> hash = new HashMap<>();
 
-        super.setGameInfo(roomId, hash);  // Redis에 저장
+            /* 혜지 : dice 값 추가 */
+            hash.put("dice", Integer.toString(dice));
+            hash.put("pin", Integer.toString((pin + dice) % 24));
+            if (Integer.parseInt(hash.get("pin")) < 0) hash.put("pin", hash.get("pin") + 24);
+            if (pin > Integer.parseInt(hash.get("pin"))) hash.put("lab", Integer.toString(++lab));
 
-        responsePayload.put("game", super.getGame(roomId));
-        responsePayload.put("cell", super.getCell(roomId, Integer.parseInt(hash.get("pin"))));
+            super.setGameInfo(roomId, hash);  // Redis에 저장
 
+            responsePayload.put("game", super.getGame(roomId));
+            responsePayload.put("cell", super.getCell(roomId, Integer.parseInt(hash.get("pin"))));
+        }
+        else{
+            int move=(Integer) payload.get("move");
+            int dice = Integer.parseInt(super.getGameInfo(roomId, "dice"));
+            int pin = Integer.parseInt(super.getGameInfo(roomId, "pin"));
+            int newPin=pin+move;
+            if(newPin<0) newPin+=24;
+            int lab = Integer.parseInt(super.getGameInfo(roomId, "lab"));
+            if(pin>newPin) lab++;
+
+            Map<String, String> hash = new HashMap<>();
+            hash.put("dice", Integer.toString(dice));
+            hash.put("pin", Integer.toString(newPin));
+            hash.put("pin",Integer.toString(lab));
+
+            super.setGameInfo(roomId, hash);  // Redis에 저장
+
+            responsePayload.put("game", super.getGame(roomId));
+            responsePayload.put("cell", super.getCell(roomId, Integer.parseInt(hash.get("pin"))));
+        }
         return responsePayload;
     }
 }

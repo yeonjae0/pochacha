@@ -44,6 +44,7 @@ public class GameController {
     @MessageMapping("move/{roomId}")
     public void movePin(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
         Map<String, Object> responsePayload = gameService.movePin(payload, roomId);
+
         webSocket.convertAndSend("/topic/move/" + roomId, responsePayload);
     }
 
