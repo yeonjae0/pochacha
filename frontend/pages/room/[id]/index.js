@@ -246,23 +246,23 @@ export default function RoomPage() {
       const scriptNode = audioContext.createScriptProcessor(4096, 1, 1);
       scriptNode.onaudioprocess = event => {
         const inputBuffer = event.inputBuffer;
-        console.log("Input Buffer")
-        console.log(inputBuffer)
+        // console.log("Input Buffer")
+        // console.log(inputBuffer)
         const outputBuffer = event.outputBuffer;
-        console.log("Output Buffer")
-        console.log(outputBuffer)
+        // console.log("Output Buffer")
+        // console.log(outputBuffer)
 
         for (let channel = 0; channel < outputBuffer.numberOfChannels; channel++) {
           const inputData = inputBuffer.getChannelData(channel);
-          console.log("Input Data")
-          console.log(inputData)
+          // console.log("Input Data")
+          // console.log(inputData)
           const outputData = outputBuffer.getChannelData(channel);
-          console.log("Output Data")
-          console.log(outputData)
+          // console.log("Output Data")
+          // console.log(outputData)
 
           // 예제로 오디오 음량을 2배로 증폭시킵니다.
           for (let sample = 0; sample < inputBuffer.length; sample++) {
-            outputData[sample] = inputData[sample] * 2;
+            outputData[sample] = inputData[sample] * 0;
           }
         }
       };
