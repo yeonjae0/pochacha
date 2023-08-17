@@ -23,4 +23,4 @@ const cellSlice = createSlice({
 });
 
 export default cellSlice;
-export const { setCells } = cellSlice.actions;
+export const { setCells, setTurns } = cellSlice.actions;
