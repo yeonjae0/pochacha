@@ -28,6 +28,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class MinigameService extends RedisService {
@@ -325,5 +326,24 @@ public class MinigameService extends RedisService {
             e.printStackTrace();
             throw new GameGetException("훈민정음 조회에 실패하였습니다.");
         }
+    }
+
+    public Object checkRecordValidation(Map<String, Object> payload, String roomId) throws GameGetException {
+        List<String> playerIdList = roomRepository.findById(roomId).orElseThrow(() -> new GameGetException("존재하지 않는 방입니다.")).getPlayers()
+                .stream().map(p -> p.getId()).collect(Collectors.toList());
+
+        // 소켓 통신을 요청한 유저에 대한 유효성 검사
+        if(!playerIdList.contains((String)payload.get("userId"))) {
+            throw new GameGetException("세션의 구성원이 아닙니다.");
+        }
+
+        int second = Integer.parseInt((String) payload.get("recordSecond"));
+        int millisecond = Integer.parseInt((String) payload.get("recordMilliSecond"));
+
+        if(!(0<=second && second<=30 && 0<=millisecond && millisecond<1000)) {
+            throw new GameGetException("유효하지 않은 기록입니다.");
+        }
+
+        return payload;
     }
 }
