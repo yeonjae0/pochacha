@@ -274,7 +274,7 @@ export default function GamePage() {
         <div style={{ textAlign: 'center' }}>
           <button className={styles.btnRolling} style={{ zIndex: '0' }} value="innerHTML" onClick={() => {
             client.current.send("/move/" + roomId, {}, JSON.stringify({}));
-            handleRollDiceClick();
+            //handleRollDiceClick();
           }}>주사위 굴리기</button>
         </div>          
         )}
