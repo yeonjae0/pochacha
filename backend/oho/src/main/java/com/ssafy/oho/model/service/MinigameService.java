@@ -67,12 +67,15 @@ public class MinigameService extends RedisService {
             else if(subject.equals("sports")) { word = Sports.getRandomValue(); }
             else{ throw new GameSetException("단어 생성에 문제가 있어요"); }
 
+            Random random = new Random();
+            int liarCnt=random.nextInt(room.getPlayers().size());
+
             /*** Redis Input ***/
             super.setLiarGame(roomId, playerIdList.get(0), 0, playerIdList);
 
             /*** Response DTO Build ***/
             LiarGameResponseDto liarGameResponseDto= LiarGameResponseDto.builder()
-                    .liar(playerIdList.get(0))
+                    .liar(playerIdList.get(liarCnt))
                     .word(word)//저장x
                     .turns(playerIdList)//저장x
                     .build();
@@ -98,35 +101,72 @@ public class MinigameService extends RedisService {
             /*
                 TO DO :: 해당 방에 존재하는 player인지 유효성 검사 필요
              */
-            System.out.println("유효성 검사 통과");
+            System.out.println("라이어 게임 유효성 검사 통과");
 
             int total = Integer.parseInt(super.getLiarGameInfo(roomId, "total"));
             total++;
-            System.out.println(total);
+            System.out.println("TOTAL: "+total);
             /*
                 TO DO :: total에 대한 유효성 검사 필요
              */
 
             List<LiarGameVoteDto> voteList=new ArrayList<>();
-            Map<Object, Object> currentVoteList=super.getLiarGameVoteList(roomId);
-            System.out.println("CURRENT VOTE LIST");
-            System.out.println(currentVoteList);
-//
-//            for(int i=0;i<4;i++){
-//                voteList.add(new LiarGameVoteDto())
-//            }
+            for(Player player:room.getPlayers()){
+                String id=player.getId();
+                int cnt=Integer.parseInt(super.getLiarGameVoteList(roomId,id));
 
+                if(vote.equals(id)){
+                    //득표자일 경우
+                    cnt++;
+                }
+                voteList.add(new LiarGameVoteDto(id,cnt));
+            }
+
+            /*
+                CONFIRM :: 이미 투표했던 사람이면 예외처리 (프론트엔드 완료)
+             */
+
+            //내림차순 정렬 후 동점자 확인
+            boolean tiebreak=false;
+            List<String> tiebreaker=new ArrayList<>();
+
+            Collections.sort(voteList);
+
+            int max=voteList.get(0).getCnt();
+            tiebreaker.add(voteList.get(0).getPlayerId());
+
+            for(int i=1;i<voteList.size();i++){
+                if(max==voteList.get(i).getCnt()){
+                    tiebreak=true;
+                    tiebreaker.add(voteList.get(i).getPlayerId());
+                }
+            }
 
             /*** Redis Input ***/
             super.setLiarGameVoteList(roomId, total, voteList);
 
             /*** Response DTO Build ***/
-            LiarGameResponseDto liarGameResponseDto=LiarGameResponseDto.builder()
-                    .total(total)
-                    .voteList(voteList)
-                    .tiebreak(false)
-                    .tiebreakerList(null)
-                    .build();
+            LiarGameResponseDto liarGameResponseDto;
+            if(tiebreak==true){
+                liarGameResponseDto=LiarGameResponseDto.builder()
+                        .total(total)
+                        .tiebreak(true)
+                        .tiebreaker(tiebreaker)
+                        .build();
+            }
+            else{
+                String liar=super.getLiarGameInfo(roomId,"liar");
+                boolean winner=false;
+                if(voteList.get(0).getPlayerId().equals(liar)){
+                    winner=true;
+                }
+
+                liarGameResponseDto=LiarGameResponseDto.builder()
+                        .total(total)
+                        .tiebreak(false)
+                        .winner(winner)
+                        .build();
+            }
 
             return liarGameResponseDto;
         }
