@@ -116,17 +116,35 @@ export default function GamePage() {
         setLab(position.game.lab);
         setCurrentCell(position.cell.name);
         handleRollDiceClick();
-        // console.log(typeof(position.game.pin))
-        // console.log(typeof(parseInt(position.game.pin)))
-        // console.log(typeof(position.cell.move))
-        // console.log('position', position)
+        console.log(typeof(position.game.pin))
+        console.log(typeof(parseInt(position.game.pin)))
+        console.log(typeof(position.cell.move))
+        console.log('position', position)
 
-        //   if (parseInt(position.cell.move) != 1) {
+        /* 말을 움직이는 셀 작동 구현*/
+
+        //   if (parseInt(position.cell.move) !== 0 ) {
+        //     console.log('여기로 진입함 @@@@@@@@@@@!!!!!!!')
         //     setPin(position.game.pin)
-        //     setPin(parseInt(position.game.pin) + parseInt(position.cell.move));
         //     setDice(position.game.dice);
         //     setCurrentCell(position.cell.name);
+        //     setLab(position.game.lab);
         //     handleRollDiceClick();
+        //     setTimeout(() => {
+        //       console.log('pin이랑 move 더한 값임', parseInt(position.game.pin) + parseInt(position.cell.move))
+        //       console.log('parseInt(position.game.pin)', parseInt(position.game.pin))
+        //       console.log('parseInt(position.cell.move)', parseInt(position.cell.move))
+        //       setTimeout(() => {
+        //       setPin(parseInt(position.game.pin) + parseInt(position.cell.move));
+        //       setCurrentCell(position.cell.name);
+        //       }, 1000);
+        //       setCntDice((prevCntDice) => (prevCntDice - 1));
+        //       setLab(position.game.lab);
+        //       setShowModal(true);
+        //       setTimeout(() => {
+        //         setShowModal(false);
+        //       }, 3000);
+        //     }, 1000);
         //   }
         //   else {
         //   setDice(position.game.dice);
@@ -135,6 +153,7 @@ export default function GamePage() {
         //   setCurrentCell(position.cell.name);
         //   handleRollDiceClick();
         // }
+
         if (position.cell.name == '두더지 게임' || position.cell.name == '라이어 게임' || position.cell.name == '훈민정음') {
           setVisible(true)
         }
@@ -267,7 +286,7 @@ export default function GamePage() {
         {/* 미니게임 때 버튼 숨기기 (레이아웃은 유지) */}
         { hideBtn && (
         <div style={{ textAlign: 'center', visibility: 'hidden' }}>
-          <button className={styles.btnRolling} style={{ zIndex: '0' }} value="innerHTML" onClick={() => {
+          <button className={styles.btnRolling} style={{ zIndex: '0', visibility: setTurns[cnt] !== myId ? 'hidden' : 'visible' }} value="innerHTML" onClick={() => {
             client.current.send("/move/" + roomId, {}, JSON.stringify({}));
             handleRollDiceClick();
           }}>주사위 굴리기</button>
@@ -276,7 +295,7 @@ export default function GamePage() {
 
         { !hideBtn && (
         <div style={{ textAlign: 'center' }}>
-          <button className={styles.btnRolling} style={{ zIndex: '0' }} value="innerHTML" onClick={() => {
+          <button className={styles.btnRolling} style={{ zIndex: '0', visibility: setTurns[cnt] !== myId ? 'hidden' : 'visible' }} value="innerHTML" onClick={() => {
             client.current.send("/move/" + roomId, {}, JSON.stringify({}));
             //handleRollDiceClick();
           }}>주사위 굴리기</button>
