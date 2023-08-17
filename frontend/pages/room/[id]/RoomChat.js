@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react';
-import styles from '@/styles/RoomPage.module.css';
+// import styles from '@/styles/RoomPage.module.css';
+import styles from '../../../styles/RoomPage.module.css';
 
 export default function RoomChat(props) {
   

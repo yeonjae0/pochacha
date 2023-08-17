@@ -1,8 +1,10 @@
 import React from 'react';
 import OpenViduVideoComponent from './OvVideo';
 import { useSelector } from "react-redux";
-import Roomstyles from '@/styles/RoomPage.module.css';
-import Videostyles from '@/styles/UserVideo.module.css';
+// import Roomstyles from '@/styles/RoomPage.module.css';
+import Roomstyles from '../../../styles/RoomPage.module.css';
+// import Videostyles from '@/styles/UserVideo.module.css';
+import Videostyles from '../../../styles/UserVideo.module.css';
 
 export default function RoomCam() {
 

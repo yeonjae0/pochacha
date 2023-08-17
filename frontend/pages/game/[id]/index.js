@@ -5,9 +5,12 @@ import { useRouter } from "next/router";
 import DiceBox from "./DiceBox";
 import ActiveBoard from "./ActiveBoard";
 import GameSelect from "./GameSelect";
-import OpenViduVideoComponent from '@/pages/room/[id]/OvVideo.js'; /* OpenVidu 관련 */
-import styles from "@/styles/GamePage.module.css";
-import Videostyles from '@/styles/UserVideo.module.css';
+// import OpenViduVideoComponent from '@/pages/room/[id]/OvVideo.js'; /* OpenVidu 관련 */
+import OpenViduVideoComponent from '../../../pages/room/[id]/OvVideo.js'; /* OpenVidu 관련 */
+// import styles from "@/styles/GamePage.module.css";
+import styles from "../../../styles/GamePage.module.css";
+// import Videostyles from '@/styles/UserVideo.module.css';
+import Videostyles from '../../../styles/UserVideo.module.css';
 import { styled } from "styled-components";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";

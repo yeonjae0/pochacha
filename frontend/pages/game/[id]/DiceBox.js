@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Dice from './Dice';
-import styles from '@/styles/DiceBox.module.css';
+// import styles from '@/styles/DiceBox.module.css';
+import styles from '../../../styles/DiceBox.module.css';
 
 export default function DiceBox({ dice }) {
   

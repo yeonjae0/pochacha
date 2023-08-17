@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import VoteLiarComponent from './VoteLiarComponent';
-import styles from '@/styles/LiarGame.module.css';
+// import styles from '@/styles/LiarGame.module.css';
+import styles from '../../../../styles/LiarGame.module.css';
 
 
 export default function Phase2() {

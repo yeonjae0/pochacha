@@ -3,7 +3,8 @@ import { useState, useEffect, useRef } from 'react';
 import { useSelector } from "react-redux";
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
-import styles from '@/styles/LiarGame.module.css';
+// import styles from '@/styles/LiarGame.module.css';
+import styles from '../../../../styles/LiarGame.module.css';
 
 
 

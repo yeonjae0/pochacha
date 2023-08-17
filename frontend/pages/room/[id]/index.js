@@ -9,12 +9,19 @@ import axios from "axios";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 import { useDispatch, useSelector } from "react-redux";
-import { addPlayers, resetPlayers, addTmpPlayer, resetTmpPlayers, updateTmpPlayer, deleteTmpPlayer, checkReady } from "@/store/reducers/players.js";
-import { ready } from "@/store/reducers/player.js";
-import { openViduActions } from "@/store/reducers/openvidu";
-import { setCells, setStartGame } from "@/store/reducers/cell";
-import styles from "@/styles/RoomPage.module.css";
+// import { addPlayers, resetPlayers, addTmpPlayer, resetTmpPlayers, updateTmpPlayer, deleteTmpPlayer, checkReady } from "@/store/reducers/players.js";
+import { addPlayers, resetPlayers, addTmpPlayer, resetTmpPlayers, updateTmpPlayer, deleteTmpPlayer, checkReady } from "../../../store/reducers/players.js";
+// import { ready } from "@/store/reducers/player.js";
+import { ready } from "../../../store/reducers/player.js";
+// import { openViduActions } from "@/store/reducers/openvidu";
+import { openViduActions } from "../../../store/reducers/openvidu";
+// import { setCells, setStartGame } from "@/store/reducers/cell";
+import { setCells, setStartGame } from "../../../store/reducers/cell";
+// import styles from "@/styles/RoomPage.module.css";
+import styles from "../../../styles/RoomPage.module.css";
 import { OpenVidu } from "openvidu-browser";
+// import SoundMeter from "@/pages/audioeffect/SoundMeter";
+import SoundMeter from "../../../pages/audioeffect/SoundMeter";
 
 export default function RoomPage() {
   const router = useRouter();
@@ -193,6 +200,19 @@ export default function RoomPage() {
       var currentVideoDevice = videoDevices.find(
         (device) => device.deviceId === currentVideoDeviceId
       );
+
+      // let audioContext = new AudioContext();
+      // let pitchChangeEffect = new Jungle(audioContext);
+      // let compressor = audioContext.createDynamicsCompressor();
+      // let mic = audioContext.createMediaStreamSource(pub.stream.getMediaStream())
+  
+      // mic.connect(pitchChangeEffect.input);
+      // pitchChangeEffect.output.connect(compressor);
+      // pitchChangeEffect.setPitchOffset(0.7);      // pitch 조절     
+      // compressor.connect(audioContext.destination);
+
+      let soundMeter = new SoundMeter(new AudioContext())
+      soundMeter.connectToSource(true, pub.stream.getMediaStream());
 
       dispatch(openViduActions.createPublisher({publisher:pub,currentVideoDevice:currentVideoDevice}));
     } catch (error) {
