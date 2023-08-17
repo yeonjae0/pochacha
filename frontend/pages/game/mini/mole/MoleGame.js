@@ -3,6 +3,10 @@ import Ready from './MoleReady';
 import Go from './MoleGo';
 import styles from '@/styles/MoleGame.module.css';
 
+import SockJS from "sockjs-client";
+import { Stomp } from "@stomp/stompjs";
+import { useSelector } from 'react-redux';
+
 const getRandomGridPosition = () => ({
   row: Math.floor(Math.random() * 3), // 0, 1, 2
   col: Math.floor(Math.random() * 3), // 0, 1, 2
@@ -26,6 +30,13 @@ function MoleGame({ sec }) {
   const [hoveredMoleIndex, setHoveredMoleIndex] = useState(-1);
   const [ready, setReady] = useState('ready')
 
+  const [time, setTime] = useState(0);
+  const [running, setRunning] = useState(false);
+  const intervalRef = useRef(null);
+
+  const [client, setClient] = useState({});
+  const [records, setRecords] = useState([]);
+
   const handleMoleClick = (index) => {
     if (molePositions[index]) {
       setScore((prevScore) => prevScore + 1);
@@ -48,7 +59,36 @@ function MoleGame({ sec }) {
     setHoveredMoleIndex(-1);
   };
 
+  const connectSocket = () => {
+    client.current = Stomp.over(() => {
+      const sock = new SockJS(process.env.NEXT_PUBLIC_WS + "/ws")
+      return sock;
+    });
+    client.current.debug = () => { };
+  };
+
+  const subscribeSocket = () => {
+    client.current.connect({}, () => {
+      // callback 함수 설정, 대부분 여기에 sub 함수 씀
+      client.current.subscribe(`/topic/mole/${roomId}`, (response) => {
+        let data = JSON.parse(response.body);
+        
+        setRecords((prevRecords) => [...prevRecords, data].sort(function(a, b) {
+          if(a.second!=b.second) {
+            return a.second - b.second;
+          } else {
+            return a.milliSecond - b.milliSecond;
+          }
+        }))
+        
+      });
+    });
+  };
+
   useEffect(() => {
+    connectSocket();
+    subscribeSocket();
+
     const generateMole = () => {
       const freshMolePositions = Array(3).fill(null).map(() => getRandomGridPosition());
       setMolePositions(freshMolePositions);
@@ -57,6 +97,23 @@ function MoleGame({ sec }) {
     const moleTimer = setInterval(generateMole, 1000);
     return () => clearInterval(moleTimer);
   }, []);
+
+  /* 태훈 : 시간 측정 코드 시작 */
+  useEffect(() => {
+
+    if (!running) {
+      intervalRef.current = setInterval(() => {
+        setTime(prevTime => prevTime + 10); // 10밀리초씩 증가
+      }, 10);
+      setRunning(true);
+    }
+
+    if (running) {
+      clearInterval(intervalRef.current);
+      setRunning(false);
+    }
+  }, [running])
+  /* 태훈 : 시간 측정 코드 끝 */
 
   useEffect(() => {
     setTimeout(() => {
@@ -123,8 +180,8 @@ function MoleGame({ sec }) {
         </div>
       )}
 
-      {ready === 'game' && (sec <= 0 || score >= 30) && (
-        <WinorLose score={score} sec={sec} />
+      {ready === 'game' && (sec <= 0 || score >= 30) && millisec <= 0 (
+        <WinorLose score={score} sec={sec} time={time} />
       )}
 
     </div>
@@ -133,12 +190,15 @@ function MoleGame({ sec }) {
 /* 희진 : 메인 두더지 게임 끝 */
 
 /* 희진 : 승패 여부 컴포넌트 시작 */
-function WinorLose({ score, sec }) {
+function WinorLose({ score, sec, time }) {
+
+  useSelector(state=>state.player.currentPlayerId)
+
   return (
     <div>
       {
         score >= 30 ?
-          <MissionCompleted score={score} sec={sec} />
+          <MissionCompleted score={score} sec={sec} time={time} />
           : <Gameover score={score} />
       }
     </div>
@@ -150,6 +210,18 @@ function WinorLose({ score, sec }) {
 function Gameover({ score }) {
 
   let margin = 30 - score
+
+  useEffect(async () => {
+    let sendData = {
+      userId: "userId", 
+      recordSecond: 30, 
+      recordMilliSecond: 0
+    }
+
+    setTimeout(() => {
+      client.current.send("/mini/mole/time" + roomId, {}, JSON.stringify(sendData));
+    }, 100); // 비동기화 문제 (시간 조절)
+  }, [])
 
   return (
     <div style={{ textAlign: 'center' }}>
@@ -163,7 +235,32 @@ function Gameover({ score }) {
 /* 희진 : Game Over 컴포넌트 끝 */
 
 /* 희진 : [승패 여부] Mission Completed 컴포넌트 시작 */
-function MissionCompleted({ score, sec }) {
+function MissionCompleted({ score, sec, time }) {
+
+  /* 태훈 : 밀리세컨드 단위의 초 계산 함수 시작 */
+  const formatTime = (milliseconds) =>  {
+    const hours = Math.floor(milliseconds / 3600000);
+    const minutes = Math.floor((milliseconds % 3600000) / 60000);
+    const seconds = Math.floor((milliseconds % 60000) / 1000);
+    const remainingMilliseconds = milliseconds % 1000;
+
+    // return `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}.${remainingMilliseconds}`;
+    return {second: seconds, milliSecond: remainingMilliseconds}
+  };
+  /* 태훈 : 밀리세컨드 단위의 초 계산 함수 끝 */
+
+  useEffect(async () => {
+    let recordObj = await formatTime(time)
+    let sendData = {
+      userId: "userId", 
+      recordSecond: recordObj["second"], 
+      recordMilliSecond: recordObj["milliSecond"]
+    }
+
+    setTimeout(() => {
+      client.current.send("/mini/mole/time" + roomId, {}, JSON.stringify(sendData));
+    }, 100); // 비동기화 문제 (시간 조절)
+  }, [])
 
   return (
     <div style={{ textAlign: 'center' }}>

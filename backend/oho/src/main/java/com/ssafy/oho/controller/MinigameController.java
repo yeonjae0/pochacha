@@ -67,4 +67,16 @@ public class MinigameController {
             webSocket.convertAndSend("/topic/game/" + roomId, e.getMessage());
         }
     }
+
+    /*
+    태훈 : 두더지 게임 관련 소켓 통신
+     */
+    @MessageMapping("/mini/mole/time/{roomId}")
+    public void broadcastRecord(@Payload Map<String,Object> payload, @DestinationVariable String roomId){
+        try{
+            webSocket.convertAndSend("/topic/mole/" + roomId, minigameService.checkRecordValidation(payload, roomId));
+        } catch(GameGetException e){
+            webSocket.convertAndSend("/topic/mole/" + roomId, e.getMessage());
+        }
+    }
 }
