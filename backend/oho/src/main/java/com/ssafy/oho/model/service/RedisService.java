@@ -325,4 +325,27 @@ public class RedisService {
         if(hashOperations.entries(getChatKey(roomId)).size() == 0) return null;
         return hashOperations.entries(getChatKey(roomId));
     }
+
+    protected String getMoleGameKey(String roomId){return roomId+".moleGame";}
+    protected void setMoleGameResult(String roomId, String playerId, int score){
+        redisTemplate.execute(new SessionCallback<>() {
+            @Override
+            public Object execute(RedisOperations operations) throws DataAccessException{
+                operations.multi();//트랜잭션 시작
+                hashOperations.put(getMoleGameKey(roomId),playerId,Integer.toString(score));
+
+                List<Object> result = operations.exec();  // 트랜잭션 실행
+                if(result == null) System.out.println("MOLEGAME :: REDIS TRANSACTION ERROR");
+                return null;
+            }
+        });
+        redisTemplate.expire(getMoleGameKey(roomId), SERVICE_TTL.get("mini"), TimeUnit.SECONDS);
+    }
+    protected String getMoleGameInfo(String roomId, String hashKey) {
+        return (String) hashOperations.get(getMoleGameKey(roomId), hashKey);
+    }
+    protected Map<Object, Object> getMoleGame(String roomId) {
+        if(hashOperations.entries(getMoleGameKey(roomId)).size() == 0) return null;
+        return hashOperations.entries(getMoleGameKey(roomId));
+    }
 }
