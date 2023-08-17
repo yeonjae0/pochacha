@@ -151,13 +151,13 @@ export default function RoomBtn(props) {
 
   return (
     <div style={{ marginTop: "20px" }}>
-      <ModeBtn
+      {props.head && <ModeBtn
         onClick={() => {
           dispatch(changeMini());
         }}
       >
         {includeMini == true ? "미니게임 모드" : "기본 모드"}
-      </ModeBtn>
+      </ModeBtn>}
       <CopyBtn
         onClick={() => {
           clipBoard();
