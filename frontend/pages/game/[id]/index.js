@@ -113,6 +113,11 @@ export default function GamePage() {
     });
   };
 
+  function extendSession() {
+    session.extendSession();
+    // 세션 만료 시간을 현재 시간으로 연장
+  }
+
   useEffect(() => {
     connectSocket();
     subscribeSocket();
@@ -120,6 +125,9 @@ export default function GamePage() {
     setTimeout(() => {
       client.current.send("/move/" + roomId, {}, JSON.stringify({ "reload": true }));
     }, 100); // 비동기화 문제 (시간 조절)
+
+    // 사용자 활동이 있을 때마다 세션 연장
+    setInterval(extendSession, 300000); // 5분마다 세션 연장
   }, []);
 
   let handleRollDiceClick = () => {
