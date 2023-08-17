@@ -15,12 +15,7 @@ export default class OpenViduVideoComponent extends Component {
         console.log(props.streamManager.stream.getMediaStream())
         if (props && !!this.videoRef) {
             this.props.streamManager.addVideoElement(this.videoRef.current);
-        }
-
-        if(props.isAudioDistorted){
-            soundMeter.connectToSource(true, props.streamManager.stream.getMediaStream());
-        } else {
-            soundMeter.stop();
+            soundMeter.connectToSource(props.isAudioDistorted, this.props.streamManager.stream.getMediaStream());
         }
     }
 

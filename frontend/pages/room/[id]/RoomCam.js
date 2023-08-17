@@ -13,7 +13,8 @@ export default function RoomCam() {
   const nickname = useSelector(state => state.player.currentNick);
   const publisher = useSelector(state => state.openvidu.publisher);
   const participants = useSelector(state => state.openvidu.participants);
-  const [isAudioDistorted, setIsAudioDistorted] = useState(true)
+  const [isPartAudioDistorted, setIsPartAudioDistorted] = useState(true)
+  const [isPubAudioDistorted, setIsPubAudioDistorted] = useState(false)
 
   console.log("Room Cam")
   console.log(publisher);
@@ -28,7 +29,7 @@ export default function RoomCam() {
             {participants != null ? participants.map((par, i) => (
               par!=null?
               <span key={par.id} className={Videostyles.streamcomponent} >
-                <OpenViduVideoComponent className={Roomstyles.cam} streamManager={par.participant} isAudioDistorted={isAudioDistorted} />
+                <OpenViduVideoComponent className={Roomstyles.cam} streamManager={par.participant} isAudioDistorted={isPartAudioDistorted} />
                 {console.log(par.nick)}
                 <div className={Videostyles.nickname}>{par.nick}</div>
               </span>
@@ -37,7 +38,7 @@ export default function RoomCam() {
             {publisher !== undefined ? (
               <span className={Videostyles.streamcomponent}>
                 <OpenViduVideoComponent className={Roomstyles.cam}
-                  streamManager={publisher} />
+                  streamManager={publisher} isAudioDistorted={isPubAudioDistorted} />
                 <div className={Videostyles.nickname}>{nickname}</div>
               </span>
             ) : null}
