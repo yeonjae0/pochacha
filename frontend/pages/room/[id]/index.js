@@ -250,6 +250,7 @@ export default function RoomPage() {
       <div className={styles.room}>
         <div className={styles.camList} style={{ marginTop: '50px', marginBottom: '10px', textAlign: 'center' }} >
             {memoRoomCam} 
+
         </div>
         {memoRoomChat}
         {memoRoonBtn}
