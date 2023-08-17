@@ -1,9 +1,8 @@
 package com.ssafy.oho.model.service;
 
-import com.google.gson.JsonObject;
-import com.ssafy.oho.model.dto.request.LiarGameRequestDto;
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
 import com.ssafy.oho.model.dto.response.LiarGameResponseDto;
+import com.ssafy.oho.model.dto.response.LiarGameVoteDto;
 import com.ssafy.oho.model.entity.Player;
 import com.ssafy.oho.model.entity.Room;
 import com.ssafy.oho.model.repository.MinigameRepository;
@@ -12,6 +11,7 @@ import com.ssafy.oho.util.data.liargame.words.*;
 import com.ssafy.oho.util.data.liargame.words.Objects;
 import com.ssafy.oho.util.exception.GameGetException;
 import com.ssafy.oho.util.exception.GameSetException;
+import com.ssafy.oho.util.exception.PlayerGetException;
 import com.ssafy.oho.util.exception.RoomGetException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,14 +72,17 @@ public class MinigameService extends RedisService {
             else if(subject.equals("sports")) { word = Sports.getRandomValue(); }
             else{ throw new GameSetException("단어 생성에 문제가 있어요"); }
 
+            Random random = new Random();
+            int liarCnt=random.nextInt(room.getPlayers().size());
+
             /*** Redis Input ***/
-            super.setLiarGame(roomId, playerIdList.get(0), word, playerIdList);
+            super.setLiarGame(roomId, playerIdList.get(0), 0, playerIdList);
 
             /*** Response DTO Build ***/
             LiarGameResponseDto liarGameResponseDto= LiarGameResponseDto.builder()
-                    .liar(playerIdList.get(0))
-                    .word(word)
-                    .turns(playerIdList)
+                    .liar(playerIdList.get(liarCnt))
+                    .word(word)//저장x
+                    .turns(playerIdList)//저장x
                     .build();
 
             return liarGameResponseDto;
@@ -89,9 +92,94 @@ public class MinigameService extends RedisService {
         }
     }
 
-    /*
-        TO DO :: 투표 득표수 집계 메소드 추가
-     */
+    public LiarGameResponseDto voteLiar(Map<String, Object> payload, String roomId) throws GameGetException {
+        try {
+            Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomGetException());
+
+            String playerId=((String) payload.getOrDefault("playerId", "")).trim();
+            String vote=((String) payload.getOrDefault("vote", "")).trim();
+
+            if(playerId==null||vote==null){
+                throw new PlayerGetException("접속 정보를 확인해주세요");
+            }
+
+            /*
+                TO DO :: 해당 방에 존재하는 player인지 유효성 검사 필요
+             */
+            System.out.println("라이어 게임 유효성 검사 통과");
+
+            int total = Integer.parseInt(super.getLiarGameInfo(roomId, "total"));
+            total++;
+            System.out.println("TOTAL: "+total);
+            /*
+                TO DO :: total에 대한 유효성 검사 필요
+             */
+
+            List<LiarGameVoteDto> voteList=new ArrayList<>();
+            for(Player player:room.getPlayers()){
+                String id=player.getId();
+                int cnt=Integer.parseInt(super.getLiarGameVoteList(roomId,id));
+
+                if(vote.equals(id)){
+                    //득표자일 경우
+                    cnt++;
+                }
+                voteList.add(new LiarGameVoteDto(id,cnt));
+            }
+
+            /*
+                CONFIRM :: 이미 투표했던 사람이면 예외처리 (프론트엔드 완료)
+             */
+
+            //내림차순 정렬 후 동점자 확인
+            boolean tiebreak=false;
+            List<String> tiebreaker=new ArrayList<>();
+
+            Collections.sort(voteList);
+
+            int max=voteList.get(0).getCnt();
+            tiebreaker.add(voteList.get(0).getPlayerId());
+
+            for(int i=1;i<voteList.size();i++){
+                if(max==voteList.get(i).getCnt()){
+                    tiebreak=true;
+                    tiebreaker.add(voteList.get(i).getPlayerId());
+                }
+            }
+
+            /*** Redis Input ***/
+            super.setLiarGameVoteList(roomId, total, voteList);
+
+            /*** Response DTO Build ***/
+            LiarGameResponseDto liarGameResponseDto;
+            if(tiebreak==true){
+                liarGameResponseDto=LiarGameResponseDto.builder()
+                        .total(total)
+                        .tiebreak(true)
+                        .tiebreaker(tiebreaker)
+                        .build();
+            }
+            else{
+                String liar=super.getLiarGameInfo(roomId,"liar");
+                boolean winner=false;
+                if(voteList.get(0).getPlayerId().equals(liar)){
+                    winner=true;
+                }
+
+                liarGameResponseDto=LiarGameResponseDto.builder()
+                        .total(total)
+                        .tiebreak(false)
+                        .winner(winner)
+                        .build();
+            }
+
+            return liarGameResponseDto;
+        }
+        catch(Exception e){
+            throw new GameGetException();
+        }
+    }
+
     String[] wordUnit = {
             "ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ",
             "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ",
@@ -110,28 +198,36 @@ public class MinigameService extends RedisService {
     private String SPELL_URL;
 
     public HashMap<String, Object> setSpell(@RequestBody RoomRequestDto roomRequestDto) throws GameGetException {
-        String correctWord = randWord[(int) Math.floor(Math.random() * randWord.length)];
-        String firstWord = Character.toString(correctWord.charAt(0));
-        String secondWord = Character.toString(correctWord.charAt(1));
+        HashMap<String, Object> responsePayload = new HashMap<>();
+        String firstWord, secondWord;
 
-        if(roomRequestDto == null || roomRequestDto.getId() == null) throw new GameGetException();
+        // room 유효성 검사
+        if (roomRequestDto == null || roomRequestDto.getId() == null) throw new GameGetException();
         Room room = roomRepository.findById(roomRequestDto.getId()).orElseThrow(() -> new GameGetException());
-        List<String> playerIdList = new ArrayList<>();
-        for (Player p : room.getPlayers()) {
-            playerIdList.add(p.getId());
+
+        if(super.getSpell(roomRequestDto.getId()) == null) {
+            String correctWord = randWord[(int) Math.floor(Math.random() * randWord.length)];
+            firstWord = Character.toString(correctWord.charAt(0));
+            secondWord = Character.toString(correctWord.charAt(1));
+
+            List<String> playerIdList = new ArrayList<>();
+            for (Player p : room.getPlayers()) {
+                playerIdList.add(p.getId());
+            }
+
+            Collections.shuffle(playerIdList);  // 무작위 섞기
+
+            /*** Redis Input ***/
+            super.setSpell(room.getId(), firstWord, secondWord, playerIdList);
         }
-
-        Collections.shuffle(playerIdList);  // 무작위 섞기
-
-        /*** Redis Input ***/
-        super.setSpell(roomRequestDto.getId(), firstWord, secondWord, playerIdList);
+        int index = Integer.parseInt(super.getSpellInfo(room.getId(), "index"));
+        responsePayload.put("firstWord", super.getSpellInfo(room.getId(), "firstWord"));
+        responsePayload.put("secondWord", super.getSpellInfo(room.getId(), "secondWord"));
+        responsePayload.put("currentPlayer", super.getSpellInfo(room.getId(), "player" + index));  // 현 순서의 플레이어
+        responsePayload.put("index", super.getSpellInfo(room.getId(), "index"));  // 현 순서의 플레이어
 
         /*** Response DTO Build ***/
-        return new HashMap<>() {{
-            put("firstWord", firstWord);
-            put("secondWord", secondWord);
-            put("playerIdList", playerIdList);
-        }};
+        return responsePayload;
     }
     public Map<String, Object> confirmSpell(Map<String, Object> payload, String roomId) throws GameGetException {
         try {
@@ -215,6 +311,15 @@ public class MinigameService extends RedisService {
 
             confirmMap.put("correct", true);
             confirmMap.put("msg", "정답입니다!");
+
+            int index = Integer.parseInt(super.getSpellInfo(roomId, "index"));
+            index = (index + 1) % 4;
+
+            HashMap<String, String> hash = new HashMap<>();
+            hash.put("index", Integer.toString(index));
+            super.setSpellInfo(roomId, hash);  // 순서 다시 설정
+
+            confirmMap.put("currentPlayer", super.getSpellInfo(roomId, "player" + index));
 
             return confirmMap;
         } catch(Exception e) {

@@ -1,9 +1,10 @@
 import '../styles/globals.css';
+import 'regenerator-runtime/runtime';
 import React from "react";
 import App, { Container } from "next/app";
 import { Provider } from "react-redux";
 // import withRedux from "next-redux-wrapper";
-import { persistor } from "@/store/index";
+import { persistor } from "../store/index";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, wrapper } from "../store/index";
 

@@ -1,4 +1,5 @@
-import styles from '@/styles/MoleGame.module.css';
+// import styles from '@/styles/MoleGame.module.css';
+import styles from '../../../../styles/MoleGame.module.css';
 
 export default function Ready() {
   return (

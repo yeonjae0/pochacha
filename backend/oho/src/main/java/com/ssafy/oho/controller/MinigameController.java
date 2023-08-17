@@ -1,8 +1,6 @@
 package com.ssafy.oho.controller;
 
-import com.ssafy.oho.model.dto.request.LiarGameRequestDto;
 import com.ssafy.oho.model.dto.request.RoomRequestDto;
-import com.ssafy.oho.model.dto.response.LiarGameResponseDto;
 import com.ssafy.oho.model.service.MinigameService;
 import com.ssafy.oho.util.exception.GameGetException;
 import com.ssafy.oho.util.exception.GameSetException;
@@ -45,7 +43,11 @@ public class MinigameController {
 
     @MessageMapping("/mini/liar/vote/{roomId}")
     public void voteLiar(@Payload Map<String,Object> payload, @DestinationVariable String roomId){
-
+        try {
+            webSocket.convertAndSend("/topic/mini/liar/vote/" + roomId, minigameService.voteLiar(payload, roomId));
+        }catch(GameGetException e){
+            webSocket.convertAndSend("/topic/mini/liar/vote/" + roomId, e.getMessage());
+        }
     }
 
     /* 훈민정음 게임 API */
@@ -62,9 +64,9 @@ public class MinigameController {
     public void confirmSpell(@Payload Map<String,Object> payload, @DestinationVariable String roomId) {
         try {
             // 초성 분리 및 정답 확인
-            webSocket.convertAndSend("/topic/game/" + roomId, minigameService.confirmSpell(payload, roomId));
+            webSocket.convertAndSend("/topic/mini/spell/" + roomId, minigameService.confirmSpell(payload, roomId));
         } catch (GameGetException e) {
-            webSocket.convertAndSend("/topic/game/" + roomId, e.getMessage());
+            webSocket.convertAndSend("/topic/mini/spell/" + roomId, e.getMessage());
         }
     }
 

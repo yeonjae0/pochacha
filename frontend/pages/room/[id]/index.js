@@ -9,16 +9,19 @@ import axios from "axios";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 import { useDispatch, useSelector } from "react-redux";
-import { addPlayers, resetPlayers } from "@/store/reducers/players.js";
-import { ready } from "@/store/reducers/player.js";
-import {
-  setPublisherData,
-  setParticipantsData,
-  resetParticipantsData,
-} from "@/store/reducers/openvidu.js";
-import { setCells, setStartGame } from "@/store/reducers/cell";
+// import { addPlayers, resetPlayers, addTmpPlayer, resetTmpPlayers, updateTmpPlayer, deleteTmpPlayer, checkReady } from "@/store/reducers/players.js";
+import { addPlayers, resetPlayers, addTmpPlayer, resetTmpPlayers, updateTmpPlayer, deleteTmpPlayer, checkReady } from "../../../store/reducers/players.js";
+// import { ready } from "@/store/reducers/player.js";
+import { ready } from "../../../store/reducers/player.js";
+// import { openViduActions } from "@/store/reducers/openvidu";
+import { openViduActions } from "../../../store/reducers/openvidu";
+// import { setCells, setStartGame } from "@/store/reducers/cell";
+import { setCells, setStartGame } from "../../../store/reducers/cell";
+// import styles from "@/styles/RoomPage.module.css";
+import styles from "../../../styles/RoomPage.module.css";
 import { OpenVidu } from "openvidu-browser";
-import styles from "@/styles/RoomPage.module.css";
+// import SoundMeter from "@/pages/audioeffect/SoundMeter";
+import SoundMeter from "../../../pages/audioeffect/SoundMeter";
 
 export default function RoomPage() {
   const router = useRouter();
@@ -27,23 +30,19 @@ export default function RoomPage() {
   let info = router.query.currentName ? JSON.parse(router.query.currentName) : '';
 
   /* 혜지 : 첫 렌더링 시에 OV, session 세팅 */
-  let OV = new OpenVidu();
-  let session = OV.initSession();
+  let OV=new OpenVidu()
+  let session=OV.initSession({sessionTimeout: 3600,}); // 1시간 후 세션 만료
+  dispatch(openViduActions.createOpenVidu({OV,session/*,devices*/}));
 
-  let subGame = null;
+  let subGame=null;
 
-  console.log("session")
-  console.log(session)
+  const roomId = useSelector((state) => state.room.currentRoomId);
+  const token = useSelector((state) => state.player.currentPlayerId); //오픈비두 토큰
+  const nickname = useSelector((state) => state.player.currentNick);
+  const head = useSelector((state) => state.player.currentHead);
+  const playerReady = useSelector((state) => state.player.currentReady);
+  const startGame = useSelector((state) => state.players.canStart);
 
-  const roomId=useSelector(state=>state.room.currentRoomId);
-  const token=useSelector(state => state.player.currentPlayerId); //오픈비두 토큰
-  const nickname=useSelector(state => state.player.currentNick);
-  const head=useSelector(state => state.player.currentHead);
-  const playerReady = useSelector(state => state.player.currentReady);
-
-  const [startGame, setStart] = useState(false); //게임 시작 불가 상태
-  const [publisher, setPublisher] = useState({}); //비디오, 오디오 송신자
-  const [participants, setParticipants] = useState([]); //참여자들
   const [chatHistory, setChatHistory] = useState(`${info.nick}님이 입장하셨습니다.` + "\n");
 
   /* 유영 : 최초 한 번 사용자 목록 불러오기 시작 */
@@ -60,26 +59,16 @@ export default function RoomPage() {
       },
     })
       .then((response) => {
-        console.log("플레이어들 정보 받아오기");
-        console.log(response);
-        // dispatch(resetPlayers([]));
-
-        setStart(true); //이후의 유효성 검사에서 모두 통과 시에 게임 시작 가능
+        dispatch(resetPlayers([]));
 
         /* 혜지 : 접속 플레이어들 정보를 저장 시작 */
         const arrayLength = response.data.length;
-
-        //[유효성 검사] 현재 접속 플레이어 수가 4명 이하일 때 게임 시작 불가
-        if (arrayLength < 4) setStart(false);
 
         for (let i = 0; i < arrayLength; i++) {
           let head = response.data[i].head;
           let id = response.data[i].id;
           let nickname = response.data[i].nickname;
           let ready = response.data[i].ready;
-
-          //[유효성 검사] 현재 접속 플레이어 중 한 명이라도 ready 상태가 아닐 때 게임 시작 불가
-          if (ready === false) setStart(false);
 
           let obj = {
             head: head,
@@ -89,10 +78,12 @@ export default function RoomPage() {
           };
 
           dispatch(addPlayers(obj));
-          console.log("받아온 데이터 결과 stargame");
+          dispatch(addTmpPlayer({ id, nickname, ready, head }));
+          console.log("받아온 데이터 결과 startgame");
           console.log(startGame);
           dispatch(setStartGame(startGame));
         }
+        dispatch(checkReady());
       })
       .catch((error) => {
         if (error.response) {
@@ -108,10 +99,8 @@ export default function RoomPage() {
 
   /* 유영 : 사용자 삭제 시작 */
   const deletePlayer = async () => {
+    dispatch(deleteTmpPlayer({id: token}));  // redux에서 플레이어 삭제
     await client.current.send(`/leave/${roomId}`, {}, JSON.stringify({ playerId: token }));
-    /*
-      TO DO :: 해당 playerId redux에서 삭제 필요
-    */
   };
   /* 유영 : 사용자 삭제 끝 */
 
@@ -135,18 +124,15 @@ export default function RoomPage() {
       client.current.subscribe(`/topic/player/${roomId}`, (response) => {
         var data = JSON.parse(response.body);
 
-        console.log("레디 변경 감지");
-        console.log(data);
+        // 플레이어 정보 업데이트 / 추가 후 ready 체크
+        dispatch(updateTmpPlayer(data));
+        dispatch(checkReady());
 
-        /*
-          CONFIRM :: 현재 지금까지의 사용자 리스트만 받아오는 문제 있으므로, READY 변경 감지마다 리스트 새로 받는 것으로 임시 처리
-        */
-        getPlayerList();
         if (data.id == token) {
-          //본인일 경우 변경
-          dispatch(ready(data));
+          dispatch(ready(data));  // 본인일 경우 변경
         }
       }); // 플레이어 정보 구독
+
       subGame = client.current.subscribe(`/topic/game/${roomId}`, (response) => {
         var data = JSON.parse(response.body);
 
@@ -168,40 +154,20 @@ export default function RoomPage() {
 
   /* 혜지 : OpenVidu 연결 관련 메소드 시작 */
   const onbeforeunload = async (e) => {
-    leaveSession();
+    // leaveSession();
     await deletePlayer();
-  };
-
-  const deleteParticipant = (streamManager) => {
-    let tempParticipants = participants;
-    let index = tempParticipants.indexOf(streamManager, 0);
-    if (index > -1) {
-      tempParticipants.splice(index, 1);
-      setParticipants(tempParticipants);
-
-      dispatch(resetParticipantsData([]));
-      dispatch(setParticipantsData(tempParticipants));
-    }
   };
 
   const joinSession = async (token) => {
     try {
       session.on("streamCreated", async (event) => {
-
-        let participant = session.subscribe(event.stream, undefined);
-        let tempParticipants = [];
-        participants.map((par) => {
-          tempParticipants.push({ par });
-          dispatch(setParticipantsData(par));
-        });
-        const nick = JSON.parse(participant.stream.connection.data.split("%")[0]).clientData;
-        dispatch(setParticipantsData({ nick: nick, participant: participant }));
-        tempParticipants.push({ nick: nick, participant: participant });
-        setParticipants(tempParticipants);
+        //let participant = session.subscribe(event.stream, undefined);
+        dispatch(openViduActions.enteredParticipant(event.stream));
       });
 
       session.on("streamDestroyed", (event) => {
-        deleteParticipant(event.stream.streamManager);
+        //deleteParticipant(event.stream.streamManager);
+        dispatch(openViduActions.deleteParticipant(event.stream.streamManager));
       });
 
       session.on("exception", (exception) => {
@@ -220,61 +186,35 @@ export default function RoomPage() {
         frameRate: 30,
         insertMode: "APPEND", // 비디오 컨테이너 적재 방식
         mirror: false,
+        sessionTimeout: 3600, // 1시간 후 세션 만료
       });
 
-      console.log("pub")
-      console.log(pub)
+      //await session.publish(pub);
 
-      await session.publish(pub);
-      let deviceList = await OV.getDevices();
+      let devices = await OV.getDevices();
+      var videoDevices = devices.filter((device) => device.kind === "videoinput");
+      var currentVideoDeviceId = pub.stream
+        .getMediaStream()
+        .getVideoTracks()[0]
+        .getSettings().deviceId;
+      var currentVideoDevice = videoDevices.find(
+        (device) => device.deviceId === currentVideoDeviceId
+      );
 
-      console.log("deviceList")
-      console.log(deviceList)
-      var videoDevices = deviceList.filter(device => device.kind === 'videoinput');
-      var currentVideoDeviceId = pub.stream.getMediaStream().getVideoTracks()[0].getSettings().deviceId;
+      // let audioContext = new AudioContext();
+      // let pitchChangeEffect = new Jungle(audioContext);
+      // let compressor = audioContext.createDynamicsCompressor();
+      // let mic = audioContext.createMediaStreamSource(pub.stream.getMediaStream())
+  
+      // mic.connect(pitchChangeEffect.input);
+      // pitchChangeEffect.output.connect(compressor);
+      // pitchChangeEffect.setPitchOffset(0.7);      // pitch 조절     
+      // compressor.connect(audioContext.destination);
 
-      console.log("getAudioTracks")
-      console.log(pub.stream.getMediaStream().getAudioTracks())
+      let soundMeter = new SoundMeter(new AudioContext())
+      soundMeter.connectToSource(true, pub.stream.getMediaStream());
 
-      var currentVideoDevice = videoDevices.find(device => device.deviceId === currentVideoDeviceId);
-
-      /* 태훈 : 음성 변조 코드 시작 */
-      // 오디오 데이터 변조를 위한 작업을 수행합니다.
-      let audioTrack = pub.stream.getMediaStream().getAudioTracks()[0]
-
-      const audioContext = new AudioContext();
-      const scriptNode = audioContext.createScriptProcessor(4096, 1, 1);
-      scriptNode.onaudioprocess = event => {
-        const inputBuffer = event.inputBuffer;
-        console.log("Input Buffer")
-        console.log(inputBuffer)
-        const outputBuffer = event.outputBuffer;
-        console.log("Output Buffer")
-        console.log(outputBuffer)
-
-        for (let channel = 0; channel < outputBuffer.numberOfChannels; channel++) {
-          const inputData = inputBuffer.getChannelData(channel);
-          console.log("Input Data")
-          console.log(inputData)
-          const outputData = outputBuffer.getChannelData(channel);
-          console.log("Output Data")
-          console.log(outputData)
-
-          // 예제로 오디오 음량을 2배로 증폭시킵니다.
-          for (let sample = 0; sample < inputBuffer.length; sample++) {
-            outputData[sample] = inputData[sample] * 2;
-          }
-        }
-      };
-      
-      // 오디오 트랙을 오디오 컨텍스트에 연결하여 변조합니다.
-      const source = audioContext.createMediaStreamSource(new MediaStream([audioTrack]));
-      source.connect(scriptNode);
-      scriptNode.connect(audioContext.destination);
-      /* 태훈 : 음성 변조 코드 끝 */
-
-      setPublisher(pub);
-      dispatch(setPublisherData(pub));
+      dispatch(openViduActions.createPublisher({publisher:pub,currentVideoDevice:currentVideoDevice}));
     } catch (error) {
       console.log(error);
       router.push({
@@ -285,36 +225,32 @@ export default function RoomPage() {
   };
 
   const leaveSession = () => {
-    if (session) {
-      session.disconnect();
-    }
-
-    OV = null;
-    setPublisher(undefined);
-    setParticipants([]);
+    dispatch(openViduActions.leaveSession({}));
   };
   /* 혜지 : OpenVidu 연결 관련 메소드 완료 */
 
   useEffect(() => {
+    joinSession(token);
+    dispatch(resetTmpPlayers());  // redux players 삭제
     getPlayerList();
     connectSocket();
     subscribeSocket();
 
     window.addEventListener("beforeunload", onbeforeunload);
-    joinSession(token);
+
     return () => {
       window.removeEventListener("beforeunload", onbeforeunload);
-      if(subGame){
+      if (subGame) {
         console.log("구독해제")
-        subGame.unsubscribe()
+        subGame.unsubscribe();
       }
     };
   }, []);
 
   /* 희진 : 리랜더링 방지 시작 */
-  const memoRoomCam = useMemo(() => {
-    return <RoomCam />;
-  }, []);
+  // const memoRoomCam = useMemo(() => {
+  //   return <RoomCam />;
+  // }, []);
 
   const memoRoomChat = useMemo(() => {
     return <RoomChat info={info} client={client} chatHistory={chatHistory} />;
@@ -331,8 +267,9 @@ export default function RoomPage() {
     <div className={styles.container}>
       <div className="roof2"></div>
       <div className={styles.room}>
-      <div className={styles.camList} style={{ marginTop: '30px', marginLeft: '0px' }} >
-          {memoRoomCam} 
+      <div className={styles.camList} style={{ marginTop: '50px', marginBottom: '10px', textAlign: 'center' }} >
+          {/* {memoRoomCam}  */}
+          <RoomCam />
         </div>
         {memoRoomChat}
         {memoRoonBtn}

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import Ready from './MoleReady';
 import Go from './MoleGo';
-import styles from '@/styles/MoleGame.module.css';
+// import styles from '@/styles/MoleGame.module.css';
+import styles from '../../../../styles/MoleGame.module.css';
 
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";

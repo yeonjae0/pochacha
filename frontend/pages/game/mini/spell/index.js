@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from 'next/router';
-import styles from "@/styles/SpellGame.module.css";
+// import styles from "@/styles/SpellGame.module.css";
+import styles from "../../../../styles/SpellGame.module.css";
 import SpellGame from "./SpellGame";
 
 export default function SpellTimer() {
@@ -9,10 +10,11 @@ export default function SpellTimer() {
 // const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0); // 현재 차례 플레이어 인덱스
 let [keepGoing, SetKeepGoing] = useState(true);  // 게임이 진행중인지 멈췄는지
 let [sec, setSec] = useState(0);
-let time = useRef(15);
+let time = useRef(30);
 const timerId = useRef(null);
-const players = useSelector(state => state.players.players);
 const currentIdx = useSelector(state => state.spell.currentIdx);
+const tmpPlayers = useSelector(state => state.players.tmpPlayers);
+let playersIdList = Object.keys(tmpPlayers) 
 
 const resetSec = () => {
   // time.current = 10
@@ -62,8 +64,10 @@ function GameOver() {
     <>
       <div className={styles.gameOver}>
         {/* <img src="/초성_세종대왕_화남.png" /> */}
-        <h1>Game Over ㅜㅅㅜ</h1>
-        <h2>'{players[currentIdx].nick}' 님의 패배입니다.</h2>
+        <img src='/초성_게임오버.png' />
+        {/* <h1 style= {{top: '10%', left: '60%'}}>{currentIdx} </h1>
+        <h2 style= {{top: '10%', left: '60%'}}>  님의 패배입니다.</h2> */}
+        <h1>'{currentIdx}' 님의 패배입니다.</h1>
       </div>
     </>
   )

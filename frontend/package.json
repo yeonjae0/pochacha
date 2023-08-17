@@ -25,12 +25,18 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.10.1",
     "react-redux": "^8.1.2",
+    "react-speech-recognition": "^3.10.0",
     "react-transition-group": "^4.4.5",
     "redux": "^4.2.1",
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.2",
+    "regenerator-runtime": "^0.14.0",
     "sockjs-client": "^1.6.1",
     "styled-components": "^6.0.6"
+  },
+  "devDependencies": {
+    "@types/node": "20.5.0",
+    "typescript": "5.1.6"
   }
 }

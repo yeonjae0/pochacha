@@ -31,16 +31,6 @@ public class GameController {
         this.gameService = gameService;
     }
 
-//    @PostMapping("start")
-//    private ResponseEntity<?> startGame(@RequestBody RoomRequestDto roomRequestDto) {
-//        try {
-//            Object[] cellStatusList = gameService.startGame(roomRequestDto);
-//            return ResponseEntity.ok(cellStatusList);
-//        } catch(GameGetException e) {
-//            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-//        }
-//    }
-
     @MessageMapping("/game/{roomId}")
     public void startGame(@Payload Map<String, Object> payload, @DestinationVariable String roomId) {
         try {

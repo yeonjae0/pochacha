@@ -5,18 +5,18 @@ import { useRouter } from "next/router";
 import DiceBox from "./DiceBox";
 import ActiveBoard from "./ActiveBoard";
 import GameSelect from "./GameSelect";
-import OpenViduVideoComponent from '@/pages/room/[id]/OvVideo.js'; /* OpenVidu 관련 */
-import styles from "@/styles/GamePage.module.css";
-import Videostyles from '@/styles/UserVideo.module.css';
+// import OpenViduVideoComponent from '@/pages/room/[id]/OvVideo.js'; /* OpenVidu 관련 */
+import OpenViduVideoComponent from '../../../pages/room/[id]/OvVideo.js'; /* OpenVidu 관련 */
+// import styles from "@/styles/GamePage.module.css";
+import styles from "../../../styles/GamePage.module.css";
+// import Videostyles from '@/styles/UserVideo.module.css';
+import Videostyles from '../../../styles/UserVideo.module.css';
 import { styled } from "styled-components";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
-//import axios from "axios";
 import { useSelector } from "react-redux";
-import RoomCam from "@/pages/room/[id]/RoomCam";
 
 /* 연재 : 모달 시작 */
-// 해야할 것: 모달 창 꾸미기
 const ModalContainer = styled.div`
   position: fixed;
   top: 0;
@@ -29,18 +29,17 @@ const ModalContainer = styled.div`
   justify-content: center;
 `;
 
-const ModalContent = styled.div`
-  background-color: white;
-  padding: 70px;
-  /* transition: visibility 0.5s ease-out; */
-  border-radius: 20px;
-`;
+// const ModalContent = styled.div`
+//   background-color: white;
+//   padding: 70px;
+//   border-radius: 20px;
+// `;
 
 export default function GamePage() {
   const router = useRouter();
 
   /* 제정 : RoomCam component에서 필요한 정보들 불러오기 시작 */
-  const session = useSelector(state => state.room.currentRoomId);
+  const session = useSelector(state => state.openvidu.session);
   const nickname = useSelector(state => state.player.currentNick);
   const publisher = useSelector(state => state.openvidu.publisher);
   const participants = useSelector(state => state.openvidu.participants);
@@ -49,7 +48,6 @@ export default function GamePage() {
   /* 혜지 : OpenVidu 관련 데이터 */
   const token = useSelector((state) => state.player.currentPlayerId);
   const roomId = useSelector((state) => state.room.currentRoomId);
-  //let includeMini = useSelector((state) => state.room.currentIncludeMini); // 미니게임 진행 여부
 
   let [dice, setDice] = useState(0); // 주사위
   let [pin, setPin] = useState(0); // 현재 위치
@@ -58,8 +56,10 @@ export default function GamePage() {
   let [currentCell, setCurrentCell] = useState("");
   let [showModal, setShowModal] = useState(false);
   let [prevDice, setPrevDice] = useState(0); // 이전 주사위 값 저장
+  let [visible, setVisible] = useState(false)
 
   const data = useSelector((state) => state.cell.currentBoard);
+  console.log(data)
   const cellObj = {
     one: data[0].status,
     two: data[1].status,
@@ -99,28 +99,62 @@ export default function GamePage() {
     client.current.connect({}, () => {
       // callback 함수 설정, 대부분 여기에 sub 함수 씀
       client.current.subscribe(`/topic/move/${roomId}`, (response) => {
-        let data = JSON.parse(response.body);
-        if(data.game.dice !== prevDice) {
-          setDice(data.game.dice);
-          setPin(data.game.pin);
-          setLab(data.game.lab);
-          setCurrentCell(data.cell.name);
+        console.log('response', response)
+        // 앞선 data 중복으로 변경 data -> position
+        let position = JSON.parse(response.body);
+        // if (data.game.dice !== prevDice) {
+          console.log('currentCell.move------>', position.cell.move)
+          console.log('position', position)
+          setDice(position.game.dice);
+          setPin(position.game.pin);
+          setLab(position.game.lab);
+          setCurrentCell(position.cell.name);
           handleRollDiceClick();
-        }
+          // console.log(typeof(position.game.pin))
+          // console.log(typeof(parseInt(position.game.pin)))
+          // console.log(typeof(position.cell.move))
+          // console.log('position', position)
+
+        //   if (parseInt(position.cell.move) != 1) {
+        //     setPin(position.game.pin)
+        //     setPin(parseInt(position.game.pin) + parseInt(position.cell.move));
+        //     setDice(position.game.dice);
+        //     setCurrentCell(position.cell.name);
+        //     handleRollDiceClick();
+        //   }
+        //   else {
+        //   setDice(position.game.dice);
+        //   setPin(position.game.pin);
+        //   setLab(position.game.lab);
+        //   setCurrentCell(position.cell.name);
+        //   handleRollDiceClick();
+        // }
+          if (position.cell.name == '두더지 게임' || position.cell.name == '라이어 게임' || position.cell.name == '훈민정음') {
+            setVisible(true)
+          }
+        // }
 
       });
-    });
+    }
+    );
   };
 
+  // function extendSession() {
+  //   session.extendSession();
+  //   // 세션 만료 시간을 현재 시간으로 연장
+  // }
+
   useEffect(() => {
-    // 최초 한 번 CellList 불러오기
-    //createMap();
     connectSocket();
     subscribeSocket();
 
     setTimeout(() => {
       client.current.send("/move/" + roomId, {}, JSON.stringify({ "reload": true }));
     }, 100); // 비동기화 문제 (시간 조절)
+
+    // 사용자 활동이 있을 때마다 세션 연장
+    // setInterval(extendSession, 300000); // 5분마다 세션 연장
+
   }, []);
 
   let handleRollDiceClick = () => {
@@ -129,18 +163,43 @@ export default function GamePage() {
     }, 1000);
     setTimeout(() => {
       setShowModal(false);
-    }, 2500);
-    // setShowModal(false)
+    }, 3000);
   };
+
+  const cellNameGif =
+  {'한 칸 앞으로 이동': '',
+   '한 칸 뒤로 이동': '',
+   '두 칸 앞으로 이동': '',
+   '벌칙 제거 (없으면 까비)': '',
+   '한 턴 영어 금지': '영어금지',
+   '한 턴 안주 금지': '안주금지',
+   '목소리 변조 벌칙': '목소리',
+   '페이스 필터 벌칙': '필터',
+   '걸린 사람 빼고 원샷': '원샷',
+   '원샷': '원샷',
+   '건배사': '건배사',
+   '물 1L 마시기': '1L',
+   '한 명 지목해서 같이 원샷': '원샷',
+   '코끼리코 52바퀴': '코끼리코',
+   '웃긴 썰 풀기': '웃썰',
+   '파워댄스': '댄스',
+   '카메라에 뽀뽀': '뽀뽀',
+   '다 함께 원샷': '원샷',
+   '성대모사': '성대모사',
+   '지금 바로 한잔 마시기': '한잔'
+  }
+
+  const cellValue = cellNameGif[currentCell];
 
   const ModalPage = ({ currentCell, pin }) => {
     return (
       <>
         {showModal && (
-          <ModalContainer id="modalContainer">
-            <ModalContent className={styles.modalContent} style={{ zIndex: "1" }}>
-              <p>{currentCell}</p>
-            </ModalContent>
+          <ModalContainer style={{ animation: 'fadeIn 2s' }}>
+            {/* <ModalContent className={styles.modalContent} style={{ zIndex: "1" }}> */}
+            <p>{cellValue && <img style={{ width: '400px' }} src={`/cell/${cellValue}.gif`}/>}</p>
+            <p style={{ fontFamily: 'LeeSeoyun', fontSize: '50px', color: '#FFFFFF' }}>{currentCell}</p>
+            {/* </ModalContent> */}
           </ModalContainer>
         )}
       </>
@@ -148,86 +207,113 @@ export default function GamePage() {
   };
   /* 연재 : 모달 끝 */
 
-  /* 희진 : 리랜더링 방지 시작 (map으로 가져오는 props를 해결해야 함) */
-  // const memoRoomCamPar = useMemo(() => {
-  //   return <OpenViduVideoComponent className={styles.cam} streamManager={par} />
-  // }, []);
 
-  // const MemoizedOpenViduVideoComponent = useMemo(({ className, streamManager }) => {
-  //   return <OpenViduVideoComponent className={className} streamManager={streamManager} />
-  // }, [className, streamManager])
+  /* 희진 : 리랜더링 방지 시작 */
+  // 방장 카메라
+  const memoRoomCamPub = useMemo(() => {
+    return <OpenViduVideoComponent className={styles.cam} streamManager={publisher} />
+  }, []);
+
+  // 참가자 카메라
+  const memoVideoFirst = useMemo(() => {
+    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[0].participant} />
+  }, [])
+
+  const memoVideoSecond = useMemo(() => {
+    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[1].participant} />
+  }, [])
+
+  const memoVideoThird = useMemo(() => {
+    return <OpenViduVideoComponent className={styles.cam} streamManager={participants[2].participant} />
+  }, [])
   /* 희진 : 리랜더링 방지 끝 */
 
-        return (
-        <div>
-          <div className={styles.container}>
-            <nav className={styles.infobar}>
-              <h5>
-                주사위 눈 : {dice}, 현재 {pin}번 블록에 위치, {lab}바퀴
-              </h5>
-            </nav>
-            <div>
 
-              <div>
-                <button className={styles.btnRolling} style={{ zIndex: '0' }} value="innerHTML" onClick={() => {
-                  client.current.send("/move/" + roomId, {}, JSON.stringify({}));
-                  handleRollDiceClick();
-                }}>주사위 굴리기</button>
-              </div>
-              
-              {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 시작*/}
-              {session !== undefined ? (
-                <div id="session">
-                  <div id="video-container" className={styles.grid_container}>
-                    {publisher !== undefined ? (
-                      <span className={Videostyles.streamcomponent} style={{ gridArea: 'cam1' }}>
-                        <OpenViduVideoComponent className={styles.cam}
-                          streamManager={publisher} />
-                        <div className={Videostyles.nickname}>{nickname}</div>
-                      </span>
-                    ) : null}
-                    {participants != null ? participants.map((par, i) => (
+  return (
+    <div>
+      <div className={styles.container}>
+        <nav className={styles.infobar}>
+          <h5>
+            주사위 눈 : {dice}, 현재 {pin}번 블록에 위치, {lab}바퀴
+          </h5>
+        </nav>
+
+        <div style={{ textAlign: 'center' }}>
+          <button className={styles.btnRolling} style={{ zIndex: '0' }} value="innerHTML" onClick={() => {
+            client.current.send("/move/" + roomId, {}, JSON.stringify({}));
+            handleRollDiceClick();
+          }}>주사위 굴리기</button>
+        </div>
+
+        {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 시작 */}
+        {session !== undefined ? (
+          <div id="session">
+            <div id="video-container" className={styles.grid_container}>
+
+              {publisher !== undefined ? (
+                <span className={Videostyles.streamcomponent} style={{ marginLeft: '50px', gridArea: 'cam1' }}>
+                  {memoRoomCamPub}
+                  {/* <OpenViduVideoComponent className={styles.cam} streamManager={publisher} /> */}
+                  <div className={Videostyles.nickname}>{nickname}</div>
+                </span>
+              ) : null}
+
+              {/* (희진 : 리랜더링 방지를 위해 주석 처리) */}
+              {/* {participants != null ? participants.map((par, i) => (
                       <span key={par.id} className={Videostyles.streamcomponent} style={{ gridArea: `cam${i + 2}` }}>
-                        {/* <MemoizedOpenViduVideoComponent className={styles.cam} streamManager={par} /> */}
                         <OpenViduVideoComponent className={styles.cam} streamManager={par} />
-                        {console.log(par.nick)}
                         <div className={Videostyles.nickname}>{par.nick}</div>
                       </span>
-                    )) : null}
+                    )) : null} */}
+              {/* (희진 : 리랜더링 방지를 위해 주석 처리) */}
+              {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 끝 */}
 
-                  </div>
-                </div>
+              {participants != null ? (
+                <>
+                  (participant[0]!=null?
+                  <span className={Videostyles.streamcomponent} style={{ marginRight: '50px', gridArea: `cam${0 + 2}` }}>
+                    {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[0]} /> */}
+                    {memoVideoFirst}
+                    <div className={Videostyles.nickname}>{participants[0].nick}</div>
+                  </span>
+                  :null)
+                  (participant[1]!=null?
+                  <span className={Videostyles.streamcomponent} style={{ marginLeft: '50px', gridArea: `cam${1 + 2}` }}>
+                    {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[1]} /> */}
+                    {memoVideoSecond}
+                    <div className={Videostyles.nickname}>{participants[1].nick}</div>
+                  </span>
+                  :null)
+                  (participant[2]!=null?
+                  <span className={Videostyles.streamcomponent} style={{ marginRight: '50px', gridArea: `cam${2 + 2}` }}>
+                    {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[2]} /> */}
+                    {memoVideoThird}
+                    <div className={Videostyles.nickname}>{participants[2].nick}</div>
+                  </span>
+                  :null)
+                </>
               ) : null}
-              {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 끝*/}
-
-              {/* <div className={styles.camList}>
-                <RoomCam />
-                {memoRoomCam}
-              </div> */}
-
-              <div>
-                {/* 이전 메인 보드 */}
-                {/* <ActiveBoard pin={pin} cellObj={cellObj} /> */}
-
-                {currentCell == "두더지 게임" ||
-                  currentCell == "라이어 게임" ||
-                  currentCell == "훈민정음" ? (
-                  <GameSelect currentCell={currentCell} />
-                ) : (
-                  <div>
-                    <DiceBox dice={dice} />
-                    <ActiveBoard pin={pin} cellObj={cellObj} />
-                  </div>
-                )}
-
-                {/* 희진 : Temporary Board (추후 삭제 예정) */}
-                {/* <div style={{ position: "absolute" }}><BoardMap pin={pin} style={{ bottom: "0" }} /></div> */}
-              </div>
             </div>
-            <>
-              <ModalPage currentCell={currentCell} pin={pin} />
-            </>
           </div>
-        </div>
-        );
+        ) : null}
+
+          <div>
+            {currentCell == "두더지 게임" ||
+              currentCell == "라이어 게임" ||
+              currentCell == "훈민정음" ? (
+              <GameSelect currentCell={currentCell} />
+            ) : (
+              <div>
+                <DiceBox dice={dice} />
+                <ActiveBoard pin={pin} cellObj={cellObj} />
+              </div>
+            )}
+          </div>
+
+        <>
+          <ModalPage currentCell={currentCell} pin={pin} />
+        </>
+      </div>
+    </div>
+  );
 }
