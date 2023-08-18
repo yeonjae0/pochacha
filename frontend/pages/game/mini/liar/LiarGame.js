@@ -113,7 +113,7 @@ function ShowWord(props) {
 
   setTimeout(() => {
     setInvisible(true)
-  }, 10000); // 일반인 & 라이어 단어 확인 시간, 빠른 테스트를 위한 시간 1초 설정(기존 값 = 7000)
+  }, 7000); // 일반인 & 라이어 단어 확인 시간, 빠른 테스트를 위한 시간 1초 설정(기존 값 = 7000)
 
   return (
     <div>
