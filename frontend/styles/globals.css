@@ -1,0 +1,88 @@
+@font-face {
+  font-family: 'NanumSquareRound';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'LeeSeoyun';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/LeeSeoyun.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'ChosunCentennial';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/ChosunCentennial.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'NanumSquareRound';
+  -webkit-touch-callout: none;
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+
+  margin: 0;
+  padding: 0;
+}
+
+input {
+  padding: 0 30px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 3px solid white;
+  border-radius: 80px;
+}
+
+input:focus {
+  outline: none;
+}
+
+button>img:active {
+  filter: brightness(0.8);
+}
+
+button {
+  background: none;
+  border: none;
+}
+
+video {
+  margin: 0 10px;
+}
+
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+}
+
+.roof {
+  /* 로고 담겨있는 DIV */
+  height: 160px;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+
+  background-image: url("../public/main/roof.png");
+  background-size: cover;
+}
+
+.roof2 {
+  /* 로고 담겨있는 DIV */
+  height: 5.2rem;
+
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+
+  background-image: url("../public/roof2.png");
+  background-size: cover;
+  z-index: 99;
+}

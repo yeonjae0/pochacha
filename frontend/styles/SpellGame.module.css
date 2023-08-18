@@ -1,0 +1,143 @@
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+.topSpellCompo {
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, 10%);
+}
+
+.wrapper {
+  /* height: 600px; */
+  height: 450px;
+  width: 650px;
+  display: flex;
+  justify-content: center;
+  background-color: gainsboro;
+  /* background-color: pink; 배경 확인을 위해 */
+}
+
+.upperContainer {
+  /* display: flex; */
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* 입력창 */
+.inputContainer {
+  width: 40%;
+  height: 50px;
+  text-align: center;
+  margin-top: 20px;
+  font-family: 'ChosunCentennial';
+  font-size: 1em;
+}
+
+.redBlock {
+  position: absolute;
+  width: 450px;
+  height: 350px;
+  background: hsl(0, 71%, 51%);
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  margin-top: 250px;
+}
+
+.miniBlock1 {
+  /* position: relative;  */
+  position: absolute; 
+  width: 150px;
+  height: 350px;
+  background: hsl(0, 71%, 51%);
+  top: 150px;
+  /* z-index: 10; */
+}
+
+.miniBlock2 {
+  /* position: relative;   */
+  position: absolute;  
+  width: 150px;
+  height: 350px;
+  background: hsl(0, 71%, 51%);
+  top: 150px;
+  left: 300px;
+/* z-index: 10; */
+}
+
+.modalContainer {
+  position: fixed;
+  /* top: 0;
+  left: 0; */
+  width: 100%;
+  height: 100%;
+  /* width: 200px;
+  height: 150px; */
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+.modalContainer2 {
+  position: fixed;
+  /* top: 0;
+  left: 0; */
+  width: 100%;
+  height: 100%;
+  /* width: 200px;
+  height: 150px; */
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.modalContent {
+  animation: fadeIn 6s;
+  background: #beaf7b;
+  color: black;
+  font-size: 1.5em;
+  border-radius: 10px;  
+  transform: matrix(1, 0, 0, 1, 0, 0);
+  /* animation: fadeOut 1s; */
+}
+
+.modalContent2 {
+  animation: fadeIn 3s;
+  background: #da5c3a;
+  color: black;
+  font-size: 1.5em;
+  border-radius: 10px;  
+  transform: matrix(1, 0, 0, 1, 0, 0);
+  /* animation: fadeOut 1s; */
+}
+
+.logoImg {
+  width: 100px;
+}
+
+/* 
+.sejongImg {
+  position: "absolute";
+  left: 125px;
+  width: 350px;
+  margin-top: -350px;
+} */
+
+.gameOver{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 400px;
+  transform: translate(-50%, 50%);
+}

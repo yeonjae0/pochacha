@@ -1,0 +1,53 @@
+stages:
+  - build
+  - docker-rno-deploy
+  - docker-samr-deploy
+
+react-nextjs-build:
+  stage: build
+  tags:
+    - deploy
+  image: node:18.16.1-alpine
+  script: 
+    - cd frontend
+    - npm install next
+    - npm install .
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/out
+
+docker-react-nextjs-openvidu-deploy:
+  stage: docker-rno-deploy
+  tags:
+  - deploy
+  image: docker:latest
+  services: 
+    - docker:19.03.8-dind
+  before_script:
+    - echo "$DOCKER_HUB_PW" | docker login -u "$DOCKER_HUB_USER" --password-stdin
+  script:
+    - RD openvidu/out -Force -Recurse
+    - Move-Item -Path ".\frontend\out" -Destination ".\openvidu"
+    - cd openvidu
+    - docker-compose down
+    - docker-compose up -d
+  after_script:
+    - docker logout
+
+docker-spring-api-mariadb-redis-deploy:
+  image: docker:latest
+  stage: docker-samr-deploy
+  tags:
+    - deploy
+  services:
+    - docker:19.03.8-dind
+  before_script:
+    - echo "$DOCKER_HUB_PW" | docker login -u "$DOCKER_HUB_USER" --password-stdin
+  script:
+    - cd backend/oho
+    - ./gradlew clean build
+    - docker-compose down
+    - docker-compose up -d
+  after_script:
+    - docker logout
