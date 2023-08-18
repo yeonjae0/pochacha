@@ -1,0 +1,126 @@
+.gameContainer {
+  background-color: lightsalmon;
+  width: 450px;
+  height: 450px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  }
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button {
+  margin: 10px;
+  width: 110px;
+  height: 50px;
+  background: #fc9f36;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
+  font-size: 25px;
+  font-weight: 600;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.roof {
+  /* 로고 담겨있는 DIV */
+  height: 160px;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+
+  background-image: url("../public/main/roof.png");
+  background-size: cover;
+}
+
+.title {
+  /* 로고 이미지 */
+  width: 350px;
+}
+
+.boxContainer {
+  padding-top: 160px;
+  display: flex;
+  justify-content: center;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  min-width: 500px;
+  min-height: 500px;
+
+  background-image: url("../public/main/woodbox.png");
+  background-size: cover;
+}
+
+.checkword {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.addTimebtn {
+  width: 100px;
+  height: 60px;
+  background-color: #000;
+  color: white;
+  margin-top: 20px;
+  border-radius: 5px;
+  font-size: larger;
+}
+
+.voteContainer {
+  width: 450px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  }
+
+.fieldSet {
+  width: 400px;
+  height: 200px;
+}
+
+.legend {
+  background-color: #000;
+  color: #FFFFFF;
+  padding: 3px 6px;
+}
+
+.beforeVotebtn {
+  width: 100px;
+  height: 60px;
+  background-color: #000;
+  color: white;
+  margin-top: 20px;
+  border-radius: 5px;
+  font-size: larger;
+}
+
+.voteCompletebtn {
+  width: 100px;
+  height: 60px;
+  background-color: gray;
+  color: white;
+  margin-top: 20px;
+  border-radius: 5px;
+  font-size: larger;
+}
+
+.resultContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
