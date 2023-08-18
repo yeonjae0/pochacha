@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from 'next/router';
-import styles from "@/styles/SpellGame.module.css";
+// import styles from "@/styles/SpellGame.module.css";
+import styles from "../../../../styles/SpellGame.module.css";
 import SpellGame from "./SpellGame";
 
 export default function SpellTimer() {

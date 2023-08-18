@@ -5,7 +5,8 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { changeMini } from "@/store/reducers/room.js";
+// import { changeMini } from "@/store/reducers/room.js";
+import { changeMini } from "../../../store/reducers/room";
 
 // Room 입장시 받은 router.query를 props로 활용
 export default function RoomBtn(props) {

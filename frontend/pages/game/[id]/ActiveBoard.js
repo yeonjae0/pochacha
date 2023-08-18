@@ -1,7 +1,8 @@
 'use client'
 
 import React, { useRef, useEffect, useState } from 'react';
-import styles from '@/styles/ActiveMap.module.css';
+// import styles from '@/styles/ActiveMap.module.css';
+import styles from '../../../styles/ActiveMap.module.css';
 
 export default function ActiveBoard({ pin, cellObj, currentCellObj }) {
 

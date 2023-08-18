@@ -1,5 +1,6 @@
 import React, {useEffect, useRef} from "react";
-import styles from "@/styles/UserVideo.module.css";
+// import styles from "@/styles/UserVideo.module.css";
+import styles from "../../../styles/UserVideo.module.css";
 // import * as deepar from "deepar";
 
 export default function OpenViduVideoComponent(props) {

@@ -1,8 +1,9 @@
 import React from "react";
 import OpenViduVideoComponent from "./OvVideo";
 import { useSelector } from "react-redux";
-import Roomstyles from "@/styles/RoomPage.module.css";
-import Videostyles from "@/styles/UserVideo.module.css";
+// import Roomstyles from "@/styles/RoomPage.module.css";
+import Roomstyles from "../../../styles/RoomPage.module.css";
+import Videostyles from "../../../styles/UserVideo.module.css";
 // import * as deepar from "deepar";
 
 export default function RoomCam() {
@@ -27,6 +28,7 @@ export default function RoomCam() {
                       <OpenViduVideoComponent
                         className={Roomstyles.cam}
                         streamManager={par.participant}
+                        isAudioChanged={true}
                       />
                       {console.log(par.nick)}
                       <div className={Videostyles.nickname}>{par.nick}</div>
@@ -37,7 +39,7 @@ export default function RoomCam() {
 
             {publisher !== undefined ? (
               <span className={Videostyles.streamcomponent}>
-                <OpenViduVideoComponent className={Roomstyles.cam} streamManager={publisher} />
+                <OpenViduVideoComponent className={Roomstyles.cam} streamManager={publisher} isAudioChanged={false} />
                 <div className={Videostyles.nickname}>{nickname}</div>
               </span>
             ) : null}

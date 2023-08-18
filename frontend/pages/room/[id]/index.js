@@ -9,11 +9,14 @@ import axios from "axios";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 import { useDispatch, useSelector } from "react-redux";
-import { addPlayers, resetPlayers, addTmpPlayer, resetTmpPlayers, updateTmpPlayer, deleteTmpPlayer, checkReady } from "@/store/reducers/players.js";
-import { ready } from "@/store/reducers/player.js";
-import { openViduActions } from "@/store/reducers/openvidu";
-import { setCells, setTurns } from "@/store/reducers/cell";
-import styles from "@/styles/RoomPage.module.css";
+// import { addPlayers, resetPlayers, addTmpPlayer, resetTmpPlayers, updateTmpPlayer, deleteTmpPlayer, checkReady } from "@/store/reducers/players.js";
+import { addPlayers, resetPlayers, addTmpPlayer, resetTmpPlayers, updateTmpPlayer, deleteTmpPlayer, checkReady } from "../../../store/reducers/players";
+// import { ready } from "@/store/reducers/player.js";
+import { ready } from "../../../store/reducers/player.js";
+// import { openViduActions } from "@/store/reducers/openvidu";
+import { openViduActions } from "../../../store/reducers/openvidu";
+import { setCells, setTurns } from "../../../store/reducers/cell";
+import styles from "../../../styles/RoomPage.module.css";
 import { OpenVidu } from "openvidu-browser";
 
 export default function RoomPage() {

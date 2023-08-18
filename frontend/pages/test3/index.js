@@ -2,10 +2,12 @@
 
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { enterRoom } from "@/store/reducers/room.js";
-import { resetPlayers, resetTmpPlayers } from "@/store/reducers/players";
-import { setMyData } from "@/store/reducers/player";
-import { resetOpenvidu } from "@/store/reducers/openvidu";
+// import { enterRoom } from "@/store/reducers/room.js";
+import { enterRoom } from "../../store/reducers/room";
+// import { resetPlayers, resetTmpPlayers } from "@/store/reducers/players";
+import { resetPlayers, resetTmpPlayers } from "../../store/reducers/players";
+import { setMyData } from "../../store/reducers/player";
+import { resetOpenvidu } from "../../store/reducers/openvidu";
 
 function ResetPage() {
   const dispatch = useDispatch();

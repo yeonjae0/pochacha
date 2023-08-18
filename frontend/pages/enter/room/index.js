@@ -4,14 +4,17 @@ import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import RightBox from "../RightBox";
 // import MusicPlayer from "@/pages/data/MusicPlayer";
-import styles from "@/styles/EnterPage.module.css";
+// import styles from "@/styles/EnterPage.module.css";
+import styles from "../../../styles/EnterPage.module.css";
 import classNames from "classnames";
 import axios from "axios";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 import { useDispatch } from "react-redux";
-import { enterRoom } from "@/store/reducers/room.js";
-import { setMyData } from "@/store/reducers/player";
+// import { enterRoom } from "@/store/reducers/room.js";
+import { enterRoom } from "../../../store/reducers/room";
+// import { setMyData } from "@/store/reducers/player";
+import { setMyData } from "../../../store/reducers/player";
 
 /* 비방장 입장 페이지 */
 export default function EnterRoomPage() {

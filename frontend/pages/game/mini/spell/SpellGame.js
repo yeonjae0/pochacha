@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useInsertionEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import styles from "@/styles/SpellGame.module.css";
+// import styles from "@/styles/SpellGame.module.css";
+import styles from "../../../../styles/SpellGame.module.css";
 import axios from "axios";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
-import { startGame, losingPlayer, setCurrentPlayer } from "@/store/reducers/spell";
+// import { startGame, losingPlayer, setCurrentPlayer } from "@/store/reducers/spell";
+import { startGame, losingPlayer, setCurrentPlayer } from "../../../../store/reducers/spell";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 
 export default function MainSpell({ sec, resetSec }) {
