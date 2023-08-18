@@ -6,7 +6,7 @@ import { Stomp } from '@stomp/stompjs';
 import styles from '@/styles/LiarGame.module.css';
 
 
-export default function VoteLiarComponent(){
+export default function VoteLiarComponent() {
   const roomId = useSelector(state => state.room.currentRoomId);
   const currentPlayer = useSelector(state => state.player)
   const players = useSelector(state => state.players.tmpPlayers)
@@ -19,15 +19,8 @@ export default function VoteLiarComponent(){
   const [word, setWord] = useState('');
   const [playerList, setPlayerList] = useState(Object.keys(players))
 
-
-
-  // console.log('플레이어', currentPlayer)
-  // console.log('플레이어들', players)
-  // console.log('플레이어 리스트', playerList)
-  
   const handleRadioChange = (event) => {
-    setSelectedPlayer(event.target.id)
-    console.log(selectedPlayer)
+    setSelectedPlayer(event.target.id);
   }
 
   const connectSocket = () => {
@@ -36,28 +29,25 @@ export default function VoteLiarComponent(){
       return sock;
     });
   }
-  
+
   const subscribeSocket = () => {
     client.current.connect({}, () => {
       client.current.subscribe(`/topic/mini/liar/vote/${roomId}`, (response) => {
         let data = JSON.parse(response.body);
-        console.log(data);
-        if(data.total === 4){
+        if (data.total === 4) {
           //모두 투표 완료
-          if(data.tiebreak === false) {
+          if (data.tiebreak === false) {
             //승패 결정
             setLiar(data.liar)
             setWord(data.word)
-            if(data.winner === true) {
+            if (data.winner === true) {
               //라이어 승
-              console.log('라이어 승리!!!!')
-              setStageStatus('liarWin')
+              setStageStatus('liarWin');
               // status >> liarWin으로 설정하여 멘트 표시
             }
             else {
               //세명의 승
-              console.log('라이어 패배!!!!')
-              setStageStatus('liarLose')
+              setStageStatus('liarLose');
               // status >> liarLose으로 설정하여 멘트 표시
             }
           }
@@ -74,19 +64,15 @@ export default function VoteLiarComponent(){
       })
     })
   }
-  
+
   useEffect(() => {
     connectSocket();
     subscribeSocket();
   }, [])
 
   const handleVoteClick = () => {
-    console.log('------------------------')
-    console.log('투표하기 클릭 시 선택된 플레이어', selectedPlayer)
-    console.log('send 처리 전 voteStatus', voteStatus)
-    console.log('------------------------')
-    if(!voteStatus) {
-      if(selectedPlayer){
+    if (!voteStatus) {
+      if (selectedPlayer) {
         let sendData = {
           "playerId": currentPlayer.currentPlayerId,
           "vote": selectedPlayer,
@@ -100,101 +86,98 @@ export default function VoteLiarComponent(){
       } else {
         alert('플레이어를 선택해주세요!')
       }
-      }
+    }
   }
 
   const handleVoteComplete = () => {
-    if(voteStatus) {
+    if (voteStatus) {
       alert('이미 투표에 참여하셨습니다.')
-      }
+    }
   }
 
   return (
     <>
-    {
-      stageStatus === 'voting' ?
-      (<>
-        <h1 style={{marginBottom: '30px'}}>누가 거짓말을 하고 있을까?</h1>
-      <div className={styles.voteContainer}>
-          <fieldset className={styles.fieldSet}>
-            <legend className={styles.legend}>라이어라고 생각되는 사람에게 투표하세요</legend>
-            <div>
-            {
-              playerList.map((player, i) => (
-                <label key={i}>
-                  <input style={{marginTop:'20px'}} type="radio" id={players[player].id} name="votePlayer" value={players[player].nickname} onChange={handleRadioChange}/>
-                  <span style={{fontSize: '18px'}}>{players[player].nickname}</span><br />
-                </label>
-              ))
-            }
-            </div>
-          </fieldset>
-          {
-            voteStatus == false ?
-              (<button className={styles.beforeVotebtn} onClick={handleVoteClick}>투표하기</button>)
-            : (<button className={styles.voteCompletebtn} onClick={handleVoteComplete}>투표완료</button>)
+      {
+        stageStatus === 'voting' ?
+          (<>
+            <h1 style={{ marginBottom: '30px' }}>누가 거짓말을 하고 있을까?</h1>
+            <div className={styles.voteContainer}>
+              <fieldset className={styles.fieldSet}>
+                <legend className={styles.legend}>라이어라고 생각되는 사람에게 투표하세요</legend>
+                <div>
+                  {
+                    playerList.map((player, i) => (
+                      <label key={i}>
+                        <input style={{ marginTop: '20px' }} type="radio" id={players[player].id} name="votePlayer" value={players[player].nickname} onChange={handleRadioChange} />
+                        <span style={{ fontSize: '18px' }}>{players[player].nickname}</span><br />
+                      </label>
+                    ))
+                  }
+                </div>
+              </fieldset>
+              {
+                voteStatus == false ?
+                  (<button className={styles.beforeVotebtn} onClick={handleVoteClick}>투표하기</button>)
+                  : (<button className={styles.voteCompletebtn} onClick={handleVoteComplete}>투표완료</button>)
 
-          }
-      </div>
-      </>)
-      : <LiarResult stageStatus={stageStatus} liar={liar} currentPlayer={currentPlayer.currentPlayerId} word={word}/>
-    }
-      </>
-      )
+              }
+            </div>
+          </>)
+          : <LiarResult stageStatus={stageStatus} liar={liar} currentPlayer={currentPlayer.currentPlayerId} word={word} />
+      }
+    </>
+  )
 }
 
 function LiarResult(props) {
   const players = useSelector(state => state.players.tmpPlayers)
-  let word = props.word
-  console.log(word)
-  let stageStatus = props.stageStatus
-  console.log(stageStatus)
+  let word = props.word;
+  let stageStatus = props.stageStatus;
   let isLiar = null
   // false면 일반인, true면 라이어
   if (props.currentPlayer === props.liar) {
-  isLiar = true
+    isLiar = true
   } else {
-  isLiar = false
+    isLiar = false;
   }
-  console.log(isLiar)
-  let liarNick = players[props.liar].nickname
+  let liarNick = players[props.liar].nickname;
 
-  
+
   return (
     <div className={styles.resultContainer}>
       {
         stageStatus === 'liarWin' ?
-        (
-          (isLiar == true) ?
           (
-          <div>
-            <h1>축하합니다.<br/>당신의 승리입니다.</h1><br/>
-            <h2>제시 단어는 <span style={{fontSize: 'xx-large'}}>{word}</span> 입니다.</h2>
-          </div>
+            (isLiar == true) ?
+              (
+                <div>
+                  <h1>축하합니다.<br />당신의 승리입니다.</h1><br />
+                  <h2>제시 단어는 <span style={{ fontSize: 'xx-large' }}>{word}</span> 입니다.</h2>
+                </div>
+              )
+              : (
+                <div>
+                  <h1>아쉽네요.<br /> 라이어의 승리입니다.</h1>
+                  <div>
+                    <h2>라이어는<br /> <span style={{ fontSize: 'xx-large' }}>{liarNick}</span><br /> 입니다.</h2>
+                  </div>
+                </div>)
           )
           : (
-            <div>
-              <h1>아쉽네요.<br/> 라이어의 승리입니다.</h1>
-              <div>
-                <h2>라이어는<br/> <span style={{fontSize: 'xx-large'}}>{liarNick}</span><br/> 입니다.</h2>
-              </div>
-            </div>)
-        )
-        : (
-          (isLiar == true) ?
-          (
-          <div>
-            <h1>아쉽네요.<br/>당신의 패배입니다.</h1><br/>
-            <h2>제시 단어는 <span style={{fontSize: 'xx-large'}}>{word}</span> 입니다.</h2>
-          </div>
-          )
-          : (
-            <div>
-              <h1>축하합니다.<br/> 당신의 승리입니다.</h1>
-              <div>
-              <h2>라이어는<br/> <span style={{fontSize: 'xx-large'}}>{liarNick}</span><br/> 입니다.</h2>
-              </div>
-            </div>)
+            (isLiar == true) ?
+              (
+                <div>
+                  <h1>아쉽네요.<br />당신의 패배입니다.</h1><br />
+                  <h2>제시 단어는 <span style={{ fontSize: 'xx-large' }}>{word}</span> 입니다.</h2>
+                </div>
+              )
+              : (
+                <div>
+                  <h1>축하합니다.<br /> 당신의 승리입니다.</h1>
+                  <div>
+                    <h2>라이어는<br /> <span style={{ fontSize: 'xx-large' }}>{liarNick}</span><br /> 입니다.</h2>
+                  </div>
+                </div>)
           )
       }
     </div>

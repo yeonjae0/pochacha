@@ -3,7 +3,6 @@ import 'regenerator-runtime/runtime';
 import React from "react";
 import App, { Container } from "next/app";
 import { Provider } from "react-redux";
-// import withRedux from "next-redux-wrapper";
 import { persistor } from "@/store/index";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, wrapper } from "../store/index";
@@ -18,12 +17,12 @@ class MyApp extends App {
   }
 
   render() {
-    const { Component, pageProps} = this.props;
+    const { Component, pageProps } = this.props;
 
     return (
       <Provider store={store}>
         <PersistGate persistor={persistor}>
-          <Component {...pageProps} />  
+          <Component {...pageProps} />
         </PersistGate>
       </Provider>
     );
@@ -31,30 +30,3 @@ class MyApp extends App {
 }
 
 export default wrapper.withRedux(MyApp);
-
-
-
-
-
-
-// class EnhancedApp extends App {
-//   static async getInitialProps({ Component }) {
-//     return {
-//       pageProps: Component.getInitialProps
-
-//     };
-//   }
-
-//   render() {
-//     const { Component, pageProps, store } = this.props;
-//     return (
-//       <Container>
-//         <Provider store={store}>
-//           <Component {...pageProps} />
-//         </Provider>
-//       </Container>
-//     );
-//   }
-// }
-
-// export default withRedux(store)(EnhancedApp);

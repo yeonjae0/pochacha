@@ -1,10 +1,8 @@
 import React from 'react';
 import styles from '@/styles/Dice.module.css';
 
-// export default function Dice({ face, diceWidth }) {
 export default function Dice({ face }) {
 
-  // const newWidth = diceWidth / 8;
   const newWidth = 30;
 
 return (

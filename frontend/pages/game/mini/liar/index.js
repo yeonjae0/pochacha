@@ -20,7 +20,6 @@ export default function Liar() {
 
   useEffect(() => {
     if (time.current <= -1) {
-      // console.log('시간 초과')
       clearInterval(timerId.current);
       setRule(null)
     }

@@ -46,8 +46,6 @@ function MoleGame({ sec }) {
     client.current.connect({}, () => {
       client.current.subscribe(`/topic/mini/mole/${roomId}`, (response) => {
         let data = JSON.parse(response.body);
-        console.log("두더지 게임 집계");
-        console.log(data);
         if (data.finish) {
           setReady('done')
           setResult(data.result)
@@ -214,21 +212,3 @@ function Result(props) {
     </div>
   )
 }
-
-/* 희진 : 결과 컴포넌트 끝 */
-
-// /* 희진 : [승패 여부] Game Over 컴포넌트 시작 */
-// function Gameover({ score }) {
-
-//   let margin = 30 - score
-
-//   return (
-//     <div style={{ textAlign: 'center' }}>
-//       <h3 style={{ marginBottom: '20px' }}>{margin}마리가 부족해요 ~^^~</h3>
-//       <div className={styles.end}>
-//         <img className={styles.slideInEllipticBottomFwd} src="/두더지_X.png" />
-//       </div>
-//     </div>
-//   )
-// }
-// /* 희진 : Game Over 컴포넌트 끝 */

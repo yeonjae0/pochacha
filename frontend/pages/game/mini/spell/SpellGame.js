@@ -140,9 +140,6 @@ export default function MainSpell({ sec, resetSec }) {
 
     setTimeout(() => {
       setShowModal2(false);
-      // return () => {
-      //   clearTimeout(timeout);
-      // };
     }, 3000); 
   })
 
@@ -198,7 +195,6 @@ export default function MainSpell({ sec, resetSec }) {
               placeholder="단어를 입력하세요"
               value={transcript}
               className={styles.inputContainer}
-              // disabled={cnt !== currentPlayerIndex} // -> 이 부분은 멀티플레이 실행 후 계산
             />
           )}
           {listening && <span>음성 입력 중..</span>}
@@ -274,5 +270,3 @@ export default function MainSpell({ sec, resetSec }) {
     </>
   );
 }
-
-// export default SpellGame;

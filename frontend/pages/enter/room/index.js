@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import RightBox from "../RightBox";
-// import MusicPlayer from "@/pages/data/MusicPlayer";
 import styles from "@/styles/EnterPage.module.css";
 import classNames from "classnames";
 import axios from "axios";
@@ -25,12 +24,7 @@ export default function EnterRoomPage() {
     const socket = new SockJS(process.env.NEXT_PUBLIC_WS + "/ws");
     const stompClient = Stomp.over(socket);
 
-    stompClient.connect(
-      {},
-      /*Connect Callback*/() => {
-        console.log("Socket Connected.");
-      }
-    );
+    stompClient.connect({}, () => { });
   }, []);
   /* 유영 : 소켓 간단 연결 작업 끝 */
 
@@ -102,9 +96,6 @@ export default function EnterRoomPage() {
       },
     })
       .then((response) => {
-        // console.log("GAME START");
-        // console.log("response.data", response.data);
-
         obj = {
           roomId: roomId, //오픈비두 세션
 
@@ -161,40 +152,10 @@ export default function EnterRoomPage() {
       });
   };
 
-  /* 희진 : 배경 음악 추가 시작 */
-  /* 초대 코드로 들어온 방에서는 재생 안 됨 */
-  // function MusicPlayer() {
-  //   const [isPlaying, setIsPlaying] = useState(true);
-  //   const audioUrl = "sound/intro.mp3";
-
-  //   const togglePlay = () => {
-  //     setIsPlaying(!isPlaying);
-  //   };
-
-  //   useEffect(() => {
-  //     if (isPlaying) {
-  //       const audioElement = document.querySelector("audio");
-  //       audioElement.play();
-  //     }
-  //   }, [isPlaying]);
-
-  //   return (
-  //     <div>
-  //       <button onClick={togglePlay}>
-  //         {isPlaying ? "Pause" : "Play"}
-  //       </button>
-  //       <audio autoPlay={isPlaying}>
-  //         <source src={audioUrl} type="audio/mpeg" />
-  //       </audio>
-  //     </div>
-  //   );
-  // };
-  /* 희진 : 배경 음악 추가 끝 */
-
   return (
     <div className={styles.container}>
       {/* <div style={{ display: 'none' }}> */}
-        {/* <MusicPlayer /> */}
+      {/* <MusicPlayer /> */}
       {/* </div> */}
       {/* 타이틀 화면 */}
       <div className="roof">

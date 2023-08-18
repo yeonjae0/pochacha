@@ -21,9 +21,6 @@ const spellSlice = createSlice({
     setCurrentPlayer: (state, action) => {
       state.currentPlayerId = action.payload.id;
     }
-    // startGame: (state, action) => {
-    //   state.currentConsonant = action.payload.consonant;
-    // },
   }
 });
 

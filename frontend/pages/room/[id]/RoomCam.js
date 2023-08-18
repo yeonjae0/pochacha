@@ -3,17 +3,12 @@ import OpenViduVideoComponent from "./OvVideo";
 import { useSelector } from "react-redux";
 import Roomstyles from "@/styles/RoomPage.module.css";
 import Videostyles from "@/styles/UserVideo.module.css";
-// import * as deepar from "deepar";
 
 export default function RoomCam() {
   const session = useSelector((state) => state.openvidu.session);
   const nickname = useSelector((state) => state.player.currentNick);
   const publisher = useSelector((state) => state.openvidu.publisher);
   const participants = useSelector((state) => state.openvidu.participants);
-
-  console.log("Room Cam");
-  console.log(publisher);
-  console.log(participants);
 
   return (
     <div className="container">
@@ -28,7 +23,6 @@ export default function RoomCam() {
                         className={Roomstyles.cam}
                         streamManager={par.participant}
                       />
-                      {console.log(par.nick)}
                       <div className={Videostyles.nickname}>{par.nick}</div>
                     </span>
                   ) : null

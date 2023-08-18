@@ -15,5 +15,4 @@ export default function OpenViduVideoComponent(props) {
         <video autoPlay={true} ref={videoRef} className={styles.videofilter} />
     </div>
   );
-  // }
 }
