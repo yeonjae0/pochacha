@@ -24,7 +24,6 @@ export default function Timer() {
   
   return (
     <div>
-    {/* <div style={{ backgroundColor: '#9DE551', height: '100vh' }}> */}
       <MoleGame sec={sec} />
     </div>
   )

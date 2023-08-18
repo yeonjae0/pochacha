@@ -189,10 +189,8 @@ export default function GamePage() {
       <>
         {showModal && (
           <ModalContainer style={{ animation: 'fadeIn 2s' }}>
-            {/* <ModalContent className={styles.modalContent} style={{ zIndex: "1" }}> */}
             <p>{cellValue && <img style={{ width: '400px' }} src={`/cell/${cellValue}.gif`} />}</p>
             <p style={{ fontFamily: 'LeeSeoyun', fontSize: '50px', color: '#FFFFFF' }}>{currentCell}</p>
-            {/* </ModalContent> */}
           </ModalContainer>
         )}
       </>
@@ -260,8 +258,6 @@ export default function GamePage() {
           <h5>
             주사위 눈 : {dice}, 현재 {pin}번 블록, {lab}바퀴 째
           </h5>
-          {/* <h3>{cnt}</h3> */}
-          {/* <h5> {tmpPlayers[playersIdList[cnt]].nickname}님의 차례입니다.</h5> */}
           <h5> {tmpPlayers[setTurns[cnt]].nickname}님의 차례입니다.</h5>
         </nav>
 
@@ -293,35 +289,21 @@ export default function GamePage() {
               {publisher !== undefined ? (
                 <span className={Videostyles.streamcomponent} style={{ marginLeft: '50px', gridArea: 'cam1' }}>
                   {memoRoomCamPub}
-                  {/* <OpenViduVideoComponent className={styles.cam} streamManager={publisher} /> */}
                   <div className={Videostyles.nickname}>{nickname}</div>
                 </span>
               ) : null}
 
-              {/* (희진 : 리랜더링 방지를 위해 주석 처리) */}
-              {/* {participants != null ? participants.map((par, i) => (
-                      <span key={par.id} className={Videostyles.streamcomponent} style={{ gridArea: `cam${i + 2}` }}>
-                        <OpenViduVideoComponent className={styles.cam} streamManager={par} />
-                        <div className={Videostyles.nickname}>{par.nick}</div>
-                      </span>
-                    )) : null} */}
-              {/* (희진 : 리랜더링 방지를 위해 주석 처리) */}
-              {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 끝 */}
-
               {participants != null ? (
                 <>
                   <span className={Videostyles.streamcomponent} style={{ marginRight: '50px', gridArea: `cam${0 + 2}` }}>
-                    {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[0]} /> */}
                     {memoVideoFirst}
                     <div className={Videostyles.nickname}>{participants[0].nick}</div>
                   </span>
                   <span className={Videostyles.streamcomponent} style={{ marginLeft: '50px', gridArea: `cam${1 + 2}` }}>
-                    {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[1]} /> */}
                     {memoVideoSecond}
                     <div className={Videostyles.nickname}>{participants[1].nick}</div>
                   </span>
                   <span className={Videostyles.streamcomponent} style={{ marginRight: '50px', gridArea: `cam${2 + 2}` }}>
-                    {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[2]} /> */}
                     {memoVideoThird}
                     <div className={Videostyles.nickname}>{participants[2].nick}</div>
                   </span>

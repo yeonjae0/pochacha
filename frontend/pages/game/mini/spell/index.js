@@ -46,10 +46,7 @@ function GameOver() {
   return (
     <>
       <div className={styles.gameOver}>
-        {/* <img src="/초성_세종대왕_화남.png" /> */}
         <img src='/초성_게임오버.png' />
-        {/* <h1 style= {{top: '10%', left: '60%'}}>{currentIdx} </h1>
-        <h2 style= {{top: '10%', left: '60%'}}>  님의 패배입니다.</h2> */}
         <h1>'{tmpPlayers[currentPlayerId].nickname}' 님의 패배입니다.</h1>
       </div>
     </>

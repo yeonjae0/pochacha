@@ -154,9 +154,6 @@ export default function EnterRoomPage() {
 
   return (
     <div className={styles.container}>
-      {/* <div style={{ display: 'none' }}> */}
-      {/* <MusicPlayer /> */}
-      {/* </div> */}
       {/* 타이틀 화면 */}
       <div className="roof">
         <img className={styles.title} src="/main/title.png" />

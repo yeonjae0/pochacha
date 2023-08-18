@@ -167,7 +167,6 @@ export default function MainSpell({ sec, resetSec }) {
       {showModal == false ? (
         <div className={styles.modalContainer}>
           <div className={styles.modalContent}>
-            {/* <img className="logoImg" src="/로고_훈민정음.png" /> */}
             <p>10초 안에 제시된 초성과 일치하는 단어를 입력하세요.</p>
             <p>*두 글자의 단어만 입력 가능합니다.*</p>
 
