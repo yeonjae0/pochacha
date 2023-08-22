@@ -1,0 +1,1 @@
+(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[530],{3464:function(n,_,i){(window.__NEXT_P=window.__NEXT_P||[]).push(["/game/mini/liar/LiarGame",function(){return i(5313)}])}},function(n){n.O(0,[313,774,888,179],function(){return n(n.s=3464)}),_N_E=n.O()}]);

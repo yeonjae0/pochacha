@@ -1,0 +1,625 @@
+2023-08-16T07:13:42,215468 1 0x00007f8be493d280    info KurentoMediaServer        main.cpp:196 main()  Logs storage path set to /opt/openvidu/kurento-logs
+2023-08-16T07:13:42,216796 1 0x00007f8be493d280    info KurentoModuleManager      ModuleManager.cpp:89 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsfiltersmodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsfiltersmodule.so
+2023-08-16T07:13:42,216852 1 0x00007f8be493d280    info KurentoModuleManager      ModuleManager.cpp:136 loadModule()  Loaded module: filters, version: 7.0.1, date: Apr 27 2023 10:10:39
+2023-08-16T07:13:42,225589 1 0x00007f8be493d280    info KurentoModuleManager      ModuleManager.cpp:89 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmselementsmodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmselementsmodule.so
+2023-08-16T07:13:42,225654 1 0x00007f8be493d280    info KurentoModuleManager      ModuleManager.cpp:136 loadModule()  Loaded module: elements, version: 7.0.1, date: Apr 27 2023 10:04:13
+2023-08-16T07:13:42,226112 1 0x00007f8be493d280    info KurentoModuleManager      ModuleManager.cpp:89 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmscoremodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmscoremodule.so
+2023-08-16T07:13:42,226161 1 0x00007f8be493d280    info KurentoModuleManager      ModuleManager.cpp:136 loadModule()  Loaded module: core, version: 7.0.1, date: Apr 27 2023 09:57:38
+2023-08-16T07:13:42,226785 1 0x00007f8be493d280    info KurentoModuleManager      ModuleManager.cpp:89 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmschromamodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmschromamodule.so
+2023-08-16T07:13:42,226829 1 0x00007f8be493d280    info KurentoModuleManager      ModuleManager.cpp:136 loadModule()  Loaded module: chroma, version: 7.0.1, date: Apr 27 2023 10:14:27
+2023-08-16T07:13:42,227607 1 0x00007f8be493d280    info KurentoModuleManager      ModuleManager.cpp:89 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsdatachannelexamplemodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsdatachannelexamplemodule.so
+2023-08-16T07:13:42,227668 1 0x00007f8be493d280    info KurentoModuleManager      ModuleManager.cpp:136 loadModule()  Loaded module: datachannelexample, version: 7.0.1, date: Apr 27 2023 10:15:03
+2023-08-16T07:13:42,227719 1 0x00007f8be493d280    info KurentoMediaServer        main.cpp:240 main()  Kurento Media Server version: 7.0.1
+2023-08-16T07:13:42,227740 1 0x00007f8be493d280    info KurentoLoadConfig         loadConfig.cpp:249 loadConfig()  Reading configuration from: /etc/kurento/kurento.conf.json
+2023-08-16T07:13:42,228026 1 0x00007f8be493d280    info KurentoLoadConfig         loadConfig.cpp:183 loadModulesConfigFromDir()  Looking for config files in /etc/kurento/modules
+2023-08-16T07:13:42,228111 1 0x00007f8be493d280    info KurentoLoadConfig         loadConfig.cpp:183 loadModulesConfigFromDir()  Looking for config files in /etc/kurento/modules/kurento
+2023-08-16T07:13:42,228256 1 0x00007f8be493d280    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/MediaElement.conf.ini
+2023-08-16T07:13:42,228368 1 0x00007f8be493d280    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/WebRtcEndpoint.conf.ini
+2023-08-16T07:13:42,228467 1 0x00007f8be493d280    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/BaseRtpEndpoint.conf.ini
+2023-08-16T07:13:42,228629 1 0x00007f8be493d280    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/UriEndpoint.conf.ini
+2023-08-16T07:13:42,228755 1 0x00007f8be493d280    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/PlayerEndpoint.conf.ini
+2023-08-16T07:13:42,228995 1 0x00007f8be493d280    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/SdpEndpoint.conf.json
+2023-08-16T07:13:42,229168 1 0x00007f8be493d280    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/RecorderEndpoint.conf.ini
+2023-08-16T07:13:42,229338 1 0x00007f8be493d280    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/HttpEndpoint.conf.ini
+2023-08-16T07:13:42,229389 1 0x00007f8be493d280    info KurentoLoadConfig         loadConfig.cpp:265 loadConfig()  Configuration loaded successfully
+2023-08-16T07:13:42,229456 1 0x00007f8be493d280    info KurentoLoadConfig         loadConfig.cpp:271 loadConfig()  Loaded config in effect:
+{
+    "mediaServer": {
+        "resources": {
+            "\/\/exceptionLimit": "0.8",
+            "\/\/killLimit": "0.7",
+            "garbageCollectorPeriod": "240",
+            "\/\/": "Default: false",
+            "disableRequestCache": "false"
+        },
+        "net": {
+            "websocket": {
+                "\/\/address": "0.0.0.0",
+                "\/\/ipv6": "false",
+                "port": "8888",
+                "secure": {
+                    "\/\/port": "8433",
+                    "\/\/certificate": "cert+key.pem",
+                    "\/\/": "Password for the private key, if one was set when the key was created",
+                    "\/\/password": ""
+                },
+                "\/\/registrar": {
+                    "\/\/address": "ws:\/\/localhost:9090",
+                    "\/\/localAddress": "localhost"
+                },
+                "\/\/": "Default: SOMAXCONN (128)",
+                "\/\/connqueue": "128",
+                "path": "kurento",
+                "threads": "10"
+            }
+        }
+    },
+    "configPath": "\/etc\/kurento",
+    "modules": {
+        "kurento": {
+            "MediaElement": {
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "WebRtcEndpoint": {
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "BaseRtpEndpoint": {
+                "minPort": "40000",
+                "maxPort": "57000",
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "UriEndpoint": {
+                "defaultPath": "file:\/\/\/var\/lib\/kurento\/",
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "PlayerEndpoint": {
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "SdpEndpoint": {
+                "numAudioMedias": "1",
+                "numVideoMedias": "1",
+                "audioCodecs": [
+                    {
+                        "name": "opus\/48000\/2",
+                        "\/\/": "Next is an example about how a codec can be configured.",
+                        "\/\/": "WARNING: Usage of properties is not yet supported",
+                        "\/\/properties": {
+                            "\/\/maxcodedaudiobandwidth": "16000",
+                            "\/\/maxaveragebitrate": "20000",
+                            "\/\/stereo": "1",
+                            "\/\/useinbandfec": "1",
+                            "\/\/usedtx": "0"
+                        }
+                    },
+                    {
+                        "name": "PCMU\/8000"
+                    },
+                    {
+                        "name": "AMR\/8000"
+                    }
+                ],
+                "videoCodecs": [
+                    {
+                        "name": "VP8\/90000"
+                    },
+                    {
+                        "name": "H264\/90000"
+                    }
+                ],
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "RecorderEndpoint": {
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "HttpEndpoint": {
+                "serverAddress": "localhost",
+                "port": "9091",
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            }
+        }
+    }
+}
+2023-08-16T07:13:42,229526 1 0x00007f8be493d280    info KurentoServerMethods      ServerMethods.cpp:88 ServerMethods()  Using above 80% of system limits will throw NOT_ENOUGH_RESOURCES exception
+2023-08-16T07:13:42,229557 1 0x00007f8be493d280    info KurentoServerMethods      ServerMethods.cpp:107 ServerMethods()  System limits: unlimited threads, 1048576 files
+2023-08-16T07:13:42,229674 1 0x00007f8be493d280    info KurentoWorkerPool         WorkerPool.cpp:67 WorkerPool()  Worker thread pool size: 4
+2023-08-16T07:13:42,230233 1 0x00007f8be493d280    info KurentoServerMethods      ServerMethods.cpp:143 ServerMethods()  RPC Request Cache is ENABLED
+2023-08-16T07:13:42,230509 1 0x00007f8be493d280    info KurentoWebSocketTransport WebSocketTransport.cpp:203 initWebSocket()  WebSocket server (ws://) listening on address '::', port 8888
+2023-08-16T07:13:42,230554 1 0x00007f8be493d280    info KurentoWebSocketTransport WebSocketTransport.cpp:89 WebSocketTransport()  Secure WebSocket server (wss://) not enabled
+2023-08-16T07:13:42,230986 1 0x00007f8be493d280    info KurentoMediaServer        main.cpp:259 main()  Kurento Media Server started
+2023-08-16T07:14:09,249794 1 0x00007f8bdade4700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:160 generateDefaultCertificates()  Unable to load the RSA certificate from file. Using the default certificate.
+2023-08-16T07:14:09,314308 1 0x00007f8bdade4700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:169 generateDefaultCertificates()  Unable to load the ECDSA certificate from file. Using the default certificate.
+2023-08-16T07:14:09,314657 1 0x00007f8bdade4700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:14:09,314715 1 0x00007f8bdade4700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint0>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:14:09,317980 1 0x00007f8bdedec700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:09,469282 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint0>  Media 'video' has REMB
+2023-08-16T07:14:09,469373 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint0>  Creating REMB for session ID 0 (kmswebrtcendpoint0-sess0) and remote video SSRC 4085660728
+2023-08-16T07:14:09,469408 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint0>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:14:09,476656 1 0x00007f8bdd5e9700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession0>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:14:09,491745 1 0x00007f8bd9554700    info KurentoWorkerPool         WorkerPool.cpp:67 WorkerPool()  Worker thread pool size: 4
+2023-08-16T07:14:11,097921 1 0x00007f8ba37fe700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:11,115860 1 0x00007f8ba37fe700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer0>  Add probe: Set jitterbuffer latency
+2023-08-16T07:14:11,115932 1 0x00007f8ba37fe700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer0>  Add probe: Adjust jitterbuffer PTS out
+2023-08-16T07:14:11,116303 1 0x00007f8ba37fe700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer0>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-16T07:14:11,116632 1 0x00007f8b82ffd700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer0>  Setting latency to 500 ms
+2023-08-16T07:14:11,116713 1 0x00007f8b82ffd700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer0>  Jitterbuffer latency set; remove probe
+2023-08-16T07:14:11,118092 1 0x00007f8b82ffd700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpvp8depay0>  Add probe: Adjust depayloader PTS out
+2023-08-16T07:14:11,120615 1 0x00007f8ba37fe700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer1>  Add probe: Set jitterbuffer latency
+2023-08-16T07:14:11,120679 1 0x00007f8ba37fe700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer1>  Add probe: Adjust jitterbuffer PTS out
+2023-08-16T07:14:11,121040 1 0x00007f8ba37fe700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer1>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-16T07:14:11,121396 1 0x00007f8b81ffb700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer1>  Setting latency to 100 ms
+2023-08-16T07:14:11,121471 1 0x00007f8b81ffb700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer1>  Jitterbuffer latency set; remove probe
+2023-08-16T07:14:11,121744 1 0x00007f8b82ffd700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmswebrtcendpoint0_kmsagnosticbin2-2:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:11,122445 1 0x00007f8b81ffb700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpopusdepay0>  Add probe: Adjust depayloader PTS out
+2023-08-16T07:14:11,124188 1 0x00007f8b817fa700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmsagnosticbin2-1:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:20,591606 1 0x00007f8bdedec700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:14:20,591682 1 0x00007f8bdedec700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint1>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:14:20,616992 1 0x00007f8bdade4700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint1>  Media 'video' has REMB
+2023-08-16T07:14:20,617066 1 0x00007f8bdade4700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint1>  Creating REMB for session ID 0 (kmswebrtcendpoint1-sess0) and remote video SSRC 4294967295
+2023-08-16T07:14:20,617102 1 0x00007f8bdade4700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint1>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:14:20,619701 1 0x00007f8bdf5ed700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession1>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:14:21,139310 1 0x00007f8bdade4700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:14:21,139382 1 0x00007f8bdade4700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint2>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:14:21,140458 1 0x00007f8bdade4700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:21,212165 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint2>  Media 'video' has REMB
+2023-08-16T07:14:21,212245 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint2>  Creating REMB for session ID 0 (kmswebrtcendpoint2-sess0) and remote video SSRC 1544881796
+2023-08-16T07:14:21,212281 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint2>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:14:21,216783 1 0x00007f8bdc5e7700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession2>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:14:21,291927 1 0x00007f8bdb5e5700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:14:21,292008 1 0x00007f8bdb5e5700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint3>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:14:21,365838 1 0x00007f8bdddea700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint3>  Media 'video' has REMB
+2023-08-16T07:14:21,365924 1 0x00007f8bdddea700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint3>  Creating REMB for session ID 0 (kmswebrtcendpoint3-sess0) and remote video SSRC 4294967295
+2023-08-16T07:14:21,365964 1 0x00007f8bdddea700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint3>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:14:21,368133 1 0x00007f8bdf5ed700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession3>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:14:22,299280 1 0x00007f8b73fff700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:22,863772 1 0x00007f8b53fff700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:22,899524 1 0x00007f8b53fff700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer2>  Add probe: Set jitterbuffer latency
+2023-08-16T07:14:22,899600 1 0x00007f8b53fff700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer2>  Add probe: Adjust jitterbuffer PTS out
+2023-08-16T07:14:22,899878 1 0x00007f8b53fff700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer2>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-16T07:14:22,900043 1 0x00007f8b4b7fe700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer2>  Setting latency to 100 ms
+2023-08-16T07:14:22,900102 1 0x00007f8b4b7fe700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer2>  Jitterbuffer latency set; remove probe
+2023-08-16T07:14:22,901189 1 0x00007f8b4b7fe700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpopusdepay1>  Add probe: Adjust depayloader PTS out
+2023-08-16T07:14:22,904307 1 0x00007f8b4b7fe700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpopusdepay1>  Fix PTS not strictly increasing, last: 0:00:14.210022866, current: 0:00:14.210022866, fixed = last + 1: 0:00:14.211022866
+2023-08-16T07:14:22,975391 1 0x00007f8b53fff700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer3>  Add probe: Set jitterbuffer latency
+2023-08-16T07:14:22,975474 1 0x00007f8b53fff700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer3>  Add probe: Adjust jitterbuffer PTS out
+2023-08-16T07:14:22,975828 1 0x00007f8b53fff700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer3>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-16T07:14:22,976046 1 0x00007f8b487f8700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer3>  Setting latency to 500 ms
+2023-08-16T07:14:22,976159 1 0x00007f8b487f8700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer3>  Jitterbuffer latency set; remove probe
+2023-08-16T07:14:22,977175 1 0x00007f8b487f8700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpvp8depay1>  Add probe: Adjust depayloader PTS out
+2023-08-16T07:14:22,981020 1 0x00007f8b487f8700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmswebrtcendpoint2_kmsagnosticbin2-7:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:22,983543 1 0x00007f8b47ff7700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmsagnosticbin2-5:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:23,052395 1 0x00007f8b51ffb700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:28,280182 1 0x00007f8bdc5e7700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:14:28,280258 1 0x00007f8bdc5e7700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint4>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:14:28,304912 1 0x00007f8bdddea700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint4>  Media 'video' has REMB
+2023-08-16T07:14:28,304990 1 0x00007f8bdddea700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint4>  Creating REMB for session ID 0 (kmswebrtcendpoint4-sess0) and remote video SSRC 4294967295
+2023-08-16T07:14:28,305027 1 0x00007f8bdddea700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint4>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:14:28,307075 1 0x00007f8bdedec700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession4>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:14:28,340445 1 0x00007f8bdc5e7700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:14:28,340541 1 0x00007f8bdc5e7700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint5>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:14:28,459491 1 0x00007f8bdb5e5700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint5>  Media 'video' has REMB
+2023-08-16T07:14:28,459570 1 0x00007f8bdb5e5700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint5>  Creating REMB for session ID 0 (kmswebrtcendpoint5-sess0) and remote video SSRC 4294967295
+2023-08-16T07:14:28,459620 1 0x00007f8bdb5e5700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint5>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:14:28,462766 1 0x00007f8bdb5e5700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession5>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:14:28,730575 1 0x00007f8bdcde8700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:14:28,730646 1 0x00007f8bdcde8700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint6>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:14:28,731830 1 0x00007f8bdcde8700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:28,793243 1 0x00007f8bdc5e7700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint6>  Media 'video' has REMB
+2023-08-16T07:14:28,793324 1 0x00007f8bdc5e7700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint6>  Creating REMB for session ID 0 (kmswebrtcendpoint6-sess0) and remote video SSRC 1805893290
+2023-08-16T07:14:28,793362 1 0x00007f8bdc5e7700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint6>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:14:28,797143 1 0x00007f8bdf5ed700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession6>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:14:28,997071 1 0x00007f8bdade4700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:14:28,997146 1 0x00007f8bdade4700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint7>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:14:29,003364 1 0x00007f8bdade4700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:14:29,003442 1 0x00007f8bdade4700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint8>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:14:29,044357 1 0x00007f8bdb5e5700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint7>  Media 'video' has REMB
+2023-08-16T07:14:29,044438 1 0x00007f8bdb5e5700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint7>  Creating REMB for session ID 0 (kmswebrtcendpoint7-sess0) and remote video SSRC 4294967295
+2023-08-16T07:14:29,044475 1 0x00007f8bdb5e5700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint7>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:14:29,046959 1 0x00007f8bdd5e9700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession7>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:14:29,061347 1 0x00007f8bdedec700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint8>  Media 'video' has REMB
+2023-08-16T07:14:29,061402 1 0x00007f8bdedec700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint8>  Creating REMB for session ID 0 (kmswebrtcendpoint8-sess0) and remote video SSRC 4294967295
+2023-08-16T07:14:29,061438 1 0x00007f8bdedec700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint8>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:14:29,090380 1 0x00007f8bde5eb700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession8>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:14:29,951232 1 0x00007f8b467f4700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:30,195260 1 0x00007f8b42fed700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:30,438580 1 0x00007f8b40fe9700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:30,439496 1 0x00007f8b40fe9700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer4>  Add probe: Set jitterbuffer latency
+2023-08-16T07:14:30,439550 1 0x00007f8b40fe9700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer4>  Add probe: Adjust jitterbuffer PTS out
+2023-08-16T07:14:30,439854 1 0x00007f8b40fe9700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer4>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-16T07:14:30,440096 1 0x00007f8b38fd9700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer4>  Setting latency to 100 ms
+2023-08-16T07:14:30,440168 1 0x00007f8b38fd9700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer4>  Jitterbuffer latency set; remove probe
+2023-08-16T07:14:30,441603 1 0x00007f8b38fd9700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpopusdepay2>  Add probe: Adjust depayloader PTS out
+2023-08-16T07:14:30,445195 1 0x00007f8b38fd9700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpopusdepay2>  Fix PTS not strictly increasing, last: 0:00:21.780486566, current: 0:00:21.780486566, fixed = last + 1: 0:00:21.781486566
+2023-08-16T07:14:30,448778 1 0x00007f8b40fe9700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer5>  Add probe: Set jitterbuffer latency
+2023-08-16T07:14:30,448835 1 0x00007f8b40fe9700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer5>  Add probe: Adjust jitterbuffer PTS out
+2023-08-16T07:14:30,449163 1 0x00007f8b40fe9700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer5>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-16T07:14:30,450351 1 0x00007f8b34fd1700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer5>  Setting latency to 500 ms
+2023-08-16T07:14:30,450462 1 0x00007f8b34fd1700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer5>  Jitterbuffer latency set; remove probe
+2023-08-16T07:14:30,451282 1 0x00007f8b34fd1700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpvp8depay2>  Add probe: Adjust depayloader PTS out
+2023-08-16T07:14:30,452355 1 0x00007f8b34fd1700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmswebrtcendpoint6_kmsagnosticbin2-11:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:30,454981 1 0x00007f8b3afdd700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmsagnosticbin2-9:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:30,721496 1 0x00007f8b3e7e4700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:30,842966 1 0x00007f8b34fd1700 warning rtpsynchronizer           kmsrtpsynchronizer.c:545 kms_rtp_synchronizer_process_rtp_buffer_mapped() <KmsRtpSynchronizer@0x7f8bd000c6c0>  [Sorted mode] Fix PTS not increasing monotonically, SSRC: 1805893290, seq: 22620, rtp_ts: 1707636862, ext_ts: 1707636862, last: 0:00:22.150434527, current: 0:00:22.149250535, fixed = last: 0:00:22.150434527
+2023-08-16T07:14:30,843762 1 0x00007f8b34fd1700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpvp8depay2>  Fix PTS not strictly increasing, last: 0:00:22.150434527, current: 0:00:22.150434527, fixed = last + 1: 0:00:22.151434527
+2023-08-16T07:14:31,768298 1 0x00007f8b3cfe1700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:37,952156 1 0x00007f8bdb5e5700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:14:37,952228 1 0x00007f8bdb5e5700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint9>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:14:37,970520 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint9>  Media 'video' has REMB
+2023-08-16T07:14:37,970580 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint9>  Creating REMB for session ID 0 (kmswebrtcendpoint9-sess0) and remote video SSRC 4294967295
+2023-08-16T07:14:37,970614 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint9>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:14:37,972606 1 0x00007f8bdddea700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession9>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:14:37,992019 1 0x00007f8bdc5e7700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:14:37,992071 1 0x00007f8bdc5e7700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint10>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:14:38,071178 1 0x00007f8bdedec700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint10>  Media 'video' has REMB
+2023-08-16T07:14:38,071260 1 0x00007f8bdedec700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint10>  Creating REMB for session ID 0 (kmswebrtcendpoint10-sess0) and remote video SSRC 4294967295
+2023-08-16T07:14:38,071295 1 0x00007f8bdedec700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint10>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:14:38,073379 1 0x00007f8bdc5e7700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession10>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:14:38,113103 1 0x00007f8bdade4700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:14:38,113167 1 0x00007f8bdade4700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint11>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:14:38,226675 1 0x00007f8bdade4700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint11>  Media 'video' has REMB
+2023-08-16T07:14:38,226765 1 0x00007f8bdade4700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint11>  Creating REMB for session ID 0 (kmswebrtcendpoint11-sess0) and remote video SSRC 4294967295
+2023-08-16T07:14:38,226803 1 0x00007f8bdade4700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint11>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:14:38,228630 1 0x00007f8bdbde6700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession11>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:14:38,563313 1 0x00007f8bdade4700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:14:38,563388 1 0x00007f8bdade4700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint12>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:14:38,564452 1 0x00007f8bdade4700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:38,626928 1 0x00007f8bdf5ed700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint12>  Media 'video' has REMB
+2023-08-16T07:14:38,627003 1 0x00007f8bdf5ed700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint12>  Creating REMB for session ID 0 (kmswebrtcendpoint12-sess0) and remote video SSRC 2040378766
+2023-08-16T07:14:38,627048 1 0x00007f8bdf5ed700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint12>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:14:38,630036 1 0x00007f8bdb5e5700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession12>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:14:38,763413 1 0x00007f8bdade4700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:14:38,763484 1 0x00007f8bdade4700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint13>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:14:38,764841 1 0x00007f8bdbde6700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:14:38,764889 1 0x00007f8bdbde6700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint14>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:14:38,766052 1 0x00007f8bdbde6700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:14:38,766097 1 0x00007f8bdbde6700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint15>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:14:38,810457 1 0x00007f8bdd5e9700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint13>  Media 'video' has REMB
+2023-08-16T07:14:38,810544 1 0x00007f8bdd5e9700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint13>  Creating REMB for session ID 0 (kmswebrtcendpoint13-sess0) and remote video SSRC 4294967295
+2023-08-16T07:14:38,810582 1 0x00007f8bdd5e9700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint13>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:14:38,812749 1 0x00007f8bdf5ed700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession13>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:14:38,828773 1 0x00007f8bdade4700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint15>  Media 'video' has REMB
+2023-08-16T07:14:38,828833 1 0x00007f8bdade4700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint15>  Creating REMB for session ID 0 (kmswebrtcendpoint15-sess0) and remote video SSRC 4294967295
+2023-08-16T07:14:38,828880 1 0x00007f8bdade4700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint15>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:14:38,854244 1 0x00007f8bde5eb700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint14>  Media 'video' has REMB
+2023-08-16T07:14:38,854496 1 0x00007f8bde5eb700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint14>  Creating REMB for session ID 0 (kmswebrtcendpoint14-sess0) and remote video SSRC 4294967295
+2023-08-16T07:14:38,854536 1 0x00007f8bde5eb700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint14>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:14:38,872275 1 0x00007f8bdddea700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession15>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:14:38,892104 1 0x00007f8bdddea700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession14>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:14:39,666270 1 0x00007f8b2f7c6700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:39,680237 1 0x00007f8b33fcf700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:39,962261 1 0x00007f8b2d7c2700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:40,348916 1 0x00007f8b2b7be700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:40,389535 1 0x00007f8b2b7be700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer6>  Add probe: Set jitterbuffer latency
+2023-08-16T07:14:40,389617 1 0x00007f8b2b7be700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer6>  Add probe: Adjust jitterbuffer PTS out
+2023-08-16T07:14:40,389886 1 0x00007f8b2b7be700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer6>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-16T07:14:40,390087 1 0x00007f8b21fab700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer6>  Setting latency to 100 ms
+2023-08-16T07:14:40,390167 1 0x00007f8b21fab700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer6>  Jitterbuffer latency set; remove probe
+2023-08-16T07:14:40,391268 1 0x00007f8b21fab700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpopusdepay3>  Add probe: Adjust depayloader PTS out
+2023-08-16T07:14:40,395882 1 0x00007f8b21fab700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpopusdepay3>  Fix PTS not strictly increasing, last: 0:00:31.730100895, current: 0:00:31.730100895, fixed = last + 1: 0:00:31.731100895
+2023-08-16T07:14:40,415544 1 0x00007f8b2b7be700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer7>  Add probe: Set jitterbuffer latency
+2023-08-16T07:14:40,415602 1 0x00007f8b2b7be700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer7>  Add probe: Adjust jitterbuffer PTS out
+2023-08-16T07:14:40,415914 1 0x00007f8b2b7be700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer7>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-16T07:14:40,416116 1 0x00007f8b1b79e700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer7>  Setting latency to 500 ms
+2023-08-16T07:14:40,416199 1 0x00007f8b1b79e700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer7>  Jitterbuffer latency set; remove probe
+2023-08-16T07:14:40,417031 1 0x00007f8b1b79e700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpvp8depay3>  Add probe: Adjust depayloader PTS out
+2023-08-16T07:14:40,426080 1 0x00007f8b1b79e700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmswebrtcendpoint12_kmsagnosticbin2-15:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:40,428263 1 0x00007f8b1af9d700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmsagnosticbin2-13:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:40,431708 1 0x00007f8b257b2700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:40,818171 1 0x00007f8b1b79e700 warning rtpsynchronizer           kmsrtpsynchronizer.c:545 kms_rtp_synchronizer_process_rtp_buffer_mapped() <KmsRtpSynchronizer@0x7f8bbc0e22b0>  [Sorted mode] Fix PTS not increasing monotonically, SSRC: 2040378766, seq: 16016, rtp_ts: 1196112528, ext_ts: 1196112528, last: 0:00:32.184176366, current: 0:00:32.087396435, fixed = last: 0:00:32.184176366
+2023-08-16T07:14:40,818288 1 0x00007f8b1b79e700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpvp8depay3>  Fix PTS not strictly increasing, last: 0:00:32.184176366, current: 0:00:32.184176366, fixed = last + 1: 0:00:32.185176366
+2023-08-16T07:14:40,831513 1 0x00007f8b1b79e700 warning rtpsynchronizer           kmsrtpsynchronizer.c:545 kms_rtp_synchronizer_process_rtp_buffer_mapped() <KmsRtpSynchronizer@0x7f8bbc0e22b0>  [Sorted mode] Fix PTS not increasing monotonically, SSRC: 2040378766, seq: 16017, rtp_ts: 1196115408, ext_ts: 1196115408, last: 0:00:32.184176366, current: 0:00:32.119396435, fixed = last: 0:00:32.184176366
+2023-08-16T07:14:40,831592 1 0x00007f8b1b79e700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpvp8depay3>  Fix PTS not strictly increasing, last: 0:00:32.185176366, current: 0:00:32.184176366, fixed = last + 1: 0:00:32.186176366
+2023-08-16T07:14:40,860530 1 0x00007f8b1b79e700 warning rtpsynchronizer           kmsrtpsynchronizer.c:545 kms_rtp_synchronizer_process_rtp_buffer_mapped() <KmsRtpSynchronizer@0x7f8bbc0e22b0>  [Sorted mode] Fix PTS not increasing monotonically, SSRC: 2040378766, seq: 16018, rtp_ts: 1196118198, ext_ts: 1196118198, last: 0:00:32.184176366, current: 0:00:32.150396435, fixed = last: 0:00:32.184176366
+2023-08-16T07:14:40,860646 1 0x00007f8b1b79e700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpvp8depay3>  Fix PTS not strictly increasing, last: 0:00:32.186176366, current: 0:00:32.184176366, fixed = last + 1: 0:00:32.187176366
+2023-08-16T07:14:40,883533 1 0x00007f8b1b79e700 warning rtpsynchronizer           kmsrtpsynchronizer.c:545 kms_rtp_synchronizer_process_rtp_buffer_mapped() <KmsRtpSynchronizer@0x7f8bbc0e22b0>  [Sorted mode] Fix PTS not increasing monotonically, SSRC: 2040378766, seq: 16019, rtp_ts: 1196121078, ext_ts: 1196121078, last: 0:00:32.184176366, current: 0:00:32.182396435, fixed = last: 0:00:32.184176366
+2023-08-16T07:14:40,883634 1 0x00007f8b1b79e700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpvp8depay3>  Fix PTS not strictly increasing, last: 0:00:32.187176366, current: 0:00:32.184176366, fixed = last + 1: 0:00:32.188176366
+2023-08-16T07:14:41,393885 1 0x00007f8b287b8700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:14:41,464338 1 0x00007f8b26fb5700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:23,800625 1 0x00007f8bde5eb700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:27:23,800709 1 0x00007f8bde5eb700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint16>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:27:23,801920 1 0x00007f8bdade4700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:23,823086 1 0x00007f8bdddea700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint16>  Media 'video' has REMB
+2023-08-16T07:27:23,823166 1 0x00007f8bdddea700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint16>  Creating REMB for session ID 0 (kmswebrtcendpoint16-sess0) and remote video SSRC 2242777323
+2023-08-16T07:27:23,823202 1 0x00007f8bdddea700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint16>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:27:23,826108 1 0x00007f8bdc5e7700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession16>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:27:26,332006 1 0x00007f8ba37fe700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:26,358482 1 0x00007f8ba37fe700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer8>  Add probe: Set jitterbuffer latency
+2023-08-16T07:27:26,358548 1 0x00007f8ba37fe700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer8>  Add probe: Adjust jitterbuffer PTS out
+2023-08-16T07:27:26,358940 1 0x00007f8ba37fe700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer8>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-16T07:27:26,359126 1 0x00007f8ba0ff9700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer8>  Setting latency to 100 ms
+2023-08-16T07:27:26,359239 1 0x00007f8ba0ff9700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer8>  Jitterbuffer latency set; remove probe
+2023-08-16T07:27:26,360305 1 0x00007f8ba0ff9700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpopusdepay4>  Add probe: Adjust depayloader PTS out
+2023-08-16T07:27:26,363182 1 0x00007f8ba0ff9700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpopusdepay4>  Fix PTS not strictly increasing, last: 0:00:03.092552305, current: 0:00:03.092552305, fixed = last + 1: 0:00:03.093552305
+2023-08-16T07:27:26,400666 1 0x00007f8ba37fe700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer9>  Add probe: Set jitterbuffer latency
+2023-08-16T07:27:26,400733 1 0x00007f8ba37fe700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer9>  Add probe: Adjust jitterbuffer PTS out
+2023-08-16T07:27:26,401073 1 0x00007f8ba37fe700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer9>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-16T07:27:26,401227 1 0x00007f8b817fa700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer9>  Setting latency to 500 ms
+2023-08-16T07:27:26,401336 1 0x00007f8b817fa700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer9>  Jitterbuffer latency set; remove probe
+2023-08-16T07:27:26,402271 1 0x00007f8b817fa700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpvp8depay4>  Add probe: Adjust depayloader PTS out
+2023-08-16T07:27:26,409374 1 0x00007f8b817fa700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:26,411603 1 0x00007f8b80ff9700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmsagnosticbin2-17:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:26,862609 1 0x00007f8b817fa700 warning rtpsynchronizer           kmsrtpsynchronizer.c:545 kms_rtp_synchronizer_process_rtp_buffer_mapped() <KmsRtpSynchronizer@0x7f8ba40f2950>  [Sorted mode] Fix PTS not increasing monotonically, SSRC: 2242777323, seq: 26714, rtp_ts: 3578798873, ext_ts: 3578798873, last: 0:00:03.581757669, current: 0:00:03.567647719, fixed = last: 0:00:03.581757669
+2023-08-16T07:27:26,862732 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpvp8depay4>  Fix PTS not strictly increasing, last: 0:00:03.581757669, current: 0:00:03.581757669, fixed = last + 1: 0:00:03.582757669
+2023-08-16T07:27:36,871141 1 0x00007f8bdade4700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:27:36,871217 1 0x00007f8bdade4700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint17>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:27:36,926852 1 0x00007f8bdd5e9700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint17>  Media 'video' has REMB
+2023-08-16T07:27:36,926934 1 0x00007f8bdd5e9700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint17>  Creating REMB for session ID 0 (kmswebrtcendpoint17-sess0) and remote video SSRC 4294967295
+2023-08-16T07:27:36,926971 1 0x00007f8bdd5e9700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint17>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:27:36,928951 1 0x00007f8bdedec700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession17>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:27:37,319215 1 0x00007f8bdcde8700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:27:37,319287 1 0x00007f8bdcde8700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint18>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:27:37,320473 1 0x00007f8bdddea700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:37,334473 1 0x00007f8bdc5e7700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint18>  Media 'video' has REMB
+2023-08-16T07:27:37,334537 1 0x00007f8bdc5e7700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint18>  Creating REMB for session ID 0 (kmswebrtcendpoint18-sess0) and remote video SSRC 2619153927
+2023-08-16T07:27:37,334579 1 0x00007f8bdc5e7700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint18>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:27:37,337482 1 0x00007f8bdddea700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession18>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:27:37,447053 1 0x00007f8bdcde8700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:27:37,447126 1 0x00007f8bdcde8700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint19>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:27:37,465087 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint19>  Media 'video' has REMB
+2023-08-16T07:27:37,465170 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint19>  Creating REMB for session ID 0 (kmswebrtcendpoint19-sess0) and remote video SSRC 4294967295
+2023-08-16T07:27:37,465208 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint19>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:27:37,466973 1 0x00007f8bde5eb700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession19>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:27:38,724266 1 0x00007f8bdbde6700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:27:38,724342 1 0x00007f8bdbde6700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint20>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:27:38,781732 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint20>  Media 'video' has REMB
+2023-08-16T07:27:38,781802 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint20>  Creating REMB for session ID 0 (kmswebrtcendpoint20-sess0) and remote video SSRC 4294967295
+2023-08-16T07:27:38,781838 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint20>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:27:38,783648 1 0x00007f8bdd5e9700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession20>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:27:38,803243 1 0x00007f8bdb5e5700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:27:38,803298 1 0x00007f8bdb5e5700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint21>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:27:38,874461 1 0x00007f8bdade4700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint21>  Media 'video' has REMB
+2023-08-16T07:27:38,874555 1 0x00007f8bdade4700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint21>  Creating REMB for session ID 0 (kmswebrtcendpoint21-sess0) and remote video SSRC 4294967295
+2023-08-16T07:27:38,874595 1 0x00007f8bdade4700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint21>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:27:38,877192 1 0x00007f8bdb5e5700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession21>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:27:39,003855 1 0x00007f8b70ff9700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:39,039702 1 0x00007f8b70ff9700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer10>  Add probe: Set jitterbuffer latency
+2023-08-16T07:27:39,039765 1 0x00007f8b70ff9700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer10>  Add probe: Adjust jitterbuffer PTS out
+2023-08-16T07:27:39,040119 1 0x00007f8b70ff9700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer10>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-16T07:27:39,040318 1 0x00007f8b477f6700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer10>  Setting latency to 500 ms
+2023-08-16T07:27:39,040397 1 0x00007f8b477f6700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer10>  Jitterbuffer latency set; remove probe
+2023-08-16T07:27:39,041508 1 0x00007f8b477f6700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpvp8depay5>  Add probe: Adjust depayloader PTS out
+2023-08-16T07:27:39,048448 1 0x00007f8bdbde6700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:27:39,048498 1 0x00007f8bdbde6700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint22>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:27:39,049657 1 0x00007f8bdbde6700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:39,064741 1 0x00007f8b477f6700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:39,067863 1 0x00007f8bde5eb700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint22>  Media 'video' has REMB
+2023-08-16T07:27:39,067917 1 0x00007f8bde5eb700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint22>  Creating REMB for session ID 0 (kmswebrtcendpoint22-sess0) and remote video SSRC 2678859799
+2023-08-16T07:27:39,067954 1 0x00007f8bde5eb700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint22>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:27:39,069542 1 0x00007f8b44ff1700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmsagnosticbin2-21:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:39,070834 1 0x00007f8bdf5ed700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession22>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:27:39,074136 1 0x00007f8b70ff9700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer11>  Add probe: Set jitterbuffer latency
+2023-08-16T07:27:39,074208 1 0x00007f8b70ff9700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer11>  Add probe: Adjust jitterbuffer PTS out
+2023-08-16T07:27:39,074283 1 0x00007f8b527fc700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:39,074585 1 0x00007f8b70ff9700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer11>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-16T07:27:39,075438 1 0x00007f8b43fef700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer11>  Setting latency to 100 ms
+2023-08-16T07:27:39,075872 1 0x00007f8b43fef700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer11>  Jitterbuffer latency set; remove probe
+2023-08-16T07:27:39,079067 1 0x00007f8b43fef700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpopusdepay5>  Add probe: Adjust depayloader PTS out
+2023-08-16T07:27:39,192039 1 0x00007f8bdedec700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:27:39,192117 1 0x00007f8bdedec700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint23>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:27:39,194152 1 0x00007f8bdedec700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:27:39,194203 1 0x00007f8bdedec700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint24>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:27:39,274175 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint24>  Media 'video' has REMB
+2023-08-16T07:27:39,274256 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint24>  Creating REMB for session ID 0 (kmswebrtcendpoint24-sess0) and remote video SSRC 4294967295
+2023-08-16T07:27:39,274292 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint24>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:27:39,278640 1 0x00007f8bdcde8700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint23>  Media 'video' has REMB
+2023-08-16T07:27:39,278702 1 0x00007f8bdcde8700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint23>  Creating REMB for session ID 0 (kmswebrtcendpoint23-sess0) and remote video SSRC 4294967295
+2023-08-16T07:27:39,278738 1 0x00007f8bdcde8700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint23>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:27:39,280271 1 0x00007f8bdb5e5700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession24>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:27:39,293544 1 0x00007f8bdade4700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession23>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:27:39,677785 1 0x00007f8bd886d700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:39,735008 1 0x00007f8b43fef700 warning rtpsynchronizer           kmsrtpsynchronizer.c:545 kms_rtp_synchronizer_process_rtp_buffer_mapped() <KmsRtpSynchronizer@0x7f8b74027580>  [Sorted mode] Fix PTS not increasing monotonically, SSRC: 1286870318, seq: 30881, rtp_ts: 3453748427, ext_ts: 3453748427, last: 0:00:16.492563503, current: 0:00:16.472741786, fixed = last: 0:00:16.492563503
+2023-08-16T07:27:39,735145 1 0x00007f8b43fef700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpopusdepay5>  Fix PTS not strictly increasing, last: 0:00:16.492563503, current: 0:00:16.492563503, fixed = last + 1: 0:00:16.493563503
+2023-08-16T07:27:39,753602 1 0x00007f8b43fef700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpopusdepay5>  Fix PTS not strictly increasing, last: 0:00:16.493563503, current: 0:00:16.492741786, fixed = last + 1: 0:00:16.494563503
+2023-08-16T07:27:39,880191 1 0x00007f8bdbde6700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:27:39,880263 1 0x00007f8bdbde6700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint25>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:27:39,898543 1 0x00007f8bdb5e5700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint25>  Media 'video' has REMB
+2023-08-16T07:27:39,898619 1 0x00007f8bdb5e5700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint25>  Creating REMB for session ID 0 (kmswebrtcendpoint25-sess0) and remote video SSRC 4294967295
+2023-08-16T07:27:39,898656 1 0x00007f8bdb5e5700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint25>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:27:39,900577 1 0x00007f8bdade4700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession25>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:27:39,949466 1 0x00007f8bdc5e7700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:27:39,949542 1 0x00007f8bdc5e7700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint26>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:27:40,048013 1 0x00007f8bdedec700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint26>  Media 'video' has REMB
+2023-08-16T07:27:40,048094 1 0x00007f8bdedec700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint26>  Creating REMB for session ID 0 (kmswebrtcendpoint26-sess0) and remote video SSRC 4294967295
+2023-08-16T07:27:40,048130 1 0x00007f8bdedec700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint26>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:27:40,049880 1 0x00007f8bdb5e5700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession26>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:27:40,069554 1 0x00007f8bde5eb700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:27:40,069609 1 0x00007f8bde5eb700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint27>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:27:40,135039 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint27>  Media 'video' has REMB
+2023-08-16T07:27:40,135124 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint27>  Creating REMB for session ID 0 (kmswebrtcendpoint27-sess0) and remote video SSRC 4294967295
+2023-08-16T07:27:40,135174 1 0x00007f8bdbde6700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint27>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:27:40,136933 1 0x00007f8bdcde8700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession27>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:27:40,229916 1 0x00007f8bdc5e7700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:27:40,229993 1 0x00007f8bdc5e7700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint28>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:27:40,230973 1 0x00007f8bdc5e7700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:40,274233 1 0x00007f8bdcde8700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint28>  Media 'video' has REMB
+2023-08-16T07:27:40,274309 1 0x00007f8bdcde8700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint28>  Creating REMB for session ID 0 (kmswebrtcendpoint28-sess0) and remote video SSRC 2447694818
+2023-08-16T07:27:40,274344 1 0x00007f8bdcde8700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint28>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:27:40,281292 1 0x00007f8bdf5ed700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession28>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:27:40,339783 1 0x00007f8b4b7fe700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:40,373605 1 0x00007f8bdc5e7700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:27:40,373680 1 0x00007f8bdc5e7700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint29>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:27:40,378091 1 0x00007f8bdddea700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:27:40,378140 1 0x00007f8bdddea700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint30>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:27:40,395327 1 0x00007f8bdf5ed700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint29>  Media 'video' has REMB
+2023-08-16T07:27:40,395394 1 0x00007f8bdf5ed700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint29>  Creating REMB for session ID 0 (kmswebrtcendpoint29-sess0) and remote video SSRC 4294967295
+2023-08-16T07:27:40,396574 1 0x00007f8bdf5ed700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint29>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:27:40,401588 1 0x00007f8bdade4700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint30>  Media 'video' has REMB
+2023-08-16T07:27:40,401642 1 0x00007f8bdade4700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint30>  Creating REMB for session ID 0 (kmswebrtcendpoint30-sess0) and remote video SSRC 4294967295
+2023-08-16T07:27:40,401689 1 0x00007f8bdade4700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint30>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:27:40,402760 1 0x00007f8bdb5e5700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession29>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:27:40,419970 1 0x00007f8bdb5e5700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession30>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:27:40,501067 1 0x00007f8bdd5e9700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:27:40,501152 1 0x00007f8bdd5e9700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint31>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:27:40,554543 1 0x00007f8b48ff9700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:40,596434 1 0x00007f8bdb5e5700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint31>  Media 'video' has REMB
+2023-08-16T07:27:40,596549 1 0x00007f8bdb5e5700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint31>  Creating REMB for session ID 0 (kmswebrtcendpoint31-sess0) and remote video SSRC 4294967295
+2023-08-16T07:27:40,596592 1 0x00007f8bdb5e5700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint31>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:27:40,598314 1 0x00007f8bdcde8700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession31>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:27:40,801681 1 0x00007f8b45ff3700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:40,810043 1 0x00007f8b45ff3700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer12>  Add probe: Set jitterbuffer latency
+2023-08-16T07:27:40,810106 1 0x00007f8b45ff3700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer12>  Add probe: Adjust jitterbuffer PTS out
+2023-08-16T07:27:40,810421 1 0x00007f8b45ff3700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer12>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-16T07:27:40,817627 1 0x00007f8b277b6700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer12>  Setting latency to 100 ms
+2023-08-16T07:27:40,817740 1 0x00007f8b277b6700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer12>  Jitterbuffer latency set; remove probe
+2023-08-16T07:27:40,818804 1 0x00007f8b277b6700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpopusdepay6>  Add probe: Adjust depayloader PTS out
+2023-08-16T07:27:40,821322 1 0x00007f8b277b6700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpopusdepay6>  Fix PTS not strictly increasing, last: 0:00:17.544316487, current: 0:00:17.544316487, fixed = last + 1: 0:00:17.545316487
+2023-08-16T07:27:40,831404 1 0x00007f8b45ff3700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer13>  Add probe: Set jitterbuffer latency
+2023-08-16T07:27:40,831473 1 0x00007f8b45ff3700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer13>  Add probe: Adjust jitterbuffer PTS out
+2023-08-16T07:27:40,831837 1 0x00007f8b45ff3700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer13>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-16T07:27:40,832004 1 0x00007f8b25fb3700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer13>  Setting latency to 500 ms
+2023-08-16T07:27:40,832084 1 0x00007f8b25fb3700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer13>  Jitterbuffer latency set; remove probe
+2023-08-16T07:27:40,833014 1 0x00007f8b25fb3700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpvp8depay6>  Add probe: Adjust depayloader PTS out
+2023-08-16T07:27:40,843321 1 0x00007f8b25fb3700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmswebrtcendpoint22_kmsagnosticbin2-29:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:40,845208 1 0x00007f8b317ca700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmsagnosticbin2-24:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:41,205183 1 0x00007f8b3e7e4700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:41,255800 1 0x00007f8b25fb3700 warning rtpsynchronizer           kmsrtpsynchronizer.c:545 kms_rtp_synchronizer_process_rtp_buffer_mapped() <KmsRtpSynchronizer@0x7f8bac114e10>  [Sorted mode] Fix PTS not increasing monotonically, SSRC: 2678859799, seq: 15888, rtp_ts: 760914382, ext_ts: 760914382, last: 0:00:18.029356313, current: 0:00:17.993509163, fixed = last: 0:00:18.029356313
+2023-08-16T07:27:41,255901 1 0x00007f8b25fb3700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpvp8depay6>  Fix PTS not strictly increasing, last: 0:00:18.029356313, current: 0:00:18.029356313, fixed = last + 1: 0:00:18.030356313
+2023-08-16T07:27:41,256000 1 0x00007f8b25fb3700 warning rtpsynchronizer           kmsrtpsynchronizer.c:545 kms_rtp_synchronizer_process_rtp_buffer_mapped() <KmsRtpSynchronizer@0x7f8bac114e10>  [Sorted mode] Fix PTS not increasing monotonically, SSRC: 2678859799, seq: 15889, rtp_ts: 760917262, ext_ts: 760917262, last: 0:00:18.029356313, current: 0:00:18.025509163, fixed = last: 0:00:18.029356313
+2023-08-16T07:27:41,256050 1 0x00007f8b25fb3700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpvp8depay6>  Fix PTS not strictly increasing, last: 0:00:18.030356313, current: 0:00:18.029356313, fixed = last + 1: 0:00:18.031356313
+2023-08-16T07:27:41,605563 1 0x00007f8b277b6700 warning rtpsynchronizer           kmsrtpsynchronizer.c:545 kms_rtp_synchronizer_process_rtp_buffer_mapped() <KmsRtpSynchronizer@0x7f8bac114ec0>  [Sorted mode] Fix PTS not increasing monotonically, SSRC: 1462211067, seq: 10726, rtp_ts: 2124435152, ext_ts: 2124435152, last: 0:00:18.384316487, current: 0:00:18.348436090, fixed = last: 0:00:18.384316487
+2023-08-16T07:27:41,605674 1 0x00007f8b277b6700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpopusdepay6>  Fix PTS not strictly increasing, last: 0:00:18.384316487, current: 0:00:18.384316487, fixed = last + 1: 0:00:18.385316487
+2023-08-16T07:27:41,605751 1 0x00007f8b277b6700 warning rtpsynchronizer           kmsrtpsynchronizer.c:545 kms_rtp_synchronizer_process_rtp_buffer_mapped() <KmsRtpSynchronizer@0x7f8bac114ec0>  [Sorted mode] Fix PTS not increasing monotonically, SSRC: 1462211067, seq: 10727, rtp_ts: 2124436112, ext_ts: 2124436112, last: 0:00:18.384316487, current: 0:00:18.368436090, fixed = last: 0:00:18.384316487
+2023-08-16T07:27:41,605875 1 0x00007f8b277b6700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpopusdepay6>  Fix PTS not strictly increasing, last: 0:00:18.385316487, current: 0:00:18.384316487, fixed = last + 1: 0:00:18.386316487
+2023-08-16T07:27:41,671507 1 0x00007f8b3d7e2700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:41,735886 1 0x00007f8b357d2700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:41,799620 1 0x00007f8b3dfe3700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:41,954352 1 0x00007f8b2cfc1700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:41,957556 1 0x00007f8b3ffe7700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:41,958257 1 0x00007f8b337ce700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:41,961114 1 0x00007f8b337ce700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer14>  Add probe: Set jitterbuffer latency
+2023-08-16T07:27:41,961168 1 0x00007f8b337ce700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer14>  Add probe: Adjust jitterbuffer PTS out
+2023-08-16T07:27:41,961404 1 0x00007f8b337ce700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer14>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-16T07:27:41,961581 1 0x00007f8b18f99700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer14>  Setting latency to 100 ms
+2023-08-16T07:27:41,961677 1 0x00007f8b18f99700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer14>  Jitterbuffer latency set; remove probe
+2023-08-16T07:27:41,962860 1 0x00007f8b18f99700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpopusdepay7>  Add probe: Adjust depayloader PTS out
+2023-08-16T07:27:41,965637 1 0x00007f8b18f99700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpopusdepay7>  Fix PTS not strictly increasing, last: 0:00:18.693482655, current: 0:00:18.693482655, fixed = last + 1: 0:00:18.694482655
+2023-08-16T07:27:41,988923 1 0x00007f8b337ce700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer15>  Add probe: Set jitterbuffer latency
+2023-08-16T07:27:41,988988 1 0x00007f8b337ce700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer15>  Add probe: Adjust jitterbuffer PTS out
+2023-08-16T07:27:41,989250 1 0x00007f8b337ce700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer15>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-16T07:27:41,989667 1 0x00007f8b23faf700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer15>  Setting latency to 500 ms
+2023-08-16T07:27:41,989748 1 0x00007f8b23faf700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer15>  Jitterbuffer latency set; remove probe
+2023-08-16T07:27:41,990651 1 0x00007f8b23faf700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpvp8depay7>  Add probe: Adjust depayloader PTS out
+2023-08-16T07:27:42,000631 1 0x00007f8b23faf700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:42,003797 1 0x00007f8b16f95700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmsagnosticbin2-27:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:42,048059 1 0x00007f8b32fcd700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:42,413563 1 0x00007f8b2afbd700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:27:42,619832 1 0x00007f8b18f99700 warning rtpsynchronizer           kmsrtpsynchronizer.c:545 kms_rtp_synchronizer_process_rtp_buffer_mapped() <KmsRtpSynchronizer@0x7f8b8802f2a0>  [Sorted mode] Fix PTS not increasing monotonically, SSRC: 1541609930, seq: 7111, rtp_ts: 1137902057, ext_ts: 1137902057, last: 0:00:19.373482655, current: 0:00:19.356859646, fixed = last: 0:00:19.373482655
+2023-08-16T07:27:42,619949 1 0x00007f8b18f99700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpopusdepay7>  Fix PTS not strictly increasing, last: 0:00:19.373482655, current: 0:00:19.373482655, fixed = last + 1: 0:00:19.374482655
+2023-08-16T07:28:11,332786 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 513 ms at PTS=0:00:46.478091700 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,332967 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 25 ms at PTS=0:00:46.991750220 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,333095 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 25 ms at PTS=0:00:47.017091683 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,333570 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 25 ms at PTS=0:00:47.042433146 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,333674 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 25 ms at PTS=0:00:47.067774609 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,333740 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 25 ms at PTS=0:00:47.093116072 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,333796 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 25 ms at PTS=0:00:47.118457535 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,333848 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 25 ms at PTS=0:00:47.143798998 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,333899 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 25 ms at PTS=0:00:47.169140461 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,333948 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 25 ms at PTS=0:00:47.194481924 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,334016 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 25 ms at PTS=0:00:47.219823387 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,334069 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 25 ms at PTS=0:00:47.245164850 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,334119 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 25 ms at PTS=0:00:47.270506313 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,334167 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 25 ms at PTS=0:00:47.295847776 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,334215 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 25 ms at PTS=0:00:47.321189239 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,334263 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 25 ms at PTS=0:00:47.346530702 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,334311 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 25 ms at PTS=0:00:47.371872165 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,334359 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 25 ms at PTS=0:00:47.397213628 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,334406 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 25 ms at PTS=0:00:47.422555091 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,334455 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 25 ms at PTS=0:00:47.447896554 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,334503 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  GAP of 25 ms at PTS=0:00:47.473238017 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,336666 1 0x00007f8b477f6700 warning kmsutils                  kmsutils.c:481 discont_detection_probe() <kmswebrtcendpoint18_kmsagnosticbin2-22:sink>  DISCONTINUITY at non-keyframe; will drop until keyframe
+2023-08-16T07:28:11,347953 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 483 ms at PTS=0:00:46.479644559 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,348221 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:46.962668349 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,348326 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:46.986644539 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,348400 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:47.010620729 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,348457 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:47.034596919 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,348559 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:47.058573109 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,348630 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:47.082549299 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,348682 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:47.106525489 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,348731 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:47.130501679 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,348780 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:47.154477869 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,348827 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:47.178454059 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,348875 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:47.202430249 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,348922 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:47.226406439 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,348969 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:47.250382629 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,349018 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:47.274358819 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,349066 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:47.298335009 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,349113 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:47.322311199 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,349162 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:47.346287389 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,349208 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:47.370263579 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,349255 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:47.394239769 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,349301 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:47.418215959 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,349358 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  GAP of 23 ms at PTS=0:00:47.442192149 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,349659 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 484 ms at PTS=0:00:46.468644032 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,349776 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:46.952757641 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,349850 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:46.975644004 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,350058 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:46.998530367 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,350132 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:47.021416730 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,350187 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:47.044303093 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,350239 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:47.067189456 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,350289 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:47.090075819 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,350338 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:47.112962182 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,350387 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:47.135848545 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,350437 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:47.158734908 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,350485 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:47.181621271 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,350535 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:47.204507634 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,350583 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:47.227393997 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,350631 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:47.250280360 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,350686 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:47.273166723 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,350750 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:47.296053086 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,350802 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:47.318939449 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,350849 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:47.341825812 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,350896 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:47.364712175 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,350943 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:47.387598538 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,350989 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:47.410484901 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,351043 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  GAP of 22 ms at PTS=0:00:47.433371264 (packet loss?); will request a new keyframe
+2023-08-16T07:28:11,351876 1 0x00007f8b23faf700 warning kmsutils                  kmsutils.c:481 discont_detection_probe() <kmswebrtcendpoint28_kmsagnosticbin2-31:sink>  DISCONTINUITY at non-keyframe; will drop until keyframe
+2023-08-16T07:28:11,385483 1 0x00007f8b817fa700 warning kmsutils                  kmsutils.c:481 discont_detection_probe() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  DISCONTINUITY at non-keyframe; will drop until keyframe
+2023-08-16T07:28:11,603659 1 0x00007f8b25fb3700 warning kmsutils                  kmsutils.c:481 discont_detection_probe() <kmswebrtcendpoint22_kmsagnosticbin2-29:sink>  DISCONTINUITY at non-keyframe; will drop until keyframe
+2023-08-16T07:31:57,696035 1 0x00007f8bdbde6700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:31:57,696124 1 0x00007f8bdbde6700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint32>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:31:57,697563 1 0x00007f8bdbde6700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:31:57,714396 1 0x00007f8bdf5ed700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint32>  Media 'video' has REMB
+2023-08-16T07:31:57,714465 1 0x00007f8bdf5ed700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint32>  Creating REMB for session ID 0 (kmswebrtcendpoint32-sess0) and remote video SSRC 3631344749
+2023-08-16T07:31:57,714501 1 0x00007f8bdf5ed700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint32>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:31:57,717446 1 0x00007f8bdc5e7700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession32>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:31:59,423571 1 0x00007f8b1cfa1700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:31:59,430127 1 0x00007f8b1cfa1700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer16>  Add probe: Set jitterbuffer latency
+2023-08-16T07:31:59,430180 1 0x00007f8b1cfa1700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer16>  Add probe: Adjust jitterbuffer PTS out
+2023-08-16T07:31:59,430549 1 0x00007f8b1cfa1700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer16>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-16T07:31:59,430731 1 0x00007f8b1af9d700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer16>  Setting latency to 100 ms
+2023-08-16T07:31:59,430857 1 0x00007f8b1af9d700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer16>  Jitterbuffer latency set; remove probe
+2023-08-16T07:31:59,431996 1 0x00007f8b1af9d700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpopusdepay8>  Add probe: Adjust depayloader PTS out
+2023-08-16T07:31:59,435172 1 0x00007f8b1af9d700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpopusdepay8>  Fix PTS not strictly increasing, last: 0:00:02.209968914, current: 0:00:02.209968914, fixed = last + 1: 0:00:02.210968914
+2023-08-16T07:31:59,543033 1 0x00007f8b1cfa1700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer17>  Add probe: Set jitterbuffer latency
+2023-08-16T07:31:59,543112 1 0x00007f8b1cfa1700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer17>  Add probe: Adjust jitterbuffer PTS out
+2023-08-16T07:31:59,543460 1 0x00007f8b1cfa1700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer17>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-16T07:31:59,543680 1 0x00007f8b13f8f700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer17>  Setting latency to 500 ms
+2023-08-16T07:31:59,543791 1 0x00007f8b13f8f700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer17>  Jitterbuffer latency set; remove probe
+2023-08-16T07:31:59,544878 1 0x00007f8b13f8f700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpvp8depay8>  Add probe: Adjust depayloader PTS out
+2023-08-16T07:31:59,545796 1 0x00007f8b13f8f700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmswebrtcendpoint32_kmsagnosticbin2-35:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:31:59,548079 1 0x00007f8b1378e700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmsagnosticbin2-33:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:49:17,487213 1 0x00007f8bdd5e9700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-16T07:49:17,487292 1 0x00007f8bdd5e9700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint33>  Removing not supported codec 'AMR/8000'
+2023-08-16T07:49:17,488666 1 0x00007f8bdd5e9700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:49:17,502639 1 0x00007f8bdd5e9700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint33>  Media 'video' has REMB
+2023-08-16T07:49:17,502712 1 0x00007f8bdd5e9700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint33>  Creating REMB for session ID 0 (kmswebrtcendpoint33-sess0) and remote video SSRC 462340278
+2023-08-16T07:49:17,502758 1 0x00007f8bdd5e9700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint33>  REMB: Set RTCP min interval to 500 ms
+2023-08-16T07:49:17,505567 1 0x00007f8bdbde6700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession33>  Using STUN server: 43.201.150.143:3478
+2023-08-16T07:49:19,938121 1 0x00007f8b1cfa1700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:49:19,958923 1 0x00007f8b1cfa1700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer18>  Add probe: Set jitterbuffer latency
+2023-08-16T07:49:19,958984 1 0x00007f8b1cfa1700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer18>  Add probe: Adjust jitterbuffer PTS out
+2023-08-16T07:49:19,959370 1 0x00007f8b1cfa1700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer18>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-16T07:49:19,959546 1 0x00007f8b1bf9f700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer18>  Setting latency to 500 ms
+2023-08-16T07:49:19,959653 1 0x00007f8b1bf9f700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer18>  Jitterbuffer latency set; remove probe
+2023-08-16T07:49:19,960749 1 0x00007f8b1bf9f700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpvp8depay9>  Add probe: Adjust depayloader PTS out
+2023-08-16T07:49:19,970389 1 0x00007f8b1bf9f700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmswebrtcendpoint33_kmsagnosticbin2-38:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:49:19,972376 1 0x00007f8b19f9b700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmsagnosticbin2-37:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-16T07:49:19,979815 1 0x00007f8b1cfa1700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer19>  Add probe: Set jitterbuffer latency
+2023-08-16T07:49:19,979867 1 0x00007f8b1cfa1700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer19>  Add probe: Adjust jitterbuffer PTS out
+2023-08-16T07:49:19,980184 1 0x00007f8b1cfa1700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer19>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-16T07:49:19,980424 1 0x00007f8b14790700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer19>  Setting latency to 100 ms
+2023-08-16T07:49:19,980549 1 0x00007f8b14790700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer19>  Jitterbuffer latency set; remove probe
+2023-08-16T07:49:19,981350 1 0x00007f8b14790700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpopusdepay9>  Add probe: Adjust depayloader PTS out
+2023-08-16T08:09:34,829737 1 0x00007f8be493d280    info KurentoMediaSet           MediaSet.cpp:94 deleteMediaSet()  Destroying 1 pipelines that are already alive
+2023-08-16T08:09:34,834056 1 0x00007f8be0df0700   error queue                     gstqueue.c:1028 gst_queue_handle_sink_event() <agnosticbin_queue70>  Failed to push event
+2023-08-16T08:09:34,860234 1 0x00007f8be493d280    info KurentoMediaSet           MediaSet.cpp:109 deleteMediaSet()  Destroying mediaSet
+2023-08-16T08:09:34,887228 1 0x00007f8be493d280    info KurentoMediaServer        main.cpp:266 main()  Kurento Media Server stopped

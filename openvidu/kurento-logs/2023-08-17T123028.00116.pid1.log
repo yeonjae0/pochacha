@@ -1,0 +1,543 @@
+2023-08-17T12:30:28,593380 1 0x00007ff458d44280    info KurentoMediaServer        main.cpp:196 main()  Logs storage path set to /opt/openvidu/kurento-logs
+2023-08-17T12:30:28,594636 1 0x00007ff458d44280    info KurentoModuleManager      ModuleManager.cpp:89 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsfiltersmodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsfiltersmodule.so
+2023-08-17T12:30:28,594689 1 0x00007ff458d44280    info KurentoModuleManager      ModuleManager.cpp:136 loadModule()  Loaded module: filters, version: 7.0.1, date: Apr 27 2023 10:10:39
+2023-08-17T12:30:28,603383 1 0x00007ff458d44280    info KurentoModuleManager      ModuleManager.cpp:89 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmselementsmodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmselementsmodule.so
+2023-08-17T12:30:28,603447 1 0x00007ff458d44280    info KurentoModuleManager      ModuleManager.cpp:136 loadModule()  Loaded module: elements, version: 7.0.1, date: Apr 27 2023 10:04:13
+2023-08-17T12:30:28,603898 1 0x00007ff458d44280    info KurentoModuleManager      ModuleManager.cpp:89 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmscoremodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmscoremodule.so
+2023-08-17T12:30:28,603982 1 0x00007ff458d44280    info KurentoModuleManager      ModuleManager.cpp:136 loadModule()  Loaded module: core, version: 7.0.1, date: Apr 27 2023 09:57:38
+2023-08-17T12:30:28,604646 1 0x00007ff458d44280    info KurentoModuleManager      ModuleManager.cpp:89 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmschromamodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmschromamodule.so
+2023-08-17T12:30:28,604695 1 0x00007ff458d44280    info KurentoModuleManager      ModuleManager.cpp:136 loadModule()  Loaded module: chroma, version: 7.0.1, date: Apr 27 2023 10:14:27
+2023-08-17T12:30:28,605480 1 0x00007ff458d44280    info KurentoModuleManager      ModuleManager.cpp:89 loadModule()  Load file: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsdatachannelexamplemodule.so, module name: /usr/lib/x86_64-linux-gnu/kurento/modules/libkmsdatachannelexamplemodule.so
+2023-08-17T12:30:28,605535 1 0x00007ff458d44280    info KurentoModuleManager      ModuleManager.cpp:136 loadModule()  Loaded module: datachannelexample, version: 7.0.1, date: Apr 27 2023 10:15:03
+2023-08-17T12:30:28,605582 1 0x00007ff458d44280    info KurentoMediaServer        main.cpp:240 main()  Kurento Media Server version: 7.0.1
+2023-08-17T12:30:28,605601 1 0x00007ff458d44280    info KurentoLoadConfig         loadConfig.cpp:249 loadConfig()  Reading configuration from: /etc/kurento/kurento.conf.json
+2023-08-17T12:30:28,605883 1 0x00007ff458d44280    info KurentoLoadConfig         loadConfig.cpp:183 loadModulesConfigFromDir()  Looking for config files in /etc/kurento/modules
+2023-08-17T12:30:28,605965 1 0x00007ff458d44280    info KurentoLoadConfig         loadConfig.cpp:183 loadModulesConfigFromDir()  Looking for config files in /etc/kurento/modules/kurento
+2023-08-17T12:30:28,606105 1 0x00007ff458d44280    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/MediaElement.conf.ini
+2023-08-17T12:30:28,606222 1 0x00007ff458d44280    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/WebRtcEndpoint.conf.ini
+2023-08-17T12:30:28,606325 1 0x00007ff458d44280    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/BaseRtpEndpoint.conf.ini
+2023-08-17T12:30:28,606449 1 0x00007ff458d44280    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/UriEndpoint.conf.ini
+2023-08-17T12:30:28,606553 1 0x00007ff458d44280    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/PlayerEndpoint.conf.ini
+2023-08-17T12:30:28,606815 1 0x00007ff458d44280    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/SdpEndpoint.conf.json
+2023-08-17T12:30:28,606993 1 0x00007ff458d44280    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/RecorderEndpoint.conf.ini
+2023-08-17T12:30:28,607163 1 0x00007ff458d44280    info KurentoLoadConfig         loadConfig.cpp:209 loadModulesConfigFromDir()  Loaded module config: /etc/kurento/modules/kurento/HttpEndpoint.conf.ini
+2023-08-17T12:30:28,607213 1 0x00007ff458d44280    info KurentoLoadConfig         loadConfig.cpp:265 loadConfig()  Configuration loaded successfully
+2023-08-17T12:30:28,607289 1 0x00007ff458d44280    info KurentoLoadConfig         loadConfig.cpp:271 loadConfig()  Loaded config in effect:
+{
+    "mediaServer": {
+        "resources": {
+            "\/\/exceptionLimit": "0.8",
+            "\/\/killLimit": "0.7",
+            "garbageCollectorPeriod": "240",
+            "\/\/": "Default: false",
+            "disableRequestCache": "false"
+        },
+        "net": {
+            "websocket": {
+                "\/\/address": "0.0.0.0",
+                "\/\/ipv6": "false",
+                "port": "8888",
+                "secure": {
+                    "\/\/port": "8433",
+                    "\/\/certificate": "cert+key.pem",
+                    "\/\/": "Password for the private key, if one was set when the key was created",
+                    "\/\/password": ""
+                },
+                "\/\/registrar": {
+                    "\/\/address": "ws:\/\/localhost:9090",
+                    "\/\/localAddress": "localhost"
+                },
+                "\/\/": "Default: SOMAXCONN (128)",
+                "\/\/connqueue": "128",
+                "path": "kurento",
+                "threads": "10"
+            }
+        }
+    },
+    "configPath": "\/etc\/kurento",
+    "modules": {
+        "kurento": {
+            "MediaElement": {
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "WebRtcEndpoint": {
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "BaseRtpEndpoint": {
+                "minPort": "40000",
+                "maxPort": "57000",
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "UriEndpoint": {
+                "defaultPath": "file:\/\/\/var\/lib\/kurento\/",
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "PlayerEndpoint": {
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "SdpEndpoint": {
+                "numAudioMedias": "1",
+                "numVideoMedias": "1",
+                "audioCodecs": [
+                    {
+                        "name": "opus\/48000\/2",
+                        "\/\/": "Next is an example about how a codec can be configured.",
+                        "\/\/": "WARNING: Usage of properties is not yet supported",
+                        "\/\/properties": {
+                            "\/\/maxcodedaudiobandwidth": "16000",
+                            "\/\/maxaveragebitrate": "20000",
+                            "\/\/stereo": "1",
+                            "\/\/useinbandfec": "1",
+                            "\/\/usedtx": "0"
+                        }
+                    },
+                    {
+                        "name": "PCMU\/8000"
+                    },
+                    {
+                        "name": "AMR\/8000"
+                    }
+                ],
+                "videoCodecs": [
+                    {
+                        "name": "VP8\/90000"
+                    },
+                    {
+                        "name": "H264\/90000"
+                    }
+                ],
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "RecorderEndpoint": {
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            },
+            "HttpEndpoint": {
+                "serverAddress": "localhost",
+                "port": "9091",
+                "configPath": "\/etc\/kurento\/modules\/kurento"
+            }
+        }
+    }
+}
+2023-08-17T12:30:28,607352 1 0x00007ff458d44280    info KurentoServerMethods      ServerMethods.cpp:88 ServerMethods()  Using above 80% of system limits will throw NOT_ENOUGH_RESOURCES exception
+2023-08-17T12:30:28,607383 1 0x00007ff458d44280    info KurentoServerMethods      ServerMethods.cpp:107 ServerMethods()  System limits: unlimited threads, 1048576 files
+2023-08-17T12:30:28,607488 1 0x00007ff458d44280    info KurentoWorkerPool         WorkerPool.cpp:67 WorkerPool()  Worker thread pool size: 4
+2023-08-17T12:30:28,608049 1 0x00007ff458d44280    info KurentoServerMethods      ServerMethods.cpp:143 ServerMethods()  RPC Request Cache is ENABLED
+2023-08-17T12:30:28,608362 1 0x00007ff458d44280    info KurentoWebSocketTransport WebSocketTransport.cpp:203 initWebSocket()  WebSocket server (ws://) listening on address '::', port 8888
+2023-08-17T12:30:28,608406 1 0x00007ff458d44280    info KurentoWebSocketTransport WebSocketTransport.cpp:89 WebSocketTransport()  Secure WebSocket server (wss://) not enabled
+2023-08-17T12:30:28,608885 1 0x00007ff458d44280    info KurentoMediaServer        main.cpp:259 main()  Kurento Media Server started
+2023-08-17T12:31:19,100217 1 0x00007ff4531f3700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:160 generateDefaultCertificates()  Unable to load the RSA certificate from file. Using the default certificate.
+2023-08-17T12:31:19,186778 1 0x00007ff4531f3700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:169 generateDefaultCertificates()  Unable to load the ECDSA certificate from file. Using the default certificate.
+2023-08-17T12:31:19,187137 1 0x00007ff4531f3700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-17T12:31:19,187196 1 0x00007ff4531f3700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint0>  Removing not supported codec 'AMR/8000'
+2023-08-17T12:31:19,190390 1 0x00007ff4531f3700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:19,332067 1 0x00007ff4539f4700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint0>  Media 'video' has REMB
+2023-08-17T12:31:19,332166 1 0x00007ff4539f4700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint0>  Creating REMB for session ID 0 (kmswebrtcendpoint0-sess0) and remote video SSRC 4235440463
+2023-08-17T12:31:19,332203 1 0x00007ff4539f4700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint0>  REMB: Set RTCP min interval to 500 ms
+2023-08-17T12:31:19,340770 1 0x00007ff4511ef700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession0>  Using STUN server: 43.201.150.143:3478
+2023-08-17T12:31:19,355571 1 0x00007ff44d95b700    info KurentoWorkerPool         WorkerPool.cpp:67 WorkerPool()  Worker thread pool size: 4
+2023-08-17T12:31:21,661621 1 0x00007ff4177fe700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:21,698286 1 0x00007ff4177fe700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer0>  Add probe: Set jitterbuffer latency
+2023-08-17T12:31:21,698379 1 0x00007ff4177fe700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer0>  Add probe: Adjust jitterbuffer PTS out
+2023-08-17T12:31:21,698834 1 0x00007ff4177fe700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer0>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-17T12:31:21,699041 1 0x00007ff3f67fc700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer0>  Setting latency to 100 ms
+2023-08-17T12:31:21,699141 1 0x00007ff3f67fc700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer0>  Jitterbuffer latency set; remove probe
+2023-08-17T12:31:21,700572 1 0x00007ff3f67fc700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpopusdepay0>  Add probe: Adjust depayloader PTS out
+2023-08-17T12:31:21,719429 1 0x00007ff3f67fc700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpopusdepay0>  Fix PTS not strictly increasing, last: 0:00:03.197460452, current: 0:00:03.197460452, fixed = last + 1: 0:00:03.198460452
+2023-08-17T12:31:21,729566 1 0x00007ff4177fe700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer1>  Add probe: Set jitterbuffer latency
+2023-08-17T12:31:21,729625 1 0x00007ff4177fe700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer1>  Add probe: Adjust jitterbuffer PTS out
+2023-08-17T12:31:21,730102 1 0x00007ff4177fe700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer1>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-17T12:31:21,730311 1 0x00007ff3f4ff9700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer1>  Setting latency to 500 ms
+2023-08-17T12:31:21,730399 1 0x00007ff3f4ff9700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer1>  Jitterbuffer latency set; remove probe
+2023-08-17T12:31:21,731505 1 0x00007ff3f4ff9700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpvp8depay0>  Add probe: Adjust depayloader PTS out
+2023-08-17T12:31:21,739379 1 0x00007ff3f4ff9700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmswebrtcendpoint0_kmsagnosticbin2-3:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:21,743312 1 0x00007ff3d7fff700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmsagnosticbin2-1:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:48,418577 1 0x00007ff4519f0700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-17T12:31:48,418649 1 0x00007ff4519f0700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint1>  Removing not supported codec 'AMR/8000'
+2023-08-17T12:31:48,442439 1 0x00007ff4519f0700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint1>  Media 'video' has REMB
+2023-08-17T12:31:48,442503 1 0x00007ff4519f0700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint1>  Creating REMB for session ID 0 (kmswebrtcendpoint1-sess0) and remote video SSRC 4294967295
+2023-08-17T12:31:48,442536 1 0x00007ff4519f0700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint1>  REMB: Set RTCP min interval to 500 ms
+2023-08-17T12:31:48,445066 1 0x00007ff4539f4700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession1>  Using STUN server: 43.201.150.143:3478
+2023-08-17T12:31:48,762852 1 0x00007ff44f1eb700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-17T12:31:48,762940 1 0x00007ff44f1eb700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint2>  Removing not supported codec 'AMR/8000'
+2023-08-17T12:31:48,764218 1 0x00007ff44f1eb700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:48,793477 1 0x00007ff4529f2700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint2>  Media 'video' has REMB
+2023-08-17T12:31:48,793541 1 0x00007ff4529f2700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint2>  Creating REMB for session ID 0 (kmswebrtcendpoint2-sess0) and remote video SSRC 3020573865
+2023-08-17T12:31:48,793575 1 0x00007ff4529f2700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint2>  REMB: Set RTCP min interval to 500 ms
+2023-08-17T12:31:48,797055 1 0x00007ff4501ed700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession2>  Using STUN server: 43.201.150.143:3478
+2023-08-17T12:31:48,863764 1 0x00007ff3d67fc700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:48,873136 1 0x00007ff44f9ec700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-17T12:31:48,873191 1 0x00007ff44f9ec700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint3>  Removing not supported codec 'AMR/8000'
+2023-08-17T12:31:48,960594 1 0x00007ff4539f4700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint3>  Media 'video' has REMB
+2023-08-17T12:31:48,960678 1 0x00007ff4539f4700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint3>  Creating REMB for session ID 0 (kmswebrtcendpoint3-sess0) and remote video SSRC 4294967295
+2023-08-17T12:31:48,960714 1 0x00007ff4539f4700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint3>  REMB: Set RTCP min interval to 500 ms
+2023-08-17T12:31:48,962864 1 0x00007ff4509ee700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession3>  Using STUN server: 43.201.150.143:3478
+2023-08-17T12:31:49,212825 1 0x00007ff4521f1700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-17T12:31:49,212899 1 0x00007ff4521f1700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint4>  Removing not supported codec 'AMR/8000'
+2023-08-17T12:31:49,241842 1 0x00007ff44f1eb700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint4>  Media 'video' has REMB
+2023-08-17T12:31:49,241917 1 0x00007ff44f1eb700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint4>  Creating REMB for session ID 0 (kmswebrtcendpoint4-sess0) and remote video SSRC 4294967295
+2023-08-17T12:31:49,241951 1 0x00007ff44f1eb700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint4>  REMB: Set RTCP min interval to 500 ms
+2023-08-17T12:31:49,248775 1 0x00007ff4539f4700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession4>  Using STUN server: 43.201.150.143:3478
+2023-08-17T12:31:49,282662 1 0x00007ff4511ef700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-17T12:31:49,282740 1 0x00007ff4511ef700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint5>  Removing not supported codec 'AMR/8000'
+2023-08-17T12:31:49,374648 1 0x00007ff4511ef700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint5>  Media 'video' has REMB
+2023-08-17T12:31:49,374726 1 0x00007ff4511ef700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint5>  Creating REMB for session ID 0 (kmswebrtcendpoint5-sess0) and remote video SSRC 4294967295
+2023-08-17T12:31:49,374762 1 0x00007ff4511ef700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint5>  REMB: Set RTCP min interval to 500 ms
+2023-08-17T12:31:49,377540 1 0x00007ff4539f4700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession5>  Using STUN server: 43.201.150.143:3478
+2023-08-17T12:31:49,404421 1 0x00007ff3c7fff700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:49,409946 1 0x00007ff3c7fff700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer2>  Add probe: Set jitterbuffer latency
+2023-08-17T12:31:49,410002 1 0x00007ff3c7fff700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer2>  Add probe: Adjust jitterbuffer PTS out
+2023-08-17T12:31:49,410304 1 0x00007ff3c7fff700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer2>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-17T12:31:49,414429 1 0x00007ff3ba7f4700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer2>  Setting latency to 100 ms
+2023-08-17T12:31:49,414641 1 0x00007ff3ba7f4700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer2>  Jitterbuffer latency set; remove probe
+2023-08-17T12:31:49,416619 1 0x00007ff3ba7f4700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpopusdepay1>  Add probe: Adjust depayloader PTS out
+2023-08-17T12:31:49,456955 1 0x00007ff3ba7f4700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpopusdepay1>  Fix PTS not strictly increasing, last: 0:00:30.944606105, current: 0:00:30.944606105, fixed = last + 1: 0:00:30.945606105
+2023-08-17T12:31:49,465240 1 0x00007ff3c7fff700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer3>  Add probe: Set jitterbuffer latency
+2023-08-17T12:31:49,465314 1 0x00007ff3c7fff700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer3>  Add probe: Adjust jitterbuffer PTS out
+2023-08-17T12:31:49,465584 1 0x00007ff3c7fff700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer3>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-17T12:31:49,467290 1 0x00007ff3b8ff1700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer3>  Setting latency to 500 ms
+2023-08-17T12:31:49,467507 1 0x00007ff3b8ff1700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer3>  Jitterbuffer latency set; remove probe
+2023-08-17T12:31:49,470124 1 0x00007ff3b8ff1700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpvp8depay1>  Add probe: Adjust depayloader PTS out
+2023-08-17T12:31:49,512626 1 0x00007ff3b8ff1700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmswebrtcendpoint2_kmsagnosticbin2-7:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:49,523068 1 0x00007ff3b87f0700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmsagnosticbin2-5:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:49,703951 1 0x00007ff4501ed700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-17T12:31:49,704022 1 0x00007ff4501ed700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint6>  Removing not supported codec 'AMR/8000'
+2023-08-17T12:31:49,728307 1 0x00007ff4529f2700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint6>  Media 'video' has REMB
+2023-08-17T12:31:49,728371 1 0x00007ff4529f2700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint6>  Creating REMB for session ID 0 (kmswebrtcendpoint6-sess0) and remote video SSRC 4294967295
+2023-08-17T12:31:49,728407 1 0x00007ff4529f2700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint6>  REMB: Set RTCP min interval to 500 ms
+2023-08-17T12:31:49,731961 1 0x00007ff44f9ec700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession6>  Using STUN server: 43.201.150.143:3478
+2023-08-17T12:31:49,769382 1 0x00007ff4501ed700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-17T12:31:49,769450 1 0x00007ff4501ed700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint7>  Removing not supported codec 'AMR/8000'
+2023-08-17T12:31:49,880162 1 0x00007ff44f1eb700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint7>  Media 'video' has REMB
+2023-08-17T12:31:49,880240 1 0x00007ff44f1eb700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint7>  Creating REMB for session ID 0 (kmswebrtcendpoint7-sess0) and remote video SSRC 4294967295
+2023-08-17T12:31:49,880298 1 0x00007ff44f1eb700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint7>  REMB: Set RTCP min interval to 500 ms
+2023-08-17T12:31:49,886735 1 0x00007ff4501ed700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession7>  Using STUN server: 43.201.150.143:3478
+2023-08-17T12:31:49,958224 1 0x00007ff4519f0700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-17T12:31:49,958295 1 0x00007ff4519f0700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint8>  Removing not supported codec 'AMR/8000'
+2023-08-17T12:31:49,959472 1 0x00007ff4519f0700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:50,004412 1 0x00007ff3c57fa700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:50,026293 1 0x00007ff4519f0700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint8>  Media 'video' has REMB
+2023-08-17T12:31:50,026368 1 0x00007ff4519f0700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint8>  Creating REMB for session ID 0 (kmswebrtcendpoint8-sess0) and remote video SSRC 3681949847
+2023-08-17T12:31:50,026439 1 0x00007ff4519f0700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint8>  REMB: Set RTCP min interval to 500 ms
+2023-08-17T12:31:50,032458 1 0x00007ff44f1eb700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession8>  Using STUN server: 43.201.150.143:3478
+2023-08-17T12:31:50,116948 1 0x00007ff4501ed700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-17T12:31:50,117025 1 0x00007ff4501ed700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint9>  Removing not supported codec 'AMR/8000'
+2023-08-17T12:31:50,123687 1 0x00007ff4511ef700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-17T12:31:50,123740 1 0x00007ff4511ef700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint10>  Removing not supported codec 'AMR/8000'
+2023-08-17T12:31:50,156758 1 0x00007ff4529f2700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint9>  Media 'video' has REMB
+2023-08-17T12:31:50,156831 1 0x00007ff4529f2700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint9>  Creating REMB for session ID 0 (kmswebrtcendpoint9-sess0) and remote video SSRC 4294967295
+2023-08-17T12:31:50,156864 1 0x00007ff4529f2700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint9>  REMB: Set RTCP min interval to 500 ms
+2023-08-17T12:31:50,161745 1 0x00007ff44f9ec700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint10>  Media 'video' has REMB
+2023-08-17T12:31:50,161800 1 0x00007ff44f9ec700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint10>  Creating REMB for session ID 0 (kmswebrtcendpoint10-sess0) and remote video SSRC 4294967295
+2023-08-17T12:31:50,161834 1 0x00007ff44f9ec700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint10>  REMB: Set RTCP min interval to 500 ms
+2023-08-17T12:31:50,164628 1 0x00007ff44f9ec700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession9>  Using STUN server: 43.201.150.143:3478
+2023-08-17T12:31:50,185666 1 0x00007ff4511ef700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession10>  Using STUN server: 43.201.150.143:3478
+2023-08-17T12:31:50,209020 1 0x00007ff4511ef700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-17T12:31:50,209071 1 0x00007ff4511ef700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint11>  Removing not supported codec 'AMR/8000'
+2023-08-17T12:31:50,337662 1 0x00007ff4501ed700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint11>  Media 'video' has REMB
+2023-08-17T12:31:50,337740 1 0x00007ff4501ed700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint11>  Creating REMB for session ID 0 (kmswebrtcendpoint11-sess0) and remote video SSRC 4294967295
+2023-08-17T12:31:50,337774 1 0x00007ff4501ed700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint11>  REMB: Set RTCP min interval to 500 ms
+2023-08-17T12:31:50,344446 1 0x00007ff4521f1700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession11>  Using STUN server: 43.201.150.143:3478
+2023-08-17T12:31:50,483792 1 0x00007ff4519f0700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-17T12:31:50,483870 1 0x00007ff4519f0700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint12>  Removing not supported codec 'AMR/8000'
+2023-08-17T12:31:50,485221 1 0x00007ff4519f0700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:50,510089 1 0x00007ff44f9ec700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint12>  Media 'video' has REMB
+2023-08-17T12:31:50,510159 1 0x00007ff44f9ec700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint12>  Creating REMB for session ID 0 (kmswebrtcendpoint12-sess0) and remote video SSRC 1224013992
+2023-08-17T12:31:50,510496 1 0x00007ff44f9ec700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint12>  REMB: Set RTCP min interval to 500 ms
+2023-08-17T12:31:50,515093 1 0x00007ff4539f4700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession12>  Using STUN server: 43.201.150.143:3478
+2023-08-17T12:31:50,554732 1 0x00007ff4509ee700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-17T12:31:50,554803 1 0x00007ff4509ee700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint13>  Removing not supported codec 'AMR/8000'
+2023-08-17T12:31:50,577860 1 0x00007ff4519f0700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-17T12:31:50,577951 1 0x00007ff4519f0700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint14>  Removing not supported codec 'AMR/8000'
+2023-08-17T12:31:50,579193 1 0x00007ff4519f0700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-17T12:31:50,579242 1 0x00007ff4519f0700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint15>  Removing not supported codec 'AMR/8000'
+2023-08-17T12:31:50,632208 1 0x00007ff4531f3700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint15>  Media 'video' has REMB
+2023-08-17T12:31:50,632288 1 0x00007ff4531f3700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint15>  Creating REMB for session ID 0 (kmswebrtcendpoint15-sess0) and remote video SSRC 4294967295
+2023-08-17T12:31:50,632323 1 0x00007ff4531f3700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint15>  REMB: Set RTCP min interval to 500 ms
+2023-08-17T12:31:50,642048 1 0x00007ff4521f1700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint13>  Media 'video' has REMB
+2023-08-17T12:31:50,642108 1 0x00007ff4521f1700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint13>  Creating REMB for session ID 0 (kmswebrtcendpoint13-sess0) and remote video SSRC 4294967295
+2023-08-17T12:31:50,642141 1 0x00007ff4521f1700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint13>  REMB: Set RTCP min interval to 500 ms
+2023-08-17T12:31:50,643943 1 0x00007ff4539f4700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession15>  Using STUN server: 43.201.150.143:3478
+2023-08-17T12:31:50,657435 1 0x00007ff4509ee700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession13>  Using STUN server: 43.201.150.143:3478
+2023-08-17T12:31:50,666641 1 0x00007ff3affdf700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:50,702618 1 0x00007ff3affdf700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer4>  Add probe: Set jitterbuffer latency
+2023-08-17T12:31:50,702695 1 0x00007ff3affdf700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer4>  Add probe: Adjust jitterbuffer PTS out
+2023-08-17T12:31:50,702991 1 0x00007ff3affdf700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer4>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-17T12:31:50,703947 1 0x00007ff39f7be700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer4>  Setting latency to 100 ms
+2023-08-17T12:31:50,704047 1 0x00007ff39f7be700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer4>  Jitterbuffer latency set; remove probe
+2023-08-17T12:31:50,705259 1 0x00007ff39f7be700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpopusdepay2>  Add probe: Adjust depayloader PTS out
+2023-08-17T12:31:50,739837 1 0x00007ff39f7be700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpopusdepay2>  Fix PTS not strictly increasing, last: 0:00:32.202967269, current: 0:00:32.202967269, fixed = last + 1: 0:00:32.203967269
+2023-08-17T12:31:50,750281 1 0x00007ff3affdf700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer5>  Add probe: Set jitterbuffer latency
+2023-08-17T12:31:50,750502 1 0x00007ff3affdf700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer5>  Add probe: Adjust jitterbuffer PTS out
+2023-08-17T12:31:50,751378 1 0x00007ff3affdf700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer5>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-17T12:31:50,753702 1 0x00007ff39dfbb700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer5>  Setting latency to 500 ms
+2023-08-17T12:31:50,753773 1 0x00007ff39dfbb700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer5>  Jitterbuffer latency set; remove probe
+2023-08-17T12:31:50,755155 1 0x00007ff39dfbb700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpvp8depay2>  Add probe: Adjust depayloader PTS out
+2023-08-17T12:31:50,770691 1 0x00007ff39dfbb700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmswebrtcendpoint8_kmsagnosticbin2-13:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:50,773594 1 0x00007ff39d7ba700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmsagnosticbin2-9:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:50,804003 1 0x00007ff3c67fc700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:50,812677 1 0x00007ff4539f4700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint14>  Media 'video' has REMB
+2023-08-17T12:31:50,812744 1 0x00007ff4539f4700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint14>  Creating REMB for session ID 0 (kmswebrtcendpoint14-sess0) and remote video SSRC 4294967295
+2023-08-17T12:31:50,812780 1 0x00007ff4539f4700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint14>  REMB: Set RTCP min interval to 500 ms
+2023-08-17T12:31:50,814536 1 0x00007ff4509ee700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession14>  Using STUN server: 43.201.150.143:3478
+2023-08-17T12:31:50,926198 1 0x00007ff3c5ffb700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:51,101069 1 0x00007ff39c7b8700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:51,157772 1 0x00007ff3a1fc3700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:51,258480 1 0x00007ff3a07c0700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:51,308033 1 0x00007ff3b67ec700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:51,308347 1 0x00007ff3b37e6700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:51,343855 1 0x00007ff3a77ce700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:51,518624 1 0x00007ff3b17e2700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:51,522477 1 0x00007ff3aa7d4700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:52,007244 1 0x00007ff3b07e0700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:52,049161 1 0x00007ff3b07e0700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer6>  Add probe: Set jitterbuffer latency
+2023-08-17T12:31:52,049224 1 0x00007ff3b07e0700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer6>  Add probe: Adjust jitterbuffer PTS out
+2023-08-17T12:31:52,049448 1 0x00007ff3b07e0700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer6>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-17T12:31:52,049603 1 0x00007ff398fb1700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer6>  Setting latency to 500 ms
+2023-08-17T12:31:52,049678 1 0x00007ff398fb1700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer6>  Jitterbuffer latency set; remove probe
+2023-08-17T12:31:52,050778 1 0x00007ff398fb1700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpvp8depay3>  Add probe: Adjust depayloader PTS out
+2023-08-17T12:31:52,054899 1 0x00007ff3b07e0700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer7>  Add probe: Set jitterbuffer latency
+2023-08-17T12:31:52,054970 1 0x00007ff3b07e0700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer7>  Add probe: Adjust jitterbuffer PTS out
+2023-08-17T12:31:52,055218 1 0x00007ff3b07e0700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer7>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-17T12:31:52,055376 1 0x00007ff38e79c700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer7>  Setting latency to 100 ms
+2023-08-17T12:31:52,055447 1 0x00007ff38e79c700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer7>  Jitterbuffer latency set; remove probe
+2023-08-17T12:31:52,056277 1 0x00007ff38e79c700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpopusdepay3>  Add probe: Adjust depayloader PTS out
+2023-08-17T12:31:52,056927 1 0x00007ff398fb1700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmswebrtcendpoint12_kmsagnosticbin2-14:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:31:52,068347 1 0x00007ff38ff9f700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmsagnosticbin2-11:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:32:22,310650 1 0x00007ff3adfdb700    info kmsremb                   kmsremb.c:220 kms_rl_remote_session_get_sessions_info() <RTPSession@0x7ff424063810>  RTP stats restarted due to gap in RTP sequence numbers
+2023-08-17T12:32:22,312152 1 0x00007ff39dfbb700 warning kmsutils                  kmsutils.c:481 discont_detection_probe() <kmswebrtcendpoint8_kmsagnosticbin2-13:sink>  DISCONTINUITY at non-keyframe; will drop until keyframe
+2023-08-17T12:32:22,516714 1 0x00007ff417fff700    info kmsremb                   kmsremb.c:220 kms_rl_remote_session_get_sessions_info() <RTPSession@0x7ff424062490>  RTP stats restarted due to gap in RTP sequence numbers
+2023-08-17T12:32:22,517037 1 0x00007ff3f4ff9700 warning kmsutils                  kmsutils.c:481 discont_detection_probe() <kmswebrtcendpoint0_kmsagnosticbin2-3:sink>  DISCONTINUITY at non-keyframe; will drop until keyframe
+2023-08-17T12:32:23,338519 1 0x00007ff3c7fff700 warning rtpsource                 rtpsource.c:1213 update_receiver_stats()  probation: seqnr 19871 != expected 19869 (SSRC 3020573865 curr_probation 1 probation 2)
+2023-08-17T12:32:23,505082 1 0x00007ff3a57ca700    info kmsremb                   kmsremb.c:220 kms_rl_remote_session_get_sessions_info() <RTPSession@0x7ff43c0e2d70>  RTP stats restarted due to gap in RTP sequence numbers
+2023-08-17T12:32:23,505106 1 0x00007ff398fb1700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint12_kmsagnosticbin2-14:sink>  GAP of 29 ms at PTS=0:00:57.764654837 (packet loss?); will request a new keyframe
+2023-08-17T12:32:23,505257 1 0x00007ff398fb1700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint12_kmsagnosticbin2-14:sink>  GAP of 29 ms at PTS=0:00:57.794029837 (packet loss?); will request a new keyframe
+2023-08-17T12:32:23,505331 1 0x00007ff398fb1700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint12_kmsagnosticbin2-14:sink>  GAP of 29 ms at PTS=0:00:57.823404837 (packet loss?); will request a new keyframe
+2023-08-17T12:32:23,505394 1 0x00007ff398fb1700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint12_kmsagnosticbin2-14:sink>  GAP of 29 ms at PTS=0:00:57.852779837 (packet loss?); will request a new keyframe
+2023-08-17T12:32:23,505457 1 0x00007ff398fb1700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint12_kmsagnosticbin2-14:sink>  GAP of 29 ms at PTS=0:00:57.882154837 (packet loss?); will request a new keyframe
+2023-08-17T12:32:23,505532 1 0x00007ff398fb1700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint12_kmsagnosticbin2-14:sink>  GAP of 29 ms at PTS=0:00:57.911529837 (packet loss?); will request a new keyframe
+2023-08-17T12:32:23,505589 1 0x00007ff398fb1700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint12_kmsagnosticbin2-14:sink>  GAP of 29 ms at PTS=0:00:57.940904837 (packet loss?); will request a new keyframe
+2023-08-17T12:32:23,506448 1 0x00007ff398fb1700 warning kmsutils                  kmsutils.c:481 discont_detection_probe() <kmswebrtcendpoint12_kmsagnosticbin2-14:sink>  DISCONTINUITY at non-keyframe; will drop until keyframe
+2023-08-17T12:32:23,632300 1 0x00007ff39dfbb700 warning kmsutils                  kmsutils.c:481 discont_detection_probe() <kmswebrtcendpoint8_kmsagnosticbin2-13:sink>  DISCONTINUITY at non-keyframe; will drop until keyframe
+2023-08-17T12:32:23,693648 1 0x00007ff3d4ff9700    info kmsremb                   kmsremb.c:220 kms_rl_remote_session_get_sessions_info() <RTPSession@0x7ff43c03a040>  RTP stats restarted due to gap in RTP sequence numbers
+2023-08-17T12:32:23,764097 1 0x00007ff3b8ff1700 warning kmsutils                  kmsutils.c:481 discont_detection_probe() <kmswebrtcendpoint2_kmsagnosticbin2-7:sink>  DISCONTINUITY at non-keyframe; will drop until keyframe
+2023-08-17T12:32:25,800764 1 0x00007ff398fb1700 warning kmsutils                  kmsutils.c:505 gap_detection_probe() <kmswebrtcendpoint12_kmsagnosticbin2-14:sink>  GAP of 33 ms at PTS=0:00:58.070779837 (packet loss?); will request a new keyframe
+2023-08-17T12:32:25,800937 1 0x00007ff398fb1700 warning kmsutils                  kmsutils.c:481 discont_detection_probe() <kmswebrtcendpoint12_kmsagnosticbin2-14:sink>  DISCONTINUITY at non-keyframe; will drop until keyframe
+2023-08-17T12:32:46,795237 1 0x00007ff3affdf700 warning rtpjitterbuffer           rtpjitterbuffer.c:734 rtp_jitter_buffer_calculate_pts()  rtp delta too big, reset skew
+2023-08-17T12:32:52,689427 1 0x00007ff3affdf700 warning rtpsource                 rtpsource.c:1213 update_receiver_stats()  probation: seqnr 24938 != expected 24931 (SSRC 3681949847 curr_probation 1 probation 2)
+2023-08-17T12:32:53,014844 1 0x00007ff3affdf700 warning rtpjitterbuffer           rtpjitterbuffer.c:734 rtp_jitter_buffer_calculate_pts()  rtp delta too big, reset skew
+2023-08-17T12:32:53,015893 1 0x00007ff3adfdb700    info kmsremb                   kmsremb.c:220 kms_rl_remote_session_get_sessions_info() <RTPSession@0x7ff424063810>  RTP stats restarted due to gap in RTP sequence numbers
+2023-08-17T12:32:53,431970 1 0x00007ff39dfbb700 warning kmsutils                  kmsutils.c:481 discont_detection_probe() <kmswebrtcendpoint8_kmsagnosticbin2-13:sink>  DISCONTINUITY at non-keyframe; will drop until keyframe
+2023-08-17T12:32:55,501947 1 0x00007ff39dfbb700 warning kmsutils                  kmsutils.c:481 discont_detection_probe() <kmswebrtcendpoint8_kmsagnosticbin2-13:sink>  DISCONTINUITY at non-keyframe; will drop until keyframe
+2023-08-17T12:32:56,140541 1 0x00007ff39dfbb700 warning kmsutils                  kmsutils.c:481 discont_detection_probe() <kmswebrtcendpoint8_kmsagnosticbin2-13:sink>  DISCONTINUITY at non-keyframe; will drop until keyframe
+2023-08-17T12:32:57,123940 1 0x00007ff39dfbb700 warning kmsutils                  kmsutils.c:481 discont_detection_probe() <kmswebrtcendpoint8_kmsagnosticbin2-13:sink>  DISCONTINUITY at non-keyframe; will drop until keyframe
+2023-08-17T12:33:07,579709 1 0x00007ff3affdf700 warning rtpjitterbuffer           rtpjitterbuffer.c:734 rtp_jitter_buffer_calculate_pts()  rtp delta too big, reset skew
+2023-08-17T12:33:07,839250 1 0x00007ff3affdf700 warning rtpjitterbuffer           rtpjitterbuffer.c:734 rtp_jitter_buffer_calculate_pts()  rtp delta too big, reset skew
+2023-08-17T12:33:09,042898 1 0x00007ff39dfbb700 warning kmsutils                  kmsutils.c:481 discont_detection_probe() <kmswebrtcendpoint8_kmsagnosticbin2-13:sink>  DISCONTINUITY at non-keyframe; will drop until keyframe
+2023-08-17T12:33:09,182925 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,183309 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,183844 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,184324 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,186254 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,186736 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,187686 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,188169 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,190589 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,191076 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,191504 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,193485 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,198249 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,200207 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,200282 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,202077 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,202580 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,202625 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,203505 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,204937 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,205870 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,206360 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,208223 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,208750 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,209172 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,212073 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,214414 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,214916 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,215374 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,215838 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,218251 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,218305 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,218698 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,220668 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,221113 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,221578 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,222064 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,224007 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,224485 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,226971 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,227052 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,227321 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,229352 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,229419 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,229749 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,232219 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,232624 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,233142 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,252163 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,252684 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,253083 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,255059 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,266230 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,266712 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,268663 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,269075 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,269567 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,272543 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,272887 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,274841 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,275321 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,282281 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,282328 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,282355 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,282431 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,282687 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,282727 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,283239 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,285182 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,285649 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,286604 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,286648 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,287092 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,288046 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,288992 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,289469 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,294619 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,295155 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,295597 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,296084 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,297062 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,297109 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,297531 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,299506 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,299554 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,300004 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,308651 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,308695 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,310070 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,310543 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,310974 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,311469 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,312895 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,315742 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,315785 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,316213 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,318166 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,318662 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,319160 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,320085 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,322495 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,323006 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,323051 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,323465 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,323509 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,323937 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,325853 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,326302 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,326356 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,327791 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,331157 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,332068 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,334998 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,335058 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,335089 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,336909 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,391701 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,392108 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,394111 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,394184 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,394235 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,395056 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,395115 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,395542 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,396948 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,403761 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,403820 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,404254 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,404682 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,405611 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,406103 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,406626 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,406669 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,408532 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,408604 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,415243 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,415606 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,416142 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,419036 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,420528 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,420616 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,420646 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,420670 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,420694 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,421946 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,421989 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,422015 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,422913 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,423380 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,423856 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,424334 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,427267 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,427311 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,427750 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,427792 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,429703 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,429755 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,430102 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,430635 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,431096 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,431579 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,501171 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,504878 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,550433 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,552368 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,552431 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,552463 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,552794 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,553330 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,553798 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,554238 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,554744 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,603495 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,603782 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,604359 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,604415 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,604445 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,604470 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,604494 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,604548 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:33:09,604597 1 0x00007ff3affdf700 warning srtpdec                   gstsrtpdec.c:1429 gst_srtp_dec_decode_buffer() <srtpdec8:rtp_sink>  Unable to unprotect buffer (unprotect failed code 10)
+2023-08-17T12:36:26,311951 1 0x00007ff4511ef700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:572 WebRtcEndpointImpl()  No QOS-DSCP value set
+2023-08-17T12:36:26,312032 1 0x00007ff4511ef700    info KurentoWebRtcEndpointImpl WebRtcEndpointImpl.cpp:112 remove_not_supported_codecs_from_array() <kmswebrtcendpoint16>  Removing not supported codec 'AMR/8000'
+2023-08-17T12:36:26,313226 1 0x00007ff4511ef700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:36:26,342749 1 0x00007ff4509ee700    info basertpendpoint           kmsbasertpendpoint.c:1158 kms_base_rtp_endpoint_start_transport_send() <kmswebrtcendpoint16>  Media 'video' has REMB
+2023-08-17T12:36:26,342819 1 0x00007ff4509ee700    info basertpendpoint           kmsbasertpendpoint.c:1103 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint16>  Creating REMB for session ID 0 (kmswebrtcendpoint16-sess0) and remote video SSRC 3571918532
+2023-08-17T12:36:26,342855 1 0x00007ff4509ee700    info basertpendpoint           kmsbasertpendpoint.c:1114 kms_base_rtp_endpoint_create_remb_manager() <kmswebrtcendpoint16>  REMB: Set RTCP min interval to 500 ms
+2023-08-17T12:36:26,345790 1 0x00007ff4529f2700    info kmswebrtcsession          kmswebrtcsession.c:825 kms_webrtc_session_set_stun_server_info() <kmswebrtcsession16>  Using STUN server: 43.201.150.143:3478
+2023-08-17T12:36:28,643267 1 0x00007ff3b07e0700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <'':sink_video_default>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:36:28,673486 1 0x00007ff3b07e0700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer8>  Add probe: Set jitterbuffer latency
+2023-08-17T12:36:28,673550 1 0x00007ff3b07e0700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer8>  Add probe: Adjust jitterbuffer PTS out
+2023-08-17T12:36:28,673979 1 0x00007ff3b07e0700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer8>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-17T12:36:28,674215 1 0x00007ff4177fe700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer8>  Setting latency to 100 ms
+2023-08-17T12:36:28,674325 1 0x00007ff4177fe700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer8>  Jitterbuffer latency set; remove probe
+2023-08-17T12:36:28,675450 1 0x00007ff4177fe700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpopusdepay4>  Add probe: Adjust depayloader PTS out
+2023-08-17T12:36:28,678251 1 0x00007ff4177fe700 warning kmsutils                  kmsutils.c:1456 kms_utils_depayloader_adjust_pts_out() <rtpopusdepay4>  Fix PTS not strictly increasing, last: 0:00:03.337857206, current: 0:00:03.337857206, fixed = last + 1: 0:00:03.338857206
+2023-08-17T12:36:28,685978 1 0x00007ff3b07e0700    info basertpendpoint           kmsbasertpendpoint.c:1956 kms_base_rtp_endpoint_jitterbuffer_set_latency() <rtpjitterbuffer9>  Add probe: Set jitterbuffer latency
+2023-08-17T12:36:28,686036 1 0x00007ff3b07e0700    info basertpendpoint           kmsbasertpendpoint.c:2005 kms_base_rtp_endpoint_jitterbuffer_monitor_rtp_out() <rtpjitterbuffer9>  Add probe: Adjust jitterbuffer PTS out
+2023-08-17T12:36:28,686342 1 0x00007ff3b07e0700    info basertpendpoint           kmsbasertpendpoint.c:2050 kms_base_rtp_endpoint_jitterbuffer_monitor_rtcp_in() <rtpjitterbuffer9>  Add probe: Get jitterbuffer RTCP SR timing
+2023-08-17T12:36:28,686545 1 0x00007ff3f6ffd700    info basertpendpoint           kmsbasertpendpoint.c:1941 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer9>  Setting latency to 500 ms
+2023-08-17T12:36:28,686652 1 0x00007ff3f6ffd700    info basertpendpoint           kmsbasertpendpoint.c:1944 kms_base_rtp_endpoint_jitterbuffer_set_latency_probe() <rtpjitterbuffer9>  Jitterbuffer latency set; remove probe
+2023-08-17T12:36:28,687393 1 0x00007ff3f6ffd700    info kmsutils                  kmsutils.c:1515 kms_utils_depayloader_monitor_pts_out() <rtpvp8depay4>  Add probe: Adjust depayloader PTS out
+2023-08-17T12:36:28,691383 1 0x00007ff3f6ffd700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmswebrtcendpoint16_kmsagnosticbin2-19:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:36:28,693524 1 0x00007ff3f67fc700    info kmsutils                  kmsutils.c:522 kms_utils_pad_monitor_gaps() <kmsagnosticbin2-17:sink>  Add probe: DISCONT buffers and GAP events
+2023-08-17T12:45:56,159250 1 0x00007ff458d44280    info KurentoMediaSet           MediaSet.cpp:94 deleteMediaSet()  Destroying 1 pipelines that are already alive
+2023-08-17T12:45:56,162814 1 0x00007ff458d44280    info KurentoMediaSet           MediaSet.cpp:109 deleteMediaSet()  Destroying mediaSet
+2023-08-17T12:45:56,165547 1 0x00007ff458d44280    info KurentoMediaServer        main.cpp:266 main()  Kurento Media Server stopped
