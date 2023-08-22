@@ -20,23 +20,6 @@ export default function EnterPage() {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  /* 유영 : 소켓 간단 연결 작업 시작 */
-  useEffect(() => {
-    const socket = new SockJS(process.env.NEXT_PUBLIC_WS + "/ws");
-    const stompClient = Stomp.over(socket);
-
-    stompClient.connect(
-      {},
-      /*Connect Callback*/() => {
-        console.log("Socket Connected.");
-      }
-    );
-  }, []);
-  /* 유영 : 소켓 간단 연결 작업 끝 */
-
-  /* 유영 배경음악 임시 주석 */
-  // const audio = new Audio('/music/enter_bgm.mp3');
-
   /* 유영 : axios를 통한 닉네임 생성 및 방 생성 시작 */
   /* 희진 : axios 렌더링 타이밍 변경 시작 (페이지 로딩 시 최초 1회) */
   let roomId = "";
@@ -72,12 +55,6 @@ export default function EnterPage() {
   }, [videoRef]);
   /* 혜지 : 웹캠 화면 띄우기 위한 구현 끝 */
 
-  /* 유영 배경음악 임시 주석 */
-  // useEffect(() => {
-  //     playBGM();
-  //     window.addEventListener("beforeunload", onbeforeunload);
-  // }, []);
-
   const [text, setText] = useState("");
 
   const handleOnChange = (e) => {
@@ -102,9 +79,6 @@ export default function EnterPage() {
       },
     })
       .then((response) => {
-        // console.log("GAME START");
-        // console.log("response.data", response.data);
-
         obj = {
           roomId: response.data.room.id, //오픈비두 세션
           progress: response.data.room.progress,
@@ -119,7 +93,7 @@ export default function EnterPage() {
           ready: response.data.player.ready,
           head: true, //방을 연 사람이므로 방장 true
         };
-        // console.log(playerInfo);
+        
         const sendData = () => {
           /* 연재 : obj 정보 저장 */
           dispatch(
@@ -129,9 +103,7 @@ export default function EnterPage() {
               secret: response.data.room.secret,
             })
           );
-          // dispatch(addPlayers(playerInfo));
           dispatch(setMyData(playerInfo));
-          console.log()
 
           /* 희진 : URL 숨김 시작 */
           router.push(
@@ -158,21 +130,6 @@ export default function EnterPage() {
       });
   };
   /* 희진 : axios 렌더링 타이밍 변경 끝 */
-
-  /* 유영 배경음악 임시 주석 */
-  // const playBGM = async() => {
-  //   /*
-  //     ✔ Music provided by 셀바이뮤직
-  //     🎵 Title : 배달은 자신있어 by 배달의민족
-  //     https://sellbuymusic.com/md/micwcfw-jcncnhn
-  //   */
-  //   await audio.play();
-  // };
-
-  // const onbeforeunload = (e) => {
-  //   audio.pause();
-  //   audio.currentTime = 0;
-  // };
 
   const [audio, setAudio] = useState(null);
 

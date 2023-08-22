@@ -25,8 +25,6 @@ export default function Phase2() {
     client.current.connect({}, () => {
       client.current.subscribe(`/topic/timer/${roomId}`, (response) => {
         let data = JSON.parse(response.body);
-        console.log("Timer 연결");
-        console.log(data);
         setSeconds(seconds + data.time);
       })
     })

@@ -28,25 +28,6 @@ export default function ActiveBoard({ pin, cellObj, currentCellObj }) {
       cellObj[key] = '#FFFFFF';
     }
   }
-  /* 희진 : 보드 색 지정 끝 */
-  // currentCellObj.move !== undefined
-
-  // useEffect(() => {
-  //   const targetElement = targetRef.current;
-  //   if (targetElement) {
-  //     const rect = targetElement.getBoundingClientRect();
-  //     setPositionStyle({
-  //       top: rect.top - 80,
-  //       left: rect.left - 40
-  //     });
-  //   }
-  // }, [boardPin]);
-
-  // useEffect(() => {
-  //   if (targetRef.current && (currentCellObj.move !== undefined)) {
-  //     setBoardPin(pin + currentCellObj.move)
-  //   }
-  // }, []);
 
   useEffect(() => {
     const targetElement = targetRef.current;

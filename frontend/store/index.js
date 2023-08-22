@@ -18,17 +18,6 @@ const middlewares = [logger]
 export const store = configureStore({
   reducer: perReducer,
   middleware: middlewares
-
-  // middleware: getDefaultMiddleware =>
-  // getDefaultMiddleware({
-    // serializableCheck: false,
-    // middlewares
-
-    // serializableCheck: {
-    // ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-    // ovActions: false,
-    // },
-  // }),
 });
 
 const setUpStore = (context) => store;

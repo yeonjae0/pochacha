@@ -3,36 +3,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from 'next/router';
 import styles from "@/styles/SpellGame.module.css";
 import SpellGame from "./SpellGame";
+import SockJS from "sockjs-client";
+import { Stomp } from "@stomp/stompjs";
 
-export default function SpellTimer() {
-
-// const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0); // 현재 차례 플레이어 인덱스
+export default function SpellTimer(props) {
 let [keepGoing, SetKeepGoing] = useState(true);  // 게임이 진행중인지 멈췄는지
 let [sec, setSec] = useState(0);
-let time = useRef(30);
+let time = useRef(1);
 const timerId = useRef(null);
 const tmpPlayers = useSelector(state => state.players.tmpPlayers);
 let currentPlayerId = useSelector(state => state.spell.currentPlayerId);
+
+const [end, setEnd] = useState(false);
+const roomId = useSelector((state) => state.room.currentRoomId);
+let client = {};
 
 const resetSec = () => {
   time.current = 30
   setSec(30)
 }
-
-// const tmpFn = () => {''\
-
-//   console.log('tmpFn called');
-//   goToNextPlayer();
-//   resetSec();
-//   // setKeepGoing(true); // Restart the timer
-// };
-
-
-// const goToNextPlayer = () => {
-//   const nextPlayerIndex = (currentPlayerIndex + 1) % 4;
-//   setCurrentPlayerIndex(nextPlayerIndex);
-//   console.log('currentPlayerIndex', currentPlayerIndex);
-// };
 
 useEffect(() => {
   timerId.current = setInterval(() => {
@@ -46,21 +35,18 @@ useEffect(() => {
 
 useEffect(() => {
   if (time.current <= -1) {
-    console.log('시간 초과')
-    SetKeepGoing(false)
+    SetKeepGoing(false);
     clearInterval(timerId.current);
   }
 })
 
 function GameOver() {
-  const router = useRouter()
+  const router = useRouter();
+
   return (
     <>
       <div className={styles.gameOver}>
-        {/* <img src="/초성_세종대왕_화남.png" /> */}
         <img src='/초성_게임오버.png' />
-        {/* <h1 style= {{top: '10%', left: '60%'}}>{currentIdx} </h1>
-        <h2 style= {{top: '10%', left: '60%'}}>  님의 패배입니다.</h2> */}
         <h1>'{tmpPlayers[currentPlayerId].nickname}' 님의 패배입니다.</h1>
       </div>
     </>
@@ -73,7 +59,7 @@ return (
     {
       keepGoing ?
       <div>
-      <SpellGame sec={sec} resetSec={resetSec} />
+      <SpellGame sec={sec} resetSec={resetSec} end={end} />
       </div>
       : <GameOver />
     }

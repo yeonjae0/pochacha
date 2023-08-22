@@ -8,7 +8,6 @@ import Phase2 from './Phase2';
 export default function Picktopic() {
   const roomId = useSelector(state => state.room.currentRoomId);
   const currentPlayer = useSelector(state => state.player);
-  console.log('Liar Game', currentPlayer)
 
   const [word, setWord] = useState('');
   const [status, setStatus] = useState('ready');
@@ -28,8 +27,6 @@ export default function Picktopic() {
     client.current.connect({}, () => {
       client.current.subscribe(`/topic/mini/liar/set/${roomId}`, (response) => {
         let data = JSON.parse(response.body);
-        console.log("라이어게임 단어");
-        console.log(data);
 
         setWord(data.word);
         setStatus('checkWord');

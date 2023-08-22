@@ -28,12 +28,6 @@ const ModalContainer = styled.div`
   justify-content: center;
 `;
 
-// const ModalContent = styled.div`
-//   background-color: white;
-//   padding: 70px;
-//   border-radius: 20px;
-// `;
-
 export default function GamePage() {
   const router = useRouter();
 
@@ -67,9 +61,7 @@ export default function GamePage() {
   const tmpPlayers = useSelector(state => state.players.tmpPlayers);
   const setTurns = useSelector(state => state.cell.turns);
   const myId = useSelector(state => state.player.currentPlayerId);
-  // let playersIdList = Object.keys(tmpPlayers)
-
-  console.log(data)
+  
   const cellObj = {
     one: data[0].status,
     two: data[1].status,
@@ -106,8 +98,6 @@ export default function GamePage() {
   };
 
   const addMoving=(move)=>{
-    console.log("또 호출해")
-    console.log("MOVE: "+move)
     client.current.send("/move/" + roomId, {}, JSON.stringify({"set":true, "move":move}));
   };
 
@@ -115,12 +105,8 @@ export default function GamePage() {
     client.current.connect({}, () => {
       // callback 함수 설정, 대부분 여기에 sub 함수 씀
       client.current.subscribe(`/topic/move/${roomId}`, (response) => {
-        console.log('response', response)
         // 앞선 data 중복으로 변경 data -> position
         let position = JSON.parse(response.body);
-        // if (data.game.dice !== prevDice) {
-        console.log('currentCell.move------>', position.cell.move)
-        console.log('position', position)
         setDice(position.game.dice);
         setPin(position.game.pin);
         setLab(position.game.lab);
@@ -142,8 +128,6 @@ export default function GamePage() {
 
       });
       client.current.subscribe(`/topic/penalty/${roomId}`, (response) => {
-        console.log("페이스필터다")
-        console.log(response)
         const data = JSON.parse(response);
         setFacefilterNick(data.nickname);
         setFaceFilterNum(data.num);
@@ -156,24 +140,9 @@ export default function GamePage() {
     client.current.send("/penalty/" + roomId, {}, JSON.stringify({ "nickname": nickname }));
   };
 
-  // function extendSession() {
-  //   session.extendSession();
-  //   // 세션 만료 시간을 현재 시간으로 연장
-  // }
-
   useEffect(() => {
     connectSocket();
     subscribeSocket();
-
-    // setTimeout(() => {
-    //   client.current.send("/move/" + roomId, {}, JSON.stringify({ "reload": true }));
-    // }, 100); // 비동기화 문제 (시간 조절)
-    // console.log('tmpPlayers확인!!!', tmpPlayers)
-    console.log('setTurns확인!!!!!!!!', setTurns)
-
-    // 사용자 활동이 있을 때마다 세션 연장
-    // setInterval(extendSession, 300000); // 5분마다 세션 연장
-
   }, []);
 
   let handleRollDiceClick = () => {
@@ -186,12 +155,7 @@ export default function GamePage() {
   };
   useEffect(() => {
     setCnt((prevCnt) => (prevCnt + 1) % 4);
-    // console.log('cnt---------->', cnt)
-    // console.log('setTurns---------->', setTurns)
-    console.log('내 ID', myId)
-    console.log('내 닉네임', tmpPlayers[myId])
     setCntDice((prevCntDice) => (prevCntDice + 1));
-    console.log('cntDice------->', cntDice)
   }, [pin])
 
   const cellNameGif =
@@ -225,10 +189,8 @@ export default function GamePage() {
       <>
         {showModal && (
           <ModalContainer style={{ animation: 'fadeIn 2s' }}>
-            {/* <ModalContent className={styles.modalContent} style={{ zIndex: "1" }}> */}
             <p>{cellValue && <img style={{ width: '400px' }} src={`/cell/${cellValue}.gif`} />}</p>
             <p style={{ fontFamily: 'LeeSeoyun', fontSize: '50px', color: '#FFFFFF' }}>{currentCell}</p>
-            {/* </ModalContent> */}
           </ModalContainer>
         )}
       </>
@@ -296,8 +258,6 @@ export default function GamePage() {
           <h5>
             주사위 눈 : {dice}, 현재 {pin}번 블록, {lab}바퀴 째
           </h5>
-          {/* <h3>{cnt}</h3> */}
-          {/* <h5> {tmpPlayers[playersIdList[cnt]].nickname}님의 차례입니다.</h5> */}
           <h5> {tmpPlayers[setTurns[cnt]].nickname}님의 차례입니다.</h5>
         </nav>
 
@@ -329,35 +289,21 @@ export default function GamePage() {
               {publisher !== undefined ? (
                 <span className={Videostyles.streamcomponent} style={{ marginLeft: '50px', gridArea: 'cam1' }}>
                   {memoRoomCamPub}
-                  {/* <OpenViduVideoComponent className={styles.cam} streamManager={publisher} /> */}
                   <div className={Videostyles.nickname}>{nickname}</div>
                 </span>
               ) : null}
 
-              {/* (희진 : 리랜더링 방지를 위해 주석 처리) */}
-              {/* {participants != null ? participants.map((par, i) => (
-                      <span key={par.id} className={Videostyles.streamcomponent} style={{ gridArea: `cam${i + 2}` }}>
-                        <OpenViduVideoComponent className={styles.cam} streamManager={par} />
-                        <div className={Videostyles.nickname}>{par.nick}</div>
-                      </span>
-                    )) : null} */}
-              {/* (희진 : 리랜더링 방지를 위해 주석 처리) */}
-              {/* 제정 :  CSS 적용을 위한 RoomCam Component 분해 적용 끝 */}
-
               {participants != null ? (
                 <>
                   <span className={Videostyles.streamcomponent} style={{ marginRight: '50px', gridArea: `cam${0 + 2}` }}>
-                    {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[0]} /> */}
                     {memoVideoFirst}
                     <div className={Videostyles.nickname}>{participants[0].nick}</div>
                   </span>
                   <span className={Videostyles.streamcomponent} style={{ marginLeft: '50px', gridArea: `cam${1 + 2}` }}>
-                    {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[1]} /> */}
                     {memoVideoSecond}
                     <div className={Videostyles.nickname}>{participants[1].nick}</div>
                   </span>
                   <span className={Videostyles.streamcomponent} style={{ marginRight: '50px', gridArea: `cam${2 + 2}` }}>
-                    {/* <OpenViduVideoComponent className={styles.cam} streamManager={participants[2]} /> */}
                     {memoVideoThird}
                     <div className={Videostyles.nickname}>{participants[2].nick}</div>
                   </span>

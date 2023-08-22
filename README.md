@@ -55,6 +55,53 @@
 * 각 플레이어들은 자신의 턴에 초성과 일치하는 단어를 입력합니다.
 * 제한 시간 내에 단어를 외치지 못하면 원샷!
 
+# 시나리오
+
+### 1. 방 생성
+
+- 초기 입장 화면입니다.
+- Start 버튼을 클릭하여 대기실로 이동합니다.
+
+<img src="https://github.com/heejinssss/OHO-img/blob/master/0입장.png?raw=true" width =600>
+
+### 2. 방 입장 및 초대 코드 복사
+
+- 방장은 하단의 초대 코드 복사 기능을 통해 다른 유저들을 초대할 수 있습니다.
+- 유저들이 ‘준비’를 모두 누르기 전까지 ‘시작 불가’ 상태가 유지됩니다.
+
+<img src="https://raw.githubusercontent.com/heejinssss/OHO-img/master/1대기실_시작불가.png" width=600>
+
+<img src="https://github.com/heejinssss/OHO-img/blob/master/1대기실_준비.png?raw=true" width=600>
+
+### 3. 게임 시작 조건 (3인 팀원 준비 + 방장 시작)
+
+- 3인의 팀원이 모두 준비를 누르면 방장 화면에서 ‘시작 불가’ 버튼이 ‘시작’ 버튼으로 활성화됩니다.
+
+<img src="https://github.com/heejinssss/OHO-img/blob/master/2대기실_준비완료.png?raw=true" width=600>
+
+<img src="https://github.com/heejinssss/OHO-img/blob/master/2대기실_시작.png?raw=true" width=600>
+
+### 4. 게임 시작 (벌칙)
+
+- 4인이 순서대로 주사위를 클릭하여 보드판에서 말을 이동시킵니다.
+- 화면에 모달로 나타나는 벌칙을 수행합니다.
+
+<img src="https://github.com/heejinssss/OHO-img/blob/master/4게임_벌칙1.png?raw=true" width=600>
+
+<img src="https://github.com/heejinssss/OHO-img/blob/master/4게임_벌칙2.png?raw=true" width=600>
+
+### 5. 게임 시작 (미니 게임)
+
+- 미니 게임 셀에 말이 위치하게 되면 미니게임 컴포넌트가 실행됩니다.
+
+<img src="https://github.com/heejinssss/OHO-img/blob/master/3게임_미니게임1.png?raw=true" width=600>
+
+<img src="https://github.com/heejinssss/OHO-img/blob/master/3게임_미니게임2.png?raw=true" width=600>
+
+<img src="https://github.com/heejinssss/OHO-img/blob/master/3게임_미니게임3.png?raw=true" width=600>
+
+### 6. 게임을 즐겁게 즐기시면 됩니다.
+
 # 기술 스택
 ### 👤 Front-end
 <img  alt="React"  src ="https://img.shields.io/badge/React-61DAFB?&style=for-the-badge&logo=React&logoColor=black"/>

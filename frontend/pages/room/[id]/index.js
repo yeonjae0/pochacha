@@ -126,8 +126,6 @@ export default function RoomPage() {
 
       subGame = client.current.subscribe(`/topic/game/${roomId}`, (response) => {
         var data = JSON.parse(response.body);
-        console.log("게임 데이터");
-        console.log(data);
 
         if (data.error == undefined || data.error == null) {
           dispatch(setCells(data.cellList));
@@ -148,7 +146,6 @@ export default function RoomPage() {
 
   /* 혜지 : OpenVidu 연결 관련 메소드 시작 */
   const onbeforeunload = async (e) => {
-    // leaveSession();
     await deletePlayer();
   };
 
@@ -197,7 +194,6 @@ export default function RoomPage() {
 
       dispatch(openViduActions.createPublisher({publisher:pub,currentVideoDevice:currentVideoDevice}));
     } catch (error) {
-      console.log(error);
       router.push({
         pathname: "/exception",
         query: { msg: "화상 연결에 문제가 있어요!" },
@@ -222,7 +218,6 @@ export default function RoomPage() {
     return () => {
       window.removeEventListener("beforeunload", onbeforeunload);
       if (subGame) {
-        console.log("구독해제")
         subGame.unsubscribe();
       }
     };
